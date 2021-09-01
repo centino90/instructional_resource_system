@@ -9,8 +9,14 @@
 try {
     window.Popper = require('@popperjs/core').default;
     window.$ = window.jQuery = require('jquery');
+    window.bs = window.Bootstrap = require('bootstrap');
 
-    require('bootstrap');
+    window.pdfMake = require('pdfmake');
+    window.pdfFonts = require('pdfmake/build/vfs_fonts');
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+    window.FilePond = require('filepond');
+    require('filepond/dist/filepond.min.css');
 } catch (e) { }
 
 /**

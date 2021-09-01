@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Resource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ResourceController extends Controller
 {
@@ -25,7 +27,9 @@ class ResourceController extends Controller
      */
     public function create(Request $request)
     {
-        return view('create-resource', ['currentTab' => $request->tab]);
+        return view('create-resource')->with([
+            'resourceLists' => $request->resourceLists ?? 1
+        ]);
     }
 
     /**
@@ -34,13 +38,51 @@ class ResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreResourceRequest $request)
+    public function store(Request $request)
     {
-        Resource::create($request->validated());
+        $resourceLists = isset($request->file) ? count($request->file) : 1;
+
+        $validator = Validator::make($request->all(), [
+            // 'resource_type.*' => 'required|string:',
+            'file.*' => 'required|string',
+            'course_id' => 'required|string',
+            'description.*' => 'nullable|string'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route(
+                'resources.create',
+                [
+                    'resourceLists' => $resourceLists,
+                ]
+            )
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $course = $request->course_id;
+        $files = $request->file;
+        $resource_types = $request->resource_type;
+        $descriptions = $request->description;
+
+        for ($i = 0; $i < count($files); $i++) {
+            Resource::create([
+                'course_id' => $course,
+                'user_id' => auth()->id(),
+                'file' => $files[$i],
+                'description' => $descriptions[$i]
+            ]);
+        }
 
         if ($request->check_stay) {
             return redirect()
                 ->route('resources.create')
+                ->with('success', 'Resource was created successfully');
+        }
+
+        if ($request->tab == 'syllabus') {
+            return redirect()
+                ->route('resources.index', ['tab' => 'syllabus'])
                 ->with('success', 'Resource was created successfully');
         }
 

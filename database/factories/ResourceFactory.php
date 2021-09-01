@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
 use App\Models\Resource;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ResourceFactory extends Factory
@@ -22,10 +24,13 @@ class ResourceFactory extends Factory
     public function definition()
     {
         return [
-            'resource_type' => $this->faker->word(),
             'file' => $this->faker->filePath(),
-            'course_id' => $this->faker->numberBetween(1, 100),
-            'description' => $this->faker->text(50)
+            'course_id' => Course::all()->random(),
+            'user_id' => User::all()->random(),
+            'description' => $this->faker->text(50),
+            'approved_at' => [now(), null][rand(0, 1)],
+            'archived_at' => [now(), null][rand(0, 1)],
+            'deleted_at' => [now(), null][rand(0, 1)]
         ];
     }
 }

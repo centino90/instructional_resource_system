@@ -19,9 +19,12 @@
         "sass-loader": "^12.1.0"
     },
     "dependencies": {
+        "filepond": "^4.28.2",
         "@popperjs/core": "^2.9.3",
+        "blueimp-file-upload": "^10.31.0",
         "bootstrap": "^5.1.0",
-        "jquery": "^3.5.1",
-        "sass": "^1.38.1"
+        "jquery": "^3.6.0",
+        "sass": "^1.38.1",
+        "pdfmake": "^0.1.71"
     }
 }

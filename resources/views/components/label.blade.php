@@ -1,5 +1,5 @@
 @props(['value'])
 
-<label {{ $attributes }}>
-    {{ $value ?? $slot }}
+<label {{ $attributes->merge(['class' => 'form-label']) }}>
+    {{ ucfirst($value ?? $slot) }}
 </label>

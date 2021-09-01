@@ -4,10 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Resource extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = ['resource_type', 'file', 'course_id', 'description'];
+    protected $fillable = [
+        'file', 'course_id', 'user_id', 'description', 'is_syllabus', 'approved_at', 'archived_at'
+    ];
+
+    public function users()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function courses()
+    {
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
+
+    public function syllabi()
+    {
+        return $this->hasOne(Syllabus::class);
+    }
 }

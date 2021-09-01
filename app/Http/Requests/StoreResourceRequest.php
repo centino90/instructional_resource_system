@@ -24,10 +24,10 @@ class StoreResourceRequest extends FormRequest
     public function rules()
     {
         return [
-            'resource_type' => 'required|string',
-            'file' => 'required|string',
+            'resource_type.*' => 'required|string:',
+            'file.*' => 'required|string',
             'course_id' => 'required|string',
-            'description' => 'nullable|string'
+            'description.*' => 'nullable|string'
         ];
     }
 }
