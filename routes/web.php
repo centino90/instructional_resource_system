@@ -34,8 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('resources', ResourceController::class);
     Route::resource('syllabi', SyllabusController::class);
     Route::resource('uploadTemporaryFiles', UploadTemporaryFilesController::class);
-    Route::resource('dogs', DogController::class);
-    Route::post('dogs/storeAjax', [DogController::class, 'storeAjax'])->name('dogs.storeAjax');
 
     Route::resource('courses', CourseController::class);
     Route::resource('archive', ArchiveController::class);
