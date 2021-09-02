@@ -16,7 +16,10 @@ class Resource extends Model
 
     public function users()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        // return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsToMany(User::class)
+            ->withPivot('is_approved')
+            ->withTimestamps();
     }
 
     public function courses()

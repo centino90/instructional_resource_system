@@ -13,7 +13,6 @@ class SavedResourceController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**

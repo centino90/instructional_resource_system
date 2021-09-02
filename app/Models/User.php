@@ -43,11 +43,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function courses()
+    public function resources()
     {
-        return $this->belongsToMany(Course::class)
+        return $this->belongsToMany(Resource::class)
+            ->withPivot('is_approved')
             ->withTimestamps();
-        // ->withPivot('is_manager')
-        // ->as('course_subscriptions');
     }
 }
