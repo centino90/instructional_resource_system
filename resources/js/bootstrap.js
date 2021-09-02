@@ -11,11 +11,8 @@ try {
     window.$ = window.jQuery = require('jquery');
     window.bs = window.Bootstrap = require('bootstrap');
 
-    window.pdfMake = require('pdfmake');
-    window.pdfFonts = require('pdfmake/build/vfs_fonts');
-    pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
     window.FilePond = require('filepond');
+    require('jquery-filepond/filepond.jquery');
     require('filepond/dist/filepond.min.css');
 } catch (e) { }
 

@@ -36,21 +36,38 @@ class UploadTemporaryFilesController extends Controller
      */
     public function store(Request $request)
     {
+        // if ($request->hasFile('file')) {
+        //     $file = $request->file('file');
+        //     $filename = $file->getClientOriginalName();
+        //     $folder = uniqid() . '-' . now()->timestamp;
+        //     $file->storeAs('syllabi/tmp/' . $folder, $filename);
+
+        //     TemporaryUpload::create([
+        //         'folder_name' => $folder,
+        //         'file_name' => $filename
+        //     ]);
+
+        //     return $folder;
+        // }
+
         if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filename = $file->getClientOriginalName();
-            $folder = uniqid() . '-' . now()->timestamp;
-            $file->storeAs('syllabi/tmp/' . $folder, $filename);
+            $files = $request->file('file');
 
-            TemporaryUpload::create([
-                'folder_name' => $folder,
-                'file_name' => $filename
-            ]);
+            foreach ($files as $file) {
+                $filename = time() . '-' . $file->getClientOriginalName();
+                $folder = uniqid() . '-' . now()->timestamp;
+                $file->storeAs('resource/tmp/' . $folder, $filename);
 
-            return $folder;
+                TemporaryUpload::create([
+                    'folder_name' => $folder,
+                    'file_name' => $filename
+                ]);
+
+                return $folder;
+            }
         }
 
-        // return $request;
+        return $request;
     }
 
     /**
@@ -98,8 +115,8 @@ class UploadTemporaryFilesController extends Controller
         $temp = TemporaryUpload::where('folder_name', $id);
         $file =  $temp->first();
 
-        unlink(storage_path('app/public/syllabi/tmp/' . $file->folder_name . '/' . $file->file_name));
-        rmdir(storage_path('app/public/syllabi/tmp/' . $file->folder_name));
+        unlink(storage_path('app/public/resource/tmp/' . $file->folder_name . '/' . $file->file_name));
+        rmdir(storage_path('app/public/resource/tmp/' . $file->folder_name));
 
         $temp->delete();
 

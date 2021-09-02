@@ -32,8 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
     Route::resource('resources', ResourceController::class);
+    Route::get('resources/{resource}/download', [ResourceController::class, 'download'])->name('resources.download');
     Route::resource('syllabi', SyllabusController::class);
-    Route::resource('uploadTemporaryFiles', UploadTemporaryFilesController::class);
+    Route::resource('upload-temporary-files', UploadTemporaryFilesController::class);
 
     Route::resource('courses', CourseController::class);
     Route::resource('archive', ArchiveController::class);

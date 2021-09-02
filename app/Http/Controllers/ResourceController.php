@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Resource;
+use App\Models\TemporaryUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+// use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ResourceController extends Controller
 {
@@ -38,51 +41,31 @@ class ResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreResourceRequest $request)
     {
-        $resourceLists = isset($request->file) ? count($request->file) : 1;
+        foreach ($request->file as $file) {
+            $temporaryFile = TemporaryUpload::where('folder_name', $file)->first();
 
-        $validator = Validator::make($request->all(), [
-            // 'resource_type.*' => 'required|string:',
-            'file.*' => 'required|string',
-            'course_id' => 'required|string',
-            'description.*' => 'nullable|string'
-        ]);
+            if ($temporaryFile) {
+                $r = Resource::create([
+                    'course_id' => $request->course_id,
+                    'user_id' => auth()->id(),
+                    'description' => $request->description
+                ]);
 
-        if ($validator->fails()) {
-            return redirect()->route(
-                'resources.create',
-                [
-                    'resourceLists' => $resourceLists,
-                ]
-            )
-                ->withErrors($validator)
-                ->withInput();
-        }
+                $r->users()->attach($r->user_id);
 
-        $course = $request->course_id;
-        $files = $request->file;
-        $resource_types = $request->resource_type;
-        $descriptions = $request->description;
+                $r->addMedia(storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name))
+                    ->toMediaCollection();
+                rmdir(storage_path('app/public/resource/tmp/' . $file));
 
-        for ($i = 0; $i < count($files); $i++) {
-            Resource::create([
-                'course_id' => $course,
-                'user_id' => auth()->id(),
-                'file' => $files[$i],
-                'description' => $descriptions[$i]
-            ]);
+                $temporaryFile->delete();
+            }
         }
 
         if ($request->check_stay) {
             return redirect()
                 ->route('resources.create')
-                ->with('success', 'Resource was created successfully');
-        }
-
-        if ($request->tab == 'syllabus') {
-            return redirect()
-                ->route('resources.index', ['tab' => 'syllabus'])
                 ->with('success', 'Resource was created successfully');
         }
 
@@ -133,6 +116,33 @@ class ResourceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            auth()->user()->resources()->withTrashed()
+                ->where('resources.user_id', auth()->id())
+                ->findOrFail($id)
+                ->delete();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
+
+            throw abort(401);
+        }
+
+        return redirect()->back()
+            ->with([
+                'success-destroyed-resource' => 'resource was deleted successfully', 'resource_id' => $id
+            ]);
+    }
+
+    /**
+     * Download the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function download($mediaItem)
+    {
+        return response()->download(
+            Resource::withTrashed()->find($mediaItem)->getMedia()[0]->getPath(),
+            Resource::withTrashed()->find($mediaItem)->getMedia()[0]->file_name
+        );
     }
 }

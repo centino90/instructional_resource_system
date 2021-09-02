@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
 class DeletedResourceController extends Controller
@@ -13,7 +14,8 @@ class DeletedResourceController extends Controller
      */
     public function index()
     {
-        //
+        return view('deleted-resources')
+            ->with(['resources' => auth()->user()->resources()->onlyTrashed()->where('resources.user_id', auth()->id())->get()]);
     }
 
     /**
@@ -68,7 +70,23 @@ class DeletedResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            if ($id === 'all') {
+                auth()->user()->resources()->withTrashed()
+                    ->where('resources.user_id', auth()->id())->restore();
+            } else {
+                auth()->user()->resources()->withTrashed()
+                    ->where('resources.user_id', auth()->id())
+                    ->findOrFail($id)
+                    ->restore();
+            }
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
+
+            throw abort(401);
+        }
+
+        return redirect()->back()
+            ->with(['success' => 'resource(s) were restored from trash']);
     }
 
     /**
@@ -79,6 +97,13 @@ class DeletedResourceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        abort_if(auth()->user()->role_id != 1, 401);
+
+        $r = auth()->user()->resources();
+        $r->detach($id);
+        $r->withTrashed()->findOrFail($id)->forceDelete();
+
+        return redirect()->back()
+            ->with(['success' => 'resource was permanently deleted']);
     }
 }

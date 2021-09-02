@@ -24,7 +24,6 @@ class ResourceFactory extends Factory
     public function definition()
     {
         return [
-            'file' => $this->faker->filePath(),
             'course_id' => Course::all()->random(),
             'user_id' => User::all()->random(),
             'description' => $this->faker->text(50),

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreResourceRequest extends FormRequest
+class StoreSavedResourceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class StoreResourceRequest extends FormRequest
     public function rules()
     {
         return [
-            'file.*' => 'required',
-            'course_id' => 'required|string',
-            'description' => 'nullable|string'
+            'resource_id' => 'required'
         ];
     }
 }

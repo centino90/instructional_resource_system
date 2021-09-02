@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
 class ImportantResourceController extends Controller
@@ -68,7 +69,13 @@ class ImportantResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        auth()->user()->resources()
+            ->updateExistingPivot($id, [
+                'is_important' => 1
+            ]);
+
+        return redirect()->back()
+            ->with(['success' => 'resource was added to importants successfully']);
     }
 
     /**

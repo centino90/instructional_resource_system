@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSavedResourceRequest;
 use App\Models\Resource;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,10 @@ class SavedResourceController extends Controller
      */
     public function index()
     {
+        $savedResources = auth()->user()->resources()->with(['courses', 'media'])
+            ->orderByDesc('updated_at')->get();
+
+        return view('saved-resources')->with(['resources' => $savedResources]);
     }
 
     /**
@@ -32,9 +37,11 @@ class SavedResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSavedResourceRequest $request)
     {
-        //
+        auth()->user()->resources()->attach($request->resource_id);
+        return redirect()->back()
+            ->with(['success' => 'resource was restored from unsaved resources successfully']);
     }
 
     /**
@@ -79,6 +86,10 @@ class SavedResourceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        auth()->user()->resources()->detach($id);
+        return redirect()->back()
+            ->with([
+                'success-destroyed-saved' => 'resource was removed from saved resources successfully', 'resource_id' => $id
+            ]);
     }
 }

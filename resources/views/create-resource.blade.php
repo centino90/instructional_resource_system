@@ -49,7 +49,14 @@
             <x-card-body class="tab-content rounded-0 rounded-bottom border border-top-0 shadow-sm">
                 @if ($errors->any())
                     <x-alert-danger class="my-4">
-                        <span>Look! You got <strong>{{ $errors->count() }}</strong> errors</span>
+                        <span>Look! You got an error</span>
+
+                        <ul class="nav flex-column mt-3">
+                            @foreach ($errors->all() as $error)
+                                <li class="nav-item">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+
                     </x-alert-danger>
                 @endif
 
@@ -64,7 +71,7 @@
                         tempore voluptas cupiditate, dolore est.
                     </x-slot>
 
-                    <div class="col-3">
+                    <div class="col-12 col-md-3">
                         <x-input-select :name="'course_id'" required>
                             <option value="1">Course 1</option>
                             <option value="2">Course 2</option>
@@ -73,64 +80,34 @@
                         </x-input-select>
                     </div>
 
-                    <x-table id="sortable">
-                        <x-slot name="thead">
-                            <th></th>
-                            <th>File</th>
-                            <th>Description</th>
-                            <th></th>
-                        </x-slot>
+                    <div class="my-3">
+                        <div class="row">
+                            <div class="col-12 col-md-7">
+                                <x-label>File</x-label>
+                                <x-input type="file" name="file[]" :error="'file.0'" class="filepond" multiple
+                                    data-allow-reorder="true"></x-input>
 
-                        @for ($i = 0; $i < $resourceLists; $i++)
-                            <tr class="ui-state-default">
-                                <td class="col-1">{{ $i + 1 . '.' }}</td>
+                                @error('file')
+                                    <x-input-error :for="'file'">
+                                    </x-input-error>
+                                @enderror
+                            </div>
 
-                                <td class="col-5">
-                                    <x-input type="file" name="file" :error="'file.' .$i" class="filepond"
-                                        data-allow-reorder="true" multiple required></x-input>
+                            <div class="col-12 col-md-5">
+                                <x-label>Description (optional)</x-label>
+                                <x-input name="description"></x-input>
 
-                                    @error('file.' . $i)
-                                        <x-input-error :for="'file.' .$i">
-                                        </x-input-error>
-                                    @enderror
-                                </td>
+                                @error('description.')
+                                    <x-input-error :for="'description'">
+                                    </x-input-error>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
 
-                                <td class="col-4">
-                                    <x-input name="description[]" :error="'description.' .$i"></x-input>
-
-                                    @error('description.' . $i)
-                                        <x-input-error :for="'description.' .$i">
-                                        </x-input-error>
-                                    @enderror
-                                </td>
-
-                                @if ($i === 0)
-                                    <td class="col-2"></td>
-                                @else
-                                    <td class="col-2">
-                                        <a href="#" class="btn btn-link remove">remove</a>
-                                    </td>
-                                @endif
-                            </tr>
-                        @endfor
-                    </x-table>
 
                     <x-slot name="actions">
-                        <div class="col-6 col-xl-3">
-                            <x-button class="btn-secondary form-control" id="addfile">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 30 30"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-plus-square">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                    <line x1="12" y1="8" x2="12" y2="16" />
-                                    <line x1="8" y1="12" x2="16" y2="12" />
-                                </svg>
-
-                                Add a resource
-                            </x-button>
-                        </div>
-
-                        <div class="col-6 col-xl-3">
+                        <div class="col-12 col-md-3">
                             <x-button type="submit" class="btn-primary form-control">Save changes</x-button>
                         </div>
 
@@ -155,50 +132,6 @@
                     $(this).addClass('is-valid')
                 })
 
-                $('#addfile').click(function() {
-                    $('#sortable tbody').append(
-                        `    <tr class="ui-state-default">
-                            <td class="col-1">
-                                *
-                            </td>
-
-                            <td class="col-3">
-                                <input type="file" name="file[]" id="" class="form-control">
-                            </td>
-
-                            <td class="col-3">
-                                <input type="text" name="description[]" id="" class="form-control">
-                            </td>
-
-                            <td class="col-12 col-lg-2">
-                                <a href="#" class="btn btn-link remove">remove</a>
-                            </td>
-                        </tr>`
-                    )
-
-                    $('#sortable').find('input[type="file"]').change(function() {
-                        if (!this.value) {
-                            return
-                        }
-
-                        $(this).addClass('is-valid')
-                    })
-
-                    $('.remove').click(function(e) {
-                        e.preventDefault();
-                        $(this).closest('tr').remove();
-                    })
-                })
-
-                $('.remove').click(function() {
-                    e.preventDefault();
-                    $(this).closest('tr').remove();
-                })
-
-                $('#profile-tab, #home-tab').click(function(event) {
-                    showLeaveConfirmationCheck(event);
-                })
-
                 function showLeaveConfirmationCheck(event) {
                     var required = $('form input ,form textarea, form select').filter(
                         ':not([type="checkbox"]):not([type="hidden"]):not([name="course_id"]):not([type="submit"])');
@@ -220,42 +153,32 @@
                     }
                 }
 
-                let resourceFilePond;
-                $.each($('input[type="file"]'), function(key, element) {
-                    resourceFilePond = FilePond.create(
-                        element
-                    )
-                })
-
-                resourceFilePond.setOptions({
-                    labelIdle: 'Drag & Drop your files or <span class="filepond--label-action"> Browse </span><br><i class="fas fa-cloud-upload-alt"></i>',
+                $('.filepond').filepond({
                     allowMultiple: true,
                     credits: false,
                     server: {
                         url: 'http://localhost:8000',
                         process: {
-                            url: '/uploadTemporaryFiles',
+                            url: '/upload-temporary-files',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
                         },
                         revert: (uniqueFileId, load, error) => {
                             $.ajax({
-                                    url: `/uploadTemporaryFiles/${uniqueFileId}`,
+                                    url: `/upload-temporary-files/${uniqueFileId}`,
                                     method: "DELETE",
                                     data: {
-                                        _token: $('meta[name="csrf-token"]').attr('content')
+                                        _token: $('meta[name="csrf-token"]').attr('content'),
+                                        _method: "DELETE"
                                     }
                                 })
                                 .done(function(data) {
                                     console.log(data)
                                 })
-
-                            error('oh my goodness')
-                            load()
                         },
                     }
-                })
+                });
             })(jQuery);
         </script>
     @endsection

@@ -128,13 +128,10 @@ class SyllabusController extends Controller
         $newFileName = date('Ymd') . '-' . time() . '.pdf';
 
         $r = Resource::create([
-            'file' => $newFileName,
             'course_id' => 1,
             'user_id' => auth()->id(),
-            'description' => 'lorem 5',
+            'description' => 'lorem',
             'is_syllabus' => 1,
-            'approved_at' => null,
-            'archived_at' => null
         ]);
 
         $merged = collect($validator->validated())->merge(['resource_id' => $r->id]);
@@ -143,7 +140,10 @@ class SyllabusController extends Controller
         );
 
         $pdf = PDF::loadView('pdf.invoice', ['data' => $s])->stream();
-        Storage::put('public/' . $newFileName, $pdf);
+
+        $r->addMediaFromStream($pdf)
+            ->usingFileName($newFileName)
+            ->toMediaCollection();
 
         if ($request->check_stay) {
             return redirect()

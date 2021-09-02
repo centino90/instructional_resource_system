@@ -198,7 +198,7 @@
                                                     <div class="col-12 col-lg-2"></div>
                                                 @else
                                                     <div class="col-12 col-lg-2">
-                                                        <a href="#" class="btn btn-link remove-paragraph">remove</a>
+                                                        <a href="#" class="btn btn-link remove">remove</a>
                                                     </div>
                                                 @endif
                                             </div>
@@ -247,7 +247,7 @@
                                                     <div class="col-12 col-lg-2"></div>
                                                 @else
                                                     <div class="col-12 col-lg-2">
-                                                        <a href="#" class="btn btn-link remove-paragraph">remove</a>
+                                                        <a href="#" class="btn btn-link remove">remove</a>
                                                     </div>
                                                 @endif
                                             </div>
@@ -269,39 +269,33 @@
 
                                             Add a list
                                         </x-button>
+                                    </div>
 
-                                        <x-table id="c-outcomes-list">
-                                            <x-slot name="thead">
-                                                <th> </th>
-                                                <th> </th>
-                                                <th></th>
-                                            </x-slot>
+                                    <div class="col-12" id="c-outcomes-list">
+                                        @for ($i = 0; $i < $courseOutcomesLists; $i++)
+                                            <div class="row mb-3">
+                                                <div class="col-12 col-lg-1">{{ $i + 1 }}.</div>
 
-                                            @for ($i = 0; $i < $courseOutcomesLists; $i++)
-                                                <tr class="ui-state-default">
-                                                    <td class="col-1">{{ $i + 1 }}.</td>
+                                                <div class="col-12 col-lg-9 paragraph-input">
+                                                    <x-input name="course_outcomes[lists][{{ $i }}]"
+                                                        :error="'course_outcomes.lists.'. $i">
+                                                    </x-input>
 
-                                                    <td class="col-9">
-                                                        <x-input name="course_outcomes[lists][{{ $i }}]"
-                                                            :error="'course_outcomes.lists.' . $i">
-                                                        </x-input>
+                                                    @error('course_outcomes.lists.' . $i)
+                                                        <x-input-error :for="'course_outcomes.lists.'. $i">
+                                                        </x-input-error>
+                                                    @enderror
+                                                </div>
 
-                                                        @error('course_outcomes.lists.' . $i)
-                                                            <x-input-error :for="'course_outcomes.lists.' . $i">
-                                                            </x-input-error>
-                                                        @enderror
-                                                    </td>
-
-                                                    @if ($i === 0)
-                                                        <td class="col-2"></td>
-                                                    @else
-                                                        <td class="col-2">
-                                                            <a href="#" class="btn btn-link remove-list">remove</a>
-                                                        </td>
-                                                    @endif
-                                                </tr>
-                                            @endfor
-                                        </x-table>
+                                                @if ($i === 0)
+                                                    <div class="col-12 col-lg-2"></div>
+                                                @else
+                                                    <div class="col-12 col-lg-2">
+                                                        <a href="#" class="btn btn-link remove">remove</a>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endfor
                                     </div>
                                 </div>
                             </x-tab-pane>
@@ -346,7 +340,7 @@
                                                     <div class="col-12 col-lg-2"></div>
                                                 @else
                                                     <div class="col-12 col-lg-2">
-                                                        <a href="#" class="btn btn-link remove-paragraph">remove</a>
+                                                        <a href="#" class="btn btn-link remove">remove</a>
                                                     </div>
                                                 @endif
                                             </div>
@@ -368,39 +362,33 @@
 
                                             Add a list
                                         </x-button>
+                                    </div>
 
-                                        <x-table id="l-outcomes-list">
-                                            <x-slot name="thead">
-                                                <th></th>
-                                                <th> </th>
-                                                <th></th>
-                                            </x-slot>
+                                    <div class="col-12" id="l-outcomes-list">
+                                        @for ($i = 0; $i < $learningOutcomesLists; $i++)
+                                            <div class="row mb-3">
+                                                <div class="col-12 col-lg-1">{{ $i + 1 }}.</div>
 
-                                            @for ($i = 0; $i < $learningOutcomesLists; $i++)
-                                                <tr class="ui-state-default">
-                                                    <td class="col-1">{{ $i + 1 }}.</td>
+                                                <div class="col-12 col-lg-9 paragraph-input">
+                                                    <x-input name="learning_outcomes[lists][{{ $i }}]"
+                                                        :error="'learning_outcomes.lists.'. $i">
+                                                    </x-input>
 
-                                                    <td class="col-9">
-                                                        <x-input name="learning_outcomes[lists][{{ $i }}]"
-                                                            :error="'learning_outcomes.lists.' . $i">
-                                                        </x-input>
+                                                    @error('learning_outcomes.lists.' . $i)
+                                                        <x-input-error :for="'learning_outcomes.lists.'. $i">
+                                                        </x-input-error>
+                                                    @enderror
+                                                </div>
 
-                                                        @error('learning_outcomes.lists.' . $i)
-                                                            <x-input-error :for="'learning_outcomes.lists.' . $i">
-                                                            </x-input-error>
-                                                        @enderror
-                                                    </td>
-
-                                                    @if ($i === 0)
-                                                        <td class="col-2"></td>
-                                                    @else
-                                                        <td class="col-2">
-                                                            <a href="#" class="btn btn-link remove-list">remove</a>
-                                                        </td>
-                                                    @endif
-                                                </tr>
-                                            @endfor
-                                        </x-table>
+                                                @if ($i === 0)
+                                                    <div class="col-12 col-lg-2"></div>
+                                                @else
+                                                    <div class="col-12 col-lg-2">
+                                                        <a href="#" class="btn btn-link remove">remove</a>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endfor
                                     </div>
                                 </div>
                             </x-tab-pane>
@@ -408,7 +396,7 @@
                     </div>
 
                     <x-slot name="actions">
-                        <x-button type="submit" class="btn-primary">Save changes</x-button>
+                        <x-button type="submit" class="btn-primary col-12 col-md-3">Save changes</x-button>
 
                         <div class="mt-3">
                             <x-input-check :name="'check_stay'" :label="'Check to stay after submit'" checked>
@@ -481,7 +469,7 @@
                 })
                 addParagraphOrList({
                     addButtonSelector: '#addfile-c-outcomes-list',
-                    inputGroupSelector: '#c-outcomes-list tbody',
+                    inputGroupSelector: '#c-outcomes-list',
                     inputGroupName: 'course_outcomes[lists]',
                     inputErrorName: 'course_outcomes.lists',
                     type: 'list'
@@ -495,7 +483,7 @@
                 })
                 addParagraphOrList({
                     addButtonSelector: '#addfile-l-outcomes-list',
-                    inputGroupSelector: '#l-outcomes-list tbody',
+                    inputGroupSelector: '#l-outcomes-list',
                     inputGroupName: 'learning_outcomes[lists]',
                     inputErrorName: 'learning_outcomes.lists',
                     type: 'list'
@@ -522,7 +510,7 @@
                                 </div>
 
                                 <div class="col-12 col-lg-2">
-                                    <a href="#" class="btn btn-link remove-paragraph">remove</a>
+                                    <a href="#" class="btn btn-link remove">remove</a>
                                 </div>
                             </div>
                             `
@@ -530,18 +518,19 @@
 
                         } else if (type === 'list') {
                             $(inputGroupSelector).append(
-                                `<tr class="ui-state-default">
-                                <td class="col-1">*</td>
-                                <td class="col-9">
-                                    <x-input name="${inputGroupName}[${inputCount}]" error="${inputErrorName}.${inputCount}">
-                                    </x-input>
-                                </td>
+                                `<div class="row mb-3">
+                                    <div class="col-12 col-lg-1">*</div>
 
-                                <td class="col-2">
-                                    <a href="#" class="btn btn-link remove-list">remove</a>
-                                </td>
-                            </tr>
-                            `
+                                    <div class="col-12 col-lg-9 paragraph-input">
+                                        <x-input name="${inputGroupName}[${inputCount}]" error="${inputErrorName}.${inputCount}">
+                                            </x-input>
+                                    </div>
+
+                                    <div class="col-12 col-lg-2">
+                                        <a href="#" class="btn btn-link remove">remove</a>
+                                    </div>
+                                </div>
+                                `
                             )
                         }
 
@@ -552,13 +541,9 @@
                 removeInputGroup();
 
                 function removeInputGroup() {
-                    $('.remove-paragraph').click(function(e) {
+                    $('.remove').click(function(e) {
                         e.preventDefault()
                         $(this).closest('.row').remove()
-                    })
-                    $('.remove-list').click(function(e) {
-                        e.preventDefault()
-                        $(this).closest('tr').remove()
                     })
                 }
 
