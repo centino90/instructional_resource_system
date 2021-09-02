@@ -18,7 +18,7 @@ class Resource extends Model
     {
         // return $this->hasOne(User::class, 'id', 'user_id');
         return $this->belongsToMany(User::class)
-            ->withPivot('is_approved')
+            ->withPivot('is_important')
             ->withTimestamps();
     }
 

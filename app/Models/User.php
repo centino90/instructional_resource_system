@@ -46,7 +46,7 @@ class User extends Authenticatable
     public function resources()
     {
         return $this->belongsToMany(Resource::class)
-            ->withPivot('is_approved')
+            ->withPivot('is_important')
             ->withTimestamps();
     }
 }
