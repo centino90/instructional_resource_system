@@ -17,7 +17,7 @@ class ResourceSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         Resource::factory()
-            ->count(510)
+            ->count(30)
             ->create();
 
         foreach (Resource::withTrashed()->get() as $resource) {

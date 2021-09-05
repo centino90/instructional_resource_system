@@ -38,30 +38,13 @@
 
     <div class="row">
         <div class="col-12">
-            @foreach ($resources as $resource)
-                @foreach ($resource->revisionHistory as $history)
-                    {{-- @dd($resources) --}}
-                    @if ($history->userResponsible() && !$history->old_value)
-                        <li>{{ $history->userResponsible()->name }} {{ $history->fieldName() }}
-                            {{ Str::limit($resource->getMedia()[0]->file_name, 20) }} on {{ $history->created_at }}
-                        </li>
-                        {{-- {{ var_dump($history->revisionable_id) }}
-                        <br> --}}
-                    @elseif ($history->userResponsible() && $history->old_value)
-                        <li>{{ $history->userResponsible()->name }} updated
-                            {{ Str::limit($resource->getMedia()[0]->file_name, 20) }} on
-                            {{ $history->created_at }}
-                        </li>
-                        {{-- {{ var_dump($history->revisionable_id) }} --}}
-                        <br>
-                    @else
-                        {{-- {{ var_dump($history->revisionable_id) }} --}}
-                        {{-- <br> --}}
-                    @endif
-                @endforeach
+            @foreach ($activities as $activity)
+                @if ($activity->subject)
+                    {{ $activity->causer->name }} {{ $activity->description }}
+                    {{ $activity->subject->getMedia()[0]->file_name }}
+                    <br>
+                @endif
             @endforeach
-
-
             <x-card-body>
                 <x-table class="___class_+?12___">
                     <x-slot name="thead">

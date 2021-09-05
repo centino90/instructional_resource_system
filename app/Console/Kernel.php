@@ -13,9 +13,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        // CleanupResourceHistoriesCommand::class
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -26,15 +24,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('resources:check')->everyMinute();
 
-        $schedule->command('queue:work --daemon --once')
-            ->withoutOverlapping();
-
-        // if (config('backup.backup.enabled')) {
-        //     $schedule->command('backup:clean')->daily()->at('01:00');
-        //     $schedule->command('backup:run')->daily()->at('02:00');
-        // }
     }
 
     /**

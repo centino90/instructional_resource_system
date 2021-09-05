@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Activitylog\Models\Activity;
+
 // use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ResourceController extends Controller
@@ -20,24 +22,11 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        // $revisions = DB::table('revisions')->select('*')
-        //     ->where('revisionable_type', 'App\Models\Resource')
-        //     ->get();
-        // dd($rs);
-        // Resource::find(31)->update(['archived_at' => now()]);
-        // foreach (Resource::withTrashed()->get() as $resource) {
-        //     foreach ($resource->revisionHistory as $history) {
-        //         if ($history->userResponsible()) {
-        //             dd($history->userResponsible());
-        //         }
-        //     }
-        // };
-
         $resources = Resource::withTrashed()->get();
-        // dd($resources);
+        $activities = Activity::all();
 
-        // dd(Resource::find(31)->revisionHistory);
-        return view('resources', compact('resources'));
+        return view('resources', compact('resources'))
+            ->with('activities', $activities);
     }
 
     /**
