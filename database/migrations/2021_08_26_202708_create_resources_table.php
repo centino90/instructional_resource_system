@@ -15,7 +15,6 @@ class CreateResourcesTable extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            // $table->string('file');
             $table->foreignId('course_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->longText('description')->nullable();

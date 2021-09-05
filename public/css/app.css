@@ -11419,3 +11419,10 @@ textarea.form-control-lg {
 .nav-progress .nav-pills [data-bs-toggle=pill].active * {
   color: #0d6efd;
 }
+
+[type=submit].loading::before {
+  content: "⥁";
+  display: inline-block;
+  -webkit-animation: spinner-border 1.5s linear infinite;
+          animation: spinner-border 1.5s linear infinite;
+}

@@ -70,15 +70,16 @@ class DeletedResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $message = 'all resources were restored successfully';
         try {
             if ($id === 'all') {
-                auth()->user()->resources()->withTrashed()
-                    ->where('resources.user_id', auth()->id())->restore();
+                auth()->user()->resources()->withTrashed()->restore();
             } else {
-                auth()->user()->resources()->withTrashed()
-                    ->where('resources.user_id', auth()->id())
-                    ->findOrFail($id)
-                    ->restore();
+                $resource = auth()->user()->resources()->withTrashed()
+                    ->findOrFail($id);
+                $resource->restore();
+
+                $message = $resource->getMedia()[0]->file_name . ' was restored successfully';
             }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
 
@@ -86,7 +87,10 @@ class DeletedResourceController extends Controller
         }
 
         return redirect()->back()
-            ->with(['success' => 'resource(s) were restored from trash']);
+            ->with([
+                'status' => 'success',
+                'message' => $message
+            ]);
     }
 
     /**
@@ -97,13 +101,32 @@ class DeletedResourceController extends Controller
      */
     public function destroy($id)
     {
-        abort_if(auth()->user()->role_id != 1, 401);
+        $message = 'all resources were permanently deleted';
+        try {
+            if ($id === 'all') {
+                foreach (auth()->user()->resources()->onlyTrashed()->get() as $resource) {
+                    auth()->user()->resources()->detach($resource->id);
+                };
 
-        $r = auth()->user()->resources();
-        $r->detach($id);
-        $r->withTrashed()->findOrFail($id)->forceDelete();
+                auth()->user()->resources()->onlyTrashed()->forceDelete();
+            } else {
+                abort_if(auth()->user()->role_id != 1, 401);
+
+                $r = Resource::onlyTrashed()->findOrFail($id);
+                auth()->user()->resources()->detach($id);
+
+                $message = $r->getMedia()[0]->file_name . ' was permanently deleted successfully';
+                $r->forceDelete();
+            }
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
+
+            throw abort(401);
+        }
 
         return redirect()->back()
-            ->with(['success' => 'resource was permanently deleted']);
+            ->with([
+                'status' => 'success',
+                'message' => $message
+            ]);
     }
 }

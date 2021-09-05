@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSavedResourceRequest;
 use App\Models\Resource;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
+use PDOException;
 
 class SavedResourceController extends Controller
 {
@@ -39,9 +41,18 @@ class SavedResourceController extends Controller
      */
     public function store(StoreSavedResourceRequest $request)
     {
-        auth()->user()->resources()->attach($request->resource_id);
+        try {
+            $resource = Resource::withTrashed()->findOrFail($request->resource_id);
+            auth()->user()->resources()->attach($request->resource_id);
+        } catch (\Throwable $e) {
+            throw abort(404);
+        }
+
         return redirect()->back()
-            ->with(['success' => 'resource was restored from unsaved resources successfully']);
+            ->with([
+                'status' => 'success',
+                'message' => $resource->getMedia()[0]->file_name . ' was saved successfully'
+            ]);
     }
 
     /**
@@ -86,10 +97,18 @@ class SavedResourceController extends Controller
      */
     public function destroy($id)
     {
-        auth()->user()->resources()->detach($id);
+        try {
+            $resource = Resource::findOrFail($id);
+            auth()->user()->resources()->detach($id);
+        } catch (\Throwable $e) {
+            throw abort(404);
+        }
+
         return redirect()->back()
             ->with([
-                'success-destroyed-saved' => 'resource was removed from saved resources successfully', 'resource_id' => $id
+                'status' => 'success-destroy-saved',
+                'message' => $resource->getMedia()[0]->file_name . ' was unsaved successfully!',
+                'resource_id' => $id
             ]);
     }
 }

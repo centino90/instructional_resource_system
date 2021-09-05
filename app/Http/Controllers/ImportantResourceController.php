@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Resource;
+use App\Models\ResourceUser;
 use Illuminate\Http\Request;
 
 class ImportantResourceController extends Controller
@@ -69,13 +70,33 @@ class ImportantResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        auth()->user()->resources()
-            ->updateExistingPivot($id, [
-                'is_important' => 1
-            ]);
+        try {
+            $resource = Resource::withTrashed()->findOrfail($id);
+            $message = 'was added to importants successfully';
+
+            if (!ResourceUser::where('resource_id', $id)->first()->is_important) {
+                auth()->user()->resources()
+                    ->updateExistingPivot($id, [
+                        'is_important' => true
+                    ]);
+            } else {
+                auth()->user()->resources()
+                    ->updateExistingPivot($id, [
+                        'is_important' => false
+                    ]);
+
+                $message = 'was removed from importants successfully';
+            }
+        } catch (\Throwable $e) {
+            throw $e;
+        }
 
         return redirect()->back()
-            ->with(['success' => 'resource was added to importants successfully']);
+            ->with([
+                'status' => 'success-update-saved',
+                'message' => $resource->getMedia()[0]->file_name . ' ' . $message,
+                'resource_id' => $id
+            ]);
     }
 
     /**

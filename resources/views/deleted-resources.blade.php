@@ -17,10 +17,10 @@
         </div>
     </x-slot>
 
-    @if (session()->exists('success'))
+    @if (session()->exists('status'))
         <div class="my-4">
             <x-alert-success>
-                {{ session()->get('success') }}
+                <strong>Success</strong> {{ session()->get('message') }}
 
                 <a href="{{ route('saved-resources.index') }}">
                     <strong class="px-2">Go see the restored resources now?</strong>
@@ -33,13 +33,21 @@
     <div class="row">
         <div class="col-12">
             <x-card-body>
-                <x-form-update action="{{ route('deleted-resources.update', 'all') }}" class="d-flex mb-3 mx-1">
-                    <x-button class="btn-success ms-auto" type="submit"
-                        onclick="return confirm('Are you sure you want to proceed? Confirming this will restore all resources in the trash.')">
+                <div class="d-flex mb-3">
+                    <x-form-update action="{{ route('deleted-resources.update', 'all') }}" class="ms-auto">
+                        <x-button class="btn-success me-2" type="submit" data-form="put-all">
 
-                        <strong>Remove all from trash</strong>
-                    </x-button>
-                </x-form-update>
+                            <strong>Restore all</strong>
+                        </x-button>
+                    </x-form-update>
+
+                    <x-form-delete action="{{ route('deleted-resources.destroy', 'all') }}">
+                        <x-button class="btn-danger" type="submit" data-form="delete-all">
+
+                            <strong>Permenently delete all</strong>
+                        </x-button>
+                    </x-form-delete>
+                </div>
 
                 <x-table>
                     <x-slot name="thead">
@@ -105,17 +113,18 @@
                                     <x-form-update action="{{ route('deleted-resources.update', $resource->id) }}">
 
                                         <x-button type="submit" class="btn-success col-12">
-                                            Remove from trash
+                                            Restore
                                         </x-button>
                                     </x-form-update>
 
                                     <form action="{{ route('deleted-resources.destroy', $resource->id) }}"
-                                        class="px-0" method="post"
-                                        onclick="return confirm('Are you sure you want to proceed? Confirming this action will permanently delete the file(s).')">
+                                        class="px-0" method="post">
                                         @csrf
                                         @method('DELETE')
 
-                                        <x-button class="btn-danger col-12" type="submit">Delete permanently</x-button>
+                                        <x-button class="btn-danger col-12" type="submit" data-form="delete">
+                                            Delete permanently
+                                        </x-button>
                                     </form>
                                 </div>
                             </td>
@@ -125,4 +134,30 @@
             </x-card-body>
         </div>
     </div>
+
+    @section('script')
+        <script>
+            $('[data-form="delete"], [data-form="put"], [data-form="delete-all"], [data-form="put-all"]').click(function(
+            event) {
+                let m;
+                if ($(this).attr('data-form') == 'delete-all') {
+                    m =
+                        'Danger Alert! Are you sure you want to proceed? Confirming this will permanently delete all of the deleted resources in this page';
+                } else if ($(this).attr('data-form') == 'put-all') {
+                    m =
+                        'Warning Alert! Are you sure you want to proceed? Confirming this will restore all of the deleted resources in this page';
+                } else if ($(this).attr('data-form') == 'delete') {
+                    m =
+                        'Warning Alert! Are you sure you want to proceed? Confirming this will delete that resource';
+                }
+
+                let c = confirm(m);
+
+                if (!c) {
+                    event.preventDefault();
+                    $(this).removeClass('disabled loading');
+                }
+            })
+        </script>
+    @endsection
 </x-app-layout>

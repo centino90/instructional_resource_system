@@ -21,34 +21,42 @@
     </x-slot>
 
     <div class="my-4">
-        @if (session()->exists('success'))
+        @if (session()->get('status') == 'success')
             <x-alert-success class="mb-3">
-                {{ session()->get('success') }}
+                <strong>Success!</strong> {{ session()->get('message') }}
             </x-alert-success>
-        @endif
 
-        @if (session()->exists('success-destroyed-saved'))
+        @elseif(session()->get('status') == 'success-update-saved')
             <x-alert-success class="mb-3">
-                {{ session()->get('success-destroyed-saved') }}
+                <strong>Success!</strong> {{ session()->get('message') }}
+            </x-alert-success>
 
-                <x-form-post action="{{ route('saved-resources.store') }}">
+        @elseif(session()->get('status') == 'success-destroy-saved')
+            <x-alert-success class="mb-3">
+                <strong>Success!</strong> {{ session()->get('message') }}
+
+                <x-form-post action="{{ route('saved-resources.store') }}" class="px-3">
                     <input type="hidden" name="resource_id" value="{{ session()->get('resource_id') }}">
 
+                    <small>You can still save back this resource</small>
                     <x-button type="submit" class="btn btn-link">
-                        <strong>Revert your action?</strong>
+                        <strong>Save this resource?</strong>
                     </x-button>
                 </x-form-post>
             </x-alert-success>
-        @elseif (session()->exists('success-destroyed-resource'))
-            <x-alert-success class="mb-3">
-                {{ session()->get('success-destroyed-resource') }}
 
-                <x-form-post action="{{ route('deleted-resources.update', session()->get('resource_id')) }}">
+        @elseif(session()->get('status') == 'success-destroy-resource')
+            <x-alert-success class="mb-3">
+                <strong>Success!</strong> {{ session()->get('message') }}
+
+                <x-form-post action="{{ route('deleted-resources.update', session()->get('resource_id')) }}"
+                    class="px-3">
                     @csrf
                     @method('PUT')
 
+                    <small>You can still restore back this deleted resource</small>
                     <x-button type="submit" class="btn btn-link">
-                        <strong>Revert your action?</strong>
+                        <strong>Restore this resource?</strong>
                     </x-button>
                 </x-form-post>
             </x-alert-success>
@@ -129,7 +137,16 @@
                                             @csrf
                                             @method('PUT')
 
-                                            <x-button class="btn-secondary col-12" type="submit">Add to important
+                                            <x-button class="btn-secondary col-12" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                    viewBox="0 0 30 30" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-star">
+                                                    <polygon
+                                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                                </svg>
+
+                                                Add to important
                                             </x-button>
                                         </form>
                                     @endif

@@ -3169,6 +3169,9 @@ $('.sidebar-menu-btn').click(function () {
 
   $('html').addClass('sidebar-toggled-hidden');
 });
+$('button[type="submit"], input[type="submit"]').click(function () {
+  $(this).addClass('disabled loading');
+});
 
 function createPdf(_x) {
   return _createPdf.apply(this, arguments);

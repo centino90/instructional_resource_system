@@ -175,6 +175,15 @@
     }
 }
 
+// loading
+[type="submit"].loading {
+    &::before {
+        content: "⥁";
+        display: inline-block;
+        animation: spinner-border 1.5s linear infinite;
+    }
+}
+
 // .pagination {
 //     max-width: 400px;
 //     min-width: 300px;

@@ -2,11 +2,15 @@
     @csrf
     @method('DELETE')
 
-    <h4 class="my-3">{{ $title }}</h4>
+    @isset($title)
+        <h4 class="my-3">{{ $title ?? '' }}</h4>
+    @endisset
 
     {{ $slot }}
 
-    <div class="mb-3">
-        {{ $actions }}
-    </div>
+    @isset($actions)
+        <div class="mb-3">
+            {{ $actions ?? '' }}
+        </div>
+    @endisset
 </form>

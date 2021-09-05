@@ -20,7 +20,24 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        return view('resources');
+        // $revisions = DB::table('revisions')->select('*')
+        //     ->where('revisionable_type', 'App\Models\Resource')
+        //     ->get();
+        // dd($rs);
+        // Resource::find(31)->update(['archived_at' => now()]);
+        // foreach (Resource::withTrashed()->get() as $resource) {
+        //     foreach ($resource->revisionHistory as $history) {
+        //         if ($history->userResponsible()) {
+        //             dd($history->userResponsible());
+        //         }
+        //     }
+        // };
+
+        $resources = Resource::withTrashed()->get();
+        // dd($resources);
+
+        // dd(Resource::find(31)->revisionHistory);
+        return view('resources', compact('resources'));
     }
 
     /**
@@ -61,17 +78,18 @@ class ResourceController extends Controller
 
                 $temporaryFile->delete();
             }
-        }
 
-        if ($request->check_stay) {
+
+            if ($request->check_stay) {
+                return redirect()
+                    ->route('resources.create')
+                    ->with('success', 'Resource was created successfully');
+            }
+
             return redirect()
-                ->route('resources.create')
+                ->route('resources.index')
                 ->with('success', 'Resource was created successfully');
         }
-
-        return redirect()
-            ->route('resources.index')
-            ->with('success', 'Resource was created successfully');
     }
 
     /**
@@ -117,10 +135,11 @@ class ResourceController extends Controller
     public function destroy($id)
     {
         try {
-            auth()->user()->resources()->withTrashed()
+            $resource = auth()->user()->resources()->withTrashed()
                 ->where('resources.user_id', auth()->id())
-                ->findOrFail($id)
-                ->delete();
+                ->findOrFail($id);
+
+            $resource->delete();
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
 
             throw abort(401);
@@ -128,7 +147,9 @@ class ResourceController extends Controller
 
         return redirect()->back()
             ->with([
-                'success-destroyed-resource' => 'resource was deleted successfully', 'resource_id' => $id
+                'status' => 'success-destroy-resource',
+                'message' => $resource->getMedia()[0]->file_name . ' was deleted sucessfully!',
+                'resource_id' => $id
             ]);
     }
 
