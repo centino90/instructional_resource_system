@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Chongqing',
 
     /*
     |--------------------------------------------------------------------------
@@ -233,5 +233,4 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
-
 ];

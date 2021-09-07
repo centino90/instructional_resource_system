@@ -39,14 +39,23 @@
     <div class="row">
         <div class="col-12">
             @foreach ($activities as $activity)
-                @if ($activity->subject)
-                    {{ $activity->causer->name }} {{ $activity->description }}
+
+                <span>
+                    <b>{{ $activity->causer->name ?? 'unknown user' }}</b>
+                    {{ $activity->description }}
                     {{ $activity->subject->getMedia()[0]->file_name }}
-                    <br>
-                @endif
+                    <small class="badge rounded-pill bg-success mx-1">{{ $loop->index == 0 ? 'latest' : '' }}</small>
+                </span>
+                <div class="lh-1 mb-1">
+                    <small
+                        class="text-muted">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}</small>
+                </div>
+
+                {{-- @dd($activity) --}}
+
             @endforeach
             <x-card-body>
-                <x-table class="___class_+?12___">
+                <x-table>
                     <x-slot name="thead">
                         <th scope="col">#</th>
                         <th scope="col">First</th>

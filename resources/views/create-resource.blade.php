@@ -44,6 +44,24 @@
         </x-nav-tabs>
     </h6>
 
+    @if (auth()->user()->role_id = 1)
+        <div class="my-3">
+            @forelse ($notifications as $notification)
+                @isset($notification->data['program_id'])
+                    @if ($notification->data['program_id'] == auth()->user()->program_id)
+                        <div class="alert alert-success">
+                            [{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $notification->created_at)->toDayDateTimeString() }}]
+                            {{ $notification->data['user'] }} created
+                            {{ $notification->data['file_name'] }}
+                        </div>
+                    @endif
+                @endisset
+            @empty
+                There are no notifications
+            @endforelse
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-12">
             <x-card-body class="tab-content rounded-0 rounded-bottom border border-top-0 shadow-sm">

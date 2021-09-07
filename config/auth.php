@@ -114,4 +114,22 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Roles
+    |--------------------------------------------------------------------------
+    |
+    | Here is where the roles are defined for further uses such as auth checks
+    | based on roles or permission checks on different parts of the application.
+    | The values of these constants must reflect to what is declared in its database
+    | table counterpart (roles).
+    |
+    */
+
+    'roles' => [
+        'SUPER_ADMIN' => 1,
+        'ADMIN' => 2,
+        'SECRETARY' => 3,
+        'TEACHER' => 4
+    ]
 ];

@@ -21,4 +21,9 @@ class Course extends Model
             ->withPivot('is_manager')
             ->as('course_subscriptions');
     }
+
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
+    }
 }

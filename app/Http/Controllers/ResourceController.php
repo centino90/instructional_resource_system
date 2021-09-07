@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ResourceCreated;
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Resource;
 use App\Models\TemporaryUpload;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -22,11 +24,20 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        $resources = Resource::withTrashed()->get();
-        $activities = Activity::all();
+        $resources = Resource::withTrashed()->orderByDesc('created_at')->get();
+        $collection = $resources;
+        $mapped = $collection->map(function ($item, $key) {
+            return $item->activities;
+        });
 
+        // $r = Resource::find(1);
+        // $r->description = 'test1';
+        // $r->save();
+
+        // $activities = Activity::all();
+        // dd($activities->last()->subject->withTrashed());
         return view('resources', compact('resources'))
-            ->with('activities', $activities);
+            ->with('activities', $mapped->flatten()->sortByDesc('created_at'));
     }
 
     /**
@@ -37,7 +48,8 @@ class ResourceController extends Controller
     public function create(Request $request)
     {
         return view('create-resource')->with([
-            'resourceLists' => $request->resourceLists ?? 1
+            'resourceLists' => $request->resourceLists ?? 1,
+            'notifications' => auth()->user()->unreadNotifications
         ]);
     }
 
@@ -65,20 +77,21 @@ class ResourceController extends Controller
                     ->toMediaCollection();
                 rmdir(storage_path('app/public/resource/tmp/' . $file));
 
+                event(new ResourceCreated($r));
+
                 $temporaryFile->delete();
             }
+        }
 
-
-            if ($request->check_stay) {
-                return redirect()
-                    ->route('resources.create')
-                    ->with('success', 'Resource was created successfully');
-            }
-
+        if ($request->check_stay) {
             return redirect()
-                ->route('resources.index')
+                ->route('resources.create')
                 ->with('success', 'Resource was created successfully');
         }
+
+        return redirect()
+            ->route('resources.index')
+            ->with('success', 'Resource was created successfully');
     }
 
     /**

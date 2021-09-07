@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 
 class Resource extends Model implements HasMedia
 {
@@ -20,6 +21,13 @@ class Resource extends Model implements HasMedia
 
     protected static $logFillable = true;
 
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        if ($eventName != 'updated') {
+            $activity->properties = null;
+        }
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class)
@@ -27,12 +35,12 @@ class Resource extends Model implements HasMedia
             ->withTimestamps();
     }
 
-    public function courses()
+    public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 
-    public function syllabi()
+    public function syllabus()
     {
         return $this->hasOne(Syllabus::class);
     }

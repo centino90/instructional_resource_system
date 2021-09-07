@@ -43,10 +43,62 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Check Roles
+    |--------------------------------------------------------------------------
+    |
+    | ...
+    |
+    */
+
+    public function isSuperAdmin()
+    {
+        return $this->role_id == config('auth.roles.SUPER_ADMIN') ? true : false;
+    }
+
+    public function isAdmin()
+    {
+        return $this->role_id == config('auth.roles.ADMIN') ? true : false;
+    }
+
+    public function isSecretary()
+    {
+        return $this->role_id == config('auth.roles.SECRETARY') ? true : false;
+    }
+
+    public function isTeacher()
+    {
+        return $this->role_id == config('auth.roles.TEACHER') ? true : false;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Local Scopes
+    |--------------------------------------------------------------------------
+    |
+    | ...
+    |
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    |
+    | ...
+    |
+    */
+
     public function resources()
     {
         return $this->belongsToMany(Resource::class)
             ->withPivot('is_important')
             ->withTimestamps();
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }
