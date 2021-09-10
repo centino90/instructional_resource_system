@@ -17,7 +17,7 @@ class SavedResourceController extends Controller
      */
     public function index()
     {
-        $savedResources = auth()->user()->resources()->with(['courses', 'media'])
+        $savedResources = auth()->user()->resources()->with(['course', 'media'])
             ->orderByDesc('updated_at')->get();
 
         return view('saved-resources')->with(['resources' => $savedResources]);

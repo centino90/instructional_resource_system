@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeletedResourceController;
-use App\Http\Controllers\DogController;
 use App\Http\Controllers\ImportantResourceController;
 use App\Http\Controllers\PendingResourceController;
 use App\Http\Controllers\ResourceController;
@@ -29,7 +29,7 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('resources', ResourceController::class);
     Route::get('resources/{resource}/download', [ResourceController::class, 'download'])->name('resources.download');

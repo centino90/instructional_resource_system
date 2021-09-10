@@ -54,22 +54,22 @@ class User extends Authenticatable
 
     public function isSuperAdmin()
     {
-        return $this->role_id == config('auth.roles.SUPER_ADMIN') ? true : false;
+        return $this->role_id == Role::SUPER_ADMIN;
     }
 
     public function isAdmin()
     {
-        return $this->role_id == config('auth.roles.ADMIN') ? true : false;
+        return $this->role_id == Role::ADMIN;
     }
 
     public function isSecretary()
     {
-        return $this->role_id == config('auth.roles.SECRETARY') ? true : false;
+        return $this->role_id == Role::SECRETARY;
     }
 
     public function isTeacher()
     {
-        return $this->role_id == config('auth.roles.TEACHER') ? true : false;
+        return $this->role_id == Role::TEACHER;
     }
 
     /*

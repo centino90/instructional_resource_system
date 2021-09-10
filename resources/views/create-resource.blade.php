@@ -44,37 +44,12 @@
         </x-nav-tabs>
     </h6>
 
-    @if (auth()->user()->role_id = 1)
-        <div class="my-3">
-            @forelse ($notifications as $notification)
-                @isset($notification->data['program_id'])
-                    @if ($notification->data['program_id'] == auth()->user()->program_id)
-                        <div class="alert alert-success">
-                            [{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $notification->created_at)->toDayDateTimeString() }}]
-                            {{ $notification->data['user'] }} created
-                            {{ $notification->data['file_name'] }}
-                        </div>
-                    @endif
-                @endisset
-            @empty
-                There are no notifications
-            @endforelse
-        </div>
-    @endif
-
     <div class="row">
         <div class="col-12">
             <x-card-body class="tab-content rounded-0 rounded-bottom border border-top-0 shadow-sm">
                 @if ($errors->any())
                     <x-alert-danger class="my-4">
                         <span>Look! You got an error</span>
-
-                        <ul class="nav flex-column mt-3">
-                            @foreach ($errors->all() as $error)
-                                <li class="nav-item">{{ $error }}</li>
-                            @endforeach
-                        </ul>
-
                     </x-alert-danger>
                 @endif
 
@@ -102,13 +77,15 @@
                         <div class="row">
                             <div class="col-12 col-md-7">
                                 <x-label>File</x-label>
-                                <x-input type="file" name="file[]" :error="'file.0'" class="filepond" multiple
-                                    data-allow-reorder="true"></x-input>
+                                <div class="filepond-wrapper">
+                                    <x-input type="file" name="file[]" :error="'file.0'" class="filepond">
+                                    </x-input>
 
-                                @error('file')
-                                    <x-input-error :for="'file'">
-                                    </x-input-error>
-                                @enderror
+                                    @error('file.0')
+                                        <x-input-error :for="'file.0'">
+                                        </x-input-error>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="col-12 col-md-5">
@@ -142,6 +119,8 @@
     @section('script')
         <script>
             (function($) {
+                $.fn.filepond.registerPlugin(FilePondPluginFileValidateSize);
+
                 $('#sortable').find('input[type="file"]').change(function() {
                     if (!this.value) {
                         return
@@ -173,6 +152,9 @@
 
                 $('.filepond').filepond({
                     allowMultiple: true,
+                    allowReorder: true,
+                    maxFiles: 10,
+                    maxFileSize: '10MB',
                     credits: false,
                     server: {
                         url: 'http://localhost:8000',
@@ -196,6 +178,32 @@
                                 })
                         },
                     }
+                });
+
+                $('.filepond').on('FilePond:warning', function(e) {
+                    let filepondRoot = $(this);
+                    let maxFiles = 5;
+                    let container = filepondRoot.parent();
+                    let error = container.find('.invalid-feedback')[0];
+
+                    if (!error) {
+                        error = document.createElement('span');
+                        $(error).addClass('invalid-feedback fw-bold');
+                        $(error).text(`The maximum number of files is ${maxFiles}`);
+                        container.append(error);
+                    } else {
+                        $(error).text(`The maximum number of files is ${maxFiles}`);
+                    }
+
+                    requestAnimationFrame(function() {
+                        $(error).attr('data-state', 'visible');
+                        filepondRoot.addClass('is-invalid')
+                    });
+
+                    $('.filepond').on('FilePond:updatefiles', function(e) {
+                        $(error).attr('data-state', 'hidden');
+                        filepondRoot.removeClass('is-invalid');
+                    });
                 });
             })(jQuery);
         </script>

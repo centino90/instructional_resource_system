@@ -22,6 +22,31 @@
     @endif
 
     <div class="row row-cols-1 row-cols-lg-2 g-3 mt-3">
+        @forelse ($secondYearCourses as $course)
+            <div class="col">
+                <x-card-body>
+                    Lorem ipsum dolor sit amet.
+
+                    <x-table class="table-sm">
+                        <x-slot name="thead">
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </x-slot>
+
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $course->title }}</td>
+                            <td>{{ $course->term }}</td>
+                            <td>{{ $course->semester }}</td>
+                        </tr>
+                    </x-table>
+                </x-card-body>
+            </div>
+        @empty
+            There are no courses yet
+        @endforelse
         <div class="col">
             <x-card-body>
                 Lorem ipsum dolor sit amet.

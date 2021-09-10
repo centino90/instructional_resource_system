@@ -35,6 +35,14 @@ class Resource extends Model implements HasMedia
             ->withTimestamps();
     }
 
+    public function auth()
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('is_important')
+            ->withTimestamps()
+            ->wherePivot('user_id', auth()->id());
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');

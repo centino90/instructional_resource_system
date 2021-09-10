@@ -14,6 +14,7 @@ try {
     window.FilePond = require('filepond');
     require('jquery-filepond/filepond.jquery');
     require('filepond/dist/filepond.min.css');
+    window.FilePondPluginFileValidateSize = require('filepond-plugin-file-validate-size');
 } catch (e) { }
 
 /**

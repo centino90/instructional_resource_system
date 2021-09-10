@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Events\ResourceCreated;
 use App\Http\Requests\StoreResourceRequest;
+use App\Models\Course;
 use App\Models\Resource;
 use App\Models\TemporaryUpload;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Activitylog\Models\Activity;
+use Spatie\MediaLibrary\Support\MediaStream;
+use ZipStream\Option\Archive as ArchiveOptions;
 
 // use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -25,10 +29,9 @@ class ResourceController extends Controller
     public function index()
     {
         $resources = Resource::withTrashed()->orderByDesc('created_at')->get();
-        $collection = $resources;
-        $mapped = $collection->map(function ($item, $key) {
+        $activities = $resources->map(function ($item, $key) {
             return $item->activities;
-        });
+        })->flatten()->sortByDesc('created_at')->take(5);
 
         // $r = Resource::find(1);
         // $r->description = 'test1';
@@ -36,8 +39,7 @@ class ResourceController extends Controller
 
         // $activities = Activity::all();
         // dd($activities->last()->subject->withTrashed());
-        return view('resources', compact('resources'))
-            ->with('activities', $mapped->flatten()->sortByDesc('created_at'));
+        return view('resources', compact(['resources', 'activities']));
     }
 
     /**
@@ -47,6 +49,10 @@ class ResourceController extends Controller
      */
     public function create(Request $request)
     {
+        if ($request->user()->cannot('create', Resource::class)) {
+            abort(403);
+        }
+
         return view('create-resource')->with([
             'resourceLists' => $request->resourceLists ?? 1,
             'notifications' => auth()->user()->unreadNotifications
@@ -61,8 +67,12 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request)
     {
+        if ($request->user()->cannot('create', Resource::class)) {
+            abort(403);
+        }
+
         foreach ($request->file as $file) {
-            $temporaryFile = TemporaryUpload::where('folder_name', $file)->first();
+            $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
 
             if ($temporaryFile) {
                 $r = Resource::create([
@@ -100,9 +110,11 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Resource $resource)
     {
-        //
+        Gate::authorize('view', $resource);
+
+        return $resource;
     }
 
     /**
@@ -134,12 +146,10 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Resource $resource)
     {
         try {
-            $resource = auth()->user()->resources()->withTrashed()
-                ->where('resources.user_id', auth()->id())
-                ->findOrFail($id);
+            Gate::authorize('delete', $resource);
 
             $resource->delete();
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
@@ -147,11 +157,12 @@ class ResourceController extends Controller
             throw abort(401);
         }
 
+        $fileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
         return redirect()->back()
             ->with([
                 'status' => 'success-destroy-resource',
-                'message' => $resource->getMedia()[0]->file_name . ' was deleted sucessfully!',
-                'resource_id' => $id
+                'message' => $fileName . ' was deleted sucessfully!',
+                'resource_id' => $resource->id
             ]);
     }
 
@@ -161,8 +172,22 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function download($mediaItem)
+    public function download($mediaItem, Request $request)
     {
+        if ($mediaItem == 'all') {
+            $zipFileName = Course::findOrFail($request->course_id)->title . '-files-' . time() . '.zip';
+            $resources = Resource::withTrashed()->get();
+
+            $resourcesWithinCourse = $resources->map(function ($resource) use ($request) {
+                return $resource->course_id == $request->course_id ? $resource->getMedia()[0] : null;
+            })->reject(function ($resource) {
+                return empty($resource);
+            });
+
+            return MediaStream::create($zipFileName)
+                ->addMedia($resourcesWithinCourse);
+        }
+
         return response()->download(
             Resource::withTrashed()->find($mediaItem)->getMedia()[0]->getPath(),
             Resource::withTrashed()->find($mediaItem)->getMedia()[0]->file_name

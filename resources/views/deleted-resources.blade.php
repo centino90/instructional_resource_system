@@ -99,7 +99,7 @@
                                 {{ $resource->getMedia()[0]->file_name ?? 'not available' }}
                             </td>
                             <td>{{ $resource->description }}</td>
-                            <td>{{ $resource->courses->code }}</td>
+                            <td>{{ $resource->course->code }}</td>
                             <td>
                                 {{ \Carbon\Carbon::parse($resource->updated_at)->format('M d Y') }}
                             </td>
@@ -138,7 +138,7 @@
     @section('script')
         <script>
             $('[data-form="delete"], [data-form="put"], [data-form="delete-all"], [data-form="put-all"]').click(function(
-            event) {
+                event) {
                 let m;
                 if ($(this).attr('data-form') == 'delete-all') {
                     m =

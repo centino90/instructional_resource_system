@@ -184,6 +184,15 @@
     }
 }
 
+p.filepond--warning {
+    color: $danger;
+    background-color: $light;
+    padding: 4px 7px;
+    &[data-state="hidden"] {
+        display: none;
+    }
+}
+
 // .pagination {
 //     max-width: 400px;
 //     min-width: 300px;

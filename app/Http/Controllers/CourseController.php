@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -13,7 +15,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $courses = Course::orderBy('title')->get();
+        return view('courses', compact('courses'));
     }
 
     /**
@@ -43,9 +46,19 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Course $course)
     {
-        //
+        $resources = Resource::withTrashed()->get();
+        $resourcesWithinCourse = $resources->map(function ($resource) use ($course) {
+            return $resource->course_id == $course->id ? $resource : null;
+        })->reject(function ($resource) {
+            return empty($resource);
+        });
+        $activities = $resourcesWithinCourse->map(function ($item, $key) {
+            return $item->activities;
+        })->flatten()->sortByDesc('created_at');
+
+        return view('show-course', compact(['course', 'resourcesWithinCourse', 'activities']));
     }
 
     /**

@@ -54,13 +54,19 @@ class UploadTemporaryFilesController extends Controller
             $files = $request->file('file');
 
             foreach ($files as $file) {
-                $filename = time() . '-' . $file->getClientOriginalName();
-                $folder = uniqid() . '-' . now()->timestamp;
-                $file->storeAs('resource/tmp/' . $folder, $filename);
+                $filename = substr(
+                    $file->getClientOriginalName(),
+                    0,
+                    strrpos($file->getClientOriginalName(), ".")
+                );
+                $spacesRemoved = str_replace(' ', '-', $filename);
+                $newFilename = $spacesRemoved . '-' . time() . '.' . $file->getClientOriginalExtension();
+                $folder = uniqid() . '-' . time();
+                $file->storeAs('resource/tmp/' . $folder, $newFilename);
 
                 TemporaryUpload::create([
                     'folder_name' => $folder,
-                    'file_name' => $filename
+                    'file_name' => $newFilename
                 ]);
 
                 return $folder;

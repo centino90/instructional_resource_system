@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Resource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class DeletedResourceController extends Controller
 {
@@ -70,16 +71,25 @@ class DeletedResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $message = 'all resources were restored successfully';
         try {
             if ($id === 'all') {
-                auth()->user()->resources()->withTrashed()->restore();
-            } else {
-                $resource = auth()->user()->resources()->withTrashed()
-                    ->findOrFail($id);
-                $resource->restore();
+                Gate::authorize(
+                    'restore',
+                    auth()->user()->resources()->onlyTrashed()->first()
+                );
 
-                $message = $resource->getMedia()[0]->file_name . ' was restored successfully';
+                auth()->user()->resources()->onlyTrashed()->restore();
+
+                $sessionMessage = 'all resources were restored successfully';
+            } else {
+                $resource = auth()->user()->resources()->onlyTrashed()
+                    ->findOrFail($id);
+                Gate::authorize('restore', $resource);
+
+                $mediaFileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
+                $sessionMessage = $mediaFileName . ' was restored successfully';
+
+                $resource->restore();
             }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
 
@@ -89,7 +99,7 @@ class DeletedResourceController extends Controller
         return redirect()->back()
             ->with([
                 'status' => 'success',
-                'message' => $message
+                'message' => $sessionMessage
             ]);
     }
 
@@ -101,32 +111,38 @@ class DeletedResourceController extends Controller
      */
     public function destroy($id)
     {
-        $message = 'all resources were permanently deleted';
+        abort_if(!auth()->user()->resources()->onlyTrashed()->first(), 404);
         try {
             if ($id === 'all') {
+                $sessionMessage = 'all resources were permanently deleted';
+
                 foreach (auth()->user()->resources()->onlyTrashed()->get() as $resource) {
+                    Gate::authorize('forceDelete', $resource);
+
                     auth()->user()->resources()->detach($resource->id);
                 };
 
                 auth()->user()->resources()->onlyTrashed()->forceDelete();
             } else {
-                abort_if(auth()->user()->role_id != 1, 401);
+                $resource = Resource::onlyTrashed()->findOrFail($id);
+                Gate::authorize('forceDelete', $resource);
 
-                $r = Resource::onlyTrashed()->findOrFail($id);
-                auth()->user()->resources()->detach($id);
+                auth()->user()->resources()->detach($resource->id);
 
-                $message = $r->getMedia()[0]->file_name . ' was permanently deleted successfully';
-                $r->forceDelete();
+                $mediaFileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
+                $sessionMessage = $mediaFileName . ' was permanently deleted successfully';
+
+                $resource->forceDelete();
             }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
 
-            throw abort(401);
+            throw $e;
         }
 
         return redirect()->back()
             ->with([
                 'status' => 'success',
-                'message' => $message
+                'message' => $sessionMessage
             ]);
     }
 }

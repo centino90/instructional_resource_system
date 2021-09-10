@@ -11426,3 +11426,12 @@ textarea.form-control-lg {
   -webkit-animation: spinner-border 1.5s linear infinite;
           animation: spinner-border 1.5s linear infinite;
 }
+
+p.filepond--warning {
+  color: #dc3545;
+  background-color: #f8f9fa;
+  padding: 4px 7px;
+}
+p.filepond--warning[data-state=hidden] {
+  display: none;
+}

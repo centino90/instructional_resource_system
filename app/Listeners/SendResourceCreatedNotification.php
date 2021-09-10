@@ -31,8 +31,8 @@ class SendResourceCreatedNotification
     public function handle(ResourceCreated $event)
     {
         $admins = User::whereHas('role', function ($query) use ($event) {
-            $query->where('id', 1)->where('program_id', $event->resource->course->program_id);
-        })->get();
+            $query->where('id', config('auth.roles.ADMIN'))->where('program_id', $event->resource->course->program_id);
+        })->first() ?? [];
 
         Notification::send($admins, new NewResourceNotification($event->resource));
     }
