@@ -3,7 +3,6 @@
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DeletedResourceController;
-use App\Http\Controllers\DogController;
 use App\Http\Controllers\ImportantResourceController;
 use App\Http\Controllers\PendingResourceController;
 use App\Http\Controllers\ResourceController;
@@ -12,6 +11,8 @@ use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\UploadTemporaryFilesController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\CssSelector\Node\FunctionNode;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,11 +26,12 @@ use Symfony\Component\CssSelector\Node\FunctionNode;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome'); 
 });
 
 Route::middleware('auth')->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+   
 
     Route::resource('resources', ResourceController::class);
     Route::resource('syllabi', SyllabusController::class);
@@ -42,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('pending-resources', PendingResourceController::class);
     Route::resource('important-resources', ImportantResourceController::class);
     Route::resource('deleted-resources', DeletedResourceController::class);
+
 });
 
 
