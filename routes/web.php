@@ -3,14 +3,12 @@
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DeletedResourceController;
-use App\Http\Controllers\DogController;
 use App\Http\Controllers\ImportantResourceController;
 use App\Http\Controllers\PendingResourceController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\UploadTemporaryFilesController;
-use App\Http\Controllers\ListController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
