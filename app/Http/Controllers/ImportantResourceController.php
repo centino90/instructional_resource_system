@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Resource;
+use App\Models\ResourceUser;
 use Illuminate\Http\Request;
 
 class ImportantResourceController extends Controller
+
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +18,11 @@ class ImportantResourceController extends Controller
      */
     public function index()
     {
-        //
+
+        return ResourceUser::all();
+        //DB(get_vars(0):Resource::all());
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -69,8 +76,23 @@ class ImportantResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //return DB::select("select * from resource_user");
+        //return "Update ".$id;
+        // $resource_user = ResourceUser::all();
+
+        // $resource_user = ResourceUser::find($id);
+        //$resource_user->user_id = $request->$id;
+
+        // return ResourceUser::all('saved-resources');
+        // return redirect()->route('saved-resources');
+
+        // $resource_user = ResourceUser::find($id);
+        //return view("saved-resources")->with("resource_user", $resource_user);
+
+        return "saved-resources" . $id;
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +100,12 @@ class ImportantResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        //$resource_user = ResourceUser::find($id);
+        $resource_user = ResourceUser::all();
+        return view('deleted-resources');
+        //return $resource_user;
+
     }
 }
