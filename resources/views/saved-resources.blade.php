@@ -71,110 +71,111 @@
     <div class="row">
         <div class="col-12">
             <x-card-body>
-                <x-table>
-                    <x-slot name="thead">
-                        <th scope="col">#</th>
-                        <th scope="col">File</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Uploaded on</th>
-                        <th scope="col">Last update</th>
-                        <th></th>
-                    </x-slot>
-
+                <x-table-resource id="resources-table">
                     @foreach ($resources as $resource)
                         <tr>
-                            <th>{{ $loop->iteration }}</th>
-                            <td>
-                                <div class="text-muted">
-                                    <span class="text-muted">
-                                        Submitted by
-                                        @if ($resource->user_id != auth()->id())
-                                            <strong>
-                                                {{ ucwords($resource->users[0]->name) }}
-                                            </strong>
-                                        @else
-                                            <strong>
-                                                me
-                                            </strong>
-                                        @endif
-                                    </span>
+                            @include('layouts.includes.resource-table.td-checks')
 
-                                    @if ($resource->is_syllabus)
-                                        | <strong class="text-primary">
-                                            Syllabus
-                                        </strong>
-                                    @endif
+                            @include('layouts.includes.resource-table.td-file')
 
-                                    @isset($resource->getMedia()[0])
-                                        | <a href="{{ route('resources.download', $resource->id) }}">
-                                            <small>Download</small>
-                                        </a>
-                                    @endisset
+                            @include('layouts.includes.resource-table.td-course')
 
-                                    @if (!$resource->approved_at)
-                                        | <span class="badge rounded-pill bg-warning text-dark">
-                                            for approval
-                                        </span>
-                                    @endif
-                                </div>
-                                {{ $resource->getMedia()[0]->file_name ?? 'not available' }}
-                            </td>
-                            <td>{{ $resource->description }}</td>
-                            <td>{{ $resource->course->code }}</td>
-                            <td>
-                                {{ \Carbon\Carbon::parse($resource->updated_at)->format('M d Y') }}
-                            </td>
-                            <td>
-                                <div class="row g-2">
-                                    @isset($resource->getMedia()[0])
-                                        <a href="{{ route('resources.download', $resource->id) }}"
-                                            class="btn btn-primary">Download</a>
-                                    @endisset
+                            @include('layouts.includes.resource-table.td-lastupdate')
 
-                                    @if (!$resource->pivot->is_important)
-                                        <form action="{{ route('important-resources.update', $resource->id) }}"
-                                            class="px-0" method="post">
-                                            @csrf
-                                            @method('PUT')
-
-                                            <x-button class="btn-secondary col-12" type="submit">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                                    viewBox="0 0 30 30" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-star">
-                                                    <polygon
-                                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                                </svg>
-
-                                                Add to important
-                                            </x-button>
-                                        </form>
-                                    @endif
-
-                                    @if ($resource->user_id != auth()->id())
-                                        <form action="{{ route('saved-resources.destroy', $resource->id) }}"
-                                            class="px-0" method="post">
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <x-button class="btn-secondary col-12" type="submit">Unsave
-                                            </x-button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route('resources.destroy', $resource->id) }}"
-                                            class="px-0" method="post">
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <x-button class="btn-danger col-12" type="submit">Delete</x-button>
-                                        </form>
-                                    @endif
-                                </div>
-                            </td>
+                            @include('layouts.includes.resource-table.td-actions.saved-resource')
                         </tr>
                     @endforeach
-                </x-table>
+                </x-table-resource>
             </x-card-body>
         </div>
     </div>
+
+    {{-- HIDDEN FORMS --}}
+    <x-form.update-importantresource-hidden></x-form.update-importantresource-hidden>
+    <x-form.destroy-savedresource-hidden></x-form.destroy-savedresource-hidden>
+    <x-form.destroy-resource-hidden></x-form.destroy-resource-hidden>
+
+    @section('script')
+        <script>
+            $('.destroyResourceHiddenSubmit').click(function() {
+                let form = $($(this).attr('data-form-target'))
+                let formRoute = form.attr('action')
+                let passoverData = $(this).attr('data-passover')
+                let input = form.find('input[name="resource_id"]')
+
+                input.val(passoverData)
+                form.attr('action', `${formRoute}/${passoverData}`)
+
+                form.submit()
+            })
+
+            $('.destroySavedresourceHiddenSubmit').click(function() {
+                let form = $($(this).attr('data-form-target'))
+                let formRoute = form.attr('action')
+                let passoverData = $(this).attr('data-passover')
+                let input = form.find('input[name="resource_id"]')
+
+                input.val(passoverData)
+                form.attr('action', `${formRoute}/${passoverData}`)
+
+                form.submit()
+            })
+
+            $('.updateImportantresourceHiddenSubmit').click(function() {
+                console.log('yes')
+                let form = $($(this).attr('data-form-target'))
+                let formRoute = form.attr('action')
+                let passoverData = $(this).attr('data-passover')
+                let input = form.find('input[name="resource_id"]')
+
+                input.val(passoverData)
+                form.attr('action', `${formRoute}/${passoverData}`)
+
+                form.submit()
+            })
+
+            $('#download-bulk').click(function(e) {
+                e.preventDefault()
+                let downloadBtn = $(this)
+                let table = $(this.closest('table'))
+                let checkboxes = table.find('th:first-child .check, td:first-child .check')
+                $(checkboxes).each(function() {
+                    if ($(this).is(":checked")) {
+                        $(this).closest('th, td').find(':hidden').removeAttr('disabled')
+                    } else {
+                        $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
+                    }
+                })
+
+                table.closest('form').submit();
+                checkboxes.prop('checked', false);
+                downloadBtn.removeClass('loading')
+            })
+
+            $('#check-all').change(function(e) {
+                let table = $(this.closest('table'))
+                let checkboxes = table.find('td:first-child .check')
+
+                if ($(this).is(':checked')) {
+                    checkboxes.prop('checked', true)
+                } else {
+                    checkboxes.prop('checked', false)
+                }
+            })
+
+            $('.check').change(function(e) {
+                let table = $(this.closest('table'))
+                let downloadBtn = table.find('#download-bulk')
+                let checkboxes = table.find('td:first-child .check')
+                let currentCheckbox = $(this)
+
+                if (checkboxes.filter(':checked').length > 0) {
+                    downloadBtn.removeClass('disabled')
+                    console.log('yes')
+                } else {
+                    downloadBtn.addClass('disabled')
+                }
+            })
+        </script>
+    @endsection
 </x-app-layout>

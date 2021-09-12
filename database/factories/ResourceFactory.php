@@ -23,9 +23,11 @@ class ResourceFactory extends Factory
      */
     public function definition()
     {
+        $randomUser = User::all()->random();
         return [
-            'course_id' => Course::all()->random(),
-            'user_id' => User::all()->random(),
+            'course_id' => Course::where('program_id', $randomUser->program_id)->get()->random(),
+            'user_id' => $randomUser,
+            'batch_id' => $this->faker->uuid(),
             'description' => $this->faker->text(50),
             'approved_at' => [now(), null][rand(0, 1)],
             'archived_at' => [now(), null][rand(0, 1)],

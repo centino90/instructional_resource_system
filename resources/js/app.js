@@ -8,7 +8,7 @@ $('.sidebar-menu-btn').click(function () {
     $('html').addClass('sidebar-toggled-hidden')
 });
 
-$('button[type="submit"], input[type="submit"]')
+$('button[type="submit"], input[type="submit"], button.submit')
     .click(function () {
         $(this).addClass('disabled loading');
     })

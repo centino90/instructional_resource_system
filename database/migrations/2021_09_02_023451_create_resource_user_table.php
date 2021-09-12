@@ -16,6 +16,7 @@ class CreateResourceUserTable extends Migration
         Schema::create('resource_user', function (Blueprint $table) {
             $table->foreignId('resource_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->uuid('batch_id');
             $table->boolean('is_important')->default(0);
 
             $table->primary(['resource_id', 'user_id']);

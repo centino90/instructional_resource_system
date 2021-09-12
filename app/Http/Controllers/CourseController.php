@@ -15,7 +15,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::orderBy('title')->get();
+        $courses = Course::where('program_id', auth()->user()->program_id)->orderBy('title')->get();
         return view('courses', compact('courses'));
     }
 
@@ -48,17 +48,17 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $resources = Resource::withTrashed()->get();
-        $resourcesWithinCourse = $resources->map(function ($resource) use ($course) {
+        $r = Resource::withTrashed()->get();
+        $resources = $r->map(function ($resource) use ($course) {
             return $resource->course_id == $course->id ? $resource : null;
         })->reject(function ($resource) {
             return empty($resource);
         });
-        $activities = $resourcesWithinCourse->map(function ($item, $key) {
+        $activities = $resources->map(function ($item, $key) {
             return $item->activities;
         })->flatten()->sortByDesc('created_at');
 
-        return view('show-course', compact(['course', 'resourcesWithinCourse', 'activities']));
+        return view('show-course', compact(['course', 'resources', 'activities']));
     }
 
     /**

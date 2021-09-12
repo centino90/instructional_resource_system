@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('resources', ResourceController::class);
     Route::get('resources/{resource}/download', [ResourceController::class, 'download'])->name('resources.download');
+    Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
+
     Route::resource('syllabi', SyllabusController::class);
     Route::resource('upload-temporary-files', UploadTemporaryFilesController::class);
 

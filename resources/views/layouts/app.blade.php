@@ -18,8 +18,7 @@
 <body class="font-sans antialiased">
     {{-- @include('layouts.topnav') --}}
     <button class="d-lg-none btn btn-dark position-fixed start-0 bottom-0 ms-3 mb-3 sidebar-menu-btn"
-        style="z-index: 100" type="button" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
+        style="z-index: 100" type="button" role="button" aria-controls="offcanvasExample">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
             class="feather feather-menu">

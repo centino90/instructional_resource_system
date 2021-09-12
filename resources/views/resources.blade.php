@@ -28,6 +28,11 @@
                 <a href="{{ route('resources.create') }}"><strong class="px-2">Go back to creating
                         resource?</strong></a>
             </x-alert-success>
+
+        @elseif(session()->get('status') == 'success')
+            <x-alert-success class="mb-3">
+                <strong>Success!</strong> {{ session()->get('message') }}
+            </x-alert-success>
         @endif
 
         <x-alert-warning>
@@ -38,86 +43,74 @@
 
     <div class="row">
         <div class="col-12 mb-3">
-            <x-card-body>
-                <x-table>
-                    <x-slot name="thead">
-                        <th>#</th>
-                        <th>File</th>
-                        <th>Description</th>
-                        <th>Last update</th>
-                        <th></th>
-                    </x-slot>
+            <x-table-resource id="resources-table">
+                @foreach ($resources as $resource)
+                    <tr>
+                        @include('layouts.includes.resource-table.td-checks')
 
-                    @foreach ($resources as $resource)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>
-                                <div class="text-muted">
-                                    <span class="text-muted">
-                                        Submitted by
-                                        @if ($resource->user_id != auth()->id())
-                                            <strong>
-                                                {{ ucwords($resource->users->first()->name ?? 'unknown user') }}
-                                            </strong>
-                                        @else
-                                            <strong>
-                                                me
-                                            </strong>
-                                        @endif
-                                    </span>
+                        @include('layouts.includes.resource-table.td-file')
 
-                                    @if ($resource->is_syllabus)
-                                        | <strong class="text-primary">
-                                            Syllabus
-                                        </strong>
-                                    @endif
+                        @include('layouts.includes.resource-table.td-course')
 
-                                    @isset($resource->getMedia()[0])
-                                        | <a href="{{ route('resources.download', $resource->id) }}">
-                                            <small>Download</small>
-                                        </a>
-                                    @endisset
+                        @include('layouts.includes.resource-table.td-lastupdate')
 
-                                    @if (!$resource->approved_at)
-                                        | <span class="badge rounded-pill bg-warning text-dark">
-                                            for approval
-                                        </span>
-                                    @endif
-                                </div>
-
-                                {{ $resource->getMedia()[0]->file_name ?? 'not available' }}
-                            </td>
-
-                            <td>{{ $resource->description }}</td>
-
-                            <td>{{ \Carbon\Carbon::parse($resource->updated_at)->format('M d Y') }}</td>
-
-                            <td>
-                                @if (!$resource->auth->first())
-                                    <x-form-post action="{{ route('saved-resources.store') }}" class="px-0"
-                                        method="post">
-                                        <x-input value="{{ $resource->id }}" name="resource_id" hidden></x-input>
-
-                                        <x-button class="btn-secondary col-12" type="submit">Save
-                                        </x-button>
-                                    </x-form-post>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </x-table>
-            </x-card-body>
+                        @include('layouts.includes.resource-table.td-actions.resource')
+                    </tr>
+                @endforeach
+            </x-table-resource>
         </div>
 
-        <div class="col-12 mb-3">
+        {{-- HIDDEN FORMS --}}
+        <x-form.store-savedresource-hidden></x-form.store-savedresource-hidden>
+
+        {{-- MODAL FORMS --}}
+        <div class="modal fade" id="saveResourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <x-form-post action="{{ route('saved-resources.store') }}" class="px-0 col">
+                            <x-input name="resource_id" hidden>
+                            </x-input>
+
+                            <x-button class="btn-secondary form-control" type="submit">Save
+                            </x-button>
+                        </x-form-post>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        <button type="button" class="btn btn-primary">Proceed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- <div class="col-12 mb-3">
             <h5>History log</h5>
 
             @foreach ($activities as $activity)
                 <span>
-                    <b>{{ $activity->causer->name ?? 'unknown user' }}</b>
+                    @if ($resource->user_id != auth()->id())
+                        <strong>
+                            {{ isset($activity->causer->name) ? ucwords($activity->causer->name) : 'Unknown user' }}
+                        </strong>
+                    @else
+                        <strong>
+                            You
+                        </strong>
+                    @endif
+
                     {{ $activity->description }}
                     {{ $activity->subject->getMedia()[0]->file_name ?? 'not available' }}
-                    <small class="badge rounded-pill bg-success mx-1">{{ $loop->index == 0 ? 'latest' : '' }}</small>
+                    <small
+                        class="badge rounded-pill bg-success mx-1">{{ $activity->changes['attributes']['batch_id'] == $activities[0]->changes['attributes']['batch_id'] ? 'latest' : '' }}</small>
+
                 </span>
 
                 <div class="lh-1 mb-1">
@@ -130,6 +123,81 @@
                     <a href="#">Click to view more</a>
                 </small>
             </div>
-        </div>
+        </div> --}}
     </div>
+
+    @section('script')
+        <script>
+            // var saveResourceModal = document.getElementById('saveResourceModal')
+            // saveResourceModal.addEventListener('show.bs.modal', function(event) {
+            //     // Button that triggered the modal
+            //     var button = event.relatedTarget
+            //     // Extract info from data-bs-* attributes
+            //     var recipient = button.getAttribute('data-bs-resource')
+            //     // If necessary, you could initiate an AJAX request here
+            //     // and then do the updating in a callback.
+            //     //
+            //     // Update the modal's content.
+            //     // var modalTitle = saveResourceModal.querySelector('.modal-title')
+            //     // var modalBodyInput = saveResourceModal.querySelector('.modal-bod input')
+            //     let input = $(saveResourceModal).find('input[name="resource_id"]');
+            //     input.val(recipient)
+
+            //     // modalTitle.textContent = 'New message to ' + recipient
+            //     // modalBodyInput.value = recipient
+            // })
+
+            $('.storeSavedresourceHiddenSubmit').click(function() {
+                let form = $($(this).attr('data-form-target'))
+                let passoverData = $(this).attr('data-passover')
+                let input = form.find('input[name="resource_id"]')
+                input.val(passoverData)
+
+                form.submit()
+            })
+
+            $('#download-bulk').click(function(e) {
+                e.preventDefault()
+                let downloadBtn = $(this)
+                let table = $(this.closest('table'))
+                let checkboxes = table.find('th:first-child .check, td:first-child .check')
+                $(checkboxes).each(function() {
+                    if ($(this).is(":checked")) {
+                        $(this).closest('th, td').find(':hidden').removeAttr('disabled')
+                    } else {
+                        $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
+                    }
+                })
+
+                table.closest('form').submit();
+                checkboxes.prop('checked', false);
+                downloadBtn.removeClass('loading')
+            })
+
+            $('#check-all').change(function(e) {
+                let table = $(this.closest('table'))
+                let checkboxes = table.find('td:first-child .check')
+
+                if ($(this).is(':checked')) {
+                    checkboxes.prop('checked', true)
+                } else {
+                    checkboxes.prop('checked', false)
+                }
+            })
+
+            $('.check').change(function(e) {
+                let table = $(this.closest('table'))
+                let downloadBtn = table.find('#download-bulk')
+                let checkboxes = table.find('td:first-child .check')
+                let currentCheckbox = $(this)
+
+                if (checkboxes.filter(':checked').length > 0) {
+                    downloadBtn.removeClass('disabled')
+                    console.log('yes')
+                } else {
+                    downloadBtn.addClass('disabled')
+                }
+            })
+        </script>
+    @endsection
 </x-app-layout>

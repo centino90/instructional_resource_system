@@ -176,7 +176,8 @@
 }
 
 // loading
-[type="submit"].loading {
+[type="submit"].loading,
+.submit.loading {
     &::before {
         content: "⥁";
         display: inline-block;

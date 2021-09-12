@@ -44,65 +44,23 @@
         <div class="col-12 mb-3">
             <div class="d-flex align-items-center">
                 <h5>Resources submitted in this course</h5>
-                <a href="{{ route('resources.download', ['all', 'course_id' => $course->id]) }}"
-                    class="btn btn-primary ms-auto">Download all</a>
             </div>
 
-            <x-table>
-                <x-slot name="thead">
-                    <th>#</th>
-                    <th>File</th>
-                    <th>Description</th>
-                    <th>Last update</th>
-                    <th></th>
-                </x-slot>
-
-                @foreach ($resourcesWithinCourse as $resource)
+            <x-table-resource id="resources-table">
+                @foreach ($resources as $resource)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>
-                            <div class="text-muted">
-                                <span class="text-muted">
-                                    Submitted by
-                                    @if ($resource->user_id != auth()->id())
-                                        <strong>
-                                            {{ ucwords($resource->users[0]->name) }}
-                                        </strong>
-                                    @else
-                                        <strong>
-                                            me
-                                        </strong>
-                                    @endif
-                                </span>
+                        @include('layouts.includes.resource-table.td-checks')
 
-                                @if ($resource->is_syllabus)
-                                    | <strong class="text-primary">
-                                        Syllabus
-                                    </strong>
-                                @endif
+                        @include('layouts.includes.resource-table.td-file')
 
-                                @isset($resource->getMedia()[0])
-                                    | <a href="{{ route('resources.download', $resource->id) }}">
-                                        <small>Download</small>
-                                    </a>
-                                @endisset
+                        @include('layouts.includes.resource-table.td-course')
 
-                                @if (!$resource->approved_at)
-                                    | <span class="badge rounded-pill bg-warning text-dark">
-                                        for approval
-                                    </span>
-                                @endif
-                            </div>
-                            {{ $resource->getMedia()[0]->file_name ?? 'not available' }}
-                        </td>
-                        <td>{{ $resource->description }}</td>
-                        <td>
-                            {{ \Carbon\Carbon::parse($resource->updated_at)->format('M d Y') }}
-                        </td>
-                        <td>action</td>
+                        @include('layouts.includes.resource-table.td-lastupdate')
+
+                        @include('layouts.includes.resource-table.td-actions.resource')
                     </tr>
                 @endforeach
-            </x-table>
+            </x-table-resource>
         </div>
 
         <div class="col-12 mb-3">
@@ -111,7 +69,7 @@
                 <span>
                     <b>{{ $activity->causer->name ?? 'unknown user' }}</b>
                     {{ $activity->description }}
-                    {{ $activity->subject->getMedia()[0]->file_name }}
+                    {{ $activity->subject->getMedia()[0]->file_name ?? 'unknown file' }}
                     <small class="badge rounded-pill bg-success mx-1">{{ $loop->index == 0 ? 'latest' : '' }}</small>
                 </span>
 
@@ -121,5 +79,64 @@
                 </div>
             @endforeach
         </div>
+
+        {{-- HIDDEN FORMS --}}
+        <x-form.store-savedresource-hidden></x-form.store-savedresource-hidden>
     </div>
+
+    @section('script')
+        <script>
+            $('.storeSavedresourceHiddenSubmit').click(function() {
+                let form = $($(this).attr('data-form-target'))
+                let passoverData = $(this).attr('data-passover')
+                let input = form.find('input[name="resource_id"]')
+                input.val(passoverData)
+
+                form.submit()
+            })
+
+            $('#download-bulk').click(function(e) {
+                e.preventDefault()
+                let downloadBtn = $(this)
+                let table = $(this.closest('table'))
+                let checkboxes = table.find('th:first-child .check, td:first-child .check')
+                console.log(checkboxes)
+                $(checkboxes).each(function() {
+                    if ($(this).is(":checked")) {
+                        $(this).closest('th, td').find(':hidden').removeAttr('disabled')
+                    } else {
+                        $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
+                    }
+                })
+
+                table.closest('form').submit();
+                checkboxes.prop('checked', false);
+                downloadBtn.removeClass('loading')
+            })
+
+            $('#check-all').change(function(e) {
+                let table = $(this.closest('table'))
+                let checkboxes = table.find('td:first-child .check')
+
+                if ($(this).is(':checked')) {
+                    checkboxes.prop('checked', true)
+                } else {
+                    checkboxes.prop('checked', false)
+                }
+            })
+
+            $('.check').change(function(e) {
+                let table = $(this.closest('table'))
+                let downloadBtn = table.find('#download-bulk')
+                let checkboxes = table.find('td:first-child .check')
+                let currentCheckbox = $(this)
+
+                if (checkboxes.filter(':checked').length > 0) {
+                    downloadBtn.removeClass('disabled')
+                } else {
+                    downloadBtn.addClass('disabled')
+                }
+            })
+        </script>
+    @endsection
 </x-app-layout>

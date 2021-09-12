@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSavedResourceRequest;
 use App\Models\Resource;
+use App\Models\ResourceUser;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use PDOException;
 
 class SavedResourceController extends Controller
@@ -17,8 +19,16 @@ class SavedResourceController extends Controller
      */
     public function index()
     {
-        $savedResources = auth()->user()->resources()->with(['course', 'media'])
-            ->orderByDesc('updated_at')->get();
+
+        $savedResources = auth()->user()->resources()->with(['course', 'media', 'users'])
+            ->orderByPivot('updated_at', 'desc')->get();
+        // $savedResources = ResourceUser::where('user_id', 1)->get();
+        // $savedResources = Resource::all();
+        // $r = $savedResources->map(function ($item, $key) {
+        //     return $item->resource;
+        // });
+
+        // dd($savedResources->first());
 
         return view('saved-resources')->with(['resources' => $savedResources]);
     }
@@ -43,15 +53,17 @@ class SavedResourceController extends Controller
     {
         try {
             $resource = Resource::withTrashed()->findOrFail($request->resource_id);
-            auth()->user()->resources()->attach($request->resource_id);
+            auth()->user()->resources()->attach($resource->id, ['batch_id' => Str::uuid()]);
         } catch (\Throwable $e) {
-            throw abort(404);
+            throw $e;
         }
 
+
+        $filename = $resource->getMedia()[0]->file_name ?? 'unknown file';
         return redirect()->back()
             ->with([
                 'status' => 'success',
-                'message' => $resource->getMedia()[0]->file_name . ' was saved successfully'
+                'message' => $filename . ' was saved successfully'
             ]);
     }
 

@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Resource;
 use App\Models\TemporaryUpload;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -28,10 +29,22 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        $resources = Resource::withTrashed()->orderByDesc('created_at')->get();
-        $activities = $resources->map(function ($item, $key) {
-            return $item->activities;
-        })->flatten()->sortByDesc('created_at')->take(5);
+        $resources = Resource::with(['activities', 'media', 'users', 'auth', 'course'])
+            ->whereRelation('course', 'program_id', '=', auth()->user()->program_id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $activities = Activity::with('subject', 'causer', 'subject.media')->where('subject_type', 'App\Models\Resource')->orderByDesc('created_at')->limit(5)->get();
+
+
+        // ->flatten()
+        // ->sortByDesc('created_at')
+        // ->take(5);
+
+        // dd($activities->first()->subject);
+
+        // dd(Activity::with('subject'));
+        // dd(Activity::with('resource')->first());
 
         // $r = Resource::find(1);
         // $r->description = 'test1';
@@ -53,9 +66,12 @@ class ResourceController extends Controller
             abort(403);
         }
 
+        $courses = Course::where('program_id', auth()->user()->program_id)->get();
+
         return view('create-resource')->with([
             'resourceLists' => $request->resourceLists ?? 1,
-            'notifications' => auth()->user()->unreadNotifications
+            'notifications' => auth()->user()->unreadNotifications,
+            'courses' => $courses
         ]);
     }
 
@@ -67,41 +83,51 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request)
     {
-        if ($request->user()->cannot('create', Resource::class)) {
-            abort(403);
-        }
+        abort_if(
+            $request->user()->cannot('create', Resource::class),
+            403
+        );
 
-        foreach ($request->file as $file) {
-            $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
+        // course not found
+        Course::where('program_id', auth()->user()->program_id)->findOrFail($request->course_id);
 
-            if ($temporaryFile) {
-                $r = Resource::create([
-                    'course_id' => $request->course_id,
-                    'user_id' => auth()->id(),
-                    'description' => $request->description
-                ]);
+        try {
+            $batchId = Str::uuid();
+            foreach ($request->file as $file) {
+                $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
 
-                $r->users()->attach($r->user_id);
+                if ($temporaryFile) {
+                    $r = Resource::create([
+                        'course_id' => $request->course_id,
+                        'user_id' => auth()->id(),
+                        'batch_id' => $batchId,
+                        'description' => $request->description
+                    ]);
 
-                $r->addMedia(storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name))
-                    ->toMediaCollection();
-                rmdir(storage_path('app/public/resource/tmp/' . $file));
+                    $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
 
-                event(new ResourceCreated($r));
+                    $r->addMedia(storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name))
+                        ->toMediaCollection();
+                    rmdir(storage_path('app/public/resource/tmp/' . $file));
 
-                $temporaryFile->delete();
+                    event(new ResourceCreated($r));
+
+                    $temporaryFile->delete();
+                }
             }
-        }
 
-        if ($request->check_stay) {
+            if ($request->check_stay) {
+                return redirect()
+                    ->route('resources.create')
+                    ->with('success', 'Resource was created successfully');
+            }
+
             return redirect()
-                ->route('resources.create')
+                ->route('resources.index')
                 ->with('success', 'Resource was created successfully');
+        } catch (\Throwable $th) {
+            throw $th;
         }
-
-        return redirect()
-            ->route('resources.index')
-            ->with('success', 'Resource was created successfully');
     }
 
     /**
@@ -192,5 +218,28 @@ class ResourceController extends Controller
             Resource::withTrashed()->find($mediaItem)->getMedia()[0]->getPath(),
             Resource::withTrashed()->find($mediaItem)->getMedia()[0]->file_name
         );
+    }
+
+    public function bulkDownload(Request $request)
+    {
+        if (!isset($request->resource_no)) {
+            return redirect()->route('resources.index');
+            // add error alert
+        }
+
+        $resources = Resource::withTrashed()->whereIn('id', $request->resource_no)
+            ->whereHas('media', function ($query) {
+                $query->whereNotNull('file_name');
+            })->get();
+        $zipFileName = auth()->user()->program->title . '-files-' . time() . '.zip';
+
+        $resourcesWithinCourse = $resources->map(function ($resource) {
+            return $resource->getMedia()[0];
+        })->reject(function ($resource) {
+            return empty($resource);
+        });
+
+        return MediaStream::create($zipFileName)
+            ->addMedia($resourcesWithinCourse);
     }
 }

@@ -66,10 +66,10 @@
 
                     <div class="col-12 col-md-3">
                         <x-input-select :name="'course_id'" required>
-                            <option value="1">Course 1</option>
-                            <option value="2">Course 2</option>
-                            <option value="3">Course 3</option>
-                            <option value="4">Course 4</option>
+                            @foreach ($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->title }} [{{ $course->code }}]
+                                </option>
+                            @endforeach
                         </x-input-select>
                     </div>
 
