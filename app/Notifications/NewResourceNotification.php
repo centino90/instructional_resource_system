@@ -49,8 +49,10 @@ class NewResourceNotification extends Notification
     {
         return [
             'user' => $this->resource->users->first()->name,
+            'resource_id' => $this->resource->id,
             'file_name' => $this->resource->getMedia()[0]->file_name,
-            'program_id' => $this->resource->course->program_id
+            'program_id' => $this->resource->course->program_id,
+            'course_code' => $this->resource->course->code
         ];
     }
 }

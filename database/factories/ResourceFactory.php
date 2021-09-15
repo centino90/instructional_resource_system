@@ -30,8 +30,8 @@ class ResourceFactory extends Factory
             'batch_id' => $this->faker->uuid(),
             'description' => $this->faker->text(50),
             'approved_at' => [now(), null][rand(0, 1)],
-            'archived_at' => [now(), null][rand(0, 1)],
-            'deleted_at' => [now(), null][rand(0, 1)]
+            // 'archived_at' => [now(), null][rand(0, 1)],
+            // 'deleted_at' => [now(), null][rand(0, 1)]
         ];
     }
 }

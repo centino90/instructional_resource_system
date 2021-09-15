@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,13 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        view()->composer('*', function ($view) {
+            if (auth()->check()) {
+                $notifications = auth()->user()->unreadNotifications;
+                $view->with('notifications', $notifications);
+            }
+        });
 
         // Gate::define('superadmin-view', function (User $user) {
         //     return $user->role_id == Role::SUPER_ADMIN;

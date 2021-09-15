@@ -3172,6 +3172,10 @@ $('.sidebar-menu-btn').click(function () {
 $('button[type="submit"], input[type="submit"], button.submit').click(function () {
   $(this).addClass('disabled loading');
 });
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new Bootstrap.Tooltip(tooltipTriggerEl);
+});
 
 function createPdf(_x) {
   return _createPdf.apply(this, arguments);

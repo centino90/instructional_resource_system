@@ -20,35 +20,18 @@
                 <div class="form-group">
                     <x-label for="username" :value="__('Username')" />
 
-                    <x-input id="username" type="text" name="username" :value="old('username')" required autofocus />
+                    <x-input id="username" type="text" name="username" :value="old('username')" autofocus />
                 </div>
 
                 <!-- Password -->
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <x-label for="password" :value="__('Password')" />
 
-                    <x-input id="password" type="password" name="password" required autocomplete="current-password" />
+                    <x-input id="password" type="password" name="password" autocomplete="current-password" />
                 </div>
 
-                <!-- Remember Me -->
-                <div class="form-group">
-                    <div class="form-check">
-                        <x-checkbox id="remember_me" name="remember" />
-
-                        <label class="form-check-label" for="remember_me">
-                            {{ __('Remember Me') }}
-                        </label>
-                    </div>
-                </div>
-
-                <div class="mb-0">
+                <div class="mt-3">
                     <div class="d-flex justify-content-end align-items-baseline">
-                        @if (Route::has('password.request'))
-                            <a class="text-muted me-3 text-decoration-none" href="{{ route('register') }}">
-                                {{ __('Not registered yet?') }}
-                            </a>
-                        @endif
-
                         <x-button :class="'btn-dark'" :type="'submit'">
                             {{ __('Log in') }}
                         </x-button>

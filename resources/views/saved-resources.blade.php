@@ -72,7 +72,7 @@
         <div class="col-12">
             <x-card-body>
                 <x-table-resource id="resources-table">
-                    @foreach ($resources as $resource)
+                    @forelse ($resources as $resource)
                         <tr>
                             @include('layouts.includes.resource-table.td-checks')
 
@@ -84,7 +84,11 @@
 
                             @include('layouts.includes.resource-table.td-actions.saved-resource')
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5">There are no resources yet in this directory.</td>
+                        </tr>
+                    @endforelse
                 </x-table-resource>
             </x-card-body>
         </div>
@@ -93,20 +97,53 @@
     {{-- HIDDEN FORMS --}}
     <x-form.update-importantresource-hidden></x-form.update-importantresource-hidden>
     <x-form.destroy-savedresource-hidden></x-form.destroy-savedresource-hidden>
-    <x-form.destroy-resource-hidden></x-form.destroy-resource-hidden>
+    {{-- <x-form.destroy-resource-hidden></x-form.destroy-resource-hidden> --}}
+
+
+    <div class="modal" id="deleteResourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <x-form.destroy-resource-hidden></x-form.destroy-resource-hidden>
+                    <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse perferendis dignissimos ullam
+                        vitae hic doloribus!</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    <button type="button" class="btn btn-danger submit">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @section('script')
         <script>
-            $('.destroyResourceHiddenSubmit').click(function() {
-                let form = $($(this).attr('data-form-target'))
+            $('#deleteResourceModal').on('shown.bs.modal', function(event) {
+                let triggerButton = $(event.relatedTarget)
+                let form = $(triggerButton.attr('data-form-target'))
                 let formRoute = form.attr('action')
-                let passoverData = $(this).attr('data-passover')
+                let passoverData = $(triggerButton).attr('data-passover')
                 let input = form.find('input[name="resource_id"]')
-
                 input.val(passoverData)
                 form.attr('action', `${formRoute}/${passoverData}`)
 
-                form.submit()
+                $(this).find('button.submit').click(function() {
+                    form.submit()
+                })
+
+                $('#deleteResourceModal').on('hidden.bs.modal', function() {
+                    triggerButton.removeClass(['loading', 'disabled'])
+
+                    resetFormAction()
+                })
+
+                let resetFormAction = () => form.attr('action', `${formRoute}`)
             })
 
             $('.destroySavedresourceHiddenSubmit').click(function() {

@@ -16,11 +16,10 @@ class ProgramSeeder extends Seeder
     public function run()
     {
         Program::factory()
-            ->count(3)
+            ->count(2)
             ->state(new Sequence(
                 ['title' => 'BSIT'],
-                ['title' => 'BSHM'],
-                ['title' => 'BSBA']
+                ['title' => 'BSHM']
             ))
             ->create();
     }

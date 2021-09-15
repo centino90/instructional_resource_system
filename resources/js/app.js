@@ -13,6 +13,11 @@ $('button[type="submit"], input[type="submit"], button.submit')
         $(this).addClass('disabled loading');
     })
 
+let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new Bootstrap.Tooltip(tooltipTriggerEl)
+})
+
 async function createPdf(inputs) {
     var docDefinition = {
         content: [

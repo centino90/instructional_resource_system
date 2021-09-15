@@ -110,7 +110,7 @@ class ResourceController extends Controller
                         ->toMediaCollection();
                     rmdir(storage_path('app/public/resource/tmp/' . $file));
 
-                    event(new ResourceCreated($r));
+                    // event(new ResourceCreated($r));
 
                     $temporaryFile->delete();
                 }
@@ -220,6 +220,21 @@ class ResourceController extends Controller
         );
     }
 
+    public function downloadAllByCourse(Request $request)
+    {
+        $zipFileName = Course::findOrFail($request->course_id)->title . '-files-' . time() . '.zip';
+        $resources = Resource::where('course_id', $request->course_id)->get();
+
+        $resourcesWithinCourse = $resources->map(function ($resource) use ($request) {
+            return $resource->getMedia()[0];
+        })->reject(function ($resource) {
+            return empty($resource);
+        });
+
+        return MediaStream::create($zipFileName)
+            ->addMedia($resourcesWithinCourse);
+    }
+
     public function bulkDownload(Request $request)
     {
         if (!isset($request->resource_no)) {
@@ -241,5 +256,17 @@ class ResourceController extends Controller
 
         return MediaStream::create($zipFileName)
             ->addMedia($resourcesWithinCourse);
+    }
+
+    public function getResourcesJson(Request $request)
+    {
+        $resources = Resource::where('course_id', $request->course_id)->get();
+        $resourceMedia = $resources->map(function ($resource) {
+            return $resource->getMedia()[0];
+        })->reject(function ($resource) {
+            return empty($resource);
+        });
+
+        return response()->json(['resources' => $resourceMedia]);
     }
 }

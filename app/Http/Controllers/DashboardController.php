@@ -20,7 +20,17 @@ class DashboardController extends Controller
         $thirdYearCourses = Course::where('program_id', auth()->user()->program_id)->where('year_level', 3)->with('resources')->get();
         $fourthYearCourses = Course::where('program_id', auth()->user()->program_id)->where('year_level', 4)->with('resources')->get();
 
+        $yearLevels = Course::where('program_id', auth()->user()->program_id)
+            ->with('resources')
+            ->get()
+            ->sortBy(['year_level', 'semester', 'term', 'title'])
+            ->groupBy(['year_level', function ($item) {
+                return $item['semester'];
+            }], $preserveKeys = false);
+
+        // dd($yearLevels);
+
         // dd($secondYearCourses);
-        return view('dashboard', compact('secondYearCourses'));
+        return view('dashboard', compact('yearLevels'));
     }
 }

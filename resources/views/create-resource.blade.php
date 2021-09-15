@@ -129,17 +129,19 @@
                     $(this).addClass('is-valid')
                 })
 
+                $('#profile-tab, #home-tab').click(function(event) {
+                    showLeaveConfirmationCheck(event);
+                })
+
                 function showLeaveConfirmationCheck(event) {
-                    var required = $('form input ,form textarea, form select').filter(
-                        ':not([type="checkbox"]):not([type="hidden"]):not([name="course_id"]):not([type="submit"])');
+                    var required = $('.filepond--data input:hidden');
                     var allRequired = false;
 
-                    required.each(function(index, value) {
-
-                        if ($(value).val().length > 0) {
+                    required.each(function() {
+                        if ($(this).val()) {
                             allRequired = true;
                         }
-                    });
+                    })
 
                     if (allRequired == true) {
                         let conf = confirm('Are you sure you want to leave this page without saving your changes?');
@@ -205,6 +207,7 @@
                         filepondRoot.removeClass('is-invalid');
                     });
                 });
+
             })(jQuery);
         </script>
     @endsection

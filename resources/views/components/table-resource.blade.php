@@ -1,7 +1,7 @@
 <form action="{{ route('resources.bulkDownload') }}" method="post" class="p-0">
     @csrf
 
-    <table {{ $attributes->merge(['class' => 'table table-striped caption-top']) }}>
+    <table {{ $attributes->merge(['class' => 'table table-striped table-hover caption-top']) }}>
         <caption>
             <x-button class="btn-primary disabled" type="submit" id="download-bulk">
                 Download selected rows

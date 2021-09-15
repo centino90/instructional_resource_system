@@ -10,6 +10,7 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\UploadTemporaryFilesController;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
@@ -32,14 +33,31 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('resources', ResourceController::class);
-    Route::get('resources/{resource}/download', [ResourceController::class, 'download'])->name('resources.download');
+    Route::get('resources/download/{resource}', [ResourceController::class, 'download'])->name('resources.download');
+    Route::post('resources/download-all-by-course', [ResourceController::class, 'downloadAllByCourse'])->name('resources.downloadAllByCourse');
     Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
+    Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
     Route::resource('syllabi', SyllabusController::class);
     Route::resource('upload-temporary-files', UploadTemporaryFilesController::class);
 
     Route::resource('courses', CourseController::class);
     Route::resource('archive', ArchiveController::class);
+    Route::get('notifications', function (HttpRequest $request) {
+        if ($request->view == 'read-notifications') {
+            return view('readnotifications')->with('readNotifications', auth()->user()->notifications);
+        }
+        return view('notifications');
+    })->name('notifications.index');
+    Route::put('notifications/{notification}', function ($notificationId) {
+        auth()->user()
+            ->unreadNotifications
+            ->when($notificationId, function ($query) use ($notificationId) {
+                return $query->where('id', $notificationId);
+            })
+            ->markAsRead();
+        return response()->json(['status' => 200, 'message' => 'success']);
+    })->name('notifications.update');
     // saved resources
     Route::resource('saved-resources', SavedResourceController::class);
     Route::resource('pending-resources', PendingResourceController::class);
