@@ -1,5 +1,4 @@
 <x-app-layout>
-    i am legend!
     <x-slot name="breadcrumb">
         <x-breadcrumb>
             <li class="breadcrumb-item invisible">Home</li>
