@@ -22,12 +22,12 @@
 
     <div class="my-4">
         @if (session()->exists('success'))
-        <x-alert-success class="mb-3">
-            {{ session()->get('success') }}
+            <x-alert-success class="mb-3">
+                {{ session()->get('success') }}
 
-            <a href="{{ route('resources.create') }}"><strong class="px-2">Go back to creating
-                    resource?</strong></a>
-        </x-alert-success>
+                <a href="{{ route('resources.create') }}"><strong class="px-2">Go back to creating
+                        resource?</strong></a>
+            </x-alert-success>
         @endif
 
         <x-alert-warning>
@@ -40,11 +40,11 @@
         <div class="col-12">
             <x-card-body>
                 <x-table class="">
-                    <x-slot name="thead">
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                    <x-slot name=" thead">
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
                     </x-slot>
 
                     <tr>
@@ -68,7 +68,7 @@
 
                     </tr>
                 </x-table>
- 
+
             </x-card-body>
         </div>
 
