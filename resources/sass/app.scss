@@ -1,16 +1,14 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
-
+@import "variables";
 
 // Bootstrap Configuration
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/utilities";
-
 
 // Layout & components
 @import "~bootstrap/scss/root";
@@ -45,15 +43,14 @@
 @import "~bootstrap/scss/offcanvas";
 @import "~bootstrap/scss/placeholders";
 
-
 // Helpers
 @import "~bootstrap/scss/helpers";
 
 // Utilities
 @import "~bootstrap/scss/utilities/api";
 
-// scss-docs-end import-stack
-
+// plugin css
+@import "~filepond/dist/filepond.min.css";
 
 // Custom
 @import "custom";

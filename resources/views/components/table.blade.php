@@ -1,4 +1,4 @@
-<table {{ $attributes->merge(['class' => 'table']) }}>
+<table {{ $attributes->merge(['class' => 'table align-middle']) }}>
     <thead>
         <tr>
             {{ $thead }}

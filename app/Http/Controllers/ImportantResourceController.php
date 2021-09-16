@@ -76,20 +76,33 @@ class ImportantResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //return DB::select("select * from resource_user");
-        //return "Update ".$id;
-        // $resource_user = ResourceUser::all();
+        try {
+            $resource = Resource::withTrashed()->findOrfail($id);
+            $message = 'was added to importants successfully';
 
-        // $resource_user = ResourceUser::find($id);
-        //$resource_user->user_id = $request->$id;
+            if (!ResourceUser::where('resource_id', $id)->first()->is_important) {
+                auth()->user()->resources()
+                    ->updateExistingPivot($id, [
+                        'is_important' => true
+                    ]);
+            } else {
+                auth()->user()->resources()
+                    ->updateExistingPivot($id, [
+                        'is_important' => false
+                    ]);
 
-        // return ResourceUser::all('saved-resources');
-        // return redirect()->route('saved-resources');
+                $message = 'was removed from importants successfully';
+            }
+        } catch (\Throwable $e) {
+            throw $e;
+        }
 
-        // $resource_user = ResourceUser::find($id);
-        //return view("saved-resources")->with("resource_user", $resource_user);
-
-        return "saved-resources" . $id;
+        return redirect()->back()
+            ->with([
+                'status' => 'success-update-saved',
+                'message' => $resource->getMedia()[0]->file_name . ' ' . $message,
+                'resource_id' => $id
+            ]);
     }
 
 

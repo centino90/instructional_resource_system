@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ResourceCreated;
 use App\Http\Requests\StoreSyllabusRequest;
+use App\Models\Course;
 use App\Models\Resource;
 use App\Models\Syllabus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade as PDF;
 use Dompdf\Dompdf;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
 class SyllabusController extends Controller
@@ -125,17 +128,16 @@ class SyllabusController extends Controller
                 ->withInput();
         }
 
-        $newFileName = date('Ymd') . '-' . time() . '.pdf';
-
+        $newFileName = 'syllabus-' . date('Ymd') . '-' . time() . '.pdf';
         $r = Resource::create([
-            'file' => $newFileName,
-            'course_id' => 1,
+            'course_id' => Course::where('program_id', auth()->user()->program_id)->first()->id,
             'user_id' => auth()->id(),
-            'description' => 'lorem 5',
+            'batch_id' => Str::uuid(),
+            'description' => 'lorem',
             'is_syllabus' => 1,
-            'approved_at' => null,
-            'archived_at' => null
         ]);
+
+        $r->users()->attach($r->user_id, ['batch_id' => $r->batch_id]);
 
         $merged = collect($validator->validated())->merge(['resource_id' => $r->id]);
         $s = Syllabus::create(
@@ -143,7 +145,12 @@ class SyllabusController extends Controller
         );
 
         $pdf = PDF::loadView('pdf.invoice', ['data' => $s])->stream();
-        Storage::put('public/' . $newFileName, $pdf);
+
+        $r->addMediaFromStream($pdf)
+            ->usingFileName($newFileName)
+            ->toMediaCollection();
+
+        event(new ResourceCreated($r));
 
         if ($request->check_stay) {
             return redirect()
@@ -164,7 +171,7 @@ class SyllabusController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('show-syllabus');
     }
 
     /**

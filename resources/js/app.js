@@ -8,6 +8,16 @@ $('.sidebar-menu-btn').click(function () {
     $('html').addClass('sidebar-toggled-hidden')
 });
 
+$('button[type="submit"], input[type="submit"], button.submit')
+    .click(function () {
+        $(this).addClass('disabled loading');
+    })
+
+let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new Bootstrap.Tooltip(tooltipTriggerEl)
+})
+
 async function createPdf(inputs) {
     var docDefinition = {
         content: [

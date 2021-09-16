@@ -17,11 +17,12 @@ class RoleSeeder extends Seeder
     public function run()
     {
         Role::factory()
-            ->count(3)
+            ->count(4)
             ->state(new Sequence(
-                ['name' => 'admin'],
-                ['name' => 'teacher'],
-                ['name' => 'secretary']
+                ['name' => 'SUPER_ADMIN'],
+                ['name' => 'ADMIN'],
+                ['name' => 'SECRETARY'],
+                ['name' => 'TEACHER']
             ))
             ->create();
     }

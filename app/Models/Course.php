@@ -21,4 +21,14 @@ class Course extends Model
             ->withPivot('is_manager')
             ->as('course_subscriptions');
     }
+
+    public function resources()
+    {
+        return $this->hasMany(Resource::class);
+    }
+
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
+    }
 }

@@ -9,7 +9,12 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['label'];
+    protected $fillable = ['name'];
+
+    public const SUPER_ADMIN = 1;
+    public const ADMIN = 2;
+    public const SECRETARY = 3;
+    public const TEACHER = 4;
 
     public function users()
     {
