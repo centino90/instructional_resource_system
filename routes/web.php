@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('archive', ArchiveController::class);
     Route::get('notifications', function (HttpRequest $request) {
         if ($request->view == 'read-notifications') {
-            return view('readnotifications')->with('readNotifications', auth()->user()->notifications);
+            return view('readnotifications')->with('readNotifications', auth()->user()->notifications()->whereNotNull('read_at')->get());
         }
         return view('notifications');
     })->name('notifications.index');
