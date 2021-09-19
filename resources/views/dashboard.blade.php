@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="breadcrumb">
         <x-breadcrumb>
-            <li class="breadcrumb-item invisible">Home</li>
+            <li class="breadcrumb-item invisible">Dashboard Calo</li>
         </x-breadcrumb>
     </x-slot>
 
