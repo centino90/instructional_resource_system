@@ -1,17 +1,22 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
+            <div class="card-body">
                 <x-application-logo width="82" />
-            </a>
+                <h1 class="text-light">Online Instructional Resource System</h1>
+            </div>
         </x-slot>
 
-        <div class="card-body">
+        <div class="card-body py-5">
             <!-- Session Status -->
             <x-auth-session-status class="mb-3" :status="session('status')" />
 
             <!-- Validation Errors -->
             <x-auth-validation-errors class="mb-3" :errors="$errors" />
+
+            <div class="alert alert-info">
+                Login using the login credentials given by your program dean
+            </div>
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
