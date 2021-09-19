@@ -78,7 +78,7 @@
         </ul>
 
         <x-sidebar-heading>
-            <span>Saved resources</span>
+            <span>My resources</span>
             <a class="link-secondary" href="{{ route('resources.create') }}" aria-label="Add a new report"
                 title="Create resource">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" fill="none"
@@ -102,10 +102,10 @@
                     <line x1="16" y1="17" x2="8" y2="17"></line>
                     <polyline points="10 9 9 9 8 9"></polyline>
                 </svg>
-                My resources
+                Saved resources
             </x-nav-link>
 
-            {{-- <x-nav-link href="pending-resources.index">
+            <x-nav-link href="pending-resources.index">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="feather feather-alert-octagon">
@@ -124,7 +124,7 @@
                         points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
                 Important resources
-            </x-nav-link> --}}
+            </x-nav-link>
 
             <x-nav-link href="deleted-resources.index">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
