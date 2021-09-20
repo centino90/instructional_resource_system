@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
 class PendingResourceController extends Controller
@@ -45,7 +46,8 @@ class PendingResourceController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('show-pending-resource')
+            ->with('resource', Resource::whereNull('approved_at')->find($id));
     }
 
     /**

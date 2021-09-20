@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-sm-12 col-md-8 col-lg-8 my-5">
             <div class="row">
-                <div class="col-6 card bg-dark rounded-0 rounded-start">
+                <div class="col-6 card bg-dark bg-gradient rounded-0 rounded-start">
                     {{ $logo }}
                 </div>
 

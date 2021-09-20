@@ -26,6 +26,8 @@
                     <x-label for="username" :value="__('Username')" />
 
                     <x-input id="username" type="text" name="username" :value="old('username')" autofocus />
+
+                    <x-input-error :for="'username'"></x-input-error>
                 </div>
 
                 <!-- Password -->
@@ -33,11 +35,13 @@
                     <x-label for="password" :value="__('Password')" />
 
                     <x-input id="password" type="password" name="password" autocomplete="current-password" />
+
+                    <x-input-error :for="'password'"></x-input-error>
                 </div>
 
                 <div class="mt-3">
-                    <div class="d-flex justify-content-end align-items-baseline">
-                        <x-button :class="'btn-dark'" :type="'submit'">
+                    <div class="d-grid">
+                        <x-button :class="'btn-primary'" :type="'submit'">
                             {{ __('Log in') }}
                         </x-button>
                     </div>
