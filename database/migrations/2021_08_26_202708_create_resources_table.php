@@ -22,6 +22,7 @@ class CreateResourcesTable extends Migration
             $table->boolean('is_syllabus')->default(0);
 
             $table->timestamp('approved_at')->nullable();
+            $table->timestamp('rejected_at')->nullable(); //temp
             $table->timestamp('archived_at')->nullable();
             $table->softDeletes();
             $table->timestamps();

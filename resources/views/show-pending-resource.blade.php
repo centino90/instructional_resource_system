@@ -40,9 +40,38 @@
                 <div class="col-12 col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $resource->users->first()->name }}</h5>
-                            <p class="card-text">
-                                <span class="d-block">{{ $resource->getMedia()->first()->file_name }}</span>
+                            <h5 class="card-title my-0">
+                                @if ($resource->rejected_at)
+                                    <span class="badge bg-danger">
+                                        Rejected
+                                    </span>
+                                @elseif($resource->approved_at)
+                                    <span class="badge bg-success">
+                                        Approved
+                                    </span>
+                                @else
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+                                @endif
+                                {{ $resource->users->first()->name ?? 'unknown user' }}
+                            </h5>
+                            <small class="text-muted me-3">
+                                Submitted on {{ $resource->course->code }} - {{ $resource->course->title }}
+                            </small>
+
+                            <p class="card-text mt-3">
+                                <span class="d-block">
+                                    {{ $resource->getMedia()->first()->file_name ?? 'unknown file' }}
+
+                                    <small class="badge bg-success">
+                                        {{ $resource->getMedia()->first() ? 'latest' : '' }}
+                                    </small>
+
+                                    <a href="{{ route('resources.download', $resource->id) }}"
+                                        class="ms-3">Download</a>
+                                    <a href="#" class="ms-3">View all version</a>
+                                </span>
 
                                 <span class="me-3">
                                     @if ($resource->is_syllabus)
@@ -52,15 +81,22 @@
                                     @endif
                                 </span>
 
-                                <small class="text-muted me-3">
-                                    {{ $resource->course->code }} - {{ $resource->course->title }}
-                                </small>
-
-                                <small class="text-muted">Submitted at: {{ $resource->created_at }}</small>
+                                <small class="text-muted">Submitted at:
+                                    {{ $resource->getMedia()->first()->created_at }}</small>
                             </p>
 
-                            <div class="border-top pt-3">
-                                <a href="#" class="btn btn-primary">Download</a>
+                            <div class="d-flex gap-2 border-top pt-3">
+                                @if (auth()->user()->isAdmin())
+                                    <x-submit.approve-pendingresource-hidden :passover="$resource->id"
+                                        :isApproved="$resource->approved_at ? true : false">
+                                    </x-submit.approve-pendingresource-hidden>
+
+                                    <x-submit.reject-pendingresource-hidden :passover="$resource->id"
+                                        :isRejected="$resource->rejected_at ? true : false">
+                                    </x-submit.reject-pendingresource-hidden>
+                                @elseif(auth()->user()->isTeacher())
+                                    <a href="btn btn-secondary">Add another file</a>
+                                @endif
                             </div>
                         </div>
                         <div class="card-footer text-muted">
@@ -93,215 +129,190 @@
                 <div class="page-header">
                     <h1 id="">Timeline</h1>
                 </div>
-                <div id="timeline">
-                    <div class="row g-3">
-                        <div>
-                            <div class="rounded-circle d-flex justify-content-center align-items-center bg-warning text-danger"
-                                style="width:50px;height:50px">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-message-circle">
-                                    <path
-                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                                </svg>
+
+                <div id="timeline" class="row">
+                    <div class="col-6">
+                        <div class="row g-3">
+                            <div>
+                                <div class="rounded-circle d-flex justify-content-center align-items-center bg-warning text-danger"
+                                    style="width:50px;height:50px">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-message-circle">
+                                        <path
+                                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                                    </svg>
+                                </div>
+                                <h5>History Log</h5>
+
+                                {{-- <span class="text-muted">{{ $resource->comments->first()->created_at }}</span> --}}
                             </div>
 
-                            <span class="text-muted">2021/2/25</span>
+                            <div class="col-12">
+                                @foreach ($resource->activities as $activity)
+                                    <span>
+                                        <b>{{ $activity->causer->name ?? 'unknown user' }}</b>
+                                        {{ $activity->description }}
+                                        <ul>
+                                            @foreach ($activity->subject->getMedia() as $media)
+                                                <li>
+                                                    {{ $media->file_name ?? 'unknown file' }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </span>
+
+                                    <div class="lh-1 mb-1">
+                                        <small
+                                            class="text-muted">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}</small>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="col-12">
-                            <div class="card bg-primary text-white">
-                                {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a little bit longer.</p>
+                    <div class="col-6">
+                        <div class="row g-3">
+                            <div>
+                                <div class="rounded-circle d-flex justify-content-center align-items-center bg-warning text-danger"
+                                    style="width:50px;height:50px">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-message-circle">
+                                        <path
+                                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                                    </svg>
                                 </div>
-                                <div class="card-footer d-flex align-items-center">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
+                                <h5>Comments</h5>
 
-                                    <div class="d-flex ms-3">
-                                        <x-button :class="'btn-secondary'">Edit</x-button>
+                                {{-- <span class="text-muted">{{ $resource->comments->first()->created_at }}</span> --}}
+                            </div>
 
-                                        <x-button :class="'btn-danger ms-2'">Delete</x-button>
+                            @foreach ($resource->comments as $comment)
+                                <div class="col-12">
+                                    <div
+                                        class="card {{ auth()->id() === $comment->user_id ? 'bg-primary' : 'bg-secondary' }} text-white">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                {{ auth()->id() === $comment->user_id ? 'You' : $comment->user_id }}
+                                            </h5>
+                                            <p class="card-text">
+                                                {{ $comment->comment }}
+                                            </p>
+                                        </div>
+                                        <div class="card-footer d-flex align-items-center">
+                                            <small class="text-muted">Last updated:
+                                                {{ $comment->updated_at }}</small>
+
+                                            <div class="d-flex ms-3">
+                                                <x-button :class="'btn-secondary'">Edit</x-button>
+
+                                                <x-button :class="'btn-danger ms-2'">Delete</x-button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="card bg-secondary text-white">
-                                {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="card bg-secondary text-white">
-                                {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="card bg-secondary text-white">
-                                {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mt-3">
-                        <div>
-                            <div class="rounded-circle d-flex justify-content-center align-items-center bg-secondary text-white"
-                                style="width:50px;height:50px">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-message-circle">
-                                    <path
-                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                                </svg>
-                            </div>
-                            <span class="text-muted">2021/2/26</span>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="card bg-primary text-white">
-                                {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="card bg-secondary text-white">
-                                {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-
-                {{-- HIDDEN FORMS --}}
-                <x-form.store-savedresource-hidden></x-form.store-savedresource-hidden>
-
-                {{-- MODAL FORMS --}}
-                <div class="modal fade" id="saveResourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <x-form-post action="{{ route('saved-resources.store') }}" class="px-0 col">
-                                    <x-input name="resource_id" hidden>
-                                    </x-input>
-
-                                    <x-button class="btn-secondary form-control" type="submit">Save
-                                    </x-button>
-                                </x-form-post>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                                <button type="button" class="btn btn-primary">Proceed</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- <div class="col-12 mb-3">
-            <h5>History log</h5>
-
-            @foreach ($activities as $activity)
-                <span>
-                    @if ($resource->user_id != auth()->id())
-                        <strong>
-                            {{ isset($activity->causer->name) ? ucwords($activity->causer->name) : 'Unknown user' }}
-                        </strong>
-                    @else
-                        <strong>
-                            You
-                        </strong>
-                    @endif
-
-                    {{ $activity->description }}
-                    {{ $activity->subject->getMedia()[0]->file_name ?? 'not available' }}
-                    <small
-                        class="badge rounded-pill bg-success mx-1">{{ $activity->changes['attributes']['batch_id'] == $activities[0]->changes['attributes']['batch_id'] ? 'latest' : '' }}</small>
-
-                </span>
-
-                <div class="lh-1 mb-1">
-                    <small
-                        class="text-muted">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}</small>
-                </div>
-            @endforeach
-            <div class="my-2">
-                <small class="text-muted">
-                    <a href="#">Click to view more</a>
-                </small>
             </div>
-        </div> --}}
+
+            <div class="modal" id="approvePendingresourceModal" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve this
+                                resource?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <x-form.approve-pendingresource-hidden></x-form.approve-pendingresource-hidden>
+                            <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse perferendis dignissimos
+                                ullam
+                                vitae hic doloribus!</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            <button type="button" class="btn btn-success submit">Yes. Approve this resource</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="rejectPendingresourceModal" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to reject this
+                                resource?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <x-form.reject-pendingresource-hidden></x-form.reject-pendingresource-hidden>
+                            <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse perferendis dignissimos
+                                ullam
+                                vitae hic doloribus!</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            <button type="button" class="btn btn-danger submit">Yes. Reject this resource</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             @section('script')
                 <script>
-                    // var saveResourceModal = document.getElementById('saveResourceModal')
-                    // saveResourceModal.addEventListener('show.bs.modal', function(event) {
-                    //     // Button that triggered the modal
-                    //     var button = event.relatedTarget
-                    //     // Extract info from data-bs-* attributes
-                    //     var recipient = button.getAttribute('data-bs-resource')
-                    //     // If necessary, you could initiate an AJAX request here
-                    //     // and then do the updating in a callback.
-                    //     //
-                    //     // Update the modal's content.
-                    //     // var modalTitle = saveResourceModal.querySelector('.modal-title')
-                    //     // var modalBodyInput = saveResourceModal.querySelector('.modal-bod input')
-                    //     let input = $(saveResourceModal).find('input[name="resource_id"]');
-                    //     input.val(recipient)
+                    $('#rejectPendingresourceModal').on('shown.bs.modal', function(event) {
+                        let triggerButton = $(event.relatedTarget)
+                        let form = $(triggerButton.attr('data-form-target'))
+                        let formRoute = form.attr('action')
+                        let passoverData = $(triggerButton).attr('data-passover')
+                        let input = form.find('input[name="resource_id"]')
+                        input.val(passoverData)
+                        form.attr('action', `${formRoute}/${passoverData}`)
 
-                    //     // modalTitle.textContent = 'New message to ' + recipient
-                    //     // modalBodyInput.value = recipient
-                    // })
+                        $(this).find('button.submit').click(function() {
+                            form.submit()
+                        })
+
+                        $('#rejectPendingresourceModal').on('hidden.bs.modal', function() {
+                            triggerButton.removeClass(['loading', 'disabled'])
+
+                            resetFormAction()
+                        })
+
+                        let resetFormAction = () => form.attr('action', `${formRoute}`)
+                    })
+
+                    $('#approvePendingresourceModal').on('shown.bs.modal', function(event) {
+                        let triggerButton = $(event.relatedTarget)
+                        let form = $(triggerButton.attr('data-form-target'))
+                        let formRoute = form.attr('action')
+                        let passoverData = $(triggerButton).attr('data-passover')
+                        let input = form.find('input[name="resource_id"]')
+                        input.val(passoverData)
+                        form.attr('action', `${formRoute}/${passoverData}`)
+
+                        $(this).find('button.submit').click(function() {
+                            form.submit()
+                        })
+
+                        $('#approvePendingresourceModal').on('hidden.bs.modal', function() {
+                            triggerButton.removeClass(['loading', 'disabled'])
+
+                            resetFormAction()
+                        })
+
+                        let resetFormAction = () => form.attr('action', `${formRoute}`)
+                    })
 
                     $('.storeSavedresourceHiddenSubmit').click(function() {
                         let form = $($(this).attr('data-form-target'))
