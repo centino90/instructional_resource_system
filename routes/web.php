@@ -9,7 +9,6 @@ use App\Http\Controllers\PendingResourceController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
-use App\Http\Controllers\UploadTemporaryFilesController;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\CssSelector\Node\FunctionNode;
@@ -41,7 +40,6 @@ Route::middleware('auth')->group(function () {
     Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
     Route::resource('syllabi', SyllabusController::class);
-    Route::resource('upload-temporary-files', UploadTemporaryFilesController::class);
 
     Route::resource('courses', CourseController::class);
     Route::resource('archive', ArchiveController::class);

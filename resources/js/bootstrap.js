@@ -11,9 +11,14 @@ try {
     window.$ = window.jQuery = require('jquery');
     window.bs = window.Bootstrap = require('bootstrap');
 
+    require('blueimp-file-upload');
+    require('jquery-ui');
+    require('jquery.iframe-transport');
+
     window.FilePond = require('filepond');
     require('jquery-filepond/filepond.jquery');
     window.FilePondPluginFileValidateSize = require('filepond-plugin-file-validate-size');
+    window.FilePondPluginFileMetadata = require('filepond-plugin-file-metadata');
 } catch (e) { }
 
 /**
