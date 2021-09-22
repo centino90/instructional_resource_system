@@ -1,10 +1,7 @@
 <x-app-layout>
     <x-slot name="breadcrumb">
         <x-breadcrumb>
-            <li class="breadcrumb-item"><a href="{{ route('courses.index') }}">Syllabus Courses</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('courses.index') }}"></a>create-syllabus</li>
-            <li class="breadcrumb-item"><a href="{{ route('courses.index') }}"></a>edit-syllabus</li>
-            <li class="breadcrumb-item"><a href="{{ route('courses.index') }}"></a>show-syllabus</li>
+            <li class="breadcrumb-item"><a href="{{ route('courses.index') }}">Courses</a></li>
             <li class="breadcrumb-item active" aria-current="page">Show course</li>
         </x-breadcrumb>
     </x-slot>
@@ -13,6 +10,23 @@
         <div class="d-flex my-4">
             <small class="h4 font-weight-bold">
                 {{ __('Show course') }}
+                <!--calo start-->
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-warning">Pending</button><p>Mackenzie Christiansen</p>
+                        <p>Submitted on LA - Rhode Island</p>
+                        <h6 class="card-subtitle mb-2 text-muted"></h6>
+                        <button type="button" class="btn btn-success btn-sm">latest</button>
+                        <a href="#" class="card-link">Download</a>
+                        <a href="#" class="card-link">View all version</a>
+                        <button type="button" class="btn btn-secondary btn-sm">Regular</button>
+                        <p>Submitted at 2021-09-20 23:05:18</p>
+                        <br>
+                        <button type="button" class="btn btn-success">Approve</button>
+                        <button type="button" class="btn btn-danger">Reject</button>
+                    </div>
+                    <!--calo stop-->
+                </div>
             </small>
 
             {{-- HEADER ACTIONS SECTION --}}
