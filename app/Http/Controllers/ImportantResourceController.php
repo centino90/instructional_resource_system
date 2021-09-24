@@ -18,10 +18,7 @@ class ImportantResourceController extends Controller
      */
     public function index()
     {
-        //return view('important-resources')->with('saved-resource' => ResourceUser:: all());
-        //return view("views.important-resources");
-         return ResourceUser::all();
-        //DB(get_vars(0):Resource::all());
+        return view("important-resource")->with('resources', auth()->user()->resources()->wherePivot('is_important', 1)->get());
     }
 
 

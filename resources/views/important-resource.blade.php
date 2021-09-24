@@ -9,13 +9,10 @@
     <x-slot name="header">
         <div class="d-flex mt-4">
             <small class="h4 font-weight-bold">
-                {{ __('Saved resources') }}
+                {{ __('Important resources') }}
             </small>
 
             <div class="ms-auto">
-                <a href="{{ route('resources.create') }}" class="btn btn-success">
-                    {{ __('Create resource') }}
-                </a>
             </div>
         </div>
     </x-slot>

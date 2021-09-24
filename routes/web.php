@@ -5,6 +5,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeletedResourceController;
 use App\Http\Controllers\ImportantResourceController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PendingResourceController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SavedResourceController;
@@ -45,21 +46,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('courses', CourseController::class);
     Route::resource('archive', ArchiveController::class);
-    Route::get('notifications', function (HttpRequest $request) {
-        if ($request->view == 'read-notifications') {
-            return view('readnotifications')->with('readNotifications', auth()->user()->notifications()->whereNotNull('read_at')->get());
-        }
-        return view('notifications');
-    })->name('notifications.index');
-    Route::put('notifications/{notification}', function ($notificationId) {
-        auth()->user()
-            ->unreadNotifications
-            ->when($notificationId, function ($query) use ($notificationId) {
-                return $query->where('id', $notificationId);
-            })
-            ->markAsRead();
-        return response()->json(['status' => 200, 'message' => 'success']);
-    })->name('notifications.update');
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::put('notifications/{notification}',[NotificationController::class, 'update'])->name('notifications.update');
+
     // saved resources
     Route::resource('saved-resources', SavedResourceController::class);
 
