@@ -16,10 +16,12 @@ class Resource extends Model implements HasMedia
     use HasFactory, SoftDeletes, InteractsWithMedia, LogsActivity;
 
     protected $fillable = [
-        'course_id', 'user_id', 'batch_id', 'description', 'is_syllabus', 'approved_at', 'archived_at'
+        'course_id', 'user_id', 'batch_id', 'description', 'is_syllabus','approved_at', 'rejected_at', 'archived_at'
     ];
 
     protected static $logAttributes = ['course_id', 'user_id', 'batch_id', 'is_syllabus'];
+
+    protected static $recordEvents = ['deleted', 'created'];
 
     public function tapActivity(Activity $activity, string $eventName)
     {
@@ -51,6 +53,11 @@ class Resource extends Model implements HasMedia
     public function syllabus()
     {
         return $this->hasOne(Syllabus::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     // checks

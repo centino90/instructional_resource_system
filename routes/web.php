@@ -62,8 +62,15 @@ Route::middleware('auth')->group(function () {
     })->name('notifications.update');
     // saved resources
     Route::resource('saved-resources', SavedResourceController::class);
+
+    Route::put('pending-resources/approve/{resource}', [PendingResourceController::class, 'approve'])
+        ->name('pending-resources.approve');
+    Route::put('pending-resources/reject/{resource}', [PendingResourceController::class, 'reject'])
+        ->name('pending-resources.reject');
     Route::resource('pending-resources', PendingResourceController::class);
+
     Route::resource('important-resources', ImportantResourceController::class);
+
     Route::resource('deleted-resources', DeletedResourceController::class);
 });
 

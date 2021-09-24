@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateResourceUserTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateResourceUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('resource_user', function (Blueprint $table) {
-            $table->foreignId('resource_id')->constrained();
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->uuid('batch_id');
-            $table->boolean('is_important')->default(0);
-
+            $table->foreignId('resource_id')->constrained();
+            $table->string('comment');
             $table->timestamps();
-            $table->primary(['resource_id', 'user_id']);
         });
     }
 
@@ -31,6 +29,6 @@ class CreateResourceUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resource_user');
+        Schema::dropIfExists('comments');
     }
 }

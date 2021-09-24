@@ -1,1 +1,1 @@
-<img src="{{ asset('images/acd.png') }}" alt="acd logo">
+<img src="{{ asset('images/acd-large.png') }}" alt="acd logo">
