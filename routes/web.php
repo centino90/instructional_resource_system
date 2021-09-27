@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeletedResourceController;
@@ -70,6 +71,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('important-resources', ImportantResourceController::class);
 
     Route::resource('deleted-resources', DeletedResourceController::class);
+
+    Route::resource('comments', CommentController::class);
 });
 
 

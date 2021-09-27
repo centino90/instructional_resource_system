@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Resource;
 use Illuminate\Http\Request;
 
@@ -86,13 +87,20 @@ class PendingResourceController extends Controller
         //
     }
 
-    public function approve($id)
+    public function approve($id, Request $request)
     {
         $resource = Resource::whereNull('approved_at')->findOrFail($id);
 
         $resource->update([
             'approved_at' => now(),
             'rejected_at' => null
+        ]);
+
+        $comment = Comment::create([
+            'user_id' => auth()->id(),
+            'resource_id' => $id,
+            'comment' => $request->comment ?? '',
+            'comment_type' => $request->comment_type
         ]);
 
         activity()
@@ -104,13 +112,20 @@ class PendingResourceController extends Controller
             ->with('success', 'resource was successfully approved!');
     }
 
-    public function reject($id)
+    public function reject($id, Request $request)
     {
         $resource = Resource::whereNull('rejected_at')->findOrFail($id);
 
         $resource->update([
             'rejected_at' => now(),
             'approved_at' => null
+        ]);
+
+        $comment = Comment::create([
+            'user_id' => auth()->id(),
+            'resource_id' => $id,
+            'comment' => $request->comment,
+            'comment_type' => $request->comment_type
         ]);
 
         activity()

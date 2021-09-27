@@ -1,16 +1,17 @@
 @props(['passover' => ''])
 
-<form id="rejectPendingresourceHiddenForm" action="{{ route('pending-resources.reject', $passover) }}" hidden
+<form id="rejectPendingresourceHiddenForm" action="{{ route('pending-resources.reject', $passover) }}"
     method="POST">
     @csrf
     @method('PUT')
 
-    <x-input name="resource_id" hidden>
+    <x-input type="hidden" name="resource_id">
     </x-input>
+    <x-label>Your comment *</x-label>
+    <x-input type="hidden" name="comment_type" value="rejected">
+    </x-input>
+    <x-input-textarea name="comment">
+    </x-input-textarea>
 
-    <x-button class="btn-secondary form-control" type="submit">
-        <x-icon.star></x-icon.star>
-
-        Important
-    </x-button>
+    {{-- {{$slot}} --}}
 </form>
