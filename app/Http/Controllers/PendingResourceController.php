@@ -14,7 +14,7 @@ class PendingResourceController extends Controller
      */
     public function index()
     {
-        //
+        return view("pending-resources")->with('resources', auth()->user()->resources()->wherePivotIn('is_important',[0,1])->get());
     }
 
     /**
