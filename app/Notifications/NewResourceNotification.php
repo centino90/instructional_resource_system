@@ -52,7 +52,8 @@ class NewResourceNotification extends Notification
             'resource_id' => $this->resource->id,
             'file_name' => $this->resource->getMedia()[0]->file_name,
             'program_id' => $this->resource->course->program_id,
-            'course_code' => $this->resource->course->code
+            'course_code' => $this->resource->course->code,
+            'is_syllabus' => $this->resource->is_syllabus
         ];
     }
 }

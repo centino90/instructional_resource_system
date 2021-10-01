@@ -95,6 +95,7 @@ class ResourceController extends Controller
             $batchId = Str::uuid();
             $index = 0;
             foreach ($request->file as $file) {
+
                 $r = Resource::create([
                     'course_id' => $request->course_id,
                     'user_id' => auth()->id(),
@@ -104,8 +105,13 @@ class ResourceController extends Controller
 
                 $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
 
+                // dd($r);
                 $r->addMediaFromStream($file)
+                    ->usingFileName($file)
                     ->toMediaCollection();
+
+                event(new ResourceCreated($r));
+
                 $index++;
             }
 

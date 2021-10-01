@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -73,6 +74,18 @@ class User extends Authenticatable
         return $this->role_id == Role::TEACHER;
     }
 
+    public function belongsToProgram($programId)
+    {
+        return $this->whereHas('programs', function (Builder $query) use($programId) {
+            $query->where(['program_id' => $programId, 'user_id' => auth()->id()]);
+        })->exists();
+    }
+
+    // public function getProgramsByUser($user = auth()->user())
+    // {
+    //     return $this->select('program_id')->wh
+    // }
+
     /*
     |--------------------------------------------------------------------------
     | Local Scopes
@@ -81,7 +94,12 @@ class User extends Authenticatable
     | ...
     |
     */
-
+    // public function scopeBelongsToProgram($programId)
+    // {
+    //     return $this->whereHas('programs', function (Builder $query) use($programId) {
+    //         $query->where(['program_id' => $programId, 'user_id' => auth()->id()]);
+    //     });
+    // }
     /*
     |--------------------------------------------------------------------------
     | Relationships
@@ -106,5 +124,11 @@ class User extends Authenticatable
     public function program()
     {
         return $this->belongsTo(Program::class);
+    }
+
+    public function programs()
+    {
+        return $this->belongsToMany(Program::class)
+            ->withTimestamps();
     }
 }

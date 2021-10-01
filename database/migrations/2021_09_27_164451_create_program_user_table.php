@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCommentTypeToCommentsTable extends Migration
+class CreateProgramUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddCommentTypeToCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('comments', function (Blueprint $table) {
-            $table->string('comment_type');
+        Schema::create('program_user', function (Blueprint $table) {
+            $table->foreignId('program_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddCommentTypeToCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('comments', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('program_users');
     }
 }
