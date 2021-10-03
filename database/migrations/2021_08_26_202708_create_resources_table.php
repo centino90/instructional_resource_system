@@ -18,7 +18,8 @@ class CreateResourcesTable extends Migration
             $table->foreignId('course_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->uuid('batch_id');
-            $table->longText('description')->nullable();
+            $table->longText('title');
+            $table->longText('description');
             $table->boolean('is_syllabus')->default(0);
 
             $table->timestamp('approved_at')->nullable();

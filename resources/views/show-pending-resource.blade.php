@@ -112,10 +112,18 @@
                             Resource Information
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional
-                                content.
-                            </p>
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
+                                <div class="col-sm-10">
+                                    <h5 class="card-title">{{ $resource->title }}</h5>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <p class="card-text">{{ $resource->description }}</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer text-muted">
                             Lorem ipsum dolor sit amet.

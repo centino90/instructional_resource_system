@@ -26,6 +26,7 @@ class StoreResourceRequest extends FormRequest
         return [
             'file.*' => 'required',
             'course_id' => 'required|string',
+            'title.*' => 'required|string',
             'description.*' => 'required|string'
         ];
     }

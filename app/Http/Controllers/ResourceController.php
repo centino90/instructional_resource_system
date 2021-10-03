@@ -6,6 +6,7 @@ use App\Events\ResourceCreated;
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Course;
 use App\Models\Resource;
+use App\Models\TemporaryUpload;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -82,7 +83,6 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request)
     {
-        // dd($request);
         abort_if(
             $request->user()->cannot('create', Resource::class),
             403
@@ -95,24 +95,47 @@ class ResourceController extends Controller
             $batchId = Str::uuid();
             $index = 0;
             foreach ($request->file as $file) {
+                $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
 
-                $r = Resource::create([
-                    'course_id' => $request->course_id,
-                    'user_id' => auth()->id(),
-                    'batch_id' => $batchId,
-                    'description' => $request->description[$index]
-                ]);
+                if ($temporaryFile) {
+                    $r = Resource::create([
+                        'course_id' => $request->course_id,
+                        'user_id' => auth()->id(),
+                        'batch_id' => $batchId,
+                        'description' => $request->description[$index],
+                        'title' => $request->title[$index]
+                    ]);
 
-                $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
+                    $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
 
-                // dd($r);
-                $r->addMediaFromStream($file)
-                    ->usingFileName($file)
-                    ->toMediaCollection();
+                    $r->addMedia(storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name))
+                        ->toMediaCollection();
+                    rmdir(storage_path('app/public/resource/tmp/' . $file));
 
-                event(new ResourceCreated($r));
+                    event(new ResourceCreated($r));
 
-                $index++;
+                    $temporaryFile->delete();
+
+                    $index++;
+                }
+                // $r = Resource::create([
+                //     'course_id' => $request->course_id,
+                //     'user_id' => auth()->id(),
+                //     'batch_id' => $batchId,
+                //     'description' => $request->description[$index],
+                //     'title' => $request->title[$index]
+                // ]);
+
+                // $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
+
+                // // dd($r);
+                // $r->addMediaFromStream($file)
+                //     ->usingFileName($file)
+                //     ->toMediaCollection();
+
+                // event(new ResourceCreated($r));
+
+                // $index++;
             }
 
             if ($request->check_stay) {

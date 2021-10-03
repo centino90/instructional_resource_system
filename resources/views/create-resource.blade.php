@@ -50,7 +50,10 @@
                 @if ($errors->any())
                     <x-alert-danger class="my-4">
                         <span>Look! You got an error</span>
-                        <small>files and input fields should not be empty</small>
+                        {{-- <small>files and input fields should not be empty</small> --}}
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
                     </x-alert-danger>
                 @endif
 
@@ -80,22 +83,94 @@
                                 <x-label>File</x-label>
                             </div>
 
-                            <div class="row-group col-12 col-md-7">
-                                <x-input type="file" class="file" name="file[]" multiple></x-input>
-                                <x-button :class="'btn-link remove-group'">Remove</x-button>
+                            <div class="row-group col-12" id="file-g">
+                                <div id="actions" class="row">
+                                    <div class="col-lg-7 d-flex justify-content-between">
+                                        <!-- The fileinput-button span is used to style the file input field as button -->
+                                        <x-button :class="'btn-success fileinput-button dz-clickable'">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                            <span>Add files...</span>
+                                        </x-button>
 
-                                <div class="images-to-upload border-bottom mt-3"></div>
-                            </div>
+                                        <x-button :class="'btn-warning cancel'">
+                                            <i class="glyphicon glyphicon-ban-circle"></i>
+                                            <span>Cancel upload</span>
+                                        </x-button>
+                                    </div>
 
-                            <div class="col-12 mt-3">
-                                <x-button class="btn-secondary disabled" id="add-more-file">Add another file</x-button>
+                                    <div class="col-lg-5">
+                                        <!-- The global file processing state -->
+                                        <span class="fileupload-process">
+                                            <div id="total-progress" class="progress active" aria-valuemin="0"
+                                                aria-valuemax="100" aria-valuenow="0">
+                                                <div class="progress-bar progress-bar-striped progress-bar-success"
+                                                    role="progressbar" style="width: 0%;" data-dz-uploadprogress="">
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive" id="file-upload-container">
+                                    <div class="table table-striped">
+                                        <div id="template" class="file-row">
+                                            <!-- This is used as the file preview template -->
+                                            <div>
+                                                <span class="preview"><img data-dz-thumbnail /></span>
+                                            </div>
+                                            <div>
+                                                <p class="name" data-dz-name></p>
+                                                <strong class="error text-danger" data-dz-errormessage></strong>
+                                            </div>
+                                            <div class="file-metadata">
+                                                <div class="row">
+                                                    <x-input name="file[]" class="file" hidden></x-input>
+
+                                                    <div class="col-12 d-none file-group">
+                                                        <x-label>Title</x-label>
+                                                        <x-input name="title[]"></x-input>
+                                                    </div>
+
+                                                    <div class="col-12 d-none file-group">
+                                                        <x-label>Description</x-label>
+                                                        <x-input-textarea name="description[]"></x-input-textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p class="size" data-dz-size></p>
+                                                <div class="progress progress-striped active" role="progressbar"
+                                                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                                    <div class="progress-bar progress-bar-success" style="width:0%;"
+                                                        data-dz-uploadprogress></div>
+                                                </div>
+                                                <span class="badge bg-success">Uploaded successfully</span>
+                                            </div>
+                                            <div class="d-flex justify-content-end ps-5">
+                                                <x-button :class="'btn-primary start'">
+                                                    <span>Start</span>
+                                                </x-button>
+
+                                                <x-button data-dz-remove :class="'btn-warning cancel'">
+                                                    <span>Cancel</span>
+                                                </x-button>
+
+                                                <x-button data-dz-remove :class="'btn-danger delete'">
+                                                    <span>Delete</span>
+                                                </x-button>
+                                            </div>
+                                        </div>
+
+                                        <div id="previews"></div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
 
-
                         <x-slot name="actions">
                             <div class="col-12 col-md-3">
-                                <x-button type="submit" class="btn-primary form-control no-loading disabled">Save
+                                <x-button type="submit" class="btn-primary form-control disabled">Save
                                     changes
                                 </x-button>
                             </div>
@@ -105,6 +180,7 @@
                                 </x-input-check>
                             </div>
                         </x-slot>
+                    </div>
                 </x-form-post>
             </x-card-body>
         </div>
@@ -113,169 +189,124 @@
     @section('script')
         <script>
             (function($) {
-                var fileCollection = new Array();
-                setWhenFileChanged()
 
-                $('#add-more-file').click(function() {
-                    $('form button[type="submit"]').addClass('disabled')
-                    if ($('.row-group').last().find('.file')[0].files.length == 0) return
+                let previewNode = $("#template")[0];
+                previewNode.id = "";
+                let previewTemplate = previewNode.parentNode.innerHTML;
+                previewNode.parentNode.removeChild(previewNode);
 
-                    let fileTemplate = `
-                        <div class="row-group col-12 col-md-7 my-3">
-                                <x-input type="file" :class="'file'" name="file[]" multiple></x-input>
-                                <x-button :class="'btn-link remove-group'">Remove</x-button>
+                let myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+                    url: "{{ route('upload-temporary-file.store') }}", // Set the url
+                    params: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    thumbnailWidth: 80,
+                    thumbnailHeight: 80,
+                    parallelUploads: 20,
+                    previewTemplate: previewTemplate,
+                    autoQueue: true, // Make sure the files aren't queued until manually added
+                    previewsContainer: "#previews", // Define the container to display the previews
+                    clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+                });
 
-                                <div class="images-to-upload col-12"></div>
-                            </div>
-                        `
+                myDropzone.on("addedfile", function(file) {
+                    // Hookup the start button
+                    $(file.previewElement).find('.start').click(function() {
+                        myDropzone.enqueueFile(file)
+                    })
 
-                    $('.row-group').last().after(fileTemplate)
+                    let $input = $('#file-upload-container .file-metadata :input'),
+                        $submitButton = $('form button[type="submit"]');
 
-                    if ($('.row-group').last().find('.file')[0].files.length == 0) {
-                        $('#add-more-file').addClass('disabled')
-                    }
-                })
-                $('#profile-tab, #home-tab').click(function(event) {
-                    showLeaveConfirmationCheck(event);
-                })
+                    $submitButton.addClass('disabled')
 
-                $('#fileMaster').delegate('.remove-group', 'click', (function(event) {
-                    event.preventDefault()
-                    $('#add-more-file').removeClass('disabled')
-                    let fileMaster = $(this).closest('#fileMaster')
-                    let fileRowGroup = $(this).closest('.row-group')
-                    let fileInput = fileRowGroup.find('.file')
+                    $('.file-metadata').delegate($input, 'keyup', function(e) {
+                        let trigger = false;
 
-                    if (fileRowGroup[0] != fileMaster.find('.row-group').first()[0] || fileMaster.find('.row-group').length > 1) {
-                        fileRowGroup.remove()
-                        removeFileFromFileList(null, fileInput[0]);
+                        $input.each(function() {
+                            if (!$(this).val()) {
+                                trigger = true;
+                            }
+                        });
+
+                        trigger ? $submitButton.addClass('disabled') : $submitButton
+                            .removeClass(
+                                'disabled');
+                    })
+                });
+
+                myDropzone.on("removedfile", function(file) {
+                    let $input = $('#file-upload-container .file-metadata :input'),
+                        $submitButton = $('form button[type="submit"]');
+
+                    $input.unbind('keyup');
+                    let trigger = false;
+
+                    if ($input.length <= 0) {
+                        trigger = true;
                     } else {
-                        removeFileFromFileList(null, fileInput[0]);
-                        fileRowGroup.find('.file-group').remove()
-                        fileInput.removeClass('opacity-50 pe-none')
-
+                        $input.each(function() {
+                            if (!$(this).val()) {
+                                trigger = true;
+                            }
+                        });
                     }
-                }))
 
-                function setWhenFileChanged() {
-                    $('#fileMaster').delegate('.file', 'change', function(e) {
-                        let fileMaster = $('#fileMaster')
-                        let fileRowGroup = $(this).closest('.row-group')
-                        let fileInput = $(this)
-                        let files = fileInput[0].files;
+                    trigger ? $submitButton.addClass('disabled') : $submitButton
+                        .removeClass(
+                            'disabled');
 
-                        $('#add-more-file').removeClass('disabled')
+                    $('.file-metadata').delegate($input, 'keyup', function(e) {
+                        let trigger = false;
 
-                        $.each(files, function(i, file) {
-
-                            fileCollection.push(file);
-
-                            var template =
-                                `<div class="file-group border-bottom pb-1 mb-3">
-                                <div><b>${file.name}</b></div>
-                                <div class="row">
-                                <div class="col-12 col-lg-6">
-                                <x-label>Title</x-label>
-                                <x-input name="title[]" required></x-input>
-                                </div>
-                                <div class="col-12 col-lg-6">
-                                <x-label>Description</x-label>
-                                <x-input-textarea name="description[]" required></x-input-textarea>
-                                </div>
-                                </div>
-                                <div class="d-flex justify-content-end"><a href="#" class="btn btn-sm btn-secondary mt-1 remove">Remove</a></div>
-                                </div>`;
-
-                            fileRowGroup.find('.images-to-upload').append(template);
+                        $input.each(function() {
+                            if (!$(this).val()) {
+                                trigger = true;
+                            }
                         });
 
+                        trigger ? $submitButton.addClass('disabled') : $submitButton
+                            .removeClass(
+                                'disabled');
+                    })
+                })
 
-                        $('.remove').click(function(event) {
-                            event.preventDefault()
+                // Update the total progress bar
+                myDropzone.on("totaluploadprogress", function(progress) {
+                    $('#total-progress .progress-bar').css('width', progress + '%');
+                });
 
-                            let fileGroup = $(this).closest('.file-group')
-                            removeFileFromFileList(fileGroup.index(), fileInput[0])
-                            fileGroup.remove()
+                myDropzone.on("sending", function(file) {
+                    // Show the total progress bar when upload starts
+                    $('#total-progress').css('opacity', 1);
+                    $('#total-progress .progress-bar').css('width', '0%');
 
-                            if (fileInput[0].files.length == 0) {
-                                fileInput.removeClass('opacity-50 pe-none')
+                    // And disable the start button
+                    $(file.previewElement).find('.start').attr('disabled', 'disabled')
+                });
 
-                                if (fileMaster.find('.row-group').length > 1) {
-                                    fileInput.closest('.row-group').remove()
-                                }
-                            }
+                myDropzone.on("success", function(file) {
+                    $(file.previewElement).find('.file').val(file.xhr.responseText)
+                    $(file.previewElement).find('.file-group').removeClass('d-none')
+                    console.log($(file.previewElement).find('.file'))
+                    console.log(file.xhr.responseText)
+                });
 
-                            if (fileMaster.find('.row-group').first().find('.file')[0].files
-                                .length == 0) {
-                                $('button[type="submit"]').addClass('disabled')
-                                $('#add-more-file').addClass('disabled')
-                            }
-                        })
+                // Hide the total progress bar when nothing's uploading anymore
+                myDropzone.on("queuecomplete", function(progress) {
+                    $('#total-progress').css('opacity', 0);
+                });
 
-                        let $input = fileMaster.find('input'),
-                            $submitButton = $('button[type="submit"]');
-
-                        fileRowGroup.delegate($input, 'keyup', function() {
-                            let trigger = false;
-                            $input.each(function() {
-                                console.log($(this))
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
-                            trigger ? $submitButton.addClass('disabled') : $submitButton
-                                .removeClass(
-                                    'disabled');
-                        });
-
-                        fileInput.addClass('opacity-50 pe-none')
-                    });
-                }
-
-                function removeFileFromFileList(index = null, input) {
-                    const dt = new DataTransfer()
-                    // const input = fileInput[0]
-                    const {
-                        files
-                    } = input
-
-                    if (index == null) {
-                        $(input).val(null);
-                        return
-                    }
-
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i]
-                        if (index !== i)
-                            dt.items.add(
-                                file
-                            ) // here you exclude the file. thus removing it.
-                    }
-
-                    input.files = dt.files // Assign the updates list
-                }
-
-                function showLeaveConfirmationCheck(event) {
-                    let required = $('form input ,form textarea, form select').filter(
-                        ':not([type="checkbox"]):not([type="hidden"]):not([name="course_id"]):not([type="submit"])');
-                    let allRequired = false;
-
-                    required.each(function(index, value) {
-
-                        if ($(value).val().length > 0) {
-                            allRequired = true;
-                        }
-                    });
-
-                    if (allRequired == true) {
-                        let conf = confirm('Are you sure you want to leave this page without saving your changes?');
-
-                        if (conf === false) {
-                            event.preventDefault();
-                        }
-                    }
-                }
-
+                // Setup the buttons for all transfers
+                // The "add files" button doesn't need to be setup because the config
+                // `clickable` has already been specified.
+                // document.querySelector("#actions .start").onclick = function(event) {
+                //     event.preventDefault()
+                //     myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+                // };
+                document.querySelector("#actions .cancel").onclick = function() {
+                    myDropzone.removeAllFiles(true);
+                };
             })(jQuery);
         </script>
     @endsection

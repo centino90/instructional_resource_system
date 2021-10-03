@@ -10,6 +10,7 @@ use App\Http\Controllers\PendingResourceController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
+use App\Http\Controllers\UploadTemporaryFileController;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\CssSelector\Node\FunctionNode;
@@ -73,6 +74,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('deleted-resources', DeletedResourceController::class);
 
     Route::resource('comments', CommentController::class);
+
+    Route::resource('upload-temporary-file', UploadTemporaryFileController::class);
 });
 
 
