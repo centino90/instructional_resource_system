@@ -112,10 +112,18 @@
                             Resource Information
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional
-                                content.
-                            </p>
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
+                                <div class="col-sm-10">
+                                    <h5 class="card-title">{{ $resource->title }}</h5>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <p class="card-text">{{ $resource->description }}</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer text-muted">
                             Lorem ipsum dolor sit amet.
@@ -188,14 +196,16 @@
                                 {{-- <span class="text-muted">{{ $resource->comments->first()->created_at }}</span> --}}
                             </div>
 
-                            @foreach ($resource->comments as $comment)
+                            @forelse ($resource->comments as $comment)
                                 <div class="col-12">
                                     <div
-                                        class="card {{ auth()->id() === $comment->user_id ? 'bg-primary' : 'bg-secondary' }} text-white">
+                                        class="card {{ $comment->comment_type == 'approved' ? 'bg-success' : ($comment->comment_type == 'rejected' ? 'bg-danger' : 'bg-secondary') }} text-white">
                                         <div class="card-body">
-                                            <h5 class="card-title">
-                                                {{ auth()->id() === $comment->user_id ? 'You' : $comment->user_id }}
-                                            </h5>
+                                            @if (auth()->id() === $comment->user_id)
+                                                <span class="badge bg-primary fs-6">You</span>
+                                            @else
+                                                <span>{{ $comment->user_id }}</span>
+                                            @endif
                                             <p class="card-text">
                                                 {{ $comment->comment }}
                                             </p>
@@ -212,7 +222,23 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            @empty
+                                <div class="col-12">
+                                    There are no comments in this resource.
+                                </div>
+                            @endforelse
+                            <div class="col-12">
+                                <x-form-post action="{{ route('comments.store') }}">
+                                    <x-input type="hidden" :name="'resource_id'" value="{{ $resource->id }}">
+                                    </x-input>
+                                    <x-input type="hidden" :name="'comment_type'" value="regular"></x-input>
+
+                                    <x-label>Your comment</x-label>
+                                    <x-input-textarea :name="'comment'"></x-input-textarea>
+
+                                    <x-button type="submit" :class="'btn-primary mt-3'">Submit</x-button>
+                                </x-form-post>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -230,9 +256,6 @@
                         </div>
                         <div class="modal-body">
                             <x-form.approve-pendingresource-hidden></x-form.approve-pendingresource-hidden>
-                            <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse perferendis dignissimos
-                                ullam
-                                vitae hic doloribus!</small>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -255,9 +278,6 @@
                         </div>
                         <div class="modal-body">
                             <x-form.reject-pendingresource-hidden></x-form.reject-pendingresource-hidden>
-                            <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse perferendis dignissimos
-                                ullam
-                                vitae hic doloribus!</small>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -269,7 +289,18 @@
             </div>
 
             @section('script')
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
+                                integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
+                                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                 <script>
+                    $(function() {
+                        $(selector).pagination({
+                            items: 100,
+                            itemsOnPage: 10,
+                            cssStyle: 'light-theme'
+                        });
+                    });
+
                     $('#rejectPendingresourceModal').on('shown.bs.modal', function(event) {
                         let triggerButton = $(event.relatedTarget)
                         let form = $(triggerButton.attr('data-form-target'))

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
     <!-- Styles -->
+    <link href="https://releases.transloadit.com/uppy/v2.1.1/uppy.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 
@@ -44,20 +45,60 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    {{-- <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script> --}}
+    {{-- <script src="https://releases.transloadit.com/uppy/v2.1.1/uppy.min.js"></script> --}}
+    {{-- <script src="node_modules/blueimp-file-upload/js/jquery.fileupload.js"></script> --}}
     @yield('script')
     <script>
         $(function() {
 
-            // First register any plugins
+            // $('#fileupload').fileupload();
+
+            // var uppy = new Uppy.Core()
+            //     .use(Uppy.Dashboard, {
+            //         trigger: '.UppyModalOpenerBtn',
+            //         inline: true,
+            //         target: '#drag-drop-area',
+            //         showProgressDetails: true,
+            //         note: 'Images and video only, 2–3 files, up to 1 MB',
+            //         height: 470,
+            //         metaFields: [{
+            //                 id: 'name',
+            //                 name: 'Name',
+            //                 placeholder: 'file name'
+            //             },
+            //             {
+            //                 id: 'caption',
+            //                 name: 'Caption',
+            //                 placeholder: 'describe what the image is about'
+            //             }
+            //         ],
+            //         browserBackButtonClose: false
+            //     })
+            //     // .use(Uppy.FileInput, {
+            //     //     target: '#file',
+            //     //     pretty: true,
+            //     //     inputName: 'files[]',
+            //     //     locale: {
+            //     //         strings: {
+            //     //             chooseFiles: 'Choose files',
+            //     //         },
+            //     //     },
+            //     // })
+
+            //     .use(Uppy.XHRUpload, {
+            //         endpoint: 'http://localhost:8000/upload-temporary-files/',
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+
+            //         formData: true,
+            //         fieldName: 'file[]'
+            //     })
 
 
-
-            // Manually add a file using the addfile method
-            // $('.my-pond').first().filepond('addFile', 'index.html').then(function(file) {
-            //     console.log('file added', file);
-            // });
+            // uppy.on('complete', (result) => {
+            //     console.log('Upload complete! We’ve uploaded these files:', result.successful)
+            // })
 
         });
     </script>

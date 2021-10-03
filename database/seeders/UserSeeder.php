@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Program;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
@@ -24,5 +25,11 @@ class UserSeeder extends Seeder
                 ['program_id' => 2],
             ))
             ->create();
+
+        foreach (User::all() as $user) {
+            foreach (Program::all() as $program) {
+                $user->programs()->attach($program->id);
+            }
+        }
     }
 }

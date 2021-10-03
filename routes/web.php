@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeletedResourceController;
@@ -10,7 +11,7 @@ use App\Http\Controllers\PendingResourceController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
-use App\Http\Controllers\UploadTemporaryFilesController;
+use App\Http\Controllers\UploadTemporaryFileController;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\CssSelector\Node\FunctionNode;
@@ -42,7 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
     Route::resource('syllabi', SyllabusController::class);
-    Route::resource('upload-temporary-files', UploadTemporaryFilesController::class);
 
     Route::resource('courses', CourseController::class);
     Route::resource('archive', ArchiveController::class);
@@ -61,6 +61,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('important-resources', ImportantResourceController::class);
 
     Route::resource('deleted-resources', DeletedResourceController::class);
+
+    Route::resource('comments', CommentController::class);
+
+    Route::resource('upload-temporary-file', UploadTemporaryFileController::class);
 });
 
 

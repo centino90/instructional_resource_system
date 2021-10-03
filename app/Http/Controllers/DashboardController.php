@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Program;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class DashboardController extends Controller
 {
@@ -14,13 +18,16 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // $courses = Course::where('program_id', auth()->user()->program_id);
-        $firstYearCourses = Course::where('program_id', auth()->user()->program_id)->where('year_level', 1)->with('resources')->get();
-        $secondYearCourses = Course::where('program_id', auth()->user()->program_id)->where('year_level', 2)->with('resources')->get();
-        $thirdYearCourses = Course::where('program_id', auth()->user()->program_id)->where('year_level', 3)->with('resources')->get();
-        $fourthYearCourses = Course::where('program_id', auth()->user()->program_id)->where('year_level', 4)->with('resources')->get();
+        // dd(auth()->user()->programs);
+        // $users = auth()->user()->whereHas('programs', function (Builder $query) {
+        //     $query->where(['program_id' => 1, 'user_id' => auth()->id()]);
+        // })->exists();
+        // dd(Program::all());
+        // dd(auth()->user()->programs);
 
-        $yearLevels = Course::where('program_id', auth()->user()->program_id)
+        // dd(Program::whereIn('id', auth()->user()->programs()->pluck('id'))->get());
+
+        $yearLevels = Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))
             ->with('resources')
             ->get()
             ->sortBy(['year_level', 'semester', 'term', 'title'])

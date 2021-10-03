@@ -50,6 +50,10 @@
                 @if ($errors->any())
                     <x-alert-danger class="my-4">
                         <span>Look! You got an error</span>
+                        {{-- <small>files and input fields should not be empty</small> --}}
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
                     </x-alert-danger>
                 @endif
 
@@ -74,43 +78,109 @@
                     </div>
 
                     <div class="my-3">
-                        <div class="row">
-                            <div class="col-12 col-md-7">
+                        <div class="row mb-3" id="fileMaster">
+                            <div class="col-12">
                                 <x-label>File</x-label>
-                                <div class="filepond-wrapper">
-                                    <x-input type="file" name="file[]" :error="'file.0'" class="filepond">
-                                    </x-input>
+                            </div>
 
-                                    @error('file.0')
-                                        <x-input-error :for="'file.0'">
-                                        </x-input-error>
-                                    @enderror
+                            <div class="row-group col-12" id="file-g">
+                                <div id="actions" class="row">
+                                    <div class="col-lg-7 d-flex justify-content-between">
+                                        <!-- The fileinput-button span is used to style the file input field as button -->
+                                        <x-button :class="'btn-success fileinput-button dz-clickable'">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                            <span>Add files...</span>
+                                        </x-button>
+
+                                        <x-button :class="'btn-warning cancel'">
+                                            <i class="glyphicon glyphicon-ban-circle"></i>
+                                            <span>Cancel upload</span>
+                                        </x-button>
+                                    </div>
+
+                                    <div class="col-lg-5">
+                                        <!-- The global file processing state -->
+                                        <span class="fileupload-process">
+                                            <div id="total-progress" class="progress active" aria-valuemin="0"
+                                                aria-valuemax="100" aria-valuenow="0">
+                                                <div class="progress-bar progress-bar-striped progress-bar-success"
+                                                    role="progressbar" style="width: 0%;" data-dz-uploadprogress="">
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive" id="file-upload-container">
+                                    <div class="table table-striped">
+                                        <div id="template" class="file-row">
+                                            <!-- This is used as the file preview template -->
+                                            <div>
+                                                <span class="preview"><img data-dz-thumbnail /></span>
+                                            </div>
+                                            <div>
+                                                <p class="name" data-dz-name></p>
+                                                <strong class="error text-danger" data-dz-errormessage></strong>
+                                            </div>
+                                            <div class="file-metadata">
+                                                <div class="row">
+                                                    <x-input name="file[]" class="file" hidden></x-input>
+
+                                                    <div class="col-12 d-none file-group">
+                                                        <x-label>Title</x-label>
+                                                        <x-input name="title[]"></x-input>
+                                                    </div>
+
+                                                    <div class="col-12 d-none file-group">
+                                                        <x-label>Description</x-label>
+                                                        <x-input-textarea name="description[]"></x-input-textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p class="size" data-dz-size></p>
+                                                <div class="progress progress-striped active" role="progressbar"
+                                                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                                    <div class="progress-bar progress-bar-success" style="width:0%;"
+                                                        data-dz-uploadprogress></div>
+                                                </div>
+                                                <span class="badge bg-success">Uploaded successfully</span>
+                                            </div>
+                                            <div class="d-flex justify-content-end ps-5">
+                                                <x-button :class="'btn-primary start'">
+                                                    <span>Start</span>
+                                                </x-button>
+
+                                                <x-button data-dz-remove :class="'btn-warning cancel'">
+                                                    <span>Cancel</span>
+                                                </x-button>
+
+                                                <x-button data-dz-remove :class="'btn-danger delete'">
+                                                    <span>Delete</span>
+                                                </x-button>
+                                            </div>
+                                        </div>
+
+                                        <div id="previews"></div>
+                                    </div>
+
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-12 col-md-5">
-                                <x-label>Description (optional)</x-label>
-                                <x-input name="description"></x-input>
-
-                                @error('description.')
-                                    <x-input-error :for="'description'">
-                                    </x-input-error>
-                                @enderror
+                        <x-slot name="actions">
+                            <div class="col-12 col-md-3">
+                                <x-button type="submit" class="btn-primary form-control disabled">Save
+                                    changes
+                                </x-button>
                             </div>
-                        </div>
+
+                            <div class="mt-3">
+                                <x-input-check :name="'check_stay'" :label="'Check to stay after submit'" checked>
+                                </x-input-check>
+                            </div>
+                        </x-slot>
                     </div>
-
-
-                    <x-slot name="actions">
-                        <div class="col-12 col-md-3">
-                            <x-button type="submit" class="btn-primary form-control">Save changes</x-button>
-                        </div>
-
-                        <div class="mt-3">
-                            <x-input-check :name="'check_stay'" :label="'Check to stay after submit'" checked>
-                            </x-input-check>
-                        </div>
-                    </x-slot>
                 </x-form-post>
             </x-card-body>
         </div>
@@ -119,95 +189,124 @@
     @section('script')
         <script>
             (function($) {
-                $.fn.filepond.registerPlugin(FilePondPluginFileValidateSize);
 
-                $('#sortable').find('input[type="file"]').change(function() {
-                    if (!this.value) {
-                        return
-                    }
+                let previewNode = $("#template")[0];
+                previewNode.id = "";
+                let previewTemplate = previewNode.parentNode.innerHTML;
+                previewNode.parentNode.removeChild(previewNode);
 
-                    $(this).addClass('is-valid')
-                })
+                let myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+                    url: "{{ route('upload-temporary-file.store') }}", // Set the url
+                    params: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    thumbnailWidth: 80,
+                    thumbnailHeight: 80,
+                    parallelUploads: 20,
+                    previewTemplate: previewTemplate,
+                    autoQueue: true, // Make sure the files aren't queued until manually added
+                    previewsContainer: "#previews", // Define the container to display the previews
+                    clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+                });
 
-                $('#profile-tab, #home-tab').click(function(event) {
-                    showLeaveConfirmationCheck(event);
-                })
-
-                function showLeaveConfirmationCheck(event) {
-                    var required = $('.filepond--data input:hidden');
-                    var allRequired = false;
-
-                    required.each(function() {
-                        if ($(this).val()) {
-                            allRequired = true;
-                        }
+                myDropzone.on("addedfile", function(file) {
+                    // Hookup the start button
+                    $(file.previewElement).find('.start').click(function() {
+                        myDropzone.enqueueFile(file)
                     })
 
-                    if (allRequired == true) {
-                        let conf = confirm('Are you sure you want to leave this page without saving your changes?');
+                    let $input = $('#file-upload-container .file-metadata :input'),
+                        $submitButton = $('form button[type="submit"]');
 
-                        if (conf === false) {
-                            event.preventDefault();
-                        }
-                    }
-                }
+                    $submitButton.addClass('disabled')
 
-                $('.filepond').filepond({
-                    allowMultiple: true,
-                    allowReorder: true,
-                    maxFiles: 10,
-                    maxFileSize: '10MB',
-                    credits: false,
-                    server: {
-                        url: 'http://localhost:8000',
-                        process: {
-                            url: '/upload-temporary-files',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    $('.file-metadata').delegate($input, 'keyup', function(e) {
+                        let trigger = false;
+
+                        $input.each(function() {
+                            if (!$(this).val()) {
+                                trigger = true;
                             }
-                        },
-                        revert: (uniqueFileId, load, error) => {
-                            $.ajax({
-                                    url: `/upload-temporary-files/${uniqueFileId}`,
-                                    method: "DELETE",
-                                    data: {
-                                        _token: $('meta[name="csrf-token"]').attr('content'),
-                                        _method: "DELETE"
-                                    }
-                                })
-                                .done(function(data) {
-                                    console.log(data)
-                                })
-                        },
-                    }
+                        });
+
+                        trigger ? $submitButton.addClass('disabled') : $submitButton
+                            .removeClass(
+                                'disabled');
+                    })
                 });
 
-                $('.filepond').on('FilePond:warning', function(e) {
-                    let filepondRoot = $(this);
-                    let maxFiles = 5;
-                    let container = filepondRoot.parent();
-                    let error = container.find('.invalid-feedback')[0];
+                myDropzone.on("removedfile", function(file) {
+                    let $input = $('#file-upload-container .file-metadata :input'),
+                        $submitButton = $('form button[type="submit"]');
 
-                    if (!error) {
-                        error = document.createElement('span');
-                        $(error).addClass('invalid-feedback fw-bold');
-                        $(error).text(`The maximum number of files is ${maxFiles}`);
-                        container.append(error);
+                    $input.unbind('keyup');
+                    let trigger = false;
+
+                    if ($input.length <= 0) {
+                        trigger = true;
                     } else {
-                        $(error).text(`The maximum number of files is ${maxFiles}`);
+                        $input.each(function() {
+                            if (!$(this).val()) {
+                                trigger = true;
+                            }
+                        });
                     }
 
-                    requestAnimationFrame(function() {
-                        $(error).attr('data-state', 'visible');
-                        filepondRoot.addClass('is-invalid')
-                    });
+                    trigger ? $submitButton.addClass('disabled') : $submitButton
+                        .removeClass(
+                            'disabled');
 
-                    $('.filepond').on('FilePond:updatefiles', function(e) {
-                        $(error).attr('data-state', 'hidden');
-                        filepondRoot.removeClass('is-invalid');
-                    });
+                    $('.file-metadata').delegate($input, 'keyup', function(e) {
+                        let trigger = false;
+
+                        $input.each(function() {
+                            if (!$(this).val()) {
+                                trigger = true;
+                            }
+                        });
+
+                        trigger ? $submitButton.addClass('disabled') : $submitButton
+                            .removeClass(
+                                'disabled');
+                    })
+                })
+
+                // Update the total progress bar
+                myDropzone.on("totaluploadprogress", function(progress) {
+                    $('#total-progress .progress-bar').css('width', progress + '%');
                 });
 
+                myDropzone.on("sending", function(file) {
+                    // Show the total progress bar when upload starts
+                    $('#total-progress').css('opacity', 1);
+                    $('#total-progress .progress-bar').css('width', '0%');
+
+                    // And disable the start button
+                    $(file.previewElement).find('.start').attr('disabled', 'disabled')
+                });
+
+                myDropzone.on("success", function(file) {
+                    $(file.previewElement).find('.file').val(file.xhr.responseText)
+                    $(file.previewElement).find('.file-group').removeClass('d-none')
+                    console.log($(file.previewElement).find('.file'))
+                    console.log(file.xhr.responseText)
+                });
+
+                // Hide the total progress bar when nothing's uploading anymore
+                myDropzone.on("queuecomplete", function(progress) {
+                    $('#total-progress').css('opacity', 0);
+                });
+
+                // Setup the buttons for all transfers
+                // The "add files" button doesn't need to be setup because the config
+                // `clickable` has already been specified.
+                // document.querySelector("#actions .start").onclick = function(event) {
+                //     event.preventDefault()
+                //     myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+                // };
+                document.querySelector("#actions .cancel").onclick = function() {
+                    myDropzone.removeAllFiles(true);
+                };
             })(jQuery);
         </script>
     @endsection

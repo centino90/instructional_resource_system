@@ -6,7 +6,7 @@ use App\Models\TemporaryUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class UploadTemporaryFilesController extends Controller
+class UploadTemporaryFileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,41 +36,29 @@ class UploadTemporaryFilesController extends Controller
      */
     public function store(Request $request)
     {
-        // if ($request->hasFile('file')) {
-        //     $file = $request->file('file');
-        //     $filename = $file->getClientOriginalName();
-        //     $folder = uniqid() . '-' . now()->timestamp;
-        //     $file->storeAs('syllabi/tmp/' . $folder, $filename);
-
-        //     TemporaryUpload::create([
-        //         'folder_name' => $folder,
-        //         'file_name' => $filename
-        //     ]);
-
-        //     return $folder;
-        // }
-
         if ($request->hasFile('file')) {
-            $files = $request->file('file');
+            $file = $request->file('file');
 
-            foreach ($files as $file) {
-                $filename = substr(
-                    $file->getClientOriginalName(),
-                    0,
-                    strrpos($file->getClientOriginalName(), ".")
-                );
-                $spacesRemoved = str_replace(' ', '-', $filename);
-                $newFilename = $spacesRemoved . '-' . time() . '.' . $file->getClientOriginalExtension();
-                $folder = uniqid() . '-' . time();
-                $file->storeAs('resource/tmp/' . $folder, $newFilename);
+            $filename = substr(
+                $file->getClientOriginalName(),
+                0,
+                strrpos($file->getClientOriginalName(), ".")
+            );
 
-                TemporaryUpload::create([
-                    'folder_name' => $folder,
-                    'file_name' => $newFilename
-                ]);
+            // remove any character that is enclosed within a parenthesis e.g. (1), (hello)
+            // and remove spaces
+            $spacesRemoved = preg_replace(array('/\((.*?)\)/', '/\s/'), '', $filename);
+            
+            $newFilename = $spacesRemoved . '.' . $file->getClientOriginalExtension();
+            $folder = uniqid() . '-' . time();
+            $file->storeAs('resource/tmp/' . $folder, $newFilename);
 
-                return $folder;
-            }
+            TemporaryUpload::create([
+                'folder_name' => $folder,
+                'file_name' => $newFilename
+            ]);
+
+            return $folder;
         }
 
         return $request;

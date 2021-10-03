@@ -22,7 +22,7 @@ class ResourceSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         Resource::factory()
-            ->count(100)
+            ->count(30)
             ->create();
 
         Resource::factory()
@@ -32,6 +32,7 @@ class ResourceSeeder extends Seeder
                     'course_id' => Course::where('program_id', $nextUser->program_id)->get()->random(),
                     'user_id' => $user,
                     'batch_id' => $faker->uuid(),
+                    'title' => $faker->word(),
                     'description' => $faker->text(50),
                     'deleted_at' => now(),
                 ],
@@ -39,6 +40,7 @@ class ResourceSeeder extends Seeder
                     'course_id' => Course::where('program_id', $nextUser->program_id)->get()->random(),
                     'user_id' => $user,
                     'batch_id' => $faker->uuid(),
+                    'title' => $faker->word(),
                     'description' => $faker->text(50),
                 ]
             ))

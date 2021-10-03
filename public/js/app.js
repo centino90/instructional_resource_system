@@ -1,17 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/@babel/runtime/regenerator/index.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
-  \**********************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
-
-
-/***/ }),
-
 /***/ "./node_modules/@popperjs/core/lib/createPopper.js":
 /*!*********************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/createPopper.js ***!
@@ -3149,18 +3138,12 @@ function within(min, value, max) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dropzone */ "./node_modules/dropzone/dist/dropzone.js");
+/* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dropzone__WEBPACK_IMPORTED_MODULE_0__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+
+(dropzone__WEBPACK_IMPORTED_MODULE_0___default().autoDiscover) = false;
 $('.sidebar-menu-btn').click(function () {
   if ($('html').hasClass('sidebar-toggled-hidden')) {
     $('html').removeClass('sidebar-toggled-hidden');
@@ -3169,261 +3152,13 @@ $('.sidebar-menu-btn').click(function () {
 
   $('html').addClass('sidebar-toggled-hidden');
 });
-$('button[type="submit"], input[type="submit"], button.submit').click(function () {
+$('button[type="submit"]:not(".no-loading"), input[type="submit"]:not(".no-loading"), button.submit').click(function () {
   $(this).addClass('disabled loading');
 });
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new Bootstrap.Tooltip(tooltipTriggerEl);
 });
-
-function createPdf(_x) {
-  return _createPdf.apply(this, arguments);
-}
-
-function _createPdf() {
-  _createPdf = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(inputs) {
-    var docDefinition;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            docDefinition = {
-              content: [{
-                alignment: 'center',
-                text: 'Syllabus Sample',
-                style: 'header',
-                fontSize: 20,
-                bold: true,
-                margin: [0, 10]
-              }, {
-                style: 'tableExample',
-                layout: {
-                  fillColor: function fillColor(rowIndex, node, columnIndex) {
-                    return rowIndex === 0 ? '#c2dec2' : null;
-                  }
-                },
-                table: {
-                  widths: ['50%', '50%'],
-                  headerRows: 1,
-                  body: [[{
-                    text: "".concat(inputs.firstname, " ").concat(inputs.lastname),
-                    bold: true,
-                    colSpan: 2,
-                    fontSize: 9
-                  }, {}], [{
-                    text: ['Email: ', {
-                      text: "".concat(inputs.email),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }, {
-                    text: ['Password: ', {
-                      text: "".concat(inputs.password),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }], [{
-                    text: ['Year level: ', {
-                      text: "".concat(inputs.year_level),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }, {
-                    text: ['Class description: ', {
-                      text: "".concat(inputs.class_description),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }], [{
-                    text: ['Grade 1st semester: ', {
-                      text: "".concat(inputs.grade_first_sem),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }, {
-                    text: ['Grade 2nd semester: ', {
-                      text: "".concat(inputs.grade_second_sem),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }], [{
-                    text: ['Section name: ', {
-                      text: "".concat(inputs.section),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }, {
-                    text: ['No. of students: ', {
-                      text: "".concat(inputs.student_count),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }], [{
-                    text: ['Room no: ', {
-                      text: "".concat(inputs.room_no),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }, {
-                    text: ['Building no: ', {
-                      text: "".concat(inputs.building_no),
-                      bold: false
-                    }],
-                    fontSize: 9,
-                    bold: true
-                  }]]
-                }
-              }]
-            };
-            return _context.abrupt("return", pdfMake.createPdf(docDefinition));
-
-          case 2:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _createPdf.apply(this, arguments);
-}
-
-function getBase64ImageFromURL(url) {
-  return new Promise(function (resolve, reject) {
-    var img = new Image();
-    img.setAttribute("crossOrigin", "anonymous");
-
-    img.onload = function () {
-      var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      var dataURL = canvas.toDataURL("image/png");
-      resolve(dataURL);
-    };
-
-    img.onerror = function (error) {
-      reject(error);
-    };
-
-    img.src = url;
-  });
-}
-
-function getValueOfInputsByFormAndAttribute(form, attribute) {
-  if (!form || !attribute) {
-    throw new Error('Custom error: parameters are required');
-  }
-
-  var formInputsWithoutButtons = form.find(':input:not([type="button"], [type="submit"], [type="reset"], button)');
-  var allInputs = {};
-  formInputsWithoutButtons.map(function () {
-    var _$$attr;
-
-    var attr = (_$$attr = $(this).attr(attribute)) !== null && _$$attr !== void 0 ? _$$attr : $(this).attr('id');
-
-    if (!$(this).attr(attribute) && $(this).attr('type') !== 'file') {
-      throw new Error("Custom error: all selected inputs should have this attribute");
-    }
-
-    if ($(this).attr('type') === 'file') {
-      $.each(this.files, function (index, file) {
-        Object.assign(allInputs, _defineProperty({}, attr, file));
-      });
-    } else {
-      Object.assign(allInputs, _defineProperty({}, attr, $(this).val()));
-    }
-  });
-  return allInputs;
-}
-
-function setSyllabusFormSubmitWithPdf() {
-  $('#dogForm button[type="submit"]').click(function (event) {
-    var form = $('#dogForm');
-    var formAction = form.attr('action');
-    var formSubmitBtn = $(this);
-    var formInputs = getValueOfInputsByFormAndAttribute($(form), 'name');
-    event.preventDefault();
-    createPdf(formInputs).then(function (res) {
-      res.getBlob(function (blob) {
-        var formData = new FormData();
-        Object.keys(formInputs).forEach(function (key) {
-          return formData.append(key, formInputs[key]);
-        });
-        formData.append('pdf_data', blob);
-        $.ajax({
-          url: 'http://localhost:8000/dogs/storeAjax',
-          method: "POST",
-          data: formData,
-          enctype: 'multipart/form-data',
-          contentType: false,
-          processData: false,
-          beforeSend: function beforeSend(xhr) {
-            form.addClass('submitted-once');
-            formSubmitBtn.addClass('btn-loading');
-          }
-        }).done(function (data) {
-          // modal.find('.modal-body').html(data)
-          console.log(data);
-          form.submit();
-
-          if (data.message === 'success') {
-            location.reload();
-          }
-        }).fail(function (data) {
-          // console.log(data)
-          // alert('error')
-          console.log(data);
-          location.reload();
-
-          if (data.status === 422) {
-            var response = $.parseJSON(data.responseText);
-            location.reload(); // $(modal).find('.alert:eq(0)').fadeIn()
-            // showBackendValidationErrors(form, $(response.errors))
-          }
-        }).always(function () {
-          // setDefaultValidations(form)
-          formSubmitBtn.removeClass('btn-loading');
-        });
-      });
-    });
-  });
-} // function showBackendValidationErrors(form, errors) {
-//     let inputs = $(form).find(':input:not([type="button"], [type="submit"], [type="reset"], button)')
-//     $.each(inputs, function (index, input) {
-//         if (errors[0][$(input).attr('name')]) {
-//             $(input).addClass('is-invalid')
-//             $(input).next().text(errors[0][$(input).attr('name')])
-//         } else {
-//             $(input).removeClass('is-invalid')
-//         }
-//     })
-// }
-// function setDefaultValidations(form) {
-//     let inputs = form.find(':input:not([type="button"], [type="submit"], [type="reset"], button)')
-//     $.each(inputs, function (index, input) {
-//         $(input).change(function () {
-//             if (!$(this).val()) {
-//                 $(input).addClass('is-invalid')
-//                 $(input).next().text('This field is required!')
-//             } else {
-//                 $(input).removeClass('is-invalid')
-//                 $(input).next().text('')
-//             }
-//         })
-//     })
-// }
-// setSyllabusFormSubmitWithPdf();
 
 /***/ }),
 
@@ -3444,11 +3179,6 @@ try {
   window.Popper = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/index.js").default;
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
   window.bs = window.Bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
-  window.FilePond = __webpack_require__(/*! filepond */ "./node_modules/filepond/dist/filepond.js");
-
-  __webpack_require__(/*! jquery-filepond/filepond.jquery */ "./node_modules/jquery-filepond/filepond.jquery.js");
-
-  window.FilePondPluginFileValidateSize = __webpack_require__(/*! filepond-plugin-file-validate-size */ "./node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js");
 } catch (e) {}
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -8479,12957 +8209,10448 @@ defineJQueryPlugin(Toast);
 
 /***/ }),
 
-/***/ "./node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js":
-/*!****************************************************************************************************!*\
-  !*** ./node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/dropzone/dist/dropzone.js":
+/*!************************************************!*\
+  !*** ./node_modules/dropzone/dist/dropzone.js ***!
+  \************************************************/
+/***/ ((module) => {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else { var i, a; }
+})(self, function() {
+return /******/ (function() { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 3099:
 /***/ (function(module) {
 
-/*!
- * FilePondPluginFileValidateSize 2.2.4
- * Licensed under MIT, https://opensource.org/licenses/MIT/
- * Please visit https://pqina.nl/filepond/ for details.
- */
+module.exports = function (it) {
+  if (typeof it != 'function') {
+    throw TypeError(String(it) + ' is not a function');
+  } return it;
+};
 
-/* eslint-disable */
 
-(function(global, factory) {
-     true
-        ? (module.exports = factory())
-        : 0;
-})(this, function() {
-    'use strict';
+/***/ }),
 
-    var plugin = function plugin(_ref) {
-        var addFilter = _ref.addFilter,
-            utils = _ref.utils;
-        // get quick reference to Type utils
-        var Type = utils.Type,
-            replaceInString = utils.replaceInString,
-            toNaturalFileSize = utils.toNaturalFileSize;
+/***/ 6077:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_703__) {
 
-        // filtering if an item is allowed in hopper
-        addFilter('ALLOW_HOPPER_ITEM', function(file, _ref2) {
-            var query = _ref2.query;
-            if (!query('GET_ALLOW_FILE_SIZE_VALIDATION')) {
-                return true;
-            }
+var isObject = __nested_webpack_require_703__(111);
 
-            var sizeMax = query('GET_MAX_FILE_SIZE');
-            if (sizeMax !== null && file.size >= sizeMax) {
-                return false;
-            }
+module.exports = function (it) {
+  if (!isObject(it) && it !== null) {
+    throw TypeError("Can't set " + String(it) + ' as a prototype');
+  } return it;
+};
 
-            var sizeMin = query('GET_MIN_FILE_SIZE');
-            if (sizeMin !== null && file.size <= sizeMin) {
-                return false;
-            }
 
-            return true;
-        });
+/***/ }),
 
-        // called for each file that is loaded
-        // right before it is set to the item state
-        // should return a promise
-        addFilter('LOAD_FILE', function(file, _ref3) {
-            var query = _ref3.query;
-            return new Promise(function(resolve, reject) {
-                // if not allowed, all fine, exit
-                if (!query('GET_ALLOW_FILE_SIZE_VALIDATION')) {
-                    return resolve(file);
-                }
+/***/ 1223:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_1001__) {
 
-                // check if file should be filtered
-                var fileFilter = query('GET_FILE_VALIDATE_SIZE_FILTER');
-                if (fileFilter && !fileFilter(file)) {
-                    return resolve(file);
-                }
+var wellKnownSymbol = __nested_webpack_require_1001__(5112);
+var create = __nested_webpack_require_1001__(30);
+var definePropertyModule = __nested_webpack_require_1001__(3070);
 
-                // reject or resolve based on file size
-                var sizeMax = query('GET_MAX_FILE_SIZE');
-                if (sizeMax !== null && file.size >= sizeMax) {
-                    reject({
-                        status: {
-                            main: query('GET_LABEL_MAX_FILE_SIZE_EXCEEDED'),
-                            sub: replaceInString(query('GET_LABEL_MAX_FILE_SIZE'), {
-                                filesize: toNaturalFileSize(
-                                    sizeMax,
-                                    '.',
-                                    query('GET_FILE_SIZE_BASE')
-                                ),
-                            }),
-                        },
-                    });
+var UNSCOPABLES = wellKnownSymbol('unscopables');
+var ArrayPrototype = Array.prototype;
 
-                    return;
-                }
+// Array.prototype[@@unscopables]
+// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+if (ArrayPrototype[UNSCOPABLES] == undefined) {
+  definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
+    configurable: true,
+    value: create(null)
+  });
+}
 
-                // reject or resolve based on file size
-                var sizeMin = query('GET_MIN_FILE_SIZE');
-                if (sizeMin !== null && file.size <= sizeMin) {
-                    reject({
-                        status: {
-                            main: query('GET_LABEL_MIN_FILE_SIZE_EXCEEDED'),
-                            sub: replaceInString(query('GET_LABEL_MIN_FILE_SIZE'), {
-                                filesize: toNaturalFileSize(
-                                    sizeMin,
-                                    '.',
-                                    query('GET_FILE_SIZE_BASE')
-                                ),
-                            }),
-                        },
-                    });
+// add a key to Array.prototype[@@unscopables]
+module.exports = function (key) {
+  ArrayPrototype[UNSCOPABLES][key] = true;
+};
 
-                    return;
-                }
 
-                // returns the current option value
-                var totalSizeMax = query('GET_MAX_TOTAL_FILE_SIZE');
-                if (totalSizeMax !== null) {
-                    // get the current total file size
-                    var currentTotalSize = query('GET_ACTIVE_ITEMS').reduce(function(total, item) {
-                        return total + item.fileSize;
-                    }, 0);
+/***/ }),
 
-                    // get the size of the new file
-                    if (currentTotalSize > totalSizeMax) {
-                        reject({
-                            status: {
-                                main: query('GET_LABEL_MAX_TOTAL_FILE_SIZE_EXCEEDED'),
-                                sub: replaceInString(query('GET_LABEL_MAX_TOTAL_FILE_SIZE'), {
-                                    filesize: toNaturalFileSize(totalSizeMax),
-                                }),
-                            },
-                        });
+/***/ 1530:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_1715__) {
 
-                        return;
-                    }
-                }
+"use strict";
 
-                // file is fine, let's pass it back
-                resolve(file);
-            });
-        });
+var charAt = __nested_webpack_require_1715__(8710).charAt;
 
-        return {
-            options: {
-                // Enable or disable file type validation
-                allowFileSizeValidation: [true, Type.BOOLEAN],
+// `AdvanceStringIndex` abstract operation
+// https://tc39.es/ecma262/#sec-advancestringindex
+module.exports = function (S, index, unicode) {
+  return index + (unicode ? charAt(S, index).length : 1);
+};
 
-                // Max individual file size in bytes
-                maxFileSize: [null, Type.INT],
 
-                // Min individual file size in bytes
-                minFileSize: [null, Type.INT],
+/***/ }),
 
-                // Max total file size in bytes
-                maxTotalFileSize: [null, Type.INT],
+/***/ 5787:
+/***/ (function(module) {
 
-                // Filter the files that need to be validated for size
-                fileValidateSizeFilter: [null, Type.FUNCTION],
+module.exports = function (it, Constructor, name) {
+  if (!(it instanceof Constructor)) {
+    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
+  } return it;
+};
 
-                // error labels
-                labelMinFileSizeExceeded: ['File is too small', Type.STRING],
-                labelMinFileSize: ['Minimum file size is {filesize}', Type.STRING],
 
-                labelMaxFileSizeExceeded: ['File is too large', Type.STRING],
-                labelMaxFileSize: ['Maximum file size is {filesize}', Type.STRING],
+/***/ }),
 
-                labelMaxTotalFileSizeExceeded: ['Maximum total size exceeded', Type.STRING],
-                labelMaxTotalFileSize: ['Maximum total file size is {filesize}', Type.STRING],
-            },
-        };
-    };
+/***/ 9670:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_2317__) {
 
-    // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
-    var isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
-    if (isBrowser) {
-        document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', { detail: plugin }));
+var isObject = __nested_webpack_require_2317__(111);
+
+module.exports = function (it) {
+  if (!isObject(it)) {
+    throw TypeError(String(it) + ' is not an object');
+  } return it;
+};
+
+
+/***/ }),
+
+/***/ 4019:
+/***/ (function(module) {
+
+module.exports = typeof ArrayBuffer !== 'undefined' && typeof DataView !== 'undefined';
+
+
+/***/ }),
+
+/***/ 260:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_2726__) {
+
+"use strict";
+
+var NATIVE_ARRAY_BUFFER = __nested_webpack_require_2726__(4019);
+var DESCRIPTORS = __nested_webpack_require_2726__(9781);
+var global = __nested_webpack_require_2726__(7854);
+var isObject = __nested_webpack_require_2726__(111);
+var has = __nested_webpack_require_2726__(6656);
+var classof = __nested_webpack_require_2726__(648);
+var createNonEnumerableProperty = __nested_webpack_require_2726__(8880);
+var redefine = __nested_webpack_require_2726__(1320);
+var defineProperty = __nested_webpack_require_2726__(3070).f;
+var getPrototypeOf = __nested_webpack_require_2726__(9518);
+var setPrototypeOf = __nested_webpack_require_2726__(7674);
+var wellKnownSymbol = __nested_webpack_require_2726__(5112);
+var uid = __nested_webpack_require_2726__(9711);
+
+var Int8Array = global.Int8Array;
+var Int8ArrayPrototype = Int8Array && Int8Array.prototype;
+var Uint8ClampedArray = global.Uint8ClampedArray;
+var Uint8ClampedArrayPrototype = Uint8ClampedArray && Uint8ClampedArray.prototype;
+var TypedArray = Int8Array && getPrototypeOf(Int8Array);
+var TypedArrayPrototype = Int8ArrayPrototype && getPrototypeOf(Int8ArrayPrototype);
+var ObjectPrototype = Object.prototype;
+var isPrototypeOf = ObjectPrototype.isPrototypeOf;
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var TYPED_ARRAY_TAG = uid('TYPED_ARRAY_TAG');
+// Fixing native typed arrays in Opera Presto crashes the browser, see #595
+var NATIVE_ARRAY_BUFFER_VIEWS = NATIVE_ARRAY_BUFFER && !!setPrototypeOf && classof(global.opera) !== 'Opera';
+var TYPED_ARRAY_TAG_REQIRED = false;
+var NAME;
+
+var TypedArrayConstructorsList = {
+  Int8Array: 1,
+  Uint8Array: 1,
+  Uint8ClampedArray: 1,
+  Int16Array: 2,
+  Uint16Array: 2,
+  Int32Array: 4,
+  Uint32Array: 4,
+  Float32Array: 4,
+  Float64Array: 8
+};
+
+var BigIntArrayConstructorsList = {
+  BigInt64Array: 8,
+  BigUint64Array: 8
+};
+
+var isView = function isView(it) {
+  if (!isObject(it)) return false;
+  var klass = classof(it);
+  return klass === 'DataView'
+    || has(TypedArrayConstructorsList, klass)
+    || has(BigIntArrayConstructorsList, klass);
+};
+
+var isTypedArray = function (it) {
+  if (!isObject(it)) return false;
+  var klass = classof(it);
+  return has(TypedArrayConstructorsList, klass)
+    || has(BigIntArrayConstructorsList, klass);
+};
+
+var aTypedArray = function (it) {
+  if (isTypedArray(it)) return it;
+  throw TypeError('Target is not a typed array');
+};
+
+var aTypedArrayConstructor = function (C) {
+  if (setPrototypeOf) {
+    if (isPrototypeOf.call(TypedArray, C)) return C;
+  } else for (var ARRAY in TypedArrayConstructorsList) if (has(TypedArrayConstructorsList, NAME)) {
+    var TypedArrayConstructor = global[ARRAY];
+    if (TypedArrayConstructor && (C === TypedArrayConstructor || isPrototypeOf.call(TypedArrayConstructor, C))) {
+      return C;
     }
+  } throw TypeError('Target is not a typed array constructor');
+};
 
-    return plugin;
+var exportTypedArrayMethod = function (KEY, property, forced) {
+  if (!DESCRIPTORS) return;
+  if (forced) for (var ARRAY in TypedArrayConstructorsList) {
+    var TypedArrayConstructor = global[ARRAY];
+    if (TypedArrayConstructor && has(TypedArrayConstructor.prototype, KEY)) {
+      delete TypedArrayConstructor.prototype[KEY];
+    }
+  }
+  if (!TypedArrayPrototype[KEY] || forced) {
+    redefine(TypedArrayPrototype, KEY, forced ? property
+      : NATIVE_ARRAY_BUFFER_VIEWS && Int8ArrayPrototype[KEY] || property);
+  }
+};
+
+var exportTypedArrayStaticMethod = function (KEY, property, forced) {
+  var ARRAY, TypedArrayConstructor;
+  if (!DESCRIPTORS) return;
+  if (setPrototypeOf) {
+    if (forced) for (ARRAY in TypedArrayConstructorsList) {
+      TypedArrayConstructor = global[ARRAY];
+      if (TypedArrayConstructor && has(TypedArrayConstructor, KEY)) {
+        delete TypedArrayConstructor[KEY];
+      }
+    }
+    if (!TypedArray[KEY] || forced) {
+      // V8 ~ Chrome 49-50 `%TypedArray%` methods are non-writable non-configurable
+      try {
+        return redefine(TypedArray, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && Int8Array[KEY] || property);
+      } catch (error) { /* empty */ }
+    } else return;
+  }
+  for (ARRAY in TypedArrayConstructorsList) {
+    TypedArrayConstructor = global[ARRAY];
+    if (TypedArrayConstructor && (!TypedArrayConstructor[KEY] || forced)) {
+      redefine(TypedArrayConstructor, KEY, property);
+    }
+  }
+};
+
+for (NAME in TypedArrayConstructorsList) {
+  if (!global[NAME]) NATIVE_ARRAY_BUFFER_VIEWS = false;
+}
+
+// WebKit bug - typed arrays constructors prototype is Object.prototype
+if (!NATIVE_ARRAY_BUFFER_VIEWS || typeof TypedArray != 'function' || TypedArray === Function.prototype) {
+  // eslint-disable-next-line no-shadow -- safe
+  TypedArray = function TypedArray() {
+    throw TypeError('Incorrect invocation');
+  };
+  if (NATIVE_ARRAY_BUFFER_VIEWS) for (NAME in TypedArrayConstructorsList) {
+    if (global[NAME]) setPrototypeOf(global[NAME], TypedArray);
+  }
+}
+
+if (!NATIVE_ARRAY_BUFFER_VIEWS || !TypedArrayPrototype || TypedArrayPrototype === ObjectPrototype) {
+  TypedArrayPrototype = TypedArray.prototype;
+  if (NATIVE_ARRAY_BUFFER_VIEWS) for (NAME in TypedArrayConstructorsList) {
+    if (global[NAME]) setPrototypeOf(global[NAME].prototype, TypedArrayPrototype);
+  }
+}
+
+// WebKit bug - one more object in Uint8ClampedArray prototype chain
+if (NATIVE_ARRAY_BUFFER_VIEWS && getPrototypeOf(Uint8ClampedArrayPrototype) !== TypedArrayPrototype) {
+  setPrototypeOf(Uint8ClampedArrayPrototype, TypedArrayPrototype);
+}
+
+if (DESCRIPTORS && !has(TypedArrayPrototype, TO_STRING_TAG)) {
+  TYPED_ARRAY_TAG_REQIRED = true;
+  defineProperty(TypedArrayPrototype, TO_STRING_TAG, { get: function () {
+    return isObject(this) ? this[TYPED_ARRAY_TAG] : undefined;
+  } });
+  for (NAME in TypedArrayConstructorsList) if (global[NAME]) {
+    createNonEnumerableProperty(global[NAME], TYPED_ARRAY_TAG, NAME);
+  }
+}
+
+module.exports = {
+  NATIVE_ARRAY_BUFFER_VIEWS: NATIVE_ARRAY_BUFFER_VIEWS,
+  TYPED_ARRAY_TAG: TYPED_ARRAY_TAG_REQIRED && TYPED_ARRAY_TAG,
+  aTypedArray: aTypedArray,
+  aTypedArrayConstructor: aTypedArrayConstructor,
+  exportTypedArrayMethod: exportTypedArrayMethod,
+  exportTypedArrayStaticMethod: exportTypedArrayStaticMethod,
+  isView: isView,
+  isTypedArray: isTypedArray,
+  TypedArray: TypedArray,
+  TypedArrayPrototype: TypedArrayPrototype
+};
+
+
+/***/ }),
+
+/***/ 3331:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_8934__) {
+
+"use strict";
+
+var global = __nested_webpack_require_8934__(7854);
+var DESCRIPTORS = __nested_webpack_require_8934__(9781);
+var NATIVE_ARRAY_BUFFER = __nested_webpack_require_8934__(4019);
+var createNonEnumerableProperty = __nested_webpack_require_8934__(8880);
+var redefineAll = __nested_webpack_require_8934__(2248);
+var fails = __nested_webpack_require_8934__(7293);
+var anInstance = __nested_webpack_require_8934__(5787);
+var toInteger = __nested_webpack_require_8934__(9958);
+var toLength = __nested_webpack_require_8934__(7466);
+var toIndex = __nested_webpack_require_8934__(7067);
+var IEEE754 = __nested_webpack_require_8934__(1179);
+var getPrototypeOf = __nested_webpack_require_8934__(9518);
+var setPrototypeOf = __nested_webpack_require_8934__(7674);
+var getOwnPropertyNames = __nested_webpack_require_8934__(8006).f;
+var defineProperty = __nested_webpack_require_8934__(3070).f;
+var arrayFill = __nested_webpack_require_8934__(1285);
+var setToStringTag = __nested_webpack_require_8934__(8003);
+var InternalStateModule = __nested_webpack_require_8934__(9909);
+
+var getInternalState = InternalStateModule.get;
+var setInternalState = InternalStateModule.set;
+var ARRAY_BUFFER = 'ArrayBuffer';
+var DATA_VIEW = 'DataView';
+var PROTOTYPE = 'prototype';
+var WRONG_LENGTH = 'Wrong length';
+var WRONG_INDEX = 'Wrong index';
+var NativeArrayBuffer = global[ARRAY_BUFFER];
+var $ArrayBuffer = NativeArrayBuffer;
+var $DataView = global[DATA_VIEW];
+var $DataViewPrototype = $DataView && $DataView[PROTOTYPE];
+var ObjectPrototype = Object.prototype;
+var RangeError = global.RangeError;
+
+var packIEEE754 = IEEE754.pack;
+var unpackIEEE754 = IEEE754.unpack;
+
+var packInt8 = function (number) {
+  return [number & 0xFF];
+};
+
+var packInt16 = function (number) {
+  return [number & 0xFF, number >> 8 & 0xFF];
+};
+
+var packInt32 = function (number) {
+  return [number & 0xFF, number >> 8 & 0xFF, number >> 16 & 0xFF, number >> 24 & 0xFF];
+};
+
+var unpackInt32 = function (buffer) {
+  return buffer[3] << 24 | buffer[2] << 16 | buffer[1] << 8 | buffer[0];
+};
+
+var packFloat32 = function (number) {
+  return packIEEE754(number, 23, 4);
+};
+
+var packFloat64 = function (number) {
+  return packIEEE754(number, 52, 8);
+};
+
+var addGetter = function (Constructor, key) {
+  defineProperty(Constructor[PROTOTYPE], key, { get: function () { return getInternalState(this)[key]; } });
+};
+
+var get = function (view, count, index, isLittleEndian) {
+  var intIndex = toIndex(index);
+  var store = getInternalState(view);
+  if (intIndex + count > store.byteLength) throw RangeError(WRONG_INDEX);
+  var bytes = getInternalState(store.buffer).bytes;
+  var start = intIndex + store.byteOffset;
+  var pack = bytes.slice(start, start + count);
+  return isLittleEndian ? pack : pack.reverse();
+};
+
+var set = function (view, count, index, conversion, value, isLittleEndian) {
+  var intIndex = toIndex(index);
+  var store = getInternalState(view);
+  if (intIndex + count > store.byteLength) throw RangeError(WRONG_INDEX);
+  var bytes = getInternalState(store.buffer).bytes;
+  var start = intIndex + store.byteOffset;
+  var pack = conversion(+value);
+  for (var i = 0; i < count; i++) bytes[start + i] = pack[isLittleEndian ? i : count - i - 1];
+};
+
+if (!NATIVE_ARRAY_BUFFER) {
+  $ArrayBuffer = function ArrayBuffer(length) {
+    anInstance(this, $ArrayBuffer, ARRAY_BUFFER);
+    var byteLength = toIndex(length);
+    setInternalState(this, {
+      bytes: arrayFill.call(new Array(byteLength), 0),
+      byteLength: byteLength
+    });
+    if (!DESCRIPTORS) this.byteLength = byteLength;
+  };
+
+  $DataView = function DataView(buffer, byteOffset, byteLength) {
+    anInstance(this, $DataView, DATA_VIEW);
+    anInstance(buffer, $ArrayBuffer, DATA_VIEW);
+    var bufferLength = getInternalState(buffer).byteLength;
+    var offset = toInteger(byteOffset);
+    if (offset < 0 || offset > bufferLength) throw RangeError('Wrong offset');
+    byteLength = byteLength === undefined ? bufferLength - offset : toLength(byteLength);
+    if (offset + byteLength > bufferLength) throw RangeError(WRONG_LENGTH);
+    setInternalState(this, {
+      buffer: buffer,
+      byteLength: byteLength,
+      byteOffset: offset
+    });
+    if (!DESCRIPTORS) {
+      this.buffer = buffer;
+      this.byteLength = byteLength;
+      this.byteOffset = offset;
+    }
+  };
+
+  if (DESCRIPTORS) {
+    addGetter($ArrayBuffer, 'byteLength');
+    addGetter($DataView, 'buffer');
+    addGetter($DataView, 'byteLength');
+    addGetter($DataView, 'byteOffset');
+  }
+
+  redefineAll($DataView[PROTOTYPE], {
+    getInt8: function getInt8(byteOffset) {
+      return get(this, 1, byteOffset)[0] << 24 >> 24;
+    },
+    getUint8: function getUint8(byteOffset) {
+      return get(this, 1, byteOffset)[0];
+    },
+    getInt16: function getInt16(byteOffset /* , littleEndian */) {
+      var bytes = get(this, 2, byteOffset, arguments.length > 1 ? arguments[1] : undefined);
+      return (bytes[1] << 8 | bytes[0]) << 16 >> 16;
+    },
+    getUint16: function getUint16(byteOffset /* , littleEndian */) {
+      var bytes = get(this, 2, byteOffset, arguments.length > 1 ? arguments[1] : undefined);
+      return bytes[1] << 8 | bytes[0];
+    },
+    getInt32: function getInt32(byteOffset /* , littleEndian */) {
+      return unpackInt32(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined));
+    },
+    getUint32: function getUint32(byteOffset /* , littleEndian */) {
+      return unpackInt32(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined)) >>> 0;
+    },
+    getFloat32: function getFloat32(byteOffset /* , littleEndian */) {
+      return unpackIEEE754(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined), 23);
+    },
+    getFloat64: function getFloat64(byteOffset /* , littleEndian */) {
+      return unpackIEEE754(get(this, 8, byteOffset, arguments.length > 1 ? arguments[1] : undefined), 52);
+    },
+    setInt8: function setInt8(byteOffset, value) {
+      set(this, 1, byteOffset, packInt8, value);
+    },
+    setUint8: function setUint8(byteOffset, value) {
+      set(this, 1, byteOffset, packInt8, value);
+    },
+    setInt16: function setInt16(byteOffset, value /* , littleEndian */) {
+      set(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
+    },
+    setUint16: function setUint16(byteOffset, value /* , littleEndian */) {
+      set(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
+    },
+    setInt32: function setInt32(byteOffset, value /* , littleEndian */) {
+      set(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
+    },
+    setUint32: function setUint32(byteOffset, value /* , littleEndian */) {
+      set(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
+    },
+    setFloat32: function setFloat32(byteOffset, value /* , littleEndian */) {
+      set(this, 4, byteOffset, packFloat32, value, arguments.length > 2 ? arguments[2] : undefined);
+    },
+    setFloat64: function setFloat64(byteOffset, value /* , littleEndian */) {
+      set(this, 8, byteOffset, packFloat64, value, arguments.length > 2 ? arguments[2] : undefined);
+    }
+  });
+} else {
+  /* eslint-disable no-new -- required for testing */
+  if (!fails(function () {
+    NativeArrayBuffer(1);
+  }) || !fails(function () {
+    new NativeArrayBuffer(-1);
+  }) || fails(function () {
+    new NativeArrayBuffer();
+    new NativeArrayBuffer(1.5);
+    new NativeArrayBuffer(NaN);
+    return NativeArrayBuffer.name != ARRAY_BUFFER;
+  })) {
+  /* eslint-enable no-new -- required for testing */
+    $ArrayBuffer = function ArrayBuffer(length) {
+      anInstance(this, $ArrayBuffer);
+      return new NativeArrayBuffer(toIndex(length));
+    };
+    var ArrayBufferPrototype = $ArrayBuffer[PROTOTYPE] = NativeArrayBuffer[PROTOTYPE];
+    for (var keys = getOwnPropertyNames(NativeArrayBuffer), j = 0, key; keys.length > j;) {
+      if (!((key = keys[j++]) in $ArrayBuffer)) {
+        createNonEnumerableProperty($ArrayBuffer, key, NativeArrayBuffer[key]);
+      }
+    }
+    ArrayBufferPrototype.constructor = $ArrayBuffer;
+  }
+
+  // WebKit bug - the same parent prototype for typed arrays and data view
+  if (setPrototypeOf && getPrototypeOf($DataViewPrototype) !== ObjectPrototype) {
+    setPrototypeOf($DataViewPrototype, ObjectPrototype);
+  }
+
+  // iOS Safari 7.x bug
+  var testView = new $DataView(new $ArrayBuffer(2));
+  var nativeSetInt8 = $DataViewPrototype.setInt8;
+  testView.setInt8(0, 2147483648);
+  testView.setInt8(1, 2147483649);
+  if (testView.getInt8(0) || !testView.getInt8(1)) redefineAll($DataViewPrototype, {
+    setInt8: function setInt8(byteOffset, value) {
+      nativeSetInt8.call(this, byteOffset, value << 24 >> 24);
+    },
+    setUint8: function setUint8(byteOffset, value) {
+      nativeSetInt8.call(this, byteOffset, value << 24 >> 24);
+    }
+  }, { unsafe: true });
+}
+
+setToStringTag($ArrayBuffer, ARRAY_BUFFER);
+setToStringTag($DataView, DATA_VIEW);
+
+module.exports = {
+  ArrayBuffer: $ArrayBuffer,
+  DataView: $DataView
+};
+
+
+/***/ }),
+
+/***/ 1048:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_17881__) {
+
+"use strict";
+
+var toObject = __nested_webpack_require_17881__(7908);
+var toAbsoluteIndex = __nested_webpack_require_17881__(1400);
+var toLength = __nested_webpack_require_17881__(7466);
+
+var min = Math.min;
+
+// `Array.prototype.copyWithin` method implementation
+// https://tc39.es/ecma262/#sec-array.prototype.copywithin
+module.exports = [].copyWithin || function copyWithin(target /* = 0 */, start /* = 0, end = @length */) {
+  var O = toObject(this);
+  var len = toLength(O.length);
+  var to = toAbsoluteIndex(target, len);
+  var from = toAbsoluteIndex(start, len);
+  var end = arguments.length > 2 ? arguments[2] : undefined;
+  var count = min((end === undefined ? len : toAbsoluteIndex(end, len)) - from, len - to);
+  var inc = 1;
+  if (from < to && to < from + count) {
+    inc = -1;
+    from += count - 1;
+    to += count - 1;
+  }
+  while (count-- > 0) {
+    if (from in O) O[to] = O[from];
+    else delete O[to];
+    to += inc;
+    from += inc;
+  } return O;
+};
+
+
+/***/ }),
+
+/***/ 1285:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_18911__) {
+
+"use strict";
+
+var toObject = __nested_webpack_require_18911__(7908);
+var toAbsoluteIndex = __nested_webpack_require_18911__(1400);
+var toLength = __nested_webpack_require_18911__(7466);
+
+// `Array.prototype.fill` method implementation
+// https://tc39.es/ecma262/#sec-array.prototype.fill
+module.exports = function fill(value /* , start = 0, end = @length */) {
+  var O = toObject(this);
+  var length = toLength(O.length);
+  var argumentsLength = arguments.length;
+  var index = toAbsoluteIndex(argumentsLength > 1 ? arguments[1] : undefined, length);
+  var end = argumentsLength > 2 ? arguments[2] : undefined;
+  var endPos = end === undefined ? length : toAbsoluteIndex(end, length);
+  while (endPos > index) O[index++] = value;
+  return O;
+};
+
+
+/***/ }),
+
+/***/ 8533:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_19717__) {
+
+"use strict";
+
+var $forEach = __nested_webpack_require_19717__(2092).forEach;
+var arrayMethodIsStrict = __nested_webpack_require_19717__(9341);
+
+var STRICT_METHOD = arrayMethodIsStrict('forEach');
+
+// `Array.prototype.forEach` method implementation
+// https://tc39.es/ecma262/#sec-array.prototype.foreach
+module.exports = !STRICT_METHOD ? function forEach(callbackfn /* , thisArg */) {
+  return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+} : [].forEach;
+
+
+/***/ }),
+
+/***/ 8457:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_20278__) {
+
+"use strict";
+
+var bind = __nested_webpack_require_20278__(9974);
+var toObject = __nested_webpack_require_20278__(7908);
+var callWithSafeIterationClosing = __nested_webpack_require_20278__(3411);
+var isArrayIteratorMethod = __nested_webpack_require_20278__(7659);
+var toLength = __nested_webpack_require_20278__(7466);
+var createProperty = __nested_webpack_require_20278__(6135);
+var getIteratorMethod = __nested_webpack_require_20278__(1246);
+
+// `Array.from` method implementation
+// https://tc39.es/ecma262/#sec-array.from
+module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+  var O = toObject(arrayLike);
+  var C = typeof this == 'function' ? this : Array;
+  var argumentsLength = arguments.length;
+  var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
+  var mapping = mapfn !== undefined;
+  var iteratorMethod = getIteratorMethod(O);
+  var index = 0;
+  var length, result, step, iterator, next, value;
+  if (mapping) mapfn = bind(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
+  // if the target is not iterable or it's an array with the default iterator - use a simple case
+  if (iteratorMethod != undefined && !(C == Array && isArrayIteratorMethod(iteratorMethod))) {
+    iterator = iteratorMethod.call(O);
+    next = iterator.next;
+    result = new C();
+    for (;!(step = next.call(iterator)).done; index++) {
+      value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
+      createProperty(result, index, value);
+    }
+  } else {
+    length = toLength(O.length);
+    result = new C(length);
+    for (;length > index; index++) {
+      value = mapping ? mapfn(O[index], index) : O[index];
+      createProperty(result, index, value);
+    }
+  }
+  result.length = index;
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 1318:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_22092__) {
+
+var toIndexedObject = __nested_webpack_require_22092__(5656);
+var toLength = __nested_webpack_require_22092__(7466);
+var toAbsoluteIndex = __nested_webpack_require_22092__(1400);
+
+// `Array.prototype.{ indexOf, includes }` methods implementation
+var createMethod = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIndexedObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare -- NaN check
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare -- NaN check
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) {
+      if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+module.exports = {
+  // `Array.prototype.includes` method
+  // https://tc39.es/ecma262/#sec-array.prototype.includes
+  includes: createMethod(true),
+  // `Array.prototype.indexOf` method
+  // https://tc39.es/ecma262/#sec-array.prototype.indexof
+  indexOf: createMethod(false)
+};
+
+
+/***/ }),
+
+/***/ 2092:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_23446__) {
+
+var bind = __nested_webpack_require_23446__(9974);
+var IndexedObject = __nested_webpack_require_23446__(8361);
+var toObject = __nested_webpack_require_23446__(7908);
+var toLength = __nested_webpack_require_23446__(7466);
+var arraySpeciesCreate = __nested_webpack_require_23446__(5417);
+
+var push = [].push;
+
+// `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterOut }` methods implementation
+var createMethod = function (TYPE) {
+  var IS_MAP = TYPE == 1;
+  var IS_FILTER = TYPE == 2;
+  var IS_SOME = TYPE == 3;
+  var IS_EVERY = TYPE == 4;
+  var IS_FIND_INDEX = TYPE == 6;
+  var IS_FILTER_OUT = TYPE == 7;
+  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+  return function ($this, callbackfn, that, specificCreate) {
+    var O = toObject($this);
+    var self = IndexedObject(O);
+    var boundFunction = bind(callbackfn, that, 3);
+    var length = toLength(self.length);
+    var index = 0;
+    var create = specificCreate || arraySpeciesCreate;
+    var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_OUT ? create($this, 0) : undefined;
+    var value, result;
+    for (;length > index; index++) if (NO_HOLES || index in self) {
+      value = self[index];
+      result = boundFunction(value, index, O);
+      if (TYPE) {
+        if (IS_MAP) target[index] = result; // map
+        else if (result) switch (TYPE) {
+          case 3: return true;              // some
+          case 5: return value;             // find
+          case 6: return index;             // findIndex
+          case 2: push.call(target, value); // filter
+        } else switch (TYPE) {
+          case 4: return false;             // every
+          case 7: push.call(target, value); // filterOut
+        }
+      }
+    }
+    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
+  };
+};
+
+module.exports = {
+  // `Array.prototype.forEach` method
+  // https://tc39.es/ecma262/#sec-array.prototype.foreach
+  forEach: createMethod(0),
+  // `Array.prototype.map` method
+  // https://tc39.es/ecma262/#sec-array.prototype.map
+  map: createMethod(1),
+  // `Array.prototype.filter` method
+  // https://tc39.es/ecma262/#sec-array.prototype.filter
+  filter: createMethod(2),
+  // `Array.prototype.some` method
+  // https://tc39.es/ecma262/#sec-array.prototype.some
+  some: createMethod(3),
+  // `Array.prototype.every` method
+  // https://tc39.es/ecma262/#sec-array.prototype.every
+  every: createMethod(4),
+  // `Array.prototype.find` method
+  // https://tc39.es/ecma262/#sec-array.prototype.find
+  find: createMethod(5),
+  // `Array.prototype.findIndex` method
+  // https://tc39.es/ecma262/#sec-array.prototype.findIndex
+  findIndex: createMethod(6),
+  // `Array.prototype.filterOut` method
+  // https://github.com/tc39/proposal-array-filtering
+  filterOut: createMethod(7)
+};
+
+
+/***/ }),
+
+/***/ 6583:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_26271__) {
+
+"use strict";
+
+var toIndexedObject = __nested_webpack_require_26271__(5656);
+var toInteger = __nested_webpack_require_26271__(9958);
+var toLength = __nested_webpack_require_26271__(7466);
+var arrayMethodIsStrict = __nested_webpack_require_26271__(9341);
+
+var min = Math.min;
+var nativeLastIndexOf = [].lastIndexOf;
+var NEGATIVE_ZERO = !!nativeLastIndexOf && 1 / [1].lastIndexOf(1, -0) < 0;
+var STRICT_METHOD = arrayMethodIsStrict('lastIndexOf');
+var FORCED = NEGATIVE_ZERO || !STRICT_METHOD;
+
+// `Array.prototype.lastIndexOf` method implementation
+// https://tc39.es/ecma262/#sec-array.prototype.lastindexof
+module.exports = FORCED ? function lastIndexOf(searchElement /* , fromIndex = @[*-1] */) {
+  // convert -0 to +0
+  if (NEGATIVE_ZERO) return nativeLastIndexOf.apply(this, arguments) || 0;
+  var O = toIndexedObject(this);
+  var length = toLength(O.length);
+  var index = length - 1;
+  if (arguments.length > 1) index = min(index, toInteger(arguments[1]));
+  if (index < 0) index = length + index;
+  for (;index >= 0; index--) if (index in O && O[index] === searchElement) return index || 0;
+  return -1;
+} : nativeLastIndexOf;
+
+
+/***/ }),
+
+/***/ 1194:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_27452__) {
+
+var fails = __nested_webpack_require_27452__(7293);
+var wellKnownSymbol = __nested_webpack_require_27452__(5112);
+var V8_VERSION = __nested_webpack_require_27452__(7392);
+
+var SPECIES = wellKnownSymbol('species');
+
+module.exports = function (METHOD_NAME) {
+  // We can't use this feature detection in V8 since it causes
+  // deoptimization and serious performance degradation
+  // https://github.com/zloirock/core-js/issues/677
+  return V8_VERSION >= 51 || !fails(function () {
+    var array = [];
+    var constructor = array.constructor = {};
+    constructor[SPECIES] = function () {
+      return { foo: 1 };
+    };
+    return array[METHOD_NAME](Boolean).foo !== 1;
+  });
+};
+
+
+/***/ }),
+
+/***/ 9341:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_28188__) {
+
+"use strict";
+
+var fails = __nested_webpack_require_28188__(7293);
+
+module.exports = function (METHOD_NAME, argument) {
+  var method = [][METHOD_NAME];
+  return !!method && fails(function () {
+    // eslint-disable-next-line no-useless-call,no-throw-literal -- required for testing
+    method.call(null, argument || function () { throw 1; }, 1);
+  });
+};
+
+
+/***/ }),
+
+/***/ 3671:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_28629__) {
+
+var aFunction = __nested_webpack_require_28629__(3099);
+var toObject = __nested_webpack_require_28629__(7908);
+var IndexedObject = __nested_webpack_require_28629__(8361);
+var toLength = __nested_webpack_require_28629__(7466);
+
+// `Array.prototype.{ reduce, reduceRight }` methods implementation
+var createMethod = function (IS_RIGHT) {
+  return function (that, callbackfn, argumentsLength, memo) {
+    aFunction(callbackfn);
+    var O = toObject(that);
+    var self = IndexedObject(O);
+    var length = toLength(O.length);
+    var index = IS_RIGHT ? length - 1 : 0;
+    var i = IS_RIGHT ? -1 : 1;
+    if (argumentsLength < 2) while (true) {
+      if (index in self) {
+        memo = self[index];
+        index += i;
+        break;
+      }
+      index += i;
+      if (IS_RIGHT ? index < 0 : length <= index) {
+        throw TypeError('Reduce of empty array with no initial value');
+      }
+    }
+    for (;IS_RIGHT ? index >= 0 : length > index; index += i) if (index in self) {
+      memo = callbackfn(memo, self[index], index, O);
+    }
+    return memo;
+  };
+};
+
+module.exports = {
+  // `Array.prototype.reduce` method
+  // https://tc39.es/ecma262/#sec-array.prototype.reduce
+  left: createMethod(false),
+  // `Array.prototype.reduceRight` method
+  // https://tc39.es/ecma262/#sec-array.prototype.reduceright
+  right: createMethod(true)
+};
+
+
+/***/ }),
+
+/***/ 5417:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_30017__) {
+
+var isObject = __nested_webpack_require_30017__(111);
+var isArray = __nested_webpack_require_30017__(3157);
+var wellKnownSymbol = __nested_webpack_require_30017__(5112);
+
+var SPECIES = wellKnownSymbol('species');
+
+// `ArraySpeciesCreate` abstract operation
+// https://tc39.es/ecma262/#sec-arrayspeciescreate
+module.exports = function (originalArray, length) {
+  var C;
+  if (isArray(originalArray)) {
+    C = originalArray.constructor;
+    // cross-realm fallback
+    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
+    else if (isObject(C)) {
+      C = C[SPECIES];
+      if (C === null) C = undefined;
+    }
+  } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
+};
+
+
+/***/ }),
+
+/***/ 3411:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_30798__) {
+
+var anObject = __nested_webpack_require_30798__(9670);
+var iteratorClose = __nested_webpack_require_30798__(9212);
+
+// call something on iterator step with safe closing on error
+module.exports = function (iterator, fn, value, ENTRIES) {
+  try {
+    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch (error) {
+    iteratorClose(iterator);
+    throw error;
+  }
+};
+
+
+/***/ }),
+
+/***/ 7072:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_31303__) {
+
+var wellKnownSymbol = __nested_webpack_require_31303__(5112);
+
+var ITERATOR = wellKnownSymbol('iterator');
+var SAFE_CLOSING = false;
+
+try {
+  var called = 0;
+  var iteratorWithReturn = {
+    next: function () {
+      return { done: !!called++ };
+    },
+    'return': function () {
+      SAFE_CLOSING = true;
+    }
+  };
+  iteratorWithReturn[ITERATOR] = function () {
+    return this;
+  };
+  // eslint-disable-next-line no-throw-literal -- required for testing
+  Array.from(iteratorWithReturn, function () { throw 2; });
+} catch (error) { /* empty */ }
+
+module.exports = function (exec, SKIP_CLOSING) {
+  if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
+  var ITERATION_SUPPORT = false;
+  try {
+    var object = {};
+    object[ITERATOR] = function () {
+      return {
+        next: function () {
+          return { done: ITERATION_SUPPORT = true };
+        }
+      };
+    };
+    exec(object);
+  } catch (error) { /* empty */ }
+  return ITERATION_SUPPORT;
+};
+
+
+/***/ }),
+
+/***/ 4326:
+/***/ (function(module) {
+
+var toString = {}.toString;
+
+module.exports = function (it) {
+  return toString.call(it).slice(8, -1);
+};
+
+
+/***/ }),
+
+/***/ 648:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_32503__) {
+
+var TO_STRING_TAG_SUPPORT = __nested_webpack_require_32503__(1694);
+var classofRaw = __nested_webpack_require_32503__(4326);
+var wellKnownSymbol = __nested_webpack_require_32503__(5112);
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+// ES3 wrong here
+var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (error) { /* empty */ }
+};
+
+// getting tag from ES6+ `Object.prototype.toString`
+module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
+  var O, tag, result;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
+    // builtinTag case
+    : CORRECT_ARGUMENTS ? classofRaw(O)
+    // ES3 arguments fallback
+    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
+};
+
+
+/***/ }),
+
+/***/ 9920:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_33565__) {
+
+var has = __nested_webpack_require_33565__(6656);
+var ownKeys = __nested_webpack_require_33565__(3887);
+var getOwnPropertyDescriptorModule = __nested_webpack_require_33565__(1236);
+var definePropertyModule = __nested_webpack_require_33565__(3070);
+
+module.exports = function (target, source) {
+  var keys = ownKeys(source);
+  var defineProperty = definePropertyModule.f;
+  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+  }
+};
+
+
+/***/ }),
+
+/***/ 8544:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_34217__) {
+
+var fails = __nested_webpack_require_34217__(7293);
+
+module.exports = !fails(function () {
+  function F() { /* empty */ }
+  F.prototype.constructor = null;
+  return Object.getPrototypeOf(new F()) !== F.prototype;
 });
 
 
 /***/ }),
 
-/***/ "./node_modules/filepond/dist/filepond.js":
-/*!************************************************!*\
-  !*** ./node_modules/filepond/dist/filepond.js ***!
-  \************************************************/
+/***/ 4994:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_34520__) {
+
+"use strict";
+
+var IteratorPrototype = __nested_webpack_require_34520__(3383).IteratorPrototype;
+var create = __nested_webpack_require_34520__(30);
+var createPropertyDescriptor = __nested_webpack_require_34520__(9114);
+var setToStringTag = __nested_webpack_require_34520__(8003);
+var Iterators = __nested_webpack_require_34520__(7497);
+
+var returnThis = function () { return this; };
+
+module.exports = function (IteratorConstructor, NAME, next) {
+  var TO_STRING_TAG = NAME + ' Iterator';
+  IteratorConstructor.prototype = create(IteratorPrototype, { next: createPropertyDescriptor(1, next) });
+  setToStringTag(IteratorConstructor, TO_STRING_TAG, false, true);
+  Iterators[TO_STRING_TAG] = returnThis;
+  return IteratorConstructor;
+};
+
+
+/***/ }),
+
+/***/ 8880:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_35290__) {
+
+var DESCRIPTORS = __nested_webpack_require_35290__(9781);
+var definePropertyModule = __nested_webpack_require_35290__(3070);
+var createPropertyDescriptor = __nested_webpack_require_35290__(9114);
+
+module.exports = DESCRIPTORS ? function (object, key, value) {
+  return definePropertyModule.f(object, key, createPropertyDescriptor(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+
+/***/ 9114:
+/***/ (function(module) {
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
+};
+
+
+/***/ }),
+
+/***/ 6135:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_35996__) {
+
+"use strict";
+
+var toPrimitive = __nested_webpack_require_35996__(7593);
+var definePropertyModule = __nested_webpack_require_35996__(3070);
+var createPropertyDescriptor = __nested_webpack_require_35996__(9114);
+
+module.exports = function (object, key, value) {
+  var propertyKey = toPrimitive(key);
+  if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
+  else object[propertyKey] = value;
+};
+
+
+/***/ }),
+
+/***/ 654:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_36503__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_36503__(2109);
+var createIteratorConstructor = __nested_webpack_require_36503__(4994);
+var getPrototypeOf = __nested_webpack_require_36503__(9518);
+var setPrototypeOf = __nested_webpack_require_36503__(7674);
+var setToStringTag = __nested_webpack_require_36503__(8003);
+var createNonEnumerableProperty = __nested_webpack_require_36503__(8880);
+var redefine = __nested_webpack_require_36503__(1320);
+var wellKnownSymbol = __nested_webpack_require_36503__(5112);
+var IS_PURE = __nested_webpack_require_36503__(1913);
+var Iterators = __nested_webpack_require_36503__(7497);
+var IteratorsCore = __nested_webpack_require_36503__(3383);
+
+var IteratorPrototype = IteratorsCore.IteratorPrototype;
+var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
+var ITERATOR = wellKnownSymbol('iterator');
+var KEYS = 'keys';
+var VALUES = 'values';
+var ENTRIES = 'entries';
+
+var returnThis = function () { return this; };
+
+module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
+  createIteratorConstructor(IteratorConstructor, NAME, next);
+
+  var getIterationMethod = function (KIND) {
+    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
+    if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
+    switch (KIND) {
+      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
+      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
+      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
+    } return function () { return new IteratorConstructor(this); };
+  };
+
+  var TO_STRING_TAG = NAME + ' Iterator';
+  var INCORRECT_VALUES_NAME = false;
+  var IterablePrototype = Iterable.prototype;
+  var nativeIterator = IterablePrototype[ITERATOR]
+    || IterablePrototype['@@iterator']
+    || DEFAULT && IterablePrototype[DEFAULT];
+  var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
+  var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
+  var CurrentIteratorPrototype, methods, KEY;
+
+  // fix native
+  if (anyNativeIterator) {
+    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
+    if (IteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
+      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
+        if (setPrototypeOf) {
+          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
+        } else if (typeof CurrentIteratorPrototype[ITERATOR] != 'function') {
+          createNonEnumerableProperty(CurrentIteratorPrototype, ITERATOR, returnThis);
+        }
+      }
+      // Set @@toStringTag to native iterators
+      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
+      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
+    }
+  }
+
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
+    INCORRECT_VALUES_NAME = true;
+    defaultIterator = function values() { return nativeIterator.call(this); };
+  }
+
+  // define iterator
+  if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {
+    createNonEnumerableProperty(IterablePrototype, ITERATOR, defaultIterator);
+  }
+  Iterators[NAME] = defaultIterator;
+
+  // export additional methods
+  if (DEFAULT) {
+    methods = {
+      values: getIterationMethod(VALUES),
+      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
+      entries: getIterationMethod(ENTRIES)
+    };
+    if (FORCED) for (KEY in methods) {
+      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
+        redefine(IterablePrototype, KEY, methods[KEY]);
+      }
+    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+  }
+
+  return methods;
+};
+
+
+/***/ }),
+
+/***/ 9781:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_40475__) {
+
+var fails = __nested_webpack_require_40475__(7293);
+
+// Detect IE8's incomplete defineProperty implementation
+module.exports = !fails(function () {
+  return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
+});
+
+
+/***/ }),
+
+/***/ 317:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_40795__) {
+
+var global = __nested_webpack_require_40795__(7854);
+var isObject = __nested_webpack_require_40795__(111);
+
+var document = global.document;
+// typeof document.createElement is 'object' in old IE
+var EXISTS = isObject(document) && isObject(document.createElement);
+
+module.exports = function (it) {
+  return EXISTS ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+
+/***/ 8324:
+/***/ (function(module) {
+
+// iterable DOM collections
+// flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
+module.exports = {
+  CSSRuleList: 0,
+  CSSStyleDeclaration: 0,
+  CSSValueList: 0,
+  ClientRectList: 0,
+  DOMRectList: 0,
+  DOMStringList: 0,
+  DOMTokenList: 1,
+  DataTransferItemList: 0,
+  FileList: 0,
+  HTMLAllCollection: 0,
+  HTMLCollection: 0,
+  HTMLFormElement: 0,
+  HTMLSelectElement: 0,
+  MediaList: 0,
+  MimeTypeArray: 0,
+  NamedNodeMap: 0,
+  NodeList: 1,
+  PaintRequestList: 0,
+  Plugin: 0,
+  PluginArray: 0,
+  SVGLengthList: 0,
+  SVGNumberList: 0,
+  SVGPathSegList: 0,
+  SVGPointList: 0,
+  SVGStringList: 0,
+  SVGTransformList: 0,
+  SourceBufferList: 0,
+  StyleSheetList: 0,
+  TextTrackCueList: 0,
+  TextTrackList: 0,
+  TouchList: 0
+};
+
+
+/***/ }),
+
+/***/ 8113:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_42025__) {
+
+var getBuiltIn = __nested_webpack_require_42025__(5005);
+
+module.exports = getBuiltIn('navigator', 'userAgent') || '';
+
+
+/***/ }),
+
+/***/ 7392:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_42230__) {
+
+var global = __nested_webpack_require_42230__(7854);
+var userAgent = __nested_webpack_require_42230__(8113);
+
+var process = global.process;
+var versions = process && process.versions;
+var v8 = versions && versions.v8;
+var match, version;
+
+if (v8) {
+  match = v8.split('.');
+  version = match[0] + match[1];
+} else if (userAgent) {
+  match = userAgent.match(/Edge\/(\d+)/);
+  if (!match || match[1] >= 74) {
+    match = userAgent.match(/Chrome\/(\d+)/);
+    if (match) version = match[1];
+  }
+}
+
+module.exports = version && +version;
+
+
+/***/ }),
+
+/***/ 748:
+/***/ (function(module) {
+
+// IE8- don't enum bug keys
+module.exports = [
+  'constructor',
+  'hasOwnProperty',
+  'isPrototypeOf',
+  'propertyIsEnumerable',
+  'toLocaleString',
+  'toString',
+  'valueOf'
+];
+
+
+/***/ }),
+
+/***/ 2109:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_43065__) {
+
+var global = __nested_webpack_require_43065__(7854);
+var getOwnPropertyDescriptor = __nested_webpack_require_43065__(1236).f;
+var createNonEnumerableProperty = __nested_webpack_require_43065__(8880);
+var redefine = __nested_webpack_require_43065__(1320);
+var setGlobal = __nested_webpack_require_43065__(3505);
+var copyConstructorProperties = __nested_webpack_require_43065__(9920);
+var isForced = __nested_webpack_require_43065__(4705);
+
+/*
+  options.target      - name of the target object
+  options.global      - target is the global object
+  options.stat        - export as static methods of target
+  options.proto       - export as prototype methods of target
+  options.real        - real prototype method for the `pure` version
+  options.forced      - export even if the native feature is available
+  options.bind        - bind methods to the target, required for the `pure` version
+  options.wrap        - wrap constructors to preventing global pollution, required for the `pure` version
+  options.unsafe      - use the simple assignment of property instead of delete + defineProperty
+  options.sham        - add a flag to not completely full polyfills
+  options.enumerable  - export as enumerable property
+  options.noTargetGet - prevent calling a getter on target
+*/
+module.exports = function (options, source) {
+  var TARGET = options.target;
+  var GLOBAL = options.global;
+  var STATIC = options.stat;
+  var FORCED, target, key, targetProperty, sourceProperty, descriptor;
+  if (GLOBAL) {
+    target = global;
+  } else if (STATIC) {
+    target = global[TARGET] || setGlobal(TARGET, {});
+  } else {
+    target = (global[TARGET] || {}).prototype;
+  }
+  if (target) for (key in source) {
+    sourceProperty = source[key];
+    if (options.noTargetGet) {
+      descriptor = getOwnPropertyDescriptor(target, key);
+      targetProperty = descriptor && descriptor.value;
+    } else targetProperty = target[key];
+    FORCED = isForced(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
+    // contained in target
+    if (!FORCED && targetProperty !== undefined) {
+      if (typeof sourceProperty === typeof targetProperty) continue;
+      copyConstructorProperties(sourceProperty, targetProperty);
+    }
+    // add a flag to not completely full polyfills
+    if (options.sham || (targetProperty && targetProperty.sham)) {
+      createNonEnumerableProperty(sourceProperty, 'sham', true);
+    }
+    // extend global
+    redefine(target, key, sourceProperty, options);
+  }
+};
+
+
+/***/ }),
+
+/***/ 7293:
+/***/ (function(module) {
+
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (error) {
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ 7007:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_45726__) {
+
+"use strict";
+
+// TODO: Remove from `core-js@4` since it's moved to entry points
+__nested_webpack_require_45726__(4916);
+var redefine = __nested_webpack_require_45726__(1320);
+var fails = __nested_webpack_require_45726__(7293);
+var wellKnownSymbol = __nested_webpack_require_45726__(5112);
+var regexpExec = __nested_webpack_require_45726__(2261);
+var createNonEnumerableProperty = __nested_webpack_require_45726__(8880);
+
+var SPECIES = wellKnownSymbol('species');
+
+var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
+  // #replace needs built-in support for named groups.
+  // #match works fine because it just return the exec results, even if it has
+  // a "grops" property.
+  var re = /./;
+  re.exec = function () {
+    var result = [];
+    result.groups = { a: '7' };
+    return result;
+  };
+  return ''.replace(re, '$<a>') !== '7';
+});
+
+// IE <= 11 replaces $0 with the whole match, as if it was $&
+// https://stackoverflow.com/questions/6024666/getting-ie-to-replace-a-regex-with-the-literal-string-0
+var REPLACE_KEEPS_$0 = (function () {
+  return 'a'.replace(/./, '$0') === '$0';
+})();
+
+var REPLACE = wellKnownSymbol('replace');
+// Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
+var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
+  if (/./[REPLACE]) {
+    return /./[REPLACE]('a', '$0') === '';
+  }
+  return false;
+})();
+
+// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+// Weex JS has frozen built-in prototypes, so use try / catch wrapper
+var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
+  // eslint-disable-next-line regexp/no-empty-group -- required for testing
+  var re = /(?:)/;
+  var originalExec = re.exec;
+  re.exec = function () { return originalExec.apply(this, arguments); };
+  var result = 'ab'.split(re);
+  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
+});
+
+module.exports = function (KEY, length, exec, sham) {
+  var SYMBOL = wellKnownSymbol(KEY);
+
+  var DELEGATES_TO_SYMBOL = !fails(function () {
+    // String methods call symbol-named RegEp methods
+    var O = {};
+    O[SYMBOL] = function () { return 7; };
+    return ''[KEY](O) != 7;
+  });
+
+  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
+    // Symbol-named RegExp methods call .exec
+    var execCalled = false;
+    var re = /a/;
+
+    if (KEY === 'split') {
+      // We can't use real regex here since it causes deoptimization
+      // and serious performance degradation in V8
+      // https://github.com/zloirock/core-js/issues/306
+      re = {};
+      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+      // a new one. We need to return the patched regex when creating the new one.
+      re.constructor = {};
+      re.constructor[SPECIES] = function () { return re; };
+      re.flags = '';
+      re[SYMBOL] = /./[SYMBOL];
+    }
+
+    re.exec = function () { execCalled = true; return null; };
+
+    re[SYMBOL]('');
+    return !execCalled;
+  });
+
+  if (
+    !DELEGATES_TO_SYMBOL ||
+    !DELEGATES_TO_EXEC ||
+    (KEY === 'replace' && !(
+      REPLACE_SUPPORTS_NAMED_GROUPS &&
+      REPLACE_KEEPS_$0 &&
+      !REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
+    )) ||
+    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+  ) {
+    var nativeRegExpMethod = /./[SYMBOL];
+    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
+      if (regexp.exec === regexpExec) {
+        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+          // The native String method already delegates to @@method (this
+          // polyfilled function), leasing to infinite recursion.
+          // We avoid it by directly calling the native @@method method.
+          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+        }
+        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+      }
+      return { done: false };
+    }, {
+      REPLACE_KEEPS_$0: REPLACE_KEEPS_$0,
+      REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE: REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
+    });
+    var stringMethod = methods[0];
+    var regexMethod = methods[1];
+
+    redefine(String.prototype, KEY, stringMethod);
+    redefine(RegExp.prototype, SYMBOL, length == 2
+      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+      ? function (string, arg) { return regexMethod.call(string, this, arg); }
+      // 21.2.5.6 RegExp.prototype[@@match](string)
+      // 21.2.5.9 RegExp.prototype[@@search](string)
+      : function (string) { return regexMethod.call(string, this); }
+    );
+  }
+
+  if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
+};
+
+
+/***/ }),
+
+/***/ 9974:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_50488__) {
+
+var aFunction = __nested_webpack_require_50488__(3099);
+
+// optional / simple context binding
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 0: return function () {
+      return fn.call(that);
+    };
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
+
+
+/***/ }),
+
+/***/ 5005:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_51177__) {
+
+var path = __nested_webpack_require_51177__(857);
+var global = __nested_webpack_require_51177__(7854);
+
+var aFunction = function (variable) {
+  return typeof variable == 'function' ? variable : undefined;
+};
+
+module.exports = function (namespace, method) {
+  return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
+    : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
+};
+
+
+/***/ }),
+
+/***/ 1246:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_51701__) {
+
+var classof = __nested_webpack_require_51701__(648);
+var Iterators = __nested_webpack_require_51701__(7497);
+var wellKnownSymbol = __nested_webpack_require_51701__(5112);
+
+var ITERATOR = wellKnownSymbol('iterator');
+
+module.exports = function (it) {
+  if (it != undefined) return it[ITERATOR]
+    || it['@@iterator']
+    || Iterators[classof(it)];
+};
+
+
+/***/ }),
+
+/***/ 8554:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_52112__) {
+
+var anObject = __nested_webpack_require_52112__(9670);
+var getIteratorMethod = __nested_webpack_require_52112__(1246);
+
+module.exports = function (it) {
+  var iteratorMethod = getIteratorMethod(it);
+  if (typeof iteratorMethod != 'function') {
+    throw TypeError(String(it) + ' is not iterable');
+  } return anObject(iteratorMethod.call(it));
+};
+
+
+/***/ }),
+
+/***/ 647:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_52531__) {
+
+var toObject = __nested_webpack_require_52531__(7908);
+
+var floor = Math.floor;
+var replace = ''.replace;
+var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d\d?|<[^>]*>)/g;
+var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d\d?)/g;
+
+// https://tc39.es/ecma262/#sec-getsubstitution
+module.exports = function (matched, str, position, captures, namedCaptures, replacement) {
+  var tailPos = position + matched.length;
+  var m = captures.length;
+  var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
+  if (namedCaptures !== undefined) {
+    namedCaptures = toObject(namedCaptures);
+    symbols = SUBSTITUTION_SYMBOLS;
+  }
+  return replace.call(replacement, symbols, function (match, ch) {
+    var capture;
+    switch (ch.charAt(0)) {
+      case '$': return '$';
+      case '&': return matched;
+      case '`': return str.slice(0, position);
+      case "'": return str.slice(tailPos);
+      case '<':
+        capture = namedCaptures[ch.slice(1, -1)];
+        break;
+      default: // \d\d?
+        var n = +ch;
+        if (n === 0) return match;
+        if (n > m) {
+          var f = floor(n / 10);
+          if (f === 0) return match;
+          if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
+          return match;
+        }
+        capture = captures[n - 1];
+    }
+    return capture === undefined ? '' : capture;
+  });
+};
+
+
+/***/ }),
+
+/***/ 7854:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_53970__) {
+
+var check = function (it) {
+  return it && it.Math == Math && it;
+};
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+module.exports =
+  /* global globalThis -- safe */
+  check(typeof globalThis == 'object' && globalThis) ||
+  check(typeof window == 'object' && window) ||
+  check(typeof self == 'object' && self) ||
+  check(typeof __nested_webpack_require_53970__.g == 'object' && __nested_webpack_require_53970__.g) ||
+  // eslint-disable-next-line no-new-func -- fallback
+  (function () { return this; })() || Function('return this')();
+
+
+/***/ }),
+
+/***/ 6656:
+/***/ (function(module) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
+};
+
+
+/***/ }),
+
+/***/ 3501:
+/***/ (function(module) {
+
+module.exports = {};
+
+
+/***/ }),
+
+/***/ 490:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_54852__) {
+
+var getBuiltIn = __nested_webpack_require_54852__(5005);
+
+module.exports = getBuiltIn('document', 'documentElement');
+
+
+/***/ }),
+
+/***/ 4664:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_55056__) {
+
+var DESCRIPTORS = __nested_webpack_require_55056__(9781);
+var fails = __nested_webpack_require_55056__(7293);
+var createElement = __nested_webpack_require_55056__(317);
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !DESCRIPTORS && !fails(function () {
+  return Object.defineProperty(createElement('div'), 'a', {
+    get: function () { return 7; }
+  }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ 1179:
+/***/ (function(module) {
+
+// IEEE754 conversions based on https://github.com/feross/ieee754
+var abs = Math.abs;
+var pow = Math.pow;
+var floor = Math.floor;
+var log = Math.log;
+var LN2 = Math.LN2;
+
+var pack = function (number, mantissaLength, bytes) {
+  var buffer = new Array(bytes);
+  var exponentLength = bytes * 8 - mantissaLength - 1;
+  var eMax = (1 << exponentLength) - 1;
+  var eBias = eMax >> 1;
+  var rt = mantissaLength === 23 ? pow(2, -24) - pow(2, -77) : 0;
+  var sign = number < 0 || number === 0 && 1 / number < 0 ? 1 : 0;
+  var index = 0;
+  var exponent, mantissa, c;
+  number = abs(number);
+  // eslint-disable-next-line no-self-compare -- NaN check
+  if (number != number || number === Infinity) {
+    // eslint-disable-next-line no-self-compare -- NaN check
+    mantissa = number != number ? 1 : 0;
+    exponent = eMax;
+  } else {
+    exponent = floor(log(number) / LN2);
+    if (number * (c = pow(2, -exponent)) < 1) {
+      exponent--;
+      c *= 2;
+    }
+    if (exponent + eBias >= 1) {
+      number += rt / c;
+    } else {
+      number += rt * pow(2, 1 - eBias);
+    }
+    if (number * c >= 2) {
+      exponent++;
+      c /= 2;
+    }
+    if (exponent + eBias >= eMax) {
+      mantissa = 0;
+      exponent = eMax;
+    } else if (exponent + eBias >= 1) {
+      mantissa = (number * c - 1) * pow(2, mantissaLength);
+      exponent = exponent + eBias;
+    } else {
+      mantissa = number * pow(2, eBias - 1) * pow(2, mantissaLength);
+      exponent = 0;
+    }
+  }
+  for (; mantissaLength >= 8; buffer[index++] = mantissa & 255, mantissa /= 256, mantissaLength -= 8);
+  exponent = exponent << mantissaLength | mantissa;
+  exponentLength += mantissaLength;
+  for (; exponentLength > 0; buffer[index++] = exponent & 255, exponent /= 256, exponentLength -= 8);
+  buffer[--index] |= sign * 128;
+  return buffer;
+};
+
+var unpack = function (buffer, mantissaLength) {
+  var bytes = buffer.length;
+  var exponentLength = bytes * 8 - mantissaLength - 1;
+  var eMax = (1 << exponentLength) - 1;
+  var eBias = eMax >> 1;
+  var nBits = exponentLength - 7;
+  var index = bytes - 1;
+  var sign = buffer[index--];
+  var exponent = sign & 127;
+  var mantissa;
+  sign >>= 7;
+  for (; nBits > 0; exponent = exponent * 256 + buffer[index], index--, nBits -= 8);
+  mantissa = exponent & (1 << -nBits) - 1;
+  exponent >>= -nBits;
+  nBits += mantissaLength;
+  for (; nBits > 0; mantissa = mantissa * 256 + buffer[index], index--, nBits -= 8);
+  if (exponent === 0) {
+    exponent = 1 - eBias;
+  } else if (exponent === eMax) {
+    return mantissa ? NaN : sign ? -Infinity : Infinity;
+  } else {
+    mantissa = mantissa + pow(2, mantissaLength);
+    exponent = exponent - eBias;
+  } return (sign ? -1 : 1) * mantissa * pow(2, exponent - mantissaLength);
+};
+
+module.exports = {
+  pack: pack,
+  unpack: unpack
+};
+
+
+/***/ }),
+
+/***/ 8361:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_58329__) {
+
+var fails = __nested_webpack_require_58329__(7293);
+var classof = __nested_webpack_require_58329__(4326);
+
+var split = ''.split;
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+module.exports = fails(function () {
+  // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
+  // eslint-disable-next-line no-prototype-builtins -- safe
+  return !Object('z').propertyIsEnumerable(0);
+}) ? function (it) {
+  return classof(it) == 'String' ? split.call(it, '') : Object(it);
+} : Object;
+
+
+/***/ }),
+
+/***/ 9587:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_58925__) {
+
+var isObject = __nested_webpack_require_58925__(111);
+var setPrototypeOf = __nested_webpack_require_58925__(7674);
+
+// makes subclassing work correct for wrapped built-ins
+module.exports = function ($this, dummy, Wrapper) {
+  var NewTarget, NewTargetPrototype;
+  if (
+    // it can work only with native `setPrototypeOf`
+    setPrototypeOf &&
+    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
+    typeof (NewTarget = dummy.constructor) == 'function' &&
+    NewTarget !== Wrapper &&
+    isObject(NewTargetPrototype = NewTarget.prototype) &&
+    NewTargetPrototype !== Wrapper.prototype
+  ) setPrototypeOf($this, NewTargetPrototype);
+  return $this;
+};
+
+
+/***/ }),
+
+/***/ 2788:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_59686__) {
+
+var store = __nested_webpack_require_59686__(5465);
+
+var functionToString = Function.toString;
+
+// this helper broken in `3.4.1-3.4.4`, so we can't use `shared` helper
+if (typeof store.inspectSource != 'function') {
+  store.inspectSource = function (it) {
+    return functionToString.call(it);
+  };
+}
+
+module.exports = store.inspectSource;
+
+
+/***/ }),
+
+/***/ 9909:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_60112__) {
+
+var NATIVE_WEAK_MAP = __nested_webpack_require_60112__(8536);
+var global = __nested_webpack_require_60112__(7854);
+var isObject = __nested_webpack_require_60112__(111);
+var createNonEnumerableProperty = __nested_webpack_require_60112__(8880);
+var objectHas = __nested_webpack_require_60112__(6656);
+var shared = __nested_webpack_require_60112__(5465);
+var sharedKey = __nested_webpack_require_60112__(6200);
+var hiddenKeys = __nested_webpack_require_60112__(3501);
+
+var WeakMap = global.WeakMap;
+var set, get, has;
+
+var enforce = function (it) {
+  return has(it) ? get(it) : set(it, {});
+};
+
+var getterFor = function (TYPE) {
+  return function (it) {
+    var state;
+    if (!isObject(it) || (state = get(it)).type !== TYPE) {
+      throw TypeError('Incompatible receiver, ' + TYPE + ' required');
+    } return state;
+  };
+};
+
+if (NATIVE_WEAK_MAP) {
+  var store = shared.state || (shared.state = new WeakMap());
+  var wmget = store.get;
+  var wmhas = store.has;
+  var wmset = store.set;
+  set = function (it, metadata) {
+    metadata.facade = it;
+    wmset.call(store, it, metadata);
+    return metadata;
+  };
+  get = function (it) {
+    return wmget.call(store, it) || {};
+  };
+  has = function (it) {
+    return wmhas.call(store, it);
+  };
+} else {
+  var STATE = sharedKey('state');
+  hiddenKeys[STATE] = true;
+  set = function (it, metadata) {
+    metadata.facade = it;
+    createNonEnumerableProperty(it, STATE, metadata);
+    return metadata;
+  };
+  get = function (it) {
+    return objectHas(it, STATE) ? it[STATE] : {};
+  };
+  has = function (it) {
+    return objectHas(it, STATE);
+  };
+}
+
+module.exports = {
+  set: set,
+  get: get,
+  has: has,
+  enforce: enforce,
+  getterFor: getterFor
+};
+
+
+/***/ }),
+
+/***/ 7659:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_61804__) {
+
+var wellKnownSymbol = __nested_webpack_require_61804__(5112);
+var Iterators = __nested_webpack_require_61804__(7497);
+
+var ITERATOR = wellKnownSymbol('iterator');
+var ArrayPrototype = Array.prototype;
+
+// check on default Array iterator
+module.exports = function (it) {
+  return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
+};
+
+
+/***/ }),
+
+/***/ 3157:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_62240__) {
+
+var classof = __nested_webpack_require_62240__(4326);
+
+// `IsArray` abstract operation
+// https://tc39.es/ecma262/#sec-isarray
+module.exports = Array.isArray || function isArray(arg) {
+  return classof(arg) == 'Array';
+};
+
+
+/***/ }),
+
+/***/ 4705:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_62548__) {
+
+var fails = __nested_webpack_require_62548__(7293);
+
+var replacement = /#|\.prototype\./;
+
+var isForced = function (feature, detection) {
+  var value = data[normalize(feature)];
+  return value == POLYFILL ? true
+    : value == NATIVE ? false
+    : typeof detection == 'function' ? fails(detection)
+    : !!detection;
+};
+
+var normalize = isForced.normalize = function (string) {
+  return String(string).replace(replacement, '.').toLowerCase();
+};
+
+var data = isForced.data = {};
+var NATIVE = isForced.NATIVE = 'N';
+var POLYFILL = isForced.POLYFILL = 'P';
+
+module.exports = isForced;
+
+
+/***/ }),
+
+/***/ 111:
+/***/ (function(module) {
+
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+
+/***/ }),
+
+/***/ 1913:
+/***/ (function(module) {
+
+module.exports = false;
+
+
+/***/ }),
+
+/***/ 7850:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_63453__) {
+
+var isObject = __nested_webpack_require_63453__(111);
+var classof = __nested_webpack_require_63453__(4326);
+var wellKnownSymbol = __nested_webpack_require_63453__(5112);
+
+var MATCH = wellKnownSymbol('match');
+
+// `IsRegExp` abstract operation
+// https://tc39.es/ecma262/#sec-isregexp
+module.exports = function (it) {
+  var isRegExp;
+  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof(it) == 'RegExp');
+};
+
+
+/***/ }),
+
+/***/ 9212:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_63953__) {
+
+var anObject = __nested_webpack_require_63953__(9670);
+
+module.exports = function (iterator) {
+  var returnMethod = iterator['return'];
+  if (returnMethod !== undefined) {
+    return anObject(returnMethod.call(iterator)).value;
+  }
+};
+
+
+/***/ }),
+
+/***/ 3383:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_64274__) {
+
+"use strict";
+
+var fails = __nested_webpack_require_64274__(7293);
+var getPrototypeOf = __nested_webpack_require_64274__(9518);
+var createNonEnumerableProperty = __nested_webpack_require_64274__(8880);
+var has = __nested_webpack_require_64274__(6656);
+var wellKnownSymbol = __nested_webpack_require_64274__(5112);
+var IS_PURE = __nested_webpack_require_64274__(1913);
+
+var ITERATOR = wellKnownSymbol('iterator');
+var BUGGY_SAFARI_ITERATORS = false;
+
+var returnThis = function () { return this; };
+
+// `%IteratorPrototype%` object
+// https://tc39.es/ecma262/#sec-%iteratorprototype%-object
+var IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator;
+
+if ([].keys) {
+  arrayIterator = [].keys();
+  // Safari 8 has buggy iterators w/o `next`
+  if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;
+  else {
+    PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator));
+    if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
+  }
+}
+
+var NEW_ITERATOR_PROTOTYPE = IteratorPrototype == undefined || fails(function () {
+  var test = {};
+  // FF44- legacy iterators case
+  return IteratorPrototype[ITERATOR].call(test) !== test;
+});
+
+if (NEW_ITERATOR_PROTOTYPE) IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+if ((!IS_PURE || NEW_ITERATOR_PROTOTYPE) && !has(IteratorPrototype, ITERATOR)) {
+  createNonEnumerableProperty(IteratorPrototype, ITERATOR, returnThis);
+}
+
+module.exports = {
+  IteratorPrototype: IteratorPrototype,
+  BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS
+};
+
+
+/***/ }),
+
+/***/ 7497:
+/***/ (function(module) {
+
+module.exports = {};
+
+
+/***/ }),
+
+/***/ 133:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_65970__) {
+
+var fails = __nested_webpack_require_65970__(7293);
+
+module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
+  // Chrome 38 Symbol has incorrect toString conversion
+  /* global Symbol -- required for testing */
+  return !String(Symbol());
+});
+
+
+/***/ }),
+
+/***/ 590:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_66314__) {
+
+var fails = __nested_webpack_require_66314__(7293);
+var wellKnownSymbol = __nested_webpack_require_66314__(5112);
+var IS_PURE = __nested_webpack_require_66314__(1913);
+
+var ITERATOR = wellKnownSymbol('iterator');
+
+module.exports = !fails(function () {
+  var url = new URL('b?a=1&b=2&c=3', 'http://a');
+  var searchParams = url.searchParams;
+  var result = '';
+  url.pathname = 'c%20d';
+  searchParams.forEach(function (value, key) {
+    searchParams['delete']('b');
+    result += key + value;
+  });
+  return (IS_PURE && !url.toJSON)
+    || !searchParams.sort
+    || url.href !== 'http://a/c%20d?a=1&c=3'
+    || searchParams.get('c') !== '3'
+    || String(new URLSearchParams('?a=1')) !== 'a=1'
+    || !searchParams[ITERATOR]
+    // throws in Edge
+    || new URL('https://a@b').username !== 'a'
+    || new URLSearchParams(new URLSearchParams('a=b')).get('a') !== 'b'
+    // not punycoded in Edge
+    || new URL('http://тест').host !== 'xn--e1aybc'
+    // not escaped in Chrome 62-
+    || new URL('http://a#б').hash !== '#%D0%B1'
+    // fails in Chrome 66-
+    || result !== 'a1c3'
+    // throws in Safari
+    || new URL('http://x', undefined).host !== 'x';
+});
+
+
+/***/ }),
+
+/***/ 8536:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_67534__) {
+
+var global = __nested_webpack_require_67534__(7854);
+var inspectSource = __nested_webpack_require_67534__(2788);
+
+var WeakMap = global.WeakMap;
+
+module.exports = typeof WeakMap === 'function' && /native code/.test(inspectSource(WeakMap));
+
+
+/***/ }),
+
+/***/ 1574:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_67846__) {
+
+"use strict";
+
+var DESCRIPTORS = __nested_webpack_require_67846__(9781);
+var fails = __nested_webpack_require_67846__(7293);
+var objectKeys = __nested_webpack_require_67846__(1956);
+var getOwnPropertySymbolsModule = __nested_webpack_require_67846__(5181);
+var propertyIsEnumerableModule = __nested_webpack_require_67846__(5296);
+var toObject = __nested_webpack_require_67846__(7908);
+var IndexedObject = __nested_webpack_require_67846__(8361);
+
+var nativeAssign = Object.assign;
+var defineProperty = Object.defineProperty;
+
+// `Object.assign` method
+// https://tc39.es/ecma262/#sec-object.assign
+module.exports = !nativeAssign || fails(function () {
+  // should have correct order of operations (Edge bug)
+  if (DESCRIPTORS && nativeAssign({ b: 1 }, nativeAssign(defineProperty({}, 'a', {
+    enumerable: true,
+    get: function () {
+      defineProperty(this, 'b', {
+        value: 3,
+        enumerable: false
+      });
+    }
+  }), { b: 2 })).b !== 1) return true;
+  // should work with symbols and should have deterministic property order (V8 bug)
+  var A = {};
+  var B = {};
+  /* global Symbol -- required for testing */
+  var symbol = Symbol();
+  var alphabet = 'abcdefghijklmnopqrst';
+  A[symbol] = 7;
+  alphabet.split('').forEach(function (chr) { B[chr] = chr; });
+  return nativeAssign({}, A)[symbol] != 7 || objectKeys(nativeAssign({}, B)).join('') != alphabet;
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
+  var T = toObject(target);
+  var argumentsLength = arguments.length;
+  var index = 1;
+  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+  var propertyIsEnumerable = propertyIsEnumerableModule.f;
+  while (argumentsLength > index) {
+    var S = IndexedObject(arguments[index++]);
+    var keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) {
+      key = keys[j++];
+      if (!DESCRIPTORS || propertyIsEnumerable.call(S, key)) T[key] = S[key];
+    }
+  } return T;
+} : nativeAssign;
+
+
+/***/ }),
+
+/***/ 30:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_69941__) {
+
+var anObject = __nested_webpack_require_69941__(9670);
+var defineProperties = __nested_webpack_require_69941__(6048);
+var enumBugKeys = __nested_webpack_require_69941__(748);
+var hiddenKeys = __nested_webpack_require_69941__(3501);
+var html = __nested_webpack_require_69941__(490);
+var documentCreateElement = __nested_webpack_require_69941__(317);
+var sharedKey = __nested_webpack_require_69941__(6200);
+
+var GT = '>';
+var LT = '<';
+var PROTOTYPE = 'prototype';
+var SCRIPT = 'script';
+var IE_PROTO = sharedKey('IE_PROTO');
+
+var EmptyConstructor = function () { /* empty */ };
+
+var scriptTag = function (content) {
+  return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
+};
+
+// Create object with fake `null` prototype: use ActiveX Object with cleared prototype
+var NullProtoObjectViaActiveX = function (activeXDocument) {
+  activeXDocument.write(scriptTag(''));
+  activeXDocument.close();
+  var temp = activeXDocument.parentWindow.Object;
+  activeXDocument = null; // avoid memory leak
+  return temp;
+};
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var NullProtoObjectViaIFrame = function () {
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = documentCreateElement('iframe');
+  var JS = 'java' + SCRIPT + ':';
+  var iframeDocument;
+  iframe.style.display = 'none';
+  html.appendChild(iframe);
+  // https://github.com/zloirock/core-js/issues/475
+  iframe.src = String(JS);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(scriptTag('document.F=Object'));
+  iframeDocument.close();
+  return iframeDocument.F;
+};
+
+// Check for document.domain and active x support
+// No need to use active x approach when document.domain is not set
+// see https://github.com/es-shims/es5-shim/issues/150
+// variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
+// avoid IE GC bug
+var activeXDocument;
+var NullProtoObject = function () {
+  try {
+    /* global ActiveXObject -- old IE */
+    activeXDocument = document.domain && new ActiveXObject('htmlfile');
+  } catch (error) { /* ignore */ }
+  NullProtoObject = activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame();
+  var length = enumBugKeys.length;
+  while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
+  return NullProtoObject();
+};
+
+hiddenKeys[IE_PROTO] = true;
+
+// `Object.create` method
+// https://tc39.es/ecma262/#sec-object.create
+module.exports = Object.create || function create(O, Properties) {
+  var result;
+  if (O !== null) {
+    EmptyConstructor[PROTOTYPE] = anObject(O);
+    result = new EmptyConstructor();
+    EmptyConstructor[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = NullProtoObject();
+  return Properties === undefined ? result : defineProperties(result, Properties);
+};
+
+
+/***/ }),
+
+/***/ 6048:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_72835__) {
+
+var DESCRIPTORS = __nested_webpack_require_72835__(9781);
+var definePropertyModule = __nested_webpack_require_72835__(3070);
+var anObject = __nested_webpack_require_72835__(9670);
+var objectKeys = __nested_webpack_require_72835__(1956);
+
+// `Object.defineProperties` method
+// https://tc39.es/ecma262/#sec-object.defineproperties
+module.exports = DESCRIPTORS ? Object.defineProperties : function defineProperties(O, Properties) {
+  anObject(O);
+  var keys = objectKeys(Properties);
+  var length = keys.length;
+  var index = 0;
+  var key;
+  while (length > index) definePropertyModule.f(O, key = keys[index++], Properties[key]);
+  return O;
+};
+
+
+/***/ }),
+
+/***/ 3070:
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_73525__) {
+
+var DESCRIPTORS = __nested_webpack_require_73525__(9781);
+var IE8_DOM_DEFINE = __nested_webpack_require_73525__(4664);
+var anObject = __nested_webpack_require_73525__(9670);
+var toPrimitive = __nested_webpack_require_73525__(7593);
+
+var nativeDefineProperty = Object.defineProperty;
+
+// `Object.defineProperty` method
+// https://tc39.es/ecma262/#sec-object.defineproperty
+exports.f = DESCRIPTORS ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return nativeDefineProperty(O, P, Attributes);
+  } catch (error) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+
+/***/ 1236:
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_74380__) {
+
+var DESCRIPTORS = __nested_webpack_require_74380__(9781);
+var propertyIsEnumerableModule = __nested_webpack_require_74380__(5296);
+var createPropertyDescriptor = __nested_webpack_require_74380__(9114);
+var toIndexedObject = __nested_webpack_require_74380__(5656);
+var toPrimitive = __nested_webpack_require_74380__(7593);
+var has = __nested_webpack_require_74380__(6656);
+var IE8_DOM_DEFINE = __nested_webpack_require_74380__(4664);
+
+var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+// `Object.getOwnPropertyDescriptor` method
+// https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
+exports.f = DESCRIPTORS ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
+  O = toIndexedObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return nativeGetOwnPropertyDescriptor(O, P);
+  } catch (error) { /* empty */ }
+  if (has(O, P)) return createPropertyDescriptor(!propertyIsEnumerableModule.f.call(O, P), O[P]);
+};
+
+
+/***/ }),
+
+/***/ 8006:
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_75368__) {
+
+var internalObjectKeys = __nested_webpack_require_75368__(6324);
+var enumBugKeys = __nested_webpack_require_75368__(748);
+
+var hiddenKeys = enumBugKeys.concat('length', 'prototype');
+
+// `Object.getOwnPropertyNames` method
+// https://tc39.es/ecma262/#sec-object.getownpropertynames
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return internalObjectKeys(O, hiddenKeys);
+};
+
+
+/***/ }),
+
+/***/ 5181:
 /***/ (function(__unused_webpack_module, exports) {
 
-/*!
- * FilePond 4.29.0
- * Licensed under MIT, https://opensource.org/licenses/MIT/
- * Please visit https://pqina.nl/filepond/ for details.
- */
+exports.f = Object.getOwnPropertySymbols;
 
-/* eslint-disable */
 
-(function(global, factory) {
-     true
-        ? factory(exports)
-        : 0;
-})(this, function(exports) {
-    'use strict';
+/***/ }),
 
-    var isNode = function isNode(value) {
-        return value instanceof HTMLElement;
-    };
+/***/ 9518:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_75966__) {
 
-    var createStore = function createStore(initialState) {
-        var queries = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-        var actions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-        // internal state
-        var state = Object.assign({}, initialState);
+var has = __nested_webpack_require_75966__(6656);
+var toObject = __nested_webpack_require_75966__(7908);
+var sharedKey = __nested_webpack_require_75966__(6200);
+var CORRECT_PROTOTYPE_GETTER = __nested_webpack_require_75966__(8544);
 
-        // contains all actions for next frame, is clear when actions are requested
-        var actionQueue = [];
-        var dispatchQueue = [];
+var IE_PROTO = sharedKey('IE_PROTO');
+var ObjectPrototype = Object.prototype;
+
+// `Object.getPrototypeOf` method
+// https://tc39.es/ecma262/#sec-object.getprototypeof
+module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectPrototype : null;
+};
 
-        // returns a duplicate of the current state
-        var getState = function getState() {
-            return Object.assign({}, state);
-        };
 
-        // returns a duplicate of the actions array and clears the actions array
-        var processActionQueue = function processActionQueue() {
-            // create copy of actions queue
-            var queue = [].concat(actionQueue);
+/***/ }),
 
-            // clear actions queue (we don't want no double actions)
-            actionQueue.length = 0;
+/***/ 6324:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_76729__) {
 
-            return queue;
-        };
+var has = __nested_webpack_require_76729__(6656);
+var toIndexedObject = __nested_webpack_require_76729__(5656);
+var indexOf = __nested_webpack_require_76729__(1318).indexOf;
+var hiddenKeys = __nested_webpack_require_76729__(3501);
 
-        // processes actions that might block the main UI thread
-        var processDispatchQueue = function processDispatchQueue() {
-            // create copy of actions queue
-            var queue = [].concat(dispatchQueue);
+module.exports = function (object, names) {
+  var O = toIndexedObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~indexOf(result, key) || result.push(key);
+  }
+  return result;
+};
 
-            // clear actions queue (we don't want no double actions)
-            dispatchQueue.length = 0;
 
-            // now dispatch these actions
-            queue.forEach(function(_ref) {
-                var type = _ref.type,
-                    data = _ref.data;
-                dispatch(type, data);
-            });
-        };
+/***/ }),
 
-        // adds a new action, calls its handler and
-        var dispatch = function dispatch(type, data, isBlocking) {
-            // is blocking action (should never block if document is hidden)
-            if (isBlocking && !document.hidden) {
-                dispatchQueue.push({ type: type, data: data });
-                return;
-            }
+/***/ 1956:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_77369__) {
 
-            // if this action has a handler, handle the action
-            if (actionHandlers[type]) {
-                actionHandlers[type](data);
-            }
+var internalObjectKeys = __nested_webpack_require_77369__(6324);
+var enumBugKeys = __nested_webpack_require_77369__(748);
 
-            // now add action
-            actionQueue.push({
-                type: type,
-                data: data,
-            });
-        };
+// `Object.keys` method
+// https://tc39.es/ecma262/#sec-object.keys
+module.exports = Object.keys || function keys(O) {
+  return internalObjectKeys(O, enumBugKeys);
+};
 
-        var query = function query(str) {
-            var _queryHandles;
-            for (
-                var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1;
-                _key < _len;
-                _key++
-            ) {
-                args[_key - 1] = arguments[_key];
-            }
-            return queryHandles[str]
-                ? (_queryHandles = queryHandles)[str].apply(_queryHandles, args)
-                : null;
-        };
 
-        var api = {
-            getState: getState,
-            processActionQueue: processActionQueue,
-            processDispatchQueue: processDispatchQueue,
-            dispatch: dispatch,
-            query: query,
-        };
+/***/ }),
 
-        var queryHandles = {};
-        queries.forEach(function(query) {
-            queryHandles = Object.assign({}, query(state), {}, queryHandles);
-        });
+/***/ 5296:
+/***/ (function(__unused_webpack_module, exports) {
 
-        var actionHandlers = {};
-        actions.forEach(function(action) {
-            actionHandlers = Object.assign({}, action(dispatch, query, state), {}, actionHandlers);
-        });
+"use strict";
 
-        return api;
-    };
+var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 
-    var defineProperty = function defineProperty(obj, property, definition) {
-        if (typeof definition === 'function') {
-            obj[property] = definition;
-            return;
-        }
-        Object.defineProperty(obj, property, Object.assign({}, definition));
-    };
+// Nashorn ~ JDK8 bug
+var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
 
-    var forin = function forin(obj, cb) {
-        for (var key in obj) {
-            if (!obj.hasOwnProperty(key)) {
-                continue;
-            }
+// `Object.prototype.propertyIsEnumerable` method implementation
+// https://tc39.es/ecma262/#sec-object.prototype.propertyisenumerable
+exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
+  var descriptor = getOwnPropertyDescriptor(this, V);
+  return !!descriptor && descriptor.enumerable;
+} : nativePropertyIsEnumerable;
 
-            cb(key, obj[key]);
-        }
-    };
 
-    var createObject = function createObject(definition) {
-        var obj = {};
-        forin(definition, function(property) {
-            defineProperty(obj, property, definition[property]);
-        });
-        return obj;
-    };
+/***/ }),
 
-    var attr = function attr(node, name) {
-        var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-        if (value === null) {
-            return node.getAttribute(name) || node.hasAttribute(name);
-        }
-        node.setAttribute(name, value);
-    };
+/***/ 7674:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_78394__) {
 
-    var ns = 'http://www.w3.org/2000/svg';
-    var svgElements = ['svg', 'path']; // only svg elements used
+/* eslint-disable no-proto -- safe */
+var anObject = __nested_webpack_require_78394__(9670);
+var aPossiblePrototype = __nested_webpack_require_78394__(6077);
 
-    var isSVGElement = function isSVGElement(tag) {
-        return svgElements.includes(tag);
-    };
+// `Object.setPrototypeOf` method
+// https://tc39.es/ecma262/#sec-object.setprototypeof
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
+  var CORRECT_SETTER = false;
+  var test = {};
+  var setter;
+  try {
+    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
+    setter.call(test, []);
+    CORRECT_SETTER = test instanceof Array;
+  } catch (error) { /* empty */ }
+  return function setPrototypeOf(O, proto) {
+    anObject(O);
+    aPossiblePrototype(proto);
+    if (CORRECT_SETTER) setter.call(O, proto);
+    else O.__proto__ = proto;
+    return O;
+  };
+}() : undefined);
 
-    var createElement = function createElement(tag, className) {
-        var attributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-        if (typeof className === 'object') {
-            attributes = className;
-            className = null;
-        }
-        var element = isSVGElement(tag)
-            ? document.createElementNS(ns, tag)
-            : document.createElement(tag);
-        if (className) {
-            if (isSVGElement(tag)) {
-                attr(element, 'class', className);
-            } else {
-                element.className = className;
-            }
-        }
-        forin(attributes, function(name, value) {
-            attr(element, name, value);
-        });
-        return element;
-    };
-
-    var appendChild = function appendChild(parent) {
-        return function(child, index) {
-            if (typeof index !== 'undefined' && parent.children[index]) {
-                parent.insertBefore(child, parent.children[index]);
-            } else {
-                parent.appendChild(child);
-            }
-        };
-    };
-
-    var appendChildView = function appendChildView(parent, childViews) {
-        return function(view, index) {
-            if (typeof index !== 'undefined') {
-                childViews.splice(index, 0, view);
-            } else {
-                childViews.push(view);
-            }
-
-            return view;
-        };
-    };
-
-    var removeChildView = function removeChildView(parent, childViews) {
-        return function(view) {
-            // remove from child views
-            childViews.splice(childViews.indexOf(view), 1);
-
-            // remove the element
-            if (view.element.parentNode) {
-                parent.removeChild(view.element);
-            }
-
-            return view;
-        };
-    };
-
-    var IS_BROWSER = (function() {
-        return typeof window !== 'undefined' && typeof window.document !== 'undefined';
-    })();
-    var isBrowser = function isBrowser() {
-        return IS_BROWSER;
-    };
-
-    var testElement = isBrowser() ? createElement('svg') : {};
-    var getChildCount =
-        'children' in testElement
-            ? function(el) {
-                  return el.children.length;
-              }
-            : function(el) {
-                  return el.childNodes.length;
-              };
-
-    var getViewRect = function getViewRect(elementRect, childViews, offset, scale) {
-        var left = offset[0] || elementRect.left;
-        var top = offset[1] || elementRect.top;
-        var right = left + elementRect.width;
-        var bottom = top + elementRect.height * (scale[1] || 1);
-
-        var rect = {
-            // the rectangle of the element itself
-            element: Object.assign({}, elementRect),
-
-            // the rectangle of the element expanded to contain its children, does not include any margins
-            inner: {
-                left: elementRect.left,
-                top: elementRect.top,
-                right: elementRect.right,
-                bottom: elementRect.bottom,
-            },
-
-            // the rectangle of the element expanded to contain its children including own margin and child margins
-            // margins will be added after we've recalculated the size
-            outer: {
-                left: left,
-                top: top,
-                right: right,
-                bottom: bottom,
-            },
-        };
-
-        // expand rect to fit all child rectangles
-        childViews
-            .filter(function(childView) {
-                return !childView.isRectIgnored();
-            })
-            .map(function(childView) {
-                return childView.rect;
-            })
-            .forEach(function(childViewRect) {
-                expandRect(rect.inner, Object.assign({}, childViewRect.inner));
-                expandRect(rect.outer, Object.assign({}, childViewRect.outer));
-            });
-
-        // calculate inner width and height
-        calculateRectSize(rect.inner);
-
-        // append additional margin (top and left margins are included in top and left automatically)
-        rect.outer.bottom += rect.element.marginBottom;
-        rect.outer.right += rect.element.marginRight;
-
-        // calculate outer width and height
-        calculateRectSize(rect.outer);
-
-        return rect;
-    };
-
-    var expandRect = function expandRect(parent, child) {
-        // adjust for parent offset
-        child.top += parent.top;
-        child.right += parent.left;
-        child.bottom += parent.top;
-        child.left += parent.left;
-
-        if (child.bottom > parent.bottom) {
-            parent.bottom = child.bottom;
-        }
-
-        if (child.right > parent.right) {
-            parent.right = child.right;
-        }
-    };
-
-    var calculateRectSize = function calculateRectSize(rect) {
-        rect.width = rect.right - rect.left;
-        rect.height = rect.bottom - rect.top;
-    };
-
-    var isNumber = function isNumber(value) {
-        return typeof value === 'number';
-    };
-
-    /**
-     * Determines if position is at destination
-     * @param position
-     * @param destination
-     * @param velocity
-     * @param errorMargin
-     * @returns {boolean}
-     */
-    var thereYet = function thereYet(position, destination, velocity) {
-        var errorMargin = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.001;
-        return Math.abs(position - destination) < errorMargin && Math.abs(velocity) < errorMargin;
-    };
-
-    /**
-     * Spring animation
-     */
-    var spring =
-        // default options
-        function spring() // method definition
-        {
-            var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-                _ref$stiffness = _ref.stiffness,
-                stiffness = _ref$stiffness === void 0 ? 0.5 : _ref$stiffness,
-                _ref$damping = _ref.damping,
-                damping = _ref$damping === void 0 ? 0.75 : _ref$damping,
-                _ref$mass = _ref.mass,
-                mass = _ref$mass === void 0 ? 10 : _ref$mass;
-            var target = null;
-            var position = null;
-            var velocity = 0;
-            var resting = false;
-
-            // updates spring state
-            var interpolate = function interpolate(ts, skipToEndState) {
-                // in rest, don't animate
-                if (resting) return;
-
-                // need at least a target or position to do springy things
-                if (!(isNumber(target) && isNumber(position))) {
-                    resting = true;
-                    velocity = 0;
-                    return;
-                }
-
-                // calculate spring force
-                var f = -(position - target) * stiffness;
-
-                // update velocity by adding force based on mass
-                velocity += f / mass;
-
-                // update position by adding velocity
-                position += velocity;
-
-                // slow down based on amount of damping
-                velocity *= damping;
-
-                // we've arrived if we're near target and our velocity is near zero
-                if (thereYet(position, target, velocity) || skipToEndState) {
-                    position = target;
-                    velocity = 0;
-                    resting = true;
-
-                    // we done
-                    api.onupdate(position);
-                    api.oncomplete(position);
-                } else {
-                    // progress update
-                    api.onupdate(position);
-                }
-            };
-
-            /**
-             * Set new target value
-             * @param value
-             */
-            var setTarget = function setTarget(value) {
-                // if currently has no position, set target and position to this value
-                if (isNumber(value) && !isNumber(position)) {
-                    position = value;
-                }
-
-                // next target value will not be animated to
-                if (target === null) {
-                    target = value;
-                    position = value;
-                }
-
-                // let start moving to target
-                target = value;
-
-                // already at target
-                if (position === target || typeof target === 'undefined') {
-                    // now resting as target is current position, stop moving
-                    resting = true;
-                    velocity = 0;
-
-                    // done!
-                    api.onupdate(position);
-                    api.oncomplete(position);
-
-                    return;
-                }
-
-                resting = false;
-            };
-
-            // need 'api' to call onupdate callback
-            var api = createObject({
-                interpolate: interpolate,
-                target: {
-                    set: setTarget,
-                    get: function get() {
-                        return target;
-                    },
-                },
-
-                resting: {
-                    get: function get() {
-                        return resting;
-                    },
-                },
-
-                onupdate: function onupdate(value) {},
-                oncomplete: function oncomplete(value) {},
-            });
-
-            return api;
-        };
-
-    var easeLinear = function easeLinear(t) {
-        return t;
-    };
-    var easeInOutQuad = function easeInOutQuad(t) {
-        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    };
-
-    var tween =
-        // default values
-        function tween() // method definition
-        {
-            var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-                _ref$duration = _ref.duration,
-                duration = _ref$duration === void 0 ? 500 : _ref$duration,
-                _ref$easing = _ref.easing,
-                easing = _ref$easing === void 0 ? easeInOutQuad : _ref$easing,
-                _ref$delay = _ref.delay,
-                delay = _ref$delay === void 0 ? 0 : _ref$delay;
-            var start = null;
-            var t;
-            var p;
-            var resting = true;
-            var reverse = false;
-            var target = null;
-
-            var interpolate = function interpolate(ts, skipToEndState) {
-                if (resting || target === null) return;
-
-                if (start === null) {
-                    start = ts;
-                }
-
-                if (ts - start < delay) return;
-
-                t = ts - start - delay;
-
-                if (t >= duration || skipToEndState) {
-                    t = 1;
-                    p = reverse ? 0 : 1;
-                    api.onupdate(p * target);
-                    api.oncomplete(p * target);
-                    resting = true;
-                } else {
-                    p = t / duration;
-                    api.onupdate((t >= 0 ? easing(reverse ? 1 - p : p) : 0) * target);
-                }
-            };
-
-            // need 'api' to call onupdate callback
-            var api = createObject({
-                interpolate: interpolate,
-                target: {
-                    get: function get() {
-                        return reverse ? 0 : target;
-                    },
-                    set: function set(value) {
-                        // is initial value
-                        if (target === null) {
-                            target = value;
-                            api.onupdate(value);
-                            api.oncomplete(value);
-                            return;
-                        }
-
-                        // want to tween to a smaller value and have a current value
-                        if (value < target) {
-                            target = 1;
-                            reverse = true;
-                        } else {
-                            // not tweening to a smaller value
-                            reverse = false;
-                            target = value;
-                        }
-
-                        // let's go!
-                        resting = false;
-                        start = null;
-                    },
-                },
-
-                resting: {
-                    get: function get() {
-                        return resting;
-                    },
-                },
-
-                onupdate: function onupdate(value) {},
-                oncomplete: function oncomplete(value) {},
-            });
-
-            return api;
-        };
-
-    var animator = {
-        spring: spring,
-        tween: tween,
-    };
-
-    /*
-                       { type: 'spring', stiffness: .5, damping: .75, mass: 10 };
-                       { translation: { type: 'spring', ... }, ... }
-                       { translation: { x: { type: 'spring', ... } } }
-                      */
-    var createAnimator = function createAnimator(definition, category, property) {
-        // default is single definition
-        // we check if transform is set, if so, we check if property is set
-        var def =
-            definition[category] && typeof definition[category][property] === 'object'
-                ? definition[category][property]
-                : definition[category] || definition;
-
-        var type = typeof def === 'string' ? def : def.type;
-        var props = typeof def === 'object' ? Object.assign({}, def) : {};
-
-        return animator[type] ? animator[type](props) : null;
-    };
-
-    var addGetSet = function addGetSet(keys, obj, props) {
-        var overwrite = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-        obj = Array.isArray(obj) ? obj : [obj];
-        obj.forEach(function(o) {
-            keys.forEach(function(key) {
-                var name = key;
-                var getter = function getter() {
-                    return props[key];
-                };
-                var setter = function setter(value) {
-                    return (props[key] = value);
-                };
-
-                if (typeof key === 'object') {
-                    name = key.key;
-                    getter = key.getter || getter;
-                    setter = key.setter || setter;
-                }
-
-                if (o[name] && !overwrite) {
-                    return;
-                }
-
-                o[name] = {
-                    get: getter,
-                    set: setter,
-                };
-            });
-        });
-    };
-
-    // add to state,
-    // add getters and setters to internal and external api (if not set)
-    // setup animators
-
-    var animations = function animations(_ref) {
-        var mixinConfig = _ref.mixinConfig,
-            viewProps = _ref.viewProps,
-            viewInternalAPI = _ref.viewInternalAPI,
-            viewExternalAPI = _ref.viewExternalAPI;
-        // initial properties
-        var initialProps = Object.assign({}, viewProps);
-
-        // list of all active animations
-        var animations = [];
-
-        // setup animators
-        forin(mixinConfig, function(property, animation) {
-            var animator = createAnimator(animation);
-            if (!animator) {
-                return;
-            }
-
-            // when the animator updates, update the view state value
-            animator.onupdate = function(value) {
-                viewProps[property] = value;
-            };
-
-            // set animator target
-            animator.target = initialProps[property];
-
-            // when value is set, set the animator target value
-            var prop = {
-                key: property,
-                setter: function setter(value) {
-                    // if already at target, we done!
-                    if (animator.target === value) {
-                        return;
-                    }
-
-                    animator.target = value;
-                },
-                getter: function getter() {
-                    return viewProps[property];
-                },
-            };
-
-            // add getters and setters
-            addGetSet([prop], [viewInternalAPI, viewExternalAPI], viewProps, true);
-
-            // add it to the list for easy updating from the _write method
-            animations.push(animator);
-        });
-
-        // expose internal write api
-        return {
-            write: function write(ts) {
-                var skipToEndState = document.hidden;
-                var resting = true;
-                animations.forEach(function(animation) {
-                    if (!animation.resting) resting = false;
-                    animation.interpolate(ts, skipToEndState);
-                });
-                return resting;
-            },
-            destroy: function destroy() {},
-        };
-    };
-
-    var addEvent = function addEvent(element) {
-        return function(type, fn) {
-            element.addEventListener(type, fn);
-        };
-    };
-
-    var removeEvent = function removeEvent(element) {
-        return function(type, fn) {
-            element.removeEventListener(type, fn);
-        };
-    };
-
-    // mixin
-    var listeners = function listeners(_ref) {
-        var mixinConfig = _ref.mixinConfig,
-            viewProps = _ref.viewProps,
-            viewInternalAPI = _ref.viewInternalAPI,
-            viewExternalAPI = _ref.viewExternalAPI,
-            viewState = _ref.viewState,
-            view = _ref.view;
-        var events = [];
-
-        var add = addEvent(view.element);
-        var remove = removeEvent(view.element);
-
-        viewExternalAPI.on = function(type, fn) {
-            events.push({
-                type: type,
-                fn: fn,
-            });
-
-            add(type, fn);
-        };
-
-        viewExternalAPI.off = function(type, fn) {
-            events.splice(
-                events.findIndex(function(event) {
-                    return event.type === type && event.fn === fn;
-                }),
-                1
-            );
-
-            remove(type, fn);
-        };
-
-        return {
-            write: function write() {
-                // not busy
-                return true;
-            },
-            destroy: function destroy() {
-                events.forEach(function(event) {
-                    remove(event.type, event.fn);
-                });
-            },
-        };
-    };
-
-    // add to external api and link to props
-
-    var apis = function apis(_ref) {
-        var mixinConfig = _ref.mixinConfig,
-            viewProps = _ref.viewProps,
-            viewExternalAPI = _ref.viewExternalAPI;
-        addGetSet(mixinConfig, viewExternalAPI, viewProps);
-    };
-
-    var isDefined = function isDefined(value) {
-        return value != null;
-    };
-
-    // add to state,
-    // add getters and setters to internal and external api (if not set)
-    // set initial state based on props in viewProps
-    // apply as transforms each frame
-
-    var defaults = {
-        opacity: 1,
-        scaleX: 1,
-        scaleY: 1,
-        translateX: 0,
-        translateY: 0,
-        rotateX: 0,
-        rotateY: 0,
-        rotateZ: 0,
-        originX: 0,
-        originY: 0,
-    };
-
-    var styles = function styles(_ref) {
-        var mixinConfig = _ref.mixinConfig,
-            viewProps = _ref.viewProps,
-            viewInternalAPI = _ref.viewInternalAPI,
-            viewExternalAPI = _ref.viewExternalAPI,
-            view = _ref.view;
-        // initial props
-        var initialProps = Object.assign({}, viewProps);
-
-        // current props
-        var currentProps = {};
-
-        // we will add those properties to the external API and link them to the viewState
-        addGetSet(mixinConfig, [viewInternalAPI, viewExternalAPI], viewProps);
-
-        // override rect on internal and external rect getter so it takes in account transforms
-        var getOffset = function getOffset() {
-            return [viewProps['translateX'] || 0, viewProps['translateY'] || 0];
-        };
-
-        var getScale = function getScale() {
-            return [viewProps['scaleX'] || 0, viewProps['scaleY'] || 0];
-        };
-        var getRect = function getRect() {
-            return view.rect
-                ? getViewRect(view.rect, view.childViews, getOffset(), getScale())
-                : null;
-        };
-        viewInternalAPI.rect = { get: getRect };
-        viewExternalAPI.rect = { get: getRect };
-
-        // apply view props
-        mixinConfig.forEach(function(key) {
-            viewProps[key] =
-                typeof initialProps[key] === 'undefined' ? defaults[key] : initialProps[key];
-        });
-
-        // expose api
-        return {
-            write: function write() {
-                // see if props have changed
-                if (!propsHaveChanged(currentProps, viewProps)) {
-                    return;
-                }
-
-                // moves element to correct position on screen
-                applyStyles(view.element, viewProps);
-
-                // store new transforms
-                Object.assign(currentProps, Object.assign({}, viewProps));
-
-                // no longer busy
-                return true;
-            },
-            destroy: function destroy() {},
-        };
-    };
-
-    var propsHaveChanged = function propsHaveChanged(currentProps, newProps) {
-        // different amount of keys
-        if (Object.keys(currentProps).length !== Object.keys(newProps).length) {
-            return true;
-        }
-
-        // lets analyze the individual props
-        for (var prop in newProps) {
-            if (newProps[prop] !== currentProps[prop]) {
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    var applyStyles = function applyStyles(element, _ref2) {
-        var opacity = _ref2.opacity,
-            perspective = _ref2.perspective,
-            translateX = _ref2.translateX,
-            translateY = _ref2.translateY,
-            scaleX = _ref2.scaleX,
-            scaleY = _ref2.scaleY,
-            rotateX = _ref2.rotateX,
-            rotateY = _ref2.rotateY,
-            rotateZ = _ref2.rotateZ,
-            originX = _ref2.originX,
-            originY = _ref2.originY,
-            width = _ref2.width,
-            height = _ref2.height;
-
-        var transforms = '';
-        var styles = '';
-
-        // handle transform origin
-        if (isDefined(originX) || isDefined(originY)) {
-            styles += 'transform-origin: ' + (originX || 0) + 'px ' + (originY || 0) + 'px;';
-        }
-
-        // transform order is relevant
-        // 0. perspective
-        if (isDefined(perspective)) {
-            transforms += 'perspective(' + perspective + 'px) ';
-        }
-
-        // 1. translate
-        if (isDefined(translateX) || isDefined(translateY)) {
-            transforms +=
-                'translate3d(' + (translateX || 0) + 'px, ' + (translateY || 0) + 'px, 0) ';
-        }
-
-        // 2. scale
-        if (isDefined(scaleX) || isDefined(scaleY)) {
-            transforms +=
-                'scale3d(' +
-                (isDefined(scaleX) ? scaleX : 1) +
-                ', ' +
-                (isDefined(scaleY) ? scaleY : 1) +
-                ', 1) ';
-        }
-
-        // 3. rotate
-        if (isDefined(rotateZ)) {
-            transforms += 'rotateZ(' + rotateZ + 'rad) ';
-        }
-
-        if (isDefined(rotateX)) {
-            transforms += 'rotateX(' + rotateX + 'rad) ';
-        }
-
-        if (isDefined(rotateY)) {
-            transforms += 'rotateY(' + rotateY + 'rad) ';
-        }
-
-        // add transforms
-        if (transforms.length) {
-            styles += 'transform:' + transforms + ';';
-        }
-
-        // add opacity
-        if (isDefined(opacity)) {
-            styles += 'opacity:' + opacity + ';';
-
-            // if we reach zero, we make the element inaccessible
-            if (opacity === 0) {
-                styles += 'visibility:hidden;';
-            }
-
-            // if we're below 100% opacity this element can't be clicked
-            if (opacity < 1) {
-                styles += 'pointer-events:none;';
-            }
-        }
-
-        // add height
-        if (isDefined(height)) {
-            styles += 'height:' + height + 'px;';
-        }
-
-        // add width
-        if (isDefined(width)) {
-            styles += 'width:' + width + 'px;';
-        }
-
-        // apply styles
-        var elementCurrentStyle = element.elementCurrentStyle || '';
-
-        // if new styles does not match current styles, lets update!
-        if (styles.length !== elementCurrentStyle.length || styles !== elementCurrentStyle) {
-            element.style.cssText = styles;
-            // store current styles so we can compare them to new styles later on
-            // _not_ getting the style value is faster
-            element.elementCurrentStyle = styles;
-        }
-    };
-
-    var Mixins = {
-        styles: styles,
-        listeners: listeners,
-        animations: animations,
-        apis: apis,
-    };
-
-    var updateRect = function updateRect() {
-        var rect = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        var style = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-        if (!element.layoutCalculated) {
-            rect.paddingTop = parseInt(style.paddingTop, 10) || 0;
-            rect.marginTop = parseInt(style.marginTop, 10) || 0;
-            rect.marginRight = parseInt(style.marginRight, 10) || 0;
-            rect.marginBottom = parseInt(style.marginBottom, 10) || 0;
-            rect.marginLeft = parseInt(style.marginLeft, 10) || 0;
-            element.layoutCalculated = true;
-        }
-
-        rect.left = element.offsetLeft || 0;
-        rect.top = element.offsetTop || 0;
-        rect.width = element.offsetWidth || 0;
-        rect.height = element.offsetHeight || 0;
-
-        rect.right = rect.left + rect.width;
-        rect.bottom = rect.top + rect.height;
-
-        rect.scrollTop = element.scrollTop;
-
-        rect.hidden = element.offsetParent === null;
-
-        return rect;
-    };
-
-    var createView =
-        // default view definition
-        function createView() {
-            var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-                _ref$tag = _ref.tag,
-                tag = _ref$tag === void 0 ? 'div' : _ref$tag,
-                _ref$name = _ref.name,
-                name = _ref$name === void 0 ? null : _ref$name,
-                _ref$attributes = _ref.attributes,
-                attributes = _ref$attributes === void 0 ? {} : _ref$attributes,
-                _ref$read = _ref.read,
-                read = _ref$read === void 0 ? function() {} : _ref$read,
-                _ref$write = _ref.write,
-                write = _ref$write === void 0 ? function() {} : _ref$write,
-                _ref$create = _ref.create,
-                create = _ref$create === void 0 ? function() {} : _ref$create,
-                _ref$destroy = _ref.destroy,
-                destroy = _ref$destroy === void 0 ? function() {} : _ref$destroy,
-                _ref$filterFrameActio = _ref.filterFrameActionsForChild,
-                filterFrameActionsForChild =
-                    _ref$filterFrameActio === void 0
-                        ? function(child, actions) {
-                              return actions;
-                          }
-                        : _ref$filterFrameActio,
-                _ref$didCreateView = _ref.didCreateView,
-                didCreateView = _ref$didCreateView === void 0 ? function() {} : _ref$didCreateView,
-                _ref$didWriteView = _ref.didWriteView,
-                didWriteView = _ref$didWriteView === void 0 ? function() {} : _ref$didWriteView,
-                _ref$ignoreRect = _ref.ignoreRect,
-                ignoreRect = _ref$ignoreRect === void 0 ? false : _ref$ignoreRect,
-                _ref$ignoreRectUpdate = _ref.ignoreRectUpdate,
-                ignoreRectUpdate = _ref$ignoreRectUpdate === void 0 ? false : _ref$ignoreRectUpdate,
-                _ref$mixins = _ref.mixins,
-                mixins = _ref$mixins === void 0 ? [] : _ref$mixins;
-            return function(
-                // each view requires reference to store
-                store
-            ) {
-                var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                // root element should not be changed
-                var element = createElement(tag, 'filepond--' + name, attributes);
-
-                // style reference should also not be changed
-                var style = window.getComputedStyle(element, null);
-
-                // element rectangle
-                var rect = updateRect();
-                var frameRect = null;
-
-                // rest state
-                var isResting = false;
-
-                // pretty self explanatory
-                var childViews = [];
-
-                // loaded mixins
-                var activeMixins = [];
-
-                // references to created children
-                var ref = {};
-
-                // state used for each instance
-                var state = {};
-
-                // list of writers that will be called to update this view
-                var writers = [
-                    write, // default writer
-                ];
-
-                var readers = [
-                    read, // default reader
-                ];
-
-                var destroyers = [
-                    destroy, // default destroy
-                ];
-
-                // core view methods
-                var getElement = function getElement() {
-                    return element;
-                };
-                var getChildViews = function getChildViews() {
-                    return childViews.concat();
-                };
-                var getReference = function getReference() {
-                    return ref;
-                };
-                var createChildView = function createChildView(store) {
-                    return function(view, props) {
-                        return view(store, props);
-                    };
-                };
-                var getRect = function getRect() {
-                    if (frameRect) {
-                        return frameRect;
-                    }
-                    frameRect = getViewRect(rect, childViews, [0, 0], [1, 1]);
-                    return frameRect;
-                };
-                var getStyle = function getStyle() {
-                    return style;
-                };
-
-                /**
-                 * Read data from DOM
-                 * @private
-                 */
-                var _read = function _read() {
-                    frameRect = null;
-
-                    // read child views
-                    childViews.forEach(function(child) {
-                        return child._read();
-                    });
-
-                    var shouldUpdate = !(ignoreRectUpdate && rect.width && rect.height);
-                    if (shouldUpdate) {
-                        updateRect(rect, element, style);
-                    }
-
-                    // readers
-                    var api = { root: internalAPI, props: props, rect: rect };
-                    readers.forEach(function(reader) {
-                        return reader(api);
-                    });
-                };
-
-                /**
-                 * Write data to DOM
-                 * @private
-                 */
-                var _write = function _write(ts, frameActions, shouldOptimize) {
-                    // if no actions, we assume that the view is resting
-                    var resting = frameActions.length === 0;
-
-                    // writers
-                    writers.forEach(function(writer) {
-                        var writerResting = writer({
-                            props: props,
-                            root: internalAPI,
-                            actions: frameActions,
-                            timestamp: ts,
-                            shouldOptimize: shouldOptimize,
-                        });
-
-                        if (writerResting === false) {
-                            resting = false;
-                        }
-                    });
-
-                    // run mixins
-                    activeMixins.forEach(function(mixin) {
-                        // if one of the mixins is still busy after write operation, we are not resting
-                        var mixinResting = mixin.write(ts);
-                        if (mixinResting === false) {
-                            resting = false;
-                        }
-                    });
-
-                    // updates child views that are currently attached to the DOM
-                    childViews
-                        .filter(function(child) {
-                            return !!child.element.parentNode;
-                        })
-                        .forEach(function(child) {
-                            // if a child view is not resting, we are not resting
-                            var childResting = child._write(
-                                ts,
-                                filterFrameActionsForChild(child, frameActions),
-                                shouldOptimize
-                            );
-
-                            if (!childResting) {
-                                resting = false;
-                            }
-                        });
-
-                    // append new elements to DOM and update those
-                    childViews
-                        //.filter(child => !child.element.parentNode)
-                        .forEach(function(child, index) {
-                            // skip
-                            if (child.element.parentNode) {
-                                return;
-                            }
-
-                            // append to DOM
-                            internalAPI.appendChild(child.element, index);
-
-                            // call read (need to know the size of these elements)
-                            child._read();
-
-                            // re-call write
-                            child._write(
-                                ts,
-                                filterFrameActionsForChild(child, frameActions),
-                                shouldOptimize
-                            );
-
-                            // we just added somthing to the dom, no rest
-                            resting = false;
-                        });
-
-                    // update resting state
-                    isResting = resting;
-
-                    didWriteView({
-                        props: props,
-                        root: internalAPI,
-                        actions: frameActions,
-                        timestamp: ts,
-                    });
-
-                    // let parent know if we are resting
-                    return resting;
-                };
-
-                var _destroy = function _destroy() {
-                    activeMixins.forEach(function(mixin) {
-                        return mixin.destroy();
-                    });
-                    destroyers.forEach(function(destroyer) {
-                        destroyer({ root: internalAPI, props: props });
-                    });
-                    childViews.forEach(function(child) {
-                        return child._destroy();
-                    });
-                };
-
-                // sharedAPI
-                var sharedAPIDefinition = {
-                    element: {
-                        get: getElement,
-                    },
-
-                    style: {
-                        get: getStyle,
-                    },
-
-                    childViews: {
-                        get: getChildViews,
-                    },
-                };
-
-                // private API definition
-                var internalAPIDefinition = Object.assign({}, sharedAPIDefinition, {
-                    rect: {
-                        get: getRect,
-                    },
-
-                    // access to custom children references
-                    ref: {
-                        get: getReference,
-                    },
-
-                    // dom modifiers
-                    is: function is(needle) {
-                        return name === needle;
-                    },
-                    appendChild: appendChild(element),
-                    createChildView: createChildView(store),
-                    linkView: function linkView(view) {
-                        childViews.push(view);
-                        return view;
-                    },
-                    unlinkView: function unlinkView(view) {
-                        childViews.splice(childViews.indexOf(view), 1);
-                    },
-                    appendChildView: appendChildView(element, childViews),
-                    removeChildView: removeChildView(element, childViews),
-                    registerWriter: function registerWriter(writer) {
-                        return writers.push(writer);
-                    },
-                    registerReader: function registerReader(reader) {
-                        return readers.push(reader);
-                    },
-                    registerDestroyer: function registerDestroyer(destroyer) {
-                        return destroyers.push(destroyer);
-                    },
-                    invalidateLayout: function invalidateLayout() {
-                        return (element.layoutCalculated = false);
-                    },
-
-                    // access to data store
-                    dispatch: store.dispatch,
-                    query: store.query,
-                });
-
-                // public view API methods
-                var externalAPIDefinition = {
-                    element: {
-                        get: getElement,
-                    },
-
-                    childViews: {
-                        get: getChildViews,
-                    },
-
-                    rect: {
-                        get: getRect,
-                    },
-
-                    resting: {
-                        get: function get() {
-                            return isResting;
-                        },
-                    },
-
-                    isRectIgnored: function isRectIgnored() {
-                        return ignoreRect;
-                    },
-                    _read: _read,
-                    _write: _write,
-                    _destroy: _destroy,
-                };
-
-                // mixin API methods
-                var mixinAPIDefinition = Object.assign({}, sharedAPIDefinition, {
-                    rect: {
-                        get: function get() {
-                            return rect;
-                        },
-                    },
-                });
-
-                // add mixin functionality
-                Object.keys(mixins)
-                    .sort(function(a, b) {
-                        // move styles to the back of the mixin list (so adjustments of other mixins are applied to the props correctly)
-                        if (a === 'styles') {
-                            return 1;
-                        } else if (b === 'styles') {
-                            return -1;
-                        }
-                        return 0;
-                    })
-                    .forEach(function(key) {
-                        var mixinAPI = Mixins[key]({
-                            mixinConfig: mixins[key],
-                            viewProps: props,
-                            viewState: state,
-                            viewInternalAPI: internalAPIDefinition,
-                            viewExternalAPI: externalAPIDefinition,
-                            view: createObject(mixinAPIDefinition),
-                        });
-
-                        if (mixinAPI) {
-                            activeMixins.push(mixinAPI);
-                        }
-                    });
-
-                // construct private api
-                var internalAPI = createObject(internalAPIDefinition);
-
-                // create the view
-                create({
-                    root: internalAPI,
-                    props: props,
-                });
-
-                // append created child views to root node
-                var childCount = getChildCount(element); // need to know the current child count so appending happens in correct order
-                childViews.forEach(function(child, index) {
-                    internalAPI.appendChild(child.element, childCount + index);
-                });
-
-                // call did create
-                didCreateView(internalAPI);
-
-                // expose public api
-                return createObject(externalAPIDefinition);
-            };
-        };
-
-    var createPainter = function createPainter(read, write) {
-        var fps = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 60;
-
-        var name = '__framePainter';
-
-        // set global painter
-        if (window[name]) {
-            window[name].readers.push(read);
-            window[name].writers.push(write);
-            return;
-        }
-
-        window[name] = {
-            readers: [read],
-            writers: [write],
-        };
-
-        var painter = window[name];
-
-        var interval = 1000 / fps;
-        var last = null;
-        var id = null;
-        var requestTick = null;
-        var cancelTick = null;
-
-        var setTimerType = function setTimerType() {
-            if (document.hidden) {
-                requestTick = function requestTick() {
-                    return window.setTimeout(function() {
-                        return tick(performance.now());
-                    }, interval);
-                };
-                cancelTick = function cancelTick() {
-                    return window.clearTimeout(id);
-                };
-            } else {
-                requestTick = function requestTick() {
-                    return window.requestAnimationFrame(tick);
-                };
-                cancelTick = function cancelTick() {
-                    return window.cancelAnimationFrame(id);
-                };
-            }
-        };
-
-        document.addEventListener('visibilitychange', function() {
-            if (cancelTick) cancelTick();
-            setTimerType();
-            tick(performance.now());
-        });
-
-        var tick = function tick(ts) {
-            // queue next tick
-            id = requestTick(tick);
-
-            // limit fps
-            if (!last) {
-                last = ts;
-            }
-
-            var delta = ts - last;
-
-            if (delta <= interval) {
-                // skip frame
-                return;
-            }
-
-            // align next frame
-            last = ts - (delta % interval);
-
-            // update view
-            painter.readers.forEach(function(read) {
-                return read();
-            });
-            painter.writers.forEach(function(write) {
-                return write(ts);
-            });
-        };
-
-        setTimerType();
-        tick(performance.now());
-
-        return {
-            pause: function pause() {
-                cancelTick(id);
-            },
-        };
-    };
-
-    var createRoute = function createRoute(routes, fn) {
-        return function(_ref) {
-            var root = _ref.root,
-                props = _ref.props,
-                _ref$actions = _ref.actions,
-                actions = _ref$actions === void 0 ? [] : _ref$actions,
-                timestamp = _ref.timestamp,
-                shouldOptimize = _ref.shouldOptimize;
-            actions
-                .filter(function(action) {
-                    return routes[action.type];
-                })
-                .forEach(function(action) {
-                    return routes[action.type]({
-                        root: root,
-                        props: props,
-                        action: action.data,
-                        timestamp: timestamp,
-                        shouldOptimize: shouldOptimize,
-                    });
-                });
-
-            if (fn) {
-                fn({
-                    root: root,
-                    props: props,
-                    actions: actions,
-                    timestamp: timestamp,
-                    shouldOptimize: shouldOptimize,
-                });
-            }
-        };
-    };
-
-    var insertBefore = function insertBefore(newNode, referenceNode) {
-        return referenceNode.parentNode.insertBefore(newNode, referenceNode);
-    };
-
-    var insertAfter = function insertAfter(newNode, referenceNode) {
-        return referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    };
-
-    var isArray = function isArray(value) {
-        return Array.isArray(value);
-    };
-
-    var isEmpty = function isEmpty(value) {
-        return value == null;
-    };
-
-    var trim = function trim(str) {
-        return str.trim();
-    };
-
-    var toString = function toString(value) {
-        return '' + value;
-    };
-
-    var toArray = function toArray(value) {
-        var splitter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ',';
-        if (isEmpty(value)) {
-            return [];
-        }
-        if (isArray(value)) {
-            return value;
-        }
-        return toString(value)
-            .split(splitter)
-            .map(trim)
-            .filter(function(str) {
-                return str.length;
-            });
-    };
-
-    var isBoolean = function isBoolean(value) {
-        return typeof value === 'boolean';
-    };
-
-    var toBoolean = function toBoolean(value) {
-        return isBoolean(value) ? value : value === 'true';
-    };
-
-    var isString = function isString(value) {
-        return typeof value === 'string';
-    };
-
-    var toNumber = function toNumber(value) {
-        return isNumber(value)
-            ? value
-            : isString(value)
-            ? toString(value).replace(/[a-z]+/gi, '')
-            : 0;
-    };
-
-    var toInt = function toInt(value) {
-        return parseInt(toNumber(value), 10);
-    };
-
-    var toFloat = function toFloat(value) {
-        return parseFloat(toNumber(value));
-    };
-
-    var isInt = function isInt(value) {
-        return isNumber(value) && isFinite(value) && Math.floor(value) === value;
-    };
-
-    var toBytes = function toBytes(value) {
-        var base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
-        // is in bytes
-        if (isInt(value)) {
-            return value;
-        }
-
-        // is natural file size
-        var naturalFileSize = toString(value).trim();
-
-        // if is value in megabytes
-        if (/MB$/i.test(naturalFileSize)) {
-            naturalFileSize = naturalFileSize.replace(/MB$i/, '').trim();
-            return toInt(naturalFileSize) * base * base;
-        }
-
-        // if is value in kilobytes
-        if (/KB/i.test(naturalFileSize)) {
-            naturalFileSize = naturalFileSize.replace(/KB$i/, '').trim();
-            return toInt(naturalFileSize) * base;
-        }
-
-        return toInt(naturalFileSize);
-    };
-
-    var isFunction = function isFunction(value) {
-        return typeof value === 'function';
-    };
-
-    var toFunctionReference = function toFunctionReference(string) {
-        var ref = self;
-        var levels = string.split('.');
-        var level = null;
-        while ((level = levels.shift())) {
-            ref = ref[level];
-            if (!ref) {
-                return null;
-            }
-        }
-        return ref;
-    };
-
-    var methods = {
-        process: 'POST',
-        patch: 'PATCH',
-        revert: 'DELETE',
-        fetch: 'GET',
-        restore: 'GET',
-        load: 'GET',
-    };
-
-    var createServerAPI = function createServerAPI(outline) {
-        var api = {};
-
-        api.url = isString(outline) ? outline : outline.url || '';
-        api.timeout = outline.timeout ? parseInt(outline.timeout, 10) : 0;
-        api.headers = outline.headers ? outline.headers : {};
-
-        forin(methods, function(key) {
-            api[key] = createAction(key, outline[key], methods[key], api.timeout, api.headers);
-        });
-
-        // remove process if no url or process on outline
-        api.process = outline.process || isString(outline) || outline.url ? api.process : null;
-
-        // special treatment for remove
-        api.remove = outline.remove || null;
-
-        // remove generic headers from api object
-        delete api.headers;
-
-        return api;
-    };
-
-    var createAction = function createAction(name, outline, method, timeout, headers) {
-        // is explicitely set to null so disable
-        if (outline === null) {
-            return null;
-        }
-
-        // if is custom function, done! Dev handles everything.
-        if (typeof outline === 'function') {
-            return outline;
-        }
-
-        // build action object
-        var action = {
-            url: method === 'GET' || method === 'PATCH' ? '?' + name + '=' : '',
-            method: method,
-            headers: headers,
-            withCredentials: false,
-            timeout: timeout,
-            onload: null,
-            ondata: null,
-            onerror: null,
-        };
-
-        // is a single url
-        if (isString(outline)) {
-            action.url = outline;
-            return action;
-        }
-
-        // overwrite
-        Object.assign(action, outline);
-
-        // see if should reformat headers;
-        if (isString(action.headers)) {
-            var parts = action.headers.split(/:(.+)/);
-            action.headers = {
-                header: parts[0],
-                value: parts[1],
-            };
-        }
-
-        // if is bool withCredentials
-        action.withCredentials = toBoolean(action.withCredentials);
-
-        return action;
-    };
-
-    var toServerAPI = function toServerAPI(value) {
-        return createServerAPI(value);
-    };
-
-    var isNull = function isNull(value) {
-        return value === null;
-    };
-
-    var isObject = function isObject(value) {
-        return typeof value === 'object' && value !== null;
-    };
-
-    var isAPI = function isAPI(value) {
-        return (
-            isObject(value) &&
-            isString(value.url) &&
-            isObject(value.process) &&
-            isObject(value.revert) &&
-            isObject(value.restore) &&
-            isObject(value.fetch)
-        );
-    };
-
-    var getType = function getType(value) {
-        if (isArray(value)) {
-            return 'array';
-        }
-
-        if (isNull(value)) {
-            return 'null';
-        }
-
-        if (isInt(value)) {
-            return 'int';
-        }
-
-        if (/^[0-9]+ ?(?:GB|MB|KB)$/gi.test(value)) {
-            return 'bytes';
-        }
-
-        if (isAPI(value)) {
-            return 'api';
-        }
-
-        return typeof value;
-    };
-
-    var replaceSingleQuotes = function replaceSingleQuotes(str) {
-        return str
-            .replace(/{\s*'/g, '{"')
-            .replace(/'\s*}/g, '"}')
-            .replace(/'\s*:/g, '":')
-            .replace(/:\s*'/g, ':"')
-            .replace(/,\s*'/g, ',"')
-            .replace(/'\s*,/g, '",');
-    };
-
-    var conversionTable = {
-        array: toArray,
-        boolean: toBoolean,
-        int: function int(value) {
-            return getType(value) === 'bytes' ? toBytes(value) : toInt(value);
-        },
-        number: toFloat,
-        float: toFloat,
-        bytes: toBytes,
-        string: function string(value) {
-            return isFunction(value) ? value : toString(value);
-        },
-        function: function _function(value) {
-            return toFunctionReference(value);
-        },
-        serverapi: toServerAPI,
-        object: function object(value) {
-            try {
-                return JSON.parse(replaceSingleQuotes(value));
-            } catch (e) {
-                return null;
-            }
-        },
-    };
-
-    var convertTo = function convertTo(value, type) {
-        return conversionTable[type](value);
-    };
-
-    var getValueByType = function getValueByType(newValue, defaultValue, valueType) {
-        // can always assign default value
-        if (newValue === defaultValue) {
-            return newValue;
-        }
-
-        // get the type of the new value
-        var newValueType = getType(newValue);
-
-        // is valid type?
-        if (newValueType !== valueType) {
-            // is string input, let's attempt to convert
-            var convertedValue = convertTo(newValue, valueType);
-
-            // what is the type now
-            newValueType = getType(convertedValue);
-
-            // no valid conversions found
-            if (convertedValue === null) {
-                throw 'Trying to assign value with incorrect type to "' +
-                    option +
-                    '", allowed type: "' +
-                    valueType +
-                    '"';
-            } else {
-                newValue = convertedValue;
-            }
-        }
-
-        // assign new value
-        return newValue;
-    };
-
-    var createOption = function createOption(defaultValue, valueType) {
-        var currentValue = defaultValue;
-        return {
-            enumerable: true,
-            get: function get() {
-                return currentValue;
-            },
-            set: function set(newValue) {
-                currentValue = getValueByType(newValue, defaultValue, valueType);
-            },
-        };
-    };
-
-    var createOptions = function createOptions(options) {
-        var obj = {};
-        forin(options, function(prop) {
-            var optionDefinition = options[prop];
-            obj[prop] = createOption(optionDefinition[0], optionDefinition[1]);
-        });
-        return createObject(obj);
-    };
-
-    var createInitialState = function createInitialState(options) {
-        return {
-            // model
-            items: [],
-
-            // timeout used for calling update items
-            listUpdateTimeout: null,
-
-            // timeout used for stacking metadata updates
-            itemUpdateTimeout: null,
-
-            // queue of items waiting to be processed
-            processingQueue: [],
-
-            // options
-            options: createOptions(options),
-        };
-    };
-
-    var fromCamels = function fromCamels(string) {
-        var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
-        return string
-            .split(/(?=[A-Z])/)
-            .map(function(part) {
-                return part.toLowerCase();
-            })
-            .join(separator);
-    };
-
-    var createOptionAPI = function createOptionAPI(store, options) {
-        var obj = {};
-        forin(options, function(key) {
-            obj[key] = {
-                get: function get() {
-                    return store.getState().options[key];
-                },
-                set: function set(value) {
-                    store.dispatch('SET_' + fromCamels(key, '_').toUpperCase(), {
-                        value: value,
-                    });
-                },
-            };
-        });
-        return obj;
-    };
-
-    var createOptionActions = function createOptionActions(options) {
-        return function(dispatch, query, state) {
-            var obj = {};
-            forin(options, function(key) {
-                var name = fromCamels(key, '_').toUpperCase();
-
-                obj['SET_' + name] = function(action) {
-                    try {
-                        state.options[key] = action.value;
-                    } catch (e) {} // nope, failed
-
-                    // we successfully set the value of this option
-                    dispatch('DID_SET_' + name, { value: state.options[key] });
-                };
-            });
-            return obj;
-        };
-    };
-
-    var createOptionQueries = function createOptionQueries(options) {
-        return function(state) {
-            var obj = {};
-            forin(options, function(key) {
-                obj['GET_' + fromCamels(key, '_').toUpperCase()] = function(action) {
-                    return state.options[key];
-                };
-            });
-            return obj;
-        };
-    };
-
-    var InteractionMethod = {
-        API: 1,
-        DROP: 2,
-        BROWSE: 3,
-        PASTE: 4,
-        NONE: 5,
-    };
-
-    var getUniqueId = function getUniqueId() {
-        return Math.random()
-            .toString(36)
-            .substr(2, 9);
-    };
-
-    function _typeof(obj) {
-        if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
-            _typeof = function(obj) {
-                return typeof obj;
-            };
-        } else {
-            _typeof = function(obj) {
-                return obj &&
-                    typeof Symbol === 'function' &&
-                    obj.constructor === Symbol &&
-                    obj !== Symbol.prototype
-                    ? 'symbol'
-                    : typeof obj;
-            };
-        }
-
-        return _typeof(obj);
-    }
-
-    var REACT_ELEMENT_TYPE;
-
-    function _jsx(type, props, key, children) {
-        if (!REACT_ELEMENT_TYPE) {
-            REACT_ELEMENT_TYPE =
-                (typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element')) ||
-                0xeac7;
-        }
-
-        var defaultProps = type && type.defaultProps;
-        var childrenLength = arguments.length - 3;
-
-        if (!props && childrenLength !== 0) {
-            props = {
-                children: void 0,
-            };
-        }
-
-        if (props && defaultProps) {
-            for (var propName in defaultProps) {
-                if (props[propName] === void 0) {
-                    props[propName] = defaultProps[propName];
-                }
-            }
-        } else if (!props) {
-            props = defaultProps || {};
-        }
-
-        if (childrenLength === 1) {
-            props.children = children;
-        } else if (childrenLength > 1) {
-            var childArray = new Array(childrenLength);
-
-            for (var i = 0; i < childrenLength; i++) {
-                childArray[i] = arguments[i + 3];
-            }
-
-            props.children = childArray;
-        }
-
-        return {
-            $$typeof: REACT_ELEMENT_TYPE,
-            type: type,
-            key: key === undefined ? null : '' + key,
-            ref: null,
-            props: props,
-            _owner: null,
-        };
-    }
-
-    function _asyncIterator(iterable) {
-        var method;
-
-        if (typeof Symbol !== 'undefined') {
-            if (Symbol.asyncIterator) {
-                method = iterable[Symbol.asyncIterator];
-                if (method != null) return method.call(iterable);
-            }
-
-            if (Symbol.iterator) {
-                method = iterable[Symbol.iterator];
-                if (method != null) return method.call(iterable);
-            }
-        }
-
-        throw new TypeError('Object is not async iterable');
-    }
-
-    function _AwaitValue(value) {
-        this.wrapped = value;
-    }
-
-    function _AsyncGenerator(gen) {
-        var front, back;
-
-        function send(key, arg) {
-            return new Promise(function(resolve, reject) {
-                var request = {
-                    key: key,
-                    arg: arg,
-                    resolve: resolve,
-                    reject: reject,
-                    next: null,
-                };
-
-                if (back) {
-                    back = back.next = request;
-                } else {
-                    front = back = request;
-                    resume(key, arg);
-                }
-            });
-        }
-
-        function resume(key, arg) {
-            try {
-                var result = gen[key](arg);
-                var value = result.value;
-                var wrappedAwait = value instanceof _AwaitValue;
-                Promise.resolve(wrappedAwait ? value.wrapped : value).then(
-                    function(arg) {
-                        if (wrappedAwait) {
-                            resume('next', arg);
-                            return;
-                        }
-
-                        settle(result.done ? 'return' : 'normal', arg);
-                    },
-                    function(err) {
-                        resume('throw', err);
-                    }
-                );
-            } catch (err) {
-                settle('throw', err);
-            }
-        }
-
-        function settle(type, value) {
-            switch (type) {
-                case 'return':
-                    front.resolve({
-                        value: value,
-                        done: true,
-                    });
-                    break;
-
-                case 'throw':
-                    front.reject(value);
-                    break;
-
-                default:
-                    front.resolve({
-                        value: value,
-                        done: false,
-                    });
-                    break;
-            }
-
-            front = front.next;
-
-            if (front) {
-                resume(front.key, front.arg);
-            } else {
-                back = null;
-            }
-        }
-
-        this._invoke = send;
-
-        if (typeof gen.return !== 'function') {
-            this.return = undefined;
-        }
-    }
-
-    if (typeof Symbol === 'function' && Symbol.asyncIterator) {
-        _AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
-            return this;
-        };
-    }
-
-    _AsyncGenerator.prototype.next = function(arg) {
-        return this._invoke('next', arg);
-    };
-
-    _AsyncGenerator.prototype.throw = function(arg) {
-        return this._invoke('throw', arg);
-    };
-
-    _AsyncGenerator.prototype.return = function(arg) {
-        return this._invoke('return', arg);
-    };
-
-    function _wrapAsyncGenerator(fn) {
-        return function() {
-            return new _AsyncGenerator(fn.apply(this, arguments));
-        };
-    }
-
-    function _awaitAsyncGenerator(value) {
-        return new _AwaitValue(value);
-    }
-
-    function _asyncGeneratorDelegate(inner, awaitWrap) {
-        var iter = {},
-            waiting = false;
-
-        function pump(key, value) {
-            waiting = true;
-            value = new Promise(function(resolve) {
-                resolve(inner[key](value));
-            });
-            return {
-                done: false,
-                value: awaitWrap(value),
-            };
-        }
-
-        if (typeof Symbol === 'function' && Symbol.iterator) {
-            iter[Symbol.iterator] = function() {
-                return this;
-            };
-        }
-
-        iter.next = function(value) {
-            if (waiting) {
-                waiting = false;
-                return value;
-            }
-
-            return pump('next', value);
-        };
-
-        if (typeof inner.throw === 'function') {
-            iter.throw = function(value) {
-                if (waiting) {
-                    waiting = false;
-                    throw value;
-                }
-
-                return pump('throw', value);
-            };
-        }
-
-        if (typeof inner.return === 'function') {
-            iter.return = function(value) {
-                return pump('return', value);
-            };
-        }
-
-        return iter;
-    }
-
-    function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-        try {
-            var info = gen[key](arg);
-            var value = info.value;
-        } catch (error) {
-            reject(error);
-            return;
-        }
-
-        if (info.done) {
-            resolve(value);
-        } else {
-            Promise.resolve(value).then(_next, _throw);
-        }
-    }
-
-    function _asyncToGenerator(fn) {
-        return function() {
-            var self = this,
-                args = arguments;
-            return new Promise(function(resolve, reject) {
-                var gen = fn.apply(self, args);
-
-                function _next(value) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, 'next', value);
-                }
-
-                function _throw(err) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, 'throw', err);
-                }
-
-                _next(undefined);
-            });
-        };
-    }
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError('Cannot call a class as a function');
-        }
-    }
-
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ('value' in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        return Constructor;
-    }
-
-    function _defineEnumerableProperties(obj, descs) {
-        for (var key in descs) {
-            var desc = descs[key];
-            desc.configurable = desc.enumerable = true;
-            if ('value' in desc) desc.writable = true;
-            Object.defineProperty(obj, key, desc);
-        }
-
-        if (Object.getOwnPropertySymbols) {
-            var objectSymbols = Object.getOwnPropertySymbols(descs);
-
-            for (var i = 0; i < objectSymbols.length; i++) {
-                var sym = objectSymbols[i];
-                var desc = descs[sym];
-                desc.configurable = desc.enumerable = true;
-                if ('value' in desc) desc.writable = true;
-                Object.defineProperty(obj, sym, desc);
-            }
-        }
-
-        return obj;
-    }
-
-    function _defaults(obj, defaults) {
-        var keys = Object.getOwnPropertyNames(defaults);
-
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            var value = Object.getOwnPropertyDescriptor(defaults, key);
-
-            if (value && value.configurable && obj[key] === undefined) {
-                Object.defineProperty(obj, key, value);
-            }
-        }
-
-        return obj;
-    }
-
-    function _defineProperty(obj, key, value) {
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                value: value,
-                enumerable: true,
-                configurable: true,
-                writable: true,
-            });
-        } else {
-            obj[key] = value;
-        }
-
-        return obj;
-    }
-
-    function _extends() {
-        _extends =
-            Object.assign ||
-            function(target) {
-                for (var i = 1; i < arguments.length; i++) {
-                    var source = arguments[i];
-
-                    for (var key in source) {
-                        if (Object.prototype.hasOwnProperty.call(source, key)) {
-                            target[key] = source[key];
-                        }
-                    }
-                }
-
-                return target;
-            };
-
-        return _extends.apply(this, arguments);
-    }
-
-    function _objectSpread(target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i] != null ? arguments[i] : {};
-            var ownKeys = Object.keys(source);
-
-            if (typeof Object.getOwnPropertySymbols === 'function') {
-                ownKeys = ownKeys.concat(
-                    Object.getOwnPropertySymbols(source).filter(function(sym) {
-                        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                    })
-                );
-            }
-
-            ownKeys.forEach(function(key) {
-                _defineProperty(target, key, source[key]);
-            });
-        }
-
-        return target;
-    }
-
-    function ownKeys(object, enumerableOnly) {
-        var keys = Object.keys(object);
-
-        if (Object.getOwnPropertySymbols) {
-            var symbols = Object.getOwnPropertySymbols(object);
-            if (enumerableOnly)
-                symbols = symbols.filter(function(sym) {
-                    return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-                });
-            keys.push.apply(keys, symbols);
-        }
-
-        return keys;
-    }
-
-    function _objectSpread2(target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i] != null ? arguments[i] : {};
-
-            if (i % 2) {
-                ownKeys(source, true).forEach(function(key) {
-                    _defineProperty(target, key, source[key]);
-                });
-            } else if (Object.getOwnPropertyDescriptors) {
-                Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-            } else {
-                ownKeys(source).forEach(function(key) {
-                    Object.defineProperty(
-                        target,
-                        key,
-                        Object.getOwnPropertyDescriptor(source, key)
-                    );
-                });
-            }
-        }
-
-        return target;
-    }
-
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== 'function' && superClass !== null) {
-            throw new TypeError('Super expression must either be null or a function');
-        }
-
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: true,
-                configurable: true,
-            },
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-
-    function _inheritsLoose(subClass, superClass) {
-        subClass.prototype = Object.create(superClass.prototype);
-        subClass.prototype.constructor = subClass;
-        subClass.__proto__ = superClass;
-    }
-
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf
-            ? Object.getPrototypeOf
-            : function _getPrototypeOf(o) {
-                  return o.__proto__ || Object.getPrototypeOf(o);
-              };
-        return _getPrototypeOf(o);
-    }
-
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf =
-            Object.setPrototypeOf ||
-            function _setPrototypeOf(o, p) {
-                o.__proto__ = p;
-                return o;
-            };
-
-        return _setPrototypeOf(o, p);
-    }
-
-    function isNativeReflectConstruct() {
-        if (typeof Reflect === 'undefined' || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === 'function') return true;
-
-        try {
-            Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-
-    function _construct(Parent, args, Class) {
-        if (isNativeReflectConstruct()) {
-            _construct = Reflect.construct;
-        } else {
-            _construct = function _construct(Parent, args, Class) {
-                var a = [null];
-                a.push.apply(a, args);
-                var Constructor = Function.bind.apply(Parent, a);
-                var instance = new Constructor();
-                if (Class) _setPrototypeOf(instance, Class.prototype);
-                return instance;
-            };
-        }
-
-        return _construct.apply(null, arguments);
-    }
-
-    function _isNativeFunction(fn) {
-        return Function.toString.call(fn).indexOf('[native code]') !== -1;
-    }
-
-    function _wrapNativeSuper(Class) {
-        var _cache = typeof Map === 'function' ? new Map() : undefined;
-
-        _wrapNativeSuper = function _wrapNativeSuper(Class) {
-            if (Class === null || !_isNativeFunction(Class)) return Class;
-
-            if (typeof Class !== 'function') {
-                throw new TypeError('Super expression must either be null or a function');
-            }
-
-            if (typeof _cache !== 'undefined') {
-                if (_cache.has(Class)) return _cache.get(Class);
-
-                _cache.set(Class, Wrapper);
-            }
-
-            function Wrapper() {
-                return _construct(Class, arguments, _getPrototypeOf(this).constructor);
-            }
-
-            Wrapper.prototype = Object.create(Class.prototype, {
-                constructor: {
-                    value: Wrapper,
-                    enumerable: false,
-                    writable: true,
-                    configurable: true,
-                },
-            });
-            return _setPrototypeOf(Wrapper, Class);
-        };
-
-        return _wrapNativeSuper(Class);
-    }
-
-    function _instanceof(left, right) {
-        if (right != null && typeof Symbol !== 'undefined' && right[Symbol.hasInstance]) {
-            return !!right[Symbol.hasInstance](left);
-        } else {
-            return left instanceof right;
-        }
-    }
-
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule
-            ? obj
-            : {
-                  default: obj,
-              };
-    }
-
-    function _interopRequireWildcard(obj) {
-        if (obj && obj.__esModule) {
-            return obj;
-        } else {
-            var newObj = {};
-
-            if (obj != null) {
-                for (var key in obj) {
-                    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                        var desc =
-                            Object.defineProperty && Object.getOwnPropertyDescriptor
-                                ? Object.getOwnPropertyDescriptor(obj, key)
-                                : {};
-
-                        if (desc.get || desc.set) {
-                            Object.defineProperty(newObj, key, desc);
-                        } else {
-                            newObj[key] = obj[key];
-                        }
-                    }
-                }
-            }
-
-            newObj.default = obj;
-            return newObj;
-        }
-    }
-
-    function _newArrowCheck(innerThis, boundThis) {
-        if (innerThis !== boundThis) {
-            throw new TypeError('Cannot instantiate an arrow function');
-        }
-    }
-
-    function _objectDestructuringEmpty(obj) {
-        if (obj == null) throw new TypeError('Cannot destructure undefined');
-    }
-
-    function _objectWithoutPropertiesLoose(source, excluded) {
-        if (source == null) return {};
-        var target = {};
-        var sourceKeys = Object.keys(source);
-        var key, i;
-
-        for (i = 0; i < sourceKeys.length; i++) {
-            key = sourceKeys[i];
-            if (excluded.indexOf(key) >= 0) continue;
-            target[key] = source[key];
-        }
-
-        return target;
-    }
-
-    function _objectWithoutProperties(source, excluded) {
-        if (source == null) return {};
-
-        var target = _objectWithoutPropertiesLoose(source, excluded);
-
-        var key, i;
-
-        if (Object.getOwnPropertySymbols) {
-            var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-            for (i = 0; i < sourceSymbolKeys.length; i++) {
-                key = sourceSymbolKeys[i];
-                if (excluded.indexOf(key) >= 0) continue;
-                if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-                target[key] = source[key];
-            }
-        }
-
-        return target;
-    }
-
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-
-        return self;
-    }
-
-    function _possibleConstructorReturn(self, call) {
-        if (call && (typeof call === 'object' || typeof call === 'function')) {
-            return call;
-        }
-
-        return _assertThisInitialized(self);
-    }
-
-    function _superPropBase(object, property) {
-        while (!Object.prototype.hasOwnProperty.call(object, property)) {
-            object = _getPrototypeOf(object);
-            if (object === null) break;
-        }
-
-        return object;
-    }
-
-    function _get(target, property, receiver) {
-        if (typeof Reflect !== 'undefined' && Reflect.get) {
-            _get = Reflect.get;
-        } else {
-            _get = function _get(target, property, receiver) {
-                var base = _superPropBase(target, property);
-
-                if (!base) return;
-                var desc = Object.getOwnPropertyDescriptor(base, property);
-
-                if (desc.get) {
-                    return desc.get.call(receiver);
-                }
-
-                return desc.value;
-            };
-        }
-
-        return _get(target, property, receiver || target);
-    }
-
-    function set(target, property, value, receiver) {
-        if (typeof Reflect !== 'undefined' && Reflect.set) {
-            set = Reflect.set;
-        } else {
-            set = function set(target, property, value, receiver) {
-                var base = _superPropBase(target, property);
-
-                var desc;
-
-                if (base) {
-                    desc = Object.getOwnPropertyDescriptor(base, property);
-
-                    if (desc.set) {
-                        desc.set.call(receiver, value);
-                        return true;
-                    } else if (!desc.writable) {
-                        return false;
-                    }
-                }
-
-                desc = Object.getOwnPropertyDescriptor(receiver, property);
-
-                if (desc) {
-                    if (!desc.writable) {
-                        return false;
-                    }
-
-                    desc.value = value;
-                    Object.defineProperty(receiver, property, desc);
-                } else {
-                    _defineProperty(receiver, property, value);
-                }
-
-                return true;
-            };
-        }
-
-        return set(target, property, value, receiver);
-    }
-
-    function _set(target, property, value, receiver, isStrict) {
-        var s = set(target, property, value, receiver || target);
-
-        if (!s && isStrict) {
-            throw new Error('failed to set property');
-        }
-
-        return value;
-    }
-
-    function _taggedTemplateLiteral(strings, raw) {
-        if (!raw) {
-            raw = strings.slice(0);
-        }
-
-        return Object.freeze(
-            Object.defineProperties(strings, {
-                raw: {
-                    value: Object.freeze(raw),
-                },
-            })
-        );
-    }
-
-    function _taggedTemplateLiteralLoose(strings, raw) {
-        if (!raw) {
-            raw = strings.slice(0);
-        }
-
-        strings.raw = raw;
-        return strings;
-    }
-
-    function _temporalRef(val, name) {
-        if (val === _temporalUndefined) {
-            throw new ReferenceError(name + ' is not defined - temporal dead zone');
-        } else {
-            return val;
-        }
-    }
-
-    function _readOnlyError(name) {
-        throw new Error('"' + name + '" is read-only');
-    }
-
-    function _classNameTDZError(name) {
-        throw new Error('Class "' + name + '" cannot be referenced in computed property keys.');
-    }
-
-    var _temporalUndefined = {};
-
-    function _slicedToArray(arr, i) {
-        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
-    }
-
-    function _slicedToArrayLoose(arr, i) {
-        return _arrayWithHoles(arr) || _iterableToArrayLimitLoose(arr, i) || _nonIterableRest();
-    }
-
-    function _toArray(arr) {
-        return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
-    }
-
-    function _toConsumableArray(arr) {
-        return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-    }
-
-    function _arrayWithoutHoles(arr) {
-        if (Array.isArray(arr)) {
-            for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-            return arr2;
-        }
-    }
-
-    function _arrayWithHoles(arr) {
-        if (Array.isArray(arr)) return arr;
-    }
-
-    function _iterableToArray(iter) {
-        if (
-            Symbol.iterator in Object(iter) ||
-            Object.prototype.toString.call(iter) === '[object Arguments]'
-        )
-            return Array.from(iter);
-    }
-
-    function _iterableToArrayLimit(arr, i) {
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _e = undefined;
-
-        try {
-            for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
-            try {
-                if (!_n && _i['return'] != null) _i['return']();
-            } finally {
-                if (_d) throw _e;
-            }
-        }
-
-        return _arr;
-    }
-
-    function _iterableToArrayLimitLoose(arr, i) {
-        var _arr = [];
-
-        for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done; ) {
-            _arr.push(_step.value);
-
-            if (i && _arr.length === i) break;
-        }
-
-        return _arr;
-    }
-
-    function _nonIterableSpread() {
-        throw new TypeError('Invalid attempt to spread non-iterable instance');
-    }
-
-    function _nonIterableRest() {
-        throw new TypeError('Invalid attempt to destructure non-iterable instance');
-    }
-
-    function _skipFirstGeneratorNext(fn) {
-        return function() {
-            var it = fn.apply(this, arguments);
-            it.next();
-            return it;
-        };
-    }
-
-    function _toPrimitive(input, hint) {
-        if (typeof input !== 'object' || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || 'default');
-            if (typeof res !== 'object') return res;
-            throw new TypeError('@@toPrimitive must return a primitive value.');
-        }
-
-        return (hint === 'string' ? String : Number)(input);
-    }
-
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, 'string');
-
-        return typeof key === 'symbol' ? key : String(key);
-    }
-
-    function _initializerWarningHelper(descriptor, context) {
-        throw new Error(
-            'Decorating class property failed. Please ensure that ' +
-                'proposal-class-properties is enabled and set to use loose mode. ' +
-                'To use proposal-class-properties in spec mode with decorators, wait for ' +
-                'the next major version of decorators in stage 2.'
-        );
-    }
-
-    function _initializerDefineProperty(target, property, descriptor, context) {
-        if (!descriptor) return;
-        Object.defineProperty(target, property, {
-            enumerable: descriptor.enumerable,
-            configurable: descriptor.configurable,
-            writable: descriptor.writable,
-            value: descriptor.initializer ? descriptor.initializer.call(context) : void 0,
-        });
-    }
-
-    function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-        var desc = {};
-        Object.keys(descriptor).forEach(function(key) {
-            desc[key] = descriptor[key];
-        });
-        desc.enumerable = !!desc.enumerable;
-        desc.configurable = !!desc.configurable;
-
-        if ('value' in desc || desc.initializer) {
-            desc.writable = true;
-        }
-
-        desc = decorators
-            .slice()
-            .reverse()
-            .reduce(function(desc, decorator) {
-                return decorator(target, property, desc) || desc;
-            }, desc);
-
-        if (context && desc.initializer !== void 0) {
-            desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-            desc.initializer = undefined;
-        }
-
-        if (desc.initializer === void 0) {
-            Object.defineProperty(target, property, desc);
-            desc = null;
-        }
-
-        return desc;
-    }
-
-    var id = 0;
-
-    function _classPrivateFieldLooseKey(name) {
-        return '__private_' + id++ + '_' + name;
-    }
-
-    function _classPrivateFieldLooseBase(receiver, privateKey) {
-        if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) {
-            throw new TypeError('attempted to use private field on non-instance');
-        }
-
-        return receiver;
-    }
-
-    function _classPrivateFieldGet(receiver, privateMap) {
-        var descriptor = privateMap.get(receiver);
-
-        if (!descriptor) {
-            throw new TypeError('attempted to get private field on non-instance');
-        }
-
-        if (descriptor.get) {
-            return descriptor.get.call(receiver);
-        }
-
-        return descriptor.value;
-    }
-
-    function _classPrivateFieldSet(receiver, privateMap, value) {
-        var descriptor = privateMap.get(receiver);
-
-        if (!descriptor) {
-            throw new TypeError('attempted to set private field on non-instance');
-        }
-
-        if (descriptor.set) {
-            descriptor.set.call(receiver, value);
-        } else {
-            if (!descriptor.writable) {
-                throw new TypeError('attempted to set read only private field');
-            }
-
-            descriptor.value = value;
-        }
-
-        return value;
-    }
-
-    function _classPrivateFieldDestructureSet(receiver, privateMap) {
-        if (!privateMap.has(receiver)) {
-            throw new TypeError('attempted to set private field on non-instance');
-        }
-
-        var descriptor = privateMap.get(receiver);
-
-        if (descriptor.set) {
-            if (!('__destrObj' in descriptor)) {
-                descriptor.__destrObj = {
-                    set value(v) {
-                        descriptor.set.call(receiver, v);
-                    },
-                };
-            }
-
-            return descriptor.__destrObj;
-        } else {
-            if (!descriptor.writable) {
-                throw new TypeError('attempted to set read only private field');
-            }
-
-            return descriptor;
-        }
-    }
-
-    function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-        if (receiver !== classConstructor) {
-            throw new TypeError('Private static access of wrong provenance');
-        }
-
-        return descriptor.value;
-    }
-
-    function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-        if (receiver !== classConstructor) {
-            throw new TypeError('Private static access of wrong provenance');
-        }
-
-        if (!descriptor.writable) {
-            throw new TypeError('attempted to set read only private field');
-        }
-
-        descriptor.value = value;
-        return value;
-    }
-
-    function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
-        if (receiver !== classConstructor) {
-            throw new TypeError('Private static access of wrong provenance');
-        }
-
-        return method;
-    }
-
-    function _classStaticPrivateMethodSet() {
-        throw new TypeError('attempted to set read only static private field');
-    }
-
-    function _decorate(decorators, factory, superClass, mixins) {
-        var api = _getDecoratorsApi();
-
-        if (mixins) {
-            for (var i = 0; i < mixins.length; i++) {
-                api = mixins[i](api);
-            }
-        }
-
-        var r = factory(function initialize(O) {
-            api.initializeInstanceElements(O, decorated.elements);
-        }, superClass);
-        var decorated = api.decorateClass(
-            _coalesceClassElements(r.d.map(_createElementDescriptor)),
-            decorators
-        );
-        api.initializeClassElements(r.F, decorated.elements);
-        return api.runClassFinishers(r.F, decorated.finishers);
-    }
-
-    function _getDecoratorsApi() {
-        _getDecoratorsApi = function() {
-            return api;
-        };
-
-        var api = {
-            elementsDefinitionOrder: [['method'], ['field']],
-            initializeInstanceElements: function(O, elements) {
-                ['method', 'field'].forEach(function(kind) {
-                    elements.forEach(function(element) {
-                        if (element.kind === kind && element.placement === 'own') {
-                            this.defineClassElement(O, element);
-                        }
-                    }, this);
-                }, this);
-            },
-            initializeClassElements: function(F, elements) {
-                var proto = F.prototype;
-                ['method', 'field'].forEach(function(kind) {
-                    elements.forEach(function(element) {
-                        var placement = element.placement;
-
-                        if (
-                            element.kind === kind &&
-                            (placement === 'static' || placement === 'prototype')
-                        ) {
-                            var receiver = placement === 'static' ? F : proto;
-                            this.defineClassElement(receiver, element);
-                        }
-                    }, this);
-                }, this);
-            },
-            defineClassElement: function(receiver, element) {
-                var descriptor = element.descriptor;
-
-                if (element.kind === 'field') {
-                    var initializer = element.initializer;
-                    descriptor = {
-                        enumerable: descriptor.enumerable,
-                        writable: descriptor.writable,
-                        configurable: descriptor.configurable,
-                        value: initializer === void 0 ? void 0 : initializer.call(receiver),
-                    };
-                }
-
-                Object.defineProperty(receiver, element.key, descriptor);
-            },
-            decorateClass: function(elements, decorators) {
-                var newElements = [];
-                var finishers = [];
-                var placements = {
-                    static: [],
-                    prototype: [],
-                    own: [],
-                };
-                elements.forEach(function(element) {
-                    this.addElementPlacement(element, placements);
-                }, this);
-                elements.forEach(function(element) {
-                    if (!_hasDecorators(element)) return newElements.push(element);
-                    var elementFinishersExtras = this.decorateElement(element, placements);
-                    newElements.push(elementFinishersExtras.element);
-                    newElements.push.apply(newElements, elementFinishersExtras.extras);
-                    finishers.push.apply(finishers, elementFinishersExtras.finishers);
-                }, this);
-
-                if (!decorators) {
-                    return {
-                        elements: newElements,
-                        finishers: finishers,
-                    };
-                }
-
-                var result = this.decorateConstructor(newElements, decorators);
-                finishers.push.apply(finishers, result.finishers);
-                result.finishers = finishers;
-                return result;
-            },
-            addElementPlacement: function(element, placements, silent) {
-                var keys = placements[element.placement];
-
-                if (!silent && keys.indexOf(element.key) !== -1) {
-                    throw new TypeError('Duplicated element (' + element.key + ')');
-                }
-
-                keys.push(element.key);
-            },
-            decorateElement: function(element, placements) {
-                var extras = [];
-                var finishers = [];
-
-                for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) {
-                    var keys = placements[element.placement];
-                    keys.splice(keys.indexOf(element.key), 1);
-                    var elementObject = this.fromElementDescriptor(element);
-                    var elementFinisherExtras = this.toElementFinisherExtras(
-                        (0, decorators[i])(elementObject) || elementObject
-                    );
-                    element = elementFinisherExtras.element;
-                    this.addElementPlacement(element, placements);
-
-                    if (elementFinisherExtras.finisher) {
-                        finishers.push(elementFinisherExtras.finisher);
-                    }
-
-                    var newExtras = elementFinisherExtras.extras;
-
-                    if (newExtras) {
-                        for (var j = 0; j < newExtras.length; j++) {
-                            this.addElementPlacement(newExtras[j], placements);
-                        }
-
-                        extras.push.apply(extras, newExtras);
-                    }
-                }
-
-                return {
-                    element: element,
-                    finishers: finishers,
-                    extras: extras,
-                };
-            },
-            decorateConstructor: function(elements, decorators) {
-                var finishers = [];
-
-                for (var i = decorators.length - 1; i >= 0; i--) {
-                    var obj = this.fromClassDescriptor(elements);
-                    var elementsAndFinisher = this.toClassDescriptor(
-                        (0, decorators[i])(obj) || obj
-                    );
-
-                    if (elementsAndFinisher.finisher !== undefined) {
-                        finishers.push(elementsAndFinisher.finisher);
-                    }
-
-                    if (elementsAndFinisher.elements !== undefined) {
-                        elements = elementsAndFinisher.elements;
-
-                        for (var j = 0; j < elements.length - 1; j++) {
-                            for (var k = j + 1; k < elements.length; k++) {
-                                if (
-                                    elements[j].key === elements[k].key &&
-                                    elements[j].placement === elements[k].placement
-                                ) {
-                                    throw new TypeError(
-                                        'Duplicated element (' + elements[j].key + ')'
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-
-                return {
-                    elements: elements,
-                    finishers: finishers,
-                };
-            },
-            fromElementDescriptor: function(element) {
-                var obj = {
-                    kind: element.kind,
-                    key: element.key,
-                    placement: element.placement,
-                    descriptor: element.descriptor,
-                };
-                var desc = {
-                    value: 'Descriptor',
-                    configurable: true,
-                };
-                Object.defineProperty(obj, Symbol.toStringTag, desc);
-                if (element.kind === 'field') obj.initializer = element.initializer;
-                return obj;
-            },
-            toElementDescriptors: function(elementObjects) {
-                if (elementObjects === undefined) return;
-                return _toArray(elementObjects).map(function(elementObject) {
-                    var element = this.toElementDescriptor(elementObject);
-                    this.disallowProperty(elementObject, 'finisher', 'An element descriptor');
-                    this.disallowProperty(elementObject, 'extras', 'An element descriptor');
-                    return element;
-                }, this);
-            },
-            toElementDescriptor: function(elementObject) {
-                var kind = String(elementObject.kind);
-
-                if (kind !== 'method' && kind !== 'field') {
-                    throw new TypeError(
-                        'An element descriptor\'s .kind property must be either "method" or' +
-                            ' "field", but a decorator created an element descriptor with' +
-                            ' .kind "' +
-                            kind +
-                            '"'
-                    );
-                }
-
-                var key = _toPropertyKey(elementObject.key);
-
-                var placement = String(elementObject.placement);
-
-                if (placement !== 'static' && placement !== 'prototype' && placement !== 'own') {
-                    throw new TypeError(
-                        'An element descriptor\'s .placement property must be one of "static",' +
-                            ' "prototype" or "own", but a decorator created an element descriptor' +
-                            ' with .placement "' +
-                            placement +
-                            '"'
-                    );
-                }
-
-                var descriptor = elementObject.descriptor;
-                this.disallowProperty(elementObject, 'elements', 'An element descriptor');
-                var element = {
-                    kind: kind,
-                    key: key,
-                    placement: placement,
-                    descriptor: Object.assign({}, descriptor),
-                };
-
-                if (kind !== 'field') {
-                    this.disallowProperty(elementObject, 'initializer', 'A method descriptor');
-                } else {
-                    this.disallowProperty(
-                        descriptor,
-                        'get',
-                        'The property descriptor of a field descriptor'
-                    );
-                    this.disallowProperty(
-                        descriptor,
-                        'set',
-                        'The property descriptor of a field descriptor'
-                    );
-                    this.disallowProperty(
-                        descriptor,
-                        'value',
-                        'The property descriptor of a field descriptor'
-                    );
-                    element.initializer = elementObject.initializer;
-                }
-
-                return element;
-            },
-            toElementFinisherExtras: function(elementObject) {
-                var element = this.toElementDescriptor(elementObject);
-
-                var finisher = _optionalCallableProperty(elementObject, 'finisher');
-
-                var extras = this.toElementDescriptors(elementObject.extras);
-                return {
-                    element: element,
-                    finisher: finisher,
-                    extras: extras,
-                };
-            },
-            fromClassDescriptor: function(elements) {
-                var obj = {
-                    kind: 'class',
-                    elements: elements.map(this.fromElementDescriptor, this),
-                };
-                var desc = {
-                    value: 'Descriptor',
-                    configurable: true,
-                };
-                Object.defineProperty(obj, Symbol.toStringTag, desc);
-                return obj;
-            },
-            toClassDescriptor: function(obj) {
-                var kind = String(obj.kind);
-
-                if (kind !== 'class') {
-                    throw new TypeError(
-                        'A class descriptor\'s .kind property must be "class", but a decorator' +
-                            ' created a class descriptor with .kind "' +
-                            kind +
-                            '"'
-                    );
-                }
-
-                this.disallowProperty(obj, 'key', 'A class descriptor');
-                this.disallowProperty(obj, 'placement', 'A class descriptor');
-                this.disallowProperty(obj, 'descriptor', 'A class descriptor');
-                this.disallowProperty(obj, 'initializer', 'A class descriptor');
-                this.disallowProperty(obj, 'extras', 'A class descriptor');
-
-                var finisher = _optionalCallableProperty(obj, 'finisher');
-
-                var elements = this.toElementDescriptors(obj.elements);
-                return {
-                    elements: elements,
-                    finisher: finisher,
-                };
-            },
-            runClassFinishers: function(constructor, finishers) {
-                for (var i = 0; i < finishers.length; i++) {
-                    var newConstructor = (0, finishers[i])(constructor);
-
-                    if (newConstructor !== undefined) {
-                        if (typeof newConstructor !== 'function') {
-                            throw new TypeError('Finishers must return a constructor.');
-                        }
-
-                        constructor = newConstructor;
-                    }
-                }
-
-                return constructor;
-            },
-            disallowProperty: function(obj, name, objectType) {
-                if (obj[name] !== undefined) {
-                    throw new TypeError(objectType + " can't have a ." + name + ' property.');
-                }
-            },
-        };
-        return api;
-    }
-
-    function _createElementDescriptor(def) {
-        var key = _toPropertyKey(def.key);
-
-        var descriptor;
-
-        if (def.kind === 'method') {
-            descriptor = {
-                value: def.value,
-                writable: true,
-                configurable: true,
-                enumerable: false,
-            };
-        } else if (def.kind === 'get') {
-            descriptor = {
-                get: def.value,
-                configurable: true,
-                enumerable: false,
-            };
-        } else if (def.kind === 'set') {
-            descriptor = {
-                set: def.value,
-                configurable: true,
-                enumerable: false,
-            };
-        } else if (def.kind === 'field') {
-            descriptor = {
-                configurable: true,
-                writable: true,
-                enumerable: true,
-            };
-        }
-
-        var element = {
-            kind: def.kind === 'field' ? 'field' : 'method',
-            key: key,
-            placement: def.static ? 'static' : def.kind === 'field' ? 'own' : 'prototype',
-            descriptor: descriptor,
-        };
-        if (def.decorators) element.decorators = def.decorators;
-        if (def.kind === 'field') element.initializer = def.value;
-        return element;
-    }
-
-    function _coalesceGetterSetter(element, other) {
-        if (element.descriptor.get !== undefined) {
-            other.descriptor.get = element.descriptor.get;
-        } else {
-            other.descriptor.set = element.descriptor.set;
-        }
-    }
-
-    function _coalesceClassElements(elements) {
-        var newElements = [];
-
-        var isSameElement = function(other) {
-            return (
-                other.kind === 'method' &&
-                other.key === element.key &&
-                other.placement === element.placement
-            );
-        };
-
-        for (var i = 0; i < elements.length; i++) {
-            var element = elements[i];
-            var other;
-
-            if (element.kind === 'method' && (other = newElements.find(isSameElement))) {
-                if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) {
-                    if (_hasDecorators(element) || _hasDecorators(other)) {
-                        throw new ReferenceError(
-                            'Duplicated methods (' + element.key + ") can't be decorated."
-                        );
-                    }
-
-                    other.descriptor = element.descriptor;
-                } else {
-                    if (_hasDecorators(element)) {
-                        if (_hasDecorators(other)) {
-                            throw new ReferenceError(
-                                "Decorators can't be placed on different accessors with for " +
-                                    'the same property (' +
-                                    element.key +
-                                    ').'
-                            );
-                        }
-
-                        other.decorators = element.decorators;
-                    }
-
-                    _coalesceGetterSetter(element, other);
-                }
-            } else {
-                newElements.push(element);
-            }
-        }
-
-        return newElements;
-    }
-
-    function _hasDecorators(element) {
-        return element.decorators && element.decorators.length;
-    }
-
-    function _isDataDescriptor(desc) {
-        return desc !== undefined && !(desc.value === undefined && desc.writable === undefined);
-    }
-
-    function _optionalCallableProperty(obj, name) {
-        var value = obj[name];
-
-        if (value !== undefined && typeof value !== 'function') {
-            throw new TypeError("Expected '" + name + "' to be a function");
-        }
-
-        return value;
-    }
-
-    function _classPrivateMethodGet(receiver, privateSet, fn) {
-        if (!privateSet.has(receiver)) {
-            throw new TypeError('attempted to get private field on non-instance');
-        }
-
-        return fn;
-    }
-
-    function _classPrivateMethodSet() {
-        throw new TypeError('attempted to reassign private method');
-    }
-
-    function _wrapRegExp(re, groups) {
-        _wrapRegExp = function(re, groups) {
-            return new BabelRegExp(re, groups);
-        };
-
-        var _RegExp = _wrapNativeSuper(RegExp);
-
-        var _super = RegExp.prototype;
-
-        var _groups = new WeakMap();
-
-        function BabelRegExp(re, groups) {
-            var _this = _RegExp.call(this, re);
-
-            _groups.set(_this, groups);
-
-            return _this;
-        }
-
-        _inherits(BabelRegExp, _RegExp);
-
-        BabelRegExp.prototype.exec = function(str) {
-            var result = _super.exec.call(this, str);
-
-            if (result) result.groups = buildGroups(result, this);
-            return result;
-        };
-
-        BabelRegExp.prototype[Symbol.replace] = function(str, substitution) {
-            if (typeof substitution === 'string') {
-                var groups = _groups.get(this);
-
-                return _super[Symbol.replace].call(
-                    this,
-                    str,
-                    substitution.replace(/\$<([^>]+)>/g, function(_, name) {
-                        return '$' + groups[name];
-                    })
-                );
-            } else if (typeof substitution === 'function') {
-                var _this = this;
-
-                return _super[Symbol.replace].call(this, str, function() {
-                    var args = [];
-                    args.push.apply(args, arguments);
-
-                    if (typeof args[args.length - 1] !== 'object') {
-                        args.push(buildGroups(args, _this));
-                    }
-
-                    return substitution.apply(this, args);
-                });
-            } else {
-                return _super[Symbol.replace].call(this, str, substitution);
-            }
-        };
-
-        function buildGroups(result, re) {
-            var g = _groups.get(re);
-
-            return Object.keys(g).reduce(function(groups, name) {
-                groups[name] = result[g[name]];
-                return groups;
-            }, Object.create(null));
-        }
-
-        return _wrapRegExp.apply(this, arguments);
-    }
-
-    var arrayRemove = function arrayRemove(arr, index) {
-        return arr.splice(index, 1);
-    };
-
-    var run = function run(cb, sync) {
-        if (sync) {
-            cb();
-        } else if (document.hidden) {
-            Promise.resolve(1).then(cb);
-        } else {
-            setTimeout(cb, 0);
-        }
-    };
-
-    var on = function on() {
-        var listeners = [];
-        var off = function off(event, cb) {
-            arrayRemove(
-                listeners,
-                listeners.findIndex(function(listener) {
-                    return listener.event === event && (listener.cb === cb || !cb);
-                })
-            );
-        };
-        var _fire = function fire(event, args, sync) {
-            listeners
-                .filter(function(listener) {
-                    return listener.event === event;
-                })
-                .map(function(listener) {
-                    return listener.cb;
-                })
-                .forEach(function(cb) {
-                    return run(function() {
-                        return cb.apply(void 0, _toConsumableArray(args));
-                    }, sync);
-                });
-        };
-        return {
-            fireSync: function fireSync(event) {
-                for (
-                    var _len = arguments.length,
-                        args = new Array(_len > 1 ? _len - 1 : 0),
-                        _key = 1;
-                    _key < _len;
-                    _key++
-                ) {
-                    args[_key - 1] = arguments[_key];
-                }
-                _fire(event, args, true);
-            },
-            fire: function fire(event) {
-                for (
-                    var _len2 = arguments.length,
-                        args = new Array(_len2 > 1 ? _len2 - 1 : 0),
-                        _key2 = 1;
-                    _key2 < _len2;
-                    _key2++
-                ) {
-                    args[_key2 - 1] = arguments[_key2];
-                }
-                _fire(event, args, false);
-            },
-            on: function on(event, cb) {
-                listeners.push({ event: event, cb: cb });
-            },
-            onOnce: function onOnce(event, _cb) {
-                listeners.push({
-                    event: event,
-                    cb: function cb() {
-                        off(event, _cb);
-                        _cb.apply(void 0, arguments);
-                    },
-                });
-            },
-            off: off,
-        };
-    };
-
-    var copyObjectPropertiesToObject = function copyObjectPropertiesToObject(
-        src,
-        target,
-        excluded
-    ) {
-        Object.getOwnPropertyNames(src)
-            .filter(function(property) {
-                return !excluded.includes(property);
-            })
-            .forEach(function(key) {
-                return Object.defineProperty(
-                    target,
-                    key,
-                    Object.getOwnPropertyDescriptor(src, key)
-                );
-            });
-    };
-
-    var PRIVATE = [
-        'fire',
-        'process',
-        'revert',
-        'load',
-        'on',
-        'off',
-        'onOnce',
-        'retryLoad',
-        'extend',
-        'archive',
-        'archived',
-        'release',
-        'released',
-        'requestProcessing',
-        'freeze',
-    ];
-
-    var createItemAPI = function createItemAPI(item) {
-        var api = {};
-        copyObjectPropertiesToObject(item, api, PRIVATE);
-        return api;
-    };
-
-    var removeReleasedItems = function removeReleasedItems(items) {
-        items.forEach(function(item, index) {
-            if (item.released) {
-                arrayRemove(items, index);
-            }
-        });
-    };
-
-    var ItemStatus = {
-        INIT: 1,
-        IDLE: 2,
-        PROCESSING_QUEUED: 9,
-        PROCESSING: 3,
-        PROCESSING_COMPLETE: 5,
-        PROCESSING_ERROR: 6,
-        PROCESSING_REVERT_ERROR: 10,
-        LOADING: 7,
-        LOAD_ERROR: 8,
-    };
-
-    var FileOrigin = {
-        INPUT: 1,
-        LIMBO: 2,
-        LOCAL: 3,
-    };
-
-    var getNonNumeric = function getNonNumeric(str) {
-        return /[^0-9]+/.exec(str);
-    };
-
-    var getDecimalSeparator = function getDecimalSeparator() {
-        return getNonNumeric((1.1).toLocaleString())[0];
-    };
-
-    var getThousandsSeparator = function getThousandsSeparator() {
-        // Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
-        // We check against the normal toString output and if they're the same return a comma when decimal separator is a dot
-        var decimalSeparator = getDecimalSeparator();
-        var thousandsStringWithSeparator = (1000.0).toLocaleString();
-        var thousandsStringWithoutSeparator = (1000.0).toString();
-        if (thousandsStringWithSeparator !== thousandsStringWithoutSeparator) {
-            return getNonNumeric(thousandsStringWithSeparator)[0];
-        }
-        return decimalSeparator === '.' ? ',' : '.';
-    };
-
-    var Type = {
-        BOOLEAN: 'boolean',
-        INT: 'int',
-        NUMBER: 'number',
-        STRING: 'string',
-        ARRAY: 'array',
-        OBJECT: 'object',
-        FUNCTION: 'function',
-        ACTION: 'action',
-        SERVER_API: 'serverapi',
-        REGEX: 'regex',
-    };
-
-    // all registered filters
-    var filters = [];
-
-    // loops over matching filters and passes options to each filter, returning the mapped results
-    var applyFilterChain = function applyFilterChain(key, value, utils) {
-        return new Promise(function(resolve, reject) {
-            // find matching filters for this key
-            var matchingFilters = filters
-                .filter(function(f) {
-                    return f.key === key;
-                })
-                .map(function(f) {
-                    return f.cb;
-                });
-
-            // resolve now
-            if (matchingFilters.length === 0) {
-                resolve(value);
-                return;
-            }
-
-            // first filter to kick things of
-            var initialFilter = matchingFilters.shift();
-
-            // chain filters
-            matchingFilters
-                .reduce(
-                    // loop over promises passing value to next promise
-                    function(current, next) {
-                        return current.then(function(value) {
-                            return next(value, utils);
-                        });
-                    },
-
-                    // call initial filter, will return a promise
-                    initialFilter(value, utils)
-
-                    // all executed
-                )
-                .then(function(value) {
-                    return resolve(value);
-                })
-                .catch(function(error) {
-                    return reject(error);
-                });
-        });
-    };
-
-    var applyFilters = function applyFilters(key, value, utils) {
-        return filters
-            .filter(function(f) {
-                return f.key === key;
-            })
-            .map(function(f) {
-                return f.cb(value, utils);
-            });
-    };
-
-    // adds a new filter to the list
-    var addFilter = function addFilter(key, cb) {
-        return filters.push({ key: key, cb: cb });
-    };
-
-    var extendDefaultOptions = function extendDefaultOptions(additionalOptions) {
-        return Object.assign(defaultOptions, additionalOptions);
-    };
-
-    var getOptions = function getOptions() {
-        return Object.assign({}, defaultOptions);
-    };
-
-    var setOptions = function setOptions(opts) {
-        forin(opts, function(key, value) {
-            // key does not exist, so this option cannot be set
-            if (!defaultOptions[key]) {
-                return;
-            }
-            defaultOptions[key][0] = getValueByType(
-                value,
-                defaultOptions[key][0],
-                defaultOptions[key][1]
-            );
-        });
-    };
-
-    // default options on app
-    var defaultOptions = {
-        // the id to add to the root element
-        id: [null, Type.STRING],
-
-        // input field name to use
-        name: ['filepond', Type.STRING],
-
-        // disable the field
-        disabled: [false, Type.BOOLEAN],
-
-        // classname to put on wrapper
-        className: [null, Type.STRING],
-
-        // is the field required
-        required: [false, Type.BOOLEAN],
-
-        // Allow media capture when value is set
-        captureMethod: [null, Type.STRING],
-        // - "camera", "microphone" or "camcorder",
-        // - Does not work with multiple on apple devices
-        // - If set, acceptedFileTypes must be made to match with media wildcard "image/*", "audio/*" or "video/*"
-
-        // sync `acceptedFileTypes` property with `accept` attribute
-        allowSyncAcceptAttribute: [true, Type.BOOLEAN],
-
-        // Feature toggles
-        allowDrop: [true, Type.BOOLEAN], // Allow dropping of files
-        allowBrowse: [true, Type.BOOLEAN], // Allow browsing the file system
-        allowPaste: [true, Type.BOOLEAN], // Allow pasting files
-        allowMultiple: [false, Type.BOOLEAN], // Allow multiple files (disabled by default, as multiple attribute is also required on input to allow multiple)
-        allowReplace: [true, Type.BOOLEAN], // Allow dropping a file on other file to replace it (only works when multiple is set to false)
-        allowRevert: [true, Type.BOOLEAN], // Allows user to revert file upload
-        allowRemove: [true, Type.BOOLEAN], // Allow user to remove a file
-        allowProcess: [true, Type.BOOLEAN], // Allows user to process a file, when set to false, this removes the file upload button
-        allowReorder: [false, Type.BOOLEAN], // Allow reordering of files
-        allowDirectoriesOnly: [false, Type.BOOLEAN], // Allow only selecting directories with browse (no support for filtering dnd at this point)
-
-        // Try store file if `server` not set
-        storeAsFile: [false, Type.BOOLEAN],
-
-        // Revert mode
-        forceRevert: [false, Type.BOOLEAN], // Set to 'force' to require the file to be reverted before removal
-
-        // Input requirements
-        maxFiles: [null, Type.INT], // Max number of files
-        checkValidity: [false, Type.BOOLEAN], // Enables custom validity messages
-
-        // Where to put file
-        itemInsertLocationFreedom: [true, Type.BOOLEAN], // Set to false to always add items to begin or end of list
-        itemInsertLocation: ['before', Type.STRING], // Default index in list to add items that have been dropped at the top of the list
-        itemInsertInterval: [75, Type.INT],
-
-        // Drag 'n Drop related
-        dropOnPage: [false, Type.BOOLEAN], // Allow dropping of files anywhere on page (prevents browser from opening file if dropped outside of Up)
-        dropOnElement: [true, Type.BOOLEAN], // Drop needs to happen on element (set to false to also load drops outside of Up)
-        dropValidation: [false, Type.BOOLEAN], // Enable or disable validating files on drop
-        ignoredFiles: [['.ds_store', 'thumbs.db', 'desktop.ini'], Type.ARRAY],
-
-        // Upload related
-        instantUpload: [true, Type.BOOLEAN], // Should upload files immediately on drop
-        maxParallelUploads: [2, Type.INT], // Maximum files to upload in parallel
-        allowMinimumUploadDuration: [true, Type.BOOLEAN], // if true uploads take at least 750 ms, this ensures the user sees the upload progress giving trust the upload actually happened
-
-        // Chunks
-        chunkUploads: [false, Type.BOOLEAN], // Enable chunked uploads
-        chunkForce: [false, Type.BOOLEAN], // Force use of chunk uploads even for files smaller than chunk size
-        chunkSize: [5000000, Type.INT], // Size of chunks (5MB default)
-        chunkRetryDelays: [[500, 1000, 3000], Type.ARRAY], // Amount of times to retry upload of a chunk when it fails
-
-        // The server api end points to use for uploading (see docs)
-        server: [null, Type.SERVER_API],
-
-        // File size calculations, can set to 1024, this is only used for display, properties use file size base 1000
-        fileSizeBase: [1000, Type.INT],
-
-        // Labels and status messages
-        labelDecimalSeparator: [getDecimalSeparator(), Type.STRING], // Default is locale separator
-        labelThousandsSeparator: [getThousandsSeparator(), Type.STRING], // Default is locale separator
-
-        labelIdle: [
-            'Drag & Drop your files or <span class="filepond--label-action">Browse</span>',
-            Type.STRING,
-        ],
-
-        labelInvalidField: ['Field contains invalid files', Type.STRING],
-        labelFileWaitingForSize: ['Waiting for size', Type.STRING],
-        labelFileSizeNotAvailable: ['Size not available', Type.STRING],
-        labelFileCountSingular: ['file in list', Type.STRING],
-        labelFileCountPlural: ['files in list', Type.STRING],
-        labelFileLoading: ['Loading', Type.STRING],
-        labelFileAdded: ['Added', Type.STRING], // assistive only
-        labelFileLoadError: ['Error during load', Type.STRING],
-        labelFileRemoved: ['Removed', Type.STRING], // assistive only
-        labelFileRemoveError: ['Error during remove', Type.STRING],
-        labelFileProcessing: ['Uploading', Type.STRING],
-        labelFileProcessingComplete: ['Upload complete', Type.STRING],
-        labelFileProcessingAborted: ['Upload cancelled', Type.STRING],
-        labelFileProcessingError: ['Error during upload', Type.STRING],
-        labelFileProcessingRevertError: ['Error during revert', Type.STRING],
-
-        labelTapToCancel: ['tap to cancel', Type.STRING],
-        labelTapToRetry: ['tap to retry', Type.STRING],
-        labelTapToUndo: ['tap to undo', Type.STRING],
-
-        labelButtonRemoveItem: ['Remove', Type.STRING],
-        labelButtonAbortItemLoad: ['Abort', Type.STRING],
-        labelButtonRetryItemLoad: ['Retry', Type.STRING],
-        labelButtonAbortItemProcessing: ['Cancel', Type.STRING],
-        labelButtonUndoItemProcessing: ['Undo', Type.STRING],
-        labelButtonRetryItemProcessing: ['Retry', Type.STRING],
-        labelButtonProcessItem: ['Upload', Type.STRING],
-
-        // make sure width and height plus viewpox are even numbers so icons are nicely centered
-        iconRemove: [
-            '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z" fill="currentColor" fill-rule="nonzero"/></svg>',
-            Type.STRING,
-        ],
-
-        iconProcess: [
-            '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M14 10.414v3.585a1 1 0 0 1-2 0v-3.585l-1.293 1.293a1 1 0 0 1-1.414-1.415l3-3a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.415L14 10.414zM9 18a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2H9z" fill="currentColor" fill-rule="evenodd"/></svg>',
-            Type.STRING,
-        ],
-
-        iconRetry: [
-            '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M10.81 9.185l-.038.02A4.997 4.997 0 0 0 8 13.683a5 5 0 0 0 5 5 5 5 0 0 0 5-5 1 1 0 0 1 2 0A7 7 0 1 1 9.722 7.496l-.842-.21a.999.999 0 1 1 .484-1.94l3.23.806c.535.133.86.675.73 1.21l-.804 3.233a.997.997 0 0 1-1.21.73.997.997 0 0 1-.73-1.21l.23-.928v-.002z" fill="currentColor" fill-rule="nonzero"/></svg>',
-            Type.STRING,
-        ],
-
-        iconUndo: [
-            '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M9.185 10.81l.02-.038A4.997 4.997 0 0 1 13.683 8a5 5 0 0 1 5 5 5 5 0 0 1-5 5 1 1 0 0 0 0 2A7 7 0 1 0 7.496 9.722l-.21-.842a.999.999 0 1 0-1.94.484l.806 3.23c.133.535.675.86 1.21.73l3.233-.803a.997.997 0 0 0 .73-1.21.997.997 0 0 0-1.21-.73l-.928.23-.002-.001z" fill="currentColor" fill-rule="nonzero"/></svg>',
-            Type.STRING,
-        ],
-
-        iconDone: [
-            '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M18.293 9.293a1 1 0 0 1 1.414 1.414l-7.002 7a1 1 0 0 1-1.414 0l-3.998-4a1 1 0 1 1 1.414-1.414L12 15.586l6.294-6.293z" fill="currentColor" fill-rule="nonzero"/></svg>',
-            Type.STRING,
-        ],
-
-        // event handlers
-        oninit: [null, Type.FUNCTION],
-        onwarning: [null, Type.FUNCTION],
-        onerror: [null, Type.FUNCTION],
-        onactivatefile: [null, Type.FUNCTION],
-        oninitfile: [null, Type.FUNCTION],
-        onaddfilestart: [null, Type.FUNCTION],
-        onaddfileprogress: [null, Type.FUNCTION],
-        onaddfile: [null, Type.FUNCTION],
-        onprocessfilestart: [null, Type.FUNCTION],
-        onprocessfileprogress: [null, Type.FUNCTION],
-        onprocessfileabort: [null, Type.FUNCTION],
-        onprocessfilerevert: [null, Type.FUNCTION],
-        onprocessfile: [null, Type.FUNCTION],
-        onprocessfiles: [null, Type.FUNCTION],
-        onremovefile: [null, Type.FUNCTION],
-        onpreparefile: [null, Type.FUNCTION],
-        onupdatefiles: [null, Type.FUNCTION],
-        onreorderfiles: [null, Type.FUNCTION],
-
-        // hooks
-        beforeDropFile: [null, Type.FUNCTION],
-        beforeAddFile: [null, Type.FUNCTION],
-        beforeRemoveFile: [null, Type.FUNCTION],
-        beforePrepareFile: [null, Type.FUNCTION],
-
-        // styles
-        stylePanelLayout: [null, Type.STRING], // null 'integrated', 'compact', 'circle'
-        stylePanelAspectRatio: [null, Type.STRING], // null or '3:2' or 1
-        styleItemPanelAspectRatio: [null, Type.STRING],
-        styleButtonRemoveItemPosition: ['left', Type.STRING],
-        styleButtonProcessItemPosition: ['right', Type.STRING],
-        styleLoadIndicatorPosition: ['right', Type.STRING],
-        styleProgressIndicatorPosition: ['right', Type.STRING],
-        styleButtonRemoveItemAlign: [false, Type.BOOLEAN],
-
-        // custom initial files array
-        files: [[], Type.ARRAY],
-
-        // show support by displaying credits
-        credits: [['https://pqina.nl/', 'Powered by PQINA'], Type.ARRAY],
-    };
-
-    var getItemByQuery = function getItemByQuery(items, query) {
-        // just return first index
-        if (isEmpty(query)) {
-            return items[0] || null;
-        }
-
-        // query is index
-        if (isInt(query)) {
-            return items[query] || null;
-        }
-
-        // if query is item, get the id
-        if (typeof query === 'object') {
-            query = query.id;
-        }
-
-        // assume query is a string and return item by id
-        return (
-            items.find(function(item) {
-                return item.id === query;
-            }) || null
-        );
-    };
-
-    var getNumericAspectRatioFromString = function getNumericAspectRatioFromString(aspectRatio) {
-        if (isEmpty(aspectRatio)) {
-            return aspectRatio;
-        }
-        if (/:/.test(aspectRatio)) {
-            var parts = aspectRatio.split(':');
-            return parts[1] / parts[0];
-        }
-        return parseFloat(aspectRatio);
-    };
-
-    var getActiveItems = function getActiveItems(items) {
-        return items.filter(function(item) {
-            return !item.archived;
-        });
-    };
-
-    var Status = {
-        EMPTY: 0,
-        IDLE: 1, // waiting
-        ERROR: 2, // a file is in error state
-        BUSY: 3, // busy processing or loading
-        READY: 4, // all files uploaded
-    };
-
-    var res = null;
-    var canUpdateFileInput = function canUpdateFileInput() {
-        if (res === null) {
-            try {
-                var dataTransfer = new DataTransfer();
-                dataTransfer.items.add(new File(['hello world'], 'This_Works.txt'));
-                var el = document.createElement('input');
-                el.setAttribute('type', 'file');
-                el.files = dataTransfer.files;
-                res = el.files.length === 1;
-            } catch (err) {
-                res = false;
-            }
-        }
-        return res;
-    };
-
-    var ITEM_ERROR = [
-        ItemStatus.LOAD_ERROR,
-        ItemStatus.PROCESSING_ERROR,
-        ItemStatus.PROCESSING_REVERT_ERROR,
-    ];
-
-    var ITEM_BUSY = [
-        ItemStatus.LOADING,
-        ItemStatus.PROCESSING,
-        ItemStatus.PROCESSING_QUEUED,
-        ItemStatus.INIT,
-    ];
-
-    var ITEM_READY = [ItemStatus.PROCESSING_COMPLETE];
-
-    var isItemInErrorState = function isItemInErrorState(item) {
-        return ITEM_ERROR.includes(item.status);
-    };
-    var isItemInBusyState = function isItemInBusyState(item) {
-        return ITEM_BUSY.includes(item.status);
-    };
-    var isItemInReadyState = function isItemInReadyState(item) {
-        return ITEM_READY.includes(item.status);
-    };
-
-    var isAsync = function isAsync(state) {
-        return (
-            isObject(state.options.server) &&
-            (isObject(state.options.server.process) || isFunction(state.options.server.process))
-        );
-    };
-
-    var queries = function queries(state) {
-        return {
-            GET_STATUS: function GET_STATUS() {
-                var items = getActiveItems(state.items);
-                var EMPTY = Status.EMPTY,
-                    ERROR = Status.ERROR,
-                    BUSY = Status.BUSY,
-                    IDLE = Status.IDLE,
-                    READY = Status.READY;
-
-                if (items.length === 0) return EMPTY;
-
-                if (items.some(isItemInErrorState)) return ERROR;
-
-                if (items.some(isItemInBusyState)) return BUSY;
-
-                if (items.some(isItemInReadyState)) return READY;
-
-                return IDLE;
-            },
-
-            GET_ITEM: function GET_ITEM(query) {
-                return getItemByQuery(state.items, query);
-            },
-
-            GET_ACTIVE_ITEM: function GET_ACTIVE_ITEM(query) {
-                return getItemByQuery(getActiveItems(state.items), query);
-            },
-
-            GET_ACTIVE_ITEMS: function GET_ACTIVE_ITEMS() {
-                return getActiveItems(state.items);
-            },
-
-            GET_ITEMS: function GET_ITEMS() {
-                return state.items;
-            },
-
-            GET_ITEM_NAME: function GET_ITEM_NAME(query) {
-                var item = getItemByQuery(state.items, query);
-                return item ? item.filename : null;
-            },
-
-            GET_ITEM_SIZE: function GET_ITEM_SIZE(query) {
-                var item = getItemByQuery(state.items, query);
-                return item ? item.fileSize : null;
-            },
-
-            GET_STYLES: function GET_STYLES() {
-                return Object.keys(state.options)
-                    .filter(function(key) {
-                        return /^style/.test(key);
-                    })
-                    .map(function(option) {
-                        return {
-                            name: option,
-                            value: state.options[option],
-                        };
-                    });
-            },
-
-            GET_PANEL_ASPECT_RATIO: function GET_PANEL_ASPECT_RATIO() {
-                var isShapeCircle = /circle/.test(state.options.stylePanelLayout);
-                var aspectRatio = isShapeCircle
-                    ? 1
-                    : getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);
-                return aspectRatio;
-            },
-
-            GET_ITEM_PANEL_ASPECT_RATIO: function GET_ITEM_PANEL_ASPECT_RATIO() {
-                return state.options.styleItemPanelAspectRatio;
-            },
-
-            GET_ITEMS_BY_STATUS: function GET_ITEMS_BY_STATUS(status) {
-                return getActiveItems(state.items).filter(function(item) {
-                    return item.status === status;
-                });
-            },
-
-            GET_TOTAL_ITEMS: function GET_TOTAL_ITEMS() {
-                return getActiveItems(state.items).length;
-            },
-
-            SHOULD_UPDATE_FILE_INPUT: function SHOULD_UPDATE_FILE_INPUT() {
-                return state.options.storeAsFile && canUpdateFileInput() && !isAsync(state);
-            },
-
-            IS_ASYNC: function IS_ASYNC() {
-                return isAsync(state);
-            },
-        };
-    };
-
-    var hasRoomForItem = function hasRoomForItem(state) {
-        var count = getActiveItems(state.items).length;
-
-        // if cannot have multiple items, to add one item it should currently not contain items
-        if (!state.options.allowMultiple) {
-            return count === 0;
-        }
-
-        // if allows multiple items, we check if a max item count has been set, if not, there's no limit
-        var maxFileCount = state.options.maxFiles;
-        if (maxFileCount === null) {
-            return true;
-        }
-
-        // we check if the current count is smaller than the max count, if so, another file can still be added
-        if (count < maxFileCount) {
-            return true;
-        }
-
-        // no more room for another file
-        return false;
-    };
-
-    var limit = function limit(value, min, max) {
-        return Math.max(Math.min(max, value), min);
-    };
-
-    var arrayInsert = function arrayInsert(arr, index, item) {
-        return arr.splice(index, 0, item);
-    };
-
-    var insertItem = function insertItem(items, item, index) {
-        if (isEmpty(item)) {
-            return null;
-        }
-
-        // if index is undefined, append
-        if (typeof index === 'undefined') {
-            items.push(item);
-            return item;
-        }
-
-        // limit the index to the size of the items array
-        index = limit(index, 0, items.length);
-
-        // add item to array
-        arrayInsert(items, index, item);
-
-        // expose
-        return item;
-    };
-
-    var isBase64DataURI = function isBase64DataURI(str) {
-        return /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i.test(
-            str
-        );
-    };
-
-    var getFilenameFromURL = function getFilenameFromURL(url) {
-        return url
-            .split('/')
-            .pop()
-            .split('?')
-            .shift();
-    };
-
-    var getExtensionFromFilename = function getExtensionFromFilename(name) {
-        return name.split('.').pop();
-    };
-
-    var guesstimateExtension = function guesstimateExtension(type) {
-        // if no extension supplied, exit here
-        if (typeof type !== 'string') {
-            return '';
-        }
-
-        // get subtype
-        var subtype = type.split('/').pop();
-
-        // is svg subtype
-        if (/svg/.test(subtype)) {
-            return 'svg';
-        }
-
-        if (/zip|compressed/.test(subtype)) {
-            return 'zip';
-        }
-
-        if (/plain/.test(subtype)) {
-            return 'txt';
-        }
-
-        if (/msword/.test(subtype)) {
-            return 'doc';
-        }
-
-        // if is valid subtype
-        if (/[a-z]+/.test(subtype)) {
-            // always use jpg extension
-            if (subtype === 'jpeg') {
-                return 'jpg';
-            }
-
-            // return subtype
-            return subtype;
-        }
-
-        return '';
-    };
-
-    var leftPad = function leftPad(value) {
-        var padding = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-        return (padding + value).slice(-padding.length);
-    };
-
-    var getDateString = function getDateString() {
-        var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
-        return (
-            date.getFullYear() +
-            '-' +
-            leftPad(date.getMonth() + 1, '00') +
-            '-' +
-            leftPad(date.getDate(), '00') +
-            '_' +
-            leftPad(date.getHours(), '00') +
-            '-' +
-            leftPad(date.getMinutes(), '00') +
-            '-' +
-            leftPad(date.getSeconds(), '00')
-        );
-    };
-
-    var getFileFromBlob = function getFileFromBlob(blob, filename) {
-        var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-        var extension = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-        var file =
-            typeof type === 'string'
-                ? blob.slice(0, blob.size, type)
-                : blob.slice(0, blob.size, blob.type);
-        file.lastModifiedDate = new Date();
-
-        // copy relative path
-        if (blob._relativePath) file._relativePath = blob._relativePath;
-
-        // if blob has name property, use as filename if no filename supplied
-        if (!isString(filename)) {
-            filename = getDateString();
-        }
-
-        // if filename supplied but no extension and filename has extension
-        if (filename && extension === null && getExtensionFromFilename(filename)) {
-            file.name = filename;
-        } else {
-            extension = extension || guesstimateExtension(file.type);
-            file.name = filename + (extension ? '.' + extension : '');
-        }
-
-        return file;
-    };
-
-    var getBlobBuilder = function getBlobBuilder() {
-        return (window.BlobBuilder =
-            window.BlobBuilder ||
-            window.WebKitBlobBuilder ||
-            window.MozBlobBuilder ||
-            window.MSBlobBuilder);
-    };
-
-    var createBlob = function createBlob(arrayBuffer, mimeType) {
-        var BB = getBlobBuilder();
-
-        if (BB) {
-            var bb = new BB();
-            bb.append(arrayBuffer);
-            return bb.getBlob(mimeType);
-        }
-
-        return new Blob([arrayBuffer], {
-            type: mimeType,
-        });
-    };
-
-    var getBlobFromByteStringWithMimeType = function getBlobFromByteStringWithMimeType(
-        byteString,
-        mimeType
-    ) {
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-
-        return createBlob(ab, mimeType);
-    };
-
-    var getMimeTypeFromBase64DataURI = function getMimeTypeFromBase64DataURI(dataURI) {
-        return (/^data:(.+);/.exec(dataURI) || [])[1] || null;
-    };
-
-    var getBase64DataFromBase64DataURI = function getBase64DataFromBase64DataURI(dataURI) {
-        // get data part of string (remove data:image/jpeg...,)
-        var data = dataURI.split(',')[1];
-
-        // remove any whitespace as that causes InvalidCharacterError in IE
-        return data.replace(/\s/g, '');
-    };
-
-    var getByteStringFromBase64DataURI = function getByteStringFromBase64DataURI(dataURI) {
-        return atob(getBase64DataFromBase64DataURI(dataURI));
-    };
-
-    var getBlobFromBase64DataURI = function getBlobFromBase64DataURI(dataURI) {
-        var mimeType = getMimeTypeFromBase64DataURI(dataURI);
-        var byteString = getByteStringFromBase64DataURI(dataURI);
-
-        return getBlobFromByteStringWithMimeType(byteString, mimeType);
-    };
-
-    var getFileFromBase64DataURI = function getFileFromBase64DataURI(dataURI, filename, extension) {
-        return getFileFromBlob(getBlobFromBase64DataURI(dataURI), filename, null, extension);
-    };
-
-    var getFileNameFromHeader = function getFileNameFromHeader(header) {
-        // test if is content disposition header, if not exit
-        if (!/^content-disposition:/i.test(header)) return null;
-
-        // get filename parts
-        var matches = header
-            .split(/filename=|filename\*=.+''/)
-            .splice(1)
-            .map(function(name) {
-                return name.trim().replace(/^["']|[;"']{0,2}$/g, '');
-            })
-            .filter(function(name) {
-                return name.length;
-            });
-
-        return matches.length ? decodeURI(matches[matches.length - 1]) : null;
-    };
-
-    var getFileSizeFromHeader = function getFileSizeFromHeader(header) {
-        if (/content-length:/i.test(header)) {
-            var size = header.match(/[0-9]+/)[0];
-            return size ? parseInt(size, 10) : null;
-        }
-        return null;
-    };
-
-    var getTranfserIdFromHeader = function getTranfserIdFromHeader(header) {
-        if (/x-content-transfer-id:/i.test(header)) {
-            var id = (header.split(':')[1] || '').trim();
-            return id || null;
-        }
-        return null;
-    };
-
-    var getFileInfoFromHeaders = function getFileInfoFromHeaders(headers) {
-        var info = {
-            source: null,
-            name: null,
-            size: null,
-        };
-
-        var rows = headers.split('\n');
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-        try {
-            for (
-                var _iterator = rows[Symbol.iterator](), _step;
-                !(_iteratorNormalCompletion = (_step = _iterator.next()).done);
-                _iteratorNormalCompletion = true
-            ) {
-                var header = _step.value;
-
-                var name = getFileNameFromHeader(header);
-                if (name) {
-                    info.name = name;
-                    continue;
-                }
-
-                var size = getFileSizeFromHeader(header);
-                if (size) {
-                    info.size = size;
-                    continue;
-                }
-
-                var source = getTranfserIdFromHeader(header);
-                if (source) {
-                    info.source = source;
-                    continue;
-                }
-            }
-        } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-        } finally {
-            try {
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                    _iterator.return();
-                }
-            } finally {
-                if (_didIteratorError) {
-                    throw _iteratorError;
-                }
-            }
-        }
-
-        return info;
-    };
-
-    var createFileLoader = function createFileLoader(fetchFn) {
-        var state = {
-            source: null,
-            complete: false,
-            progress: 0,
-            size: null,
-            timestamp: null,
-            duration: 0,
-            request: null,
-        };
-
-        var getProgress = function getProgress() {
-            return state.progress;
-        };
-        var abort = function abort() {
-            if (state.request && state.request.abort) {
-                state.request.abort();
-            }
-        };
-
-        // load source
-        var load = function load() {
-            // get quick reference
-            var source = state.source;
-
-            api.fire('init', source);
-
-            // Load Files
-            if (source instanceof File) {
-                api.fire('load', source);
-            } else if (source instanceof Blob) {
-                // Load blobs, set default name to current date
-                api.fire('load', getFileFromBlob(source, source.name));
-            } else if (isBase64DataURI(source)) {
-                // Load base 64, set default name to current date
-                api.fire('load', getFileFromBase64DataURI(source));
-            } else {
-                // Deal as if is external URL, let's load it!
-                loadURL(source);
-            }
-        };
-
-        // loads a url
-        var loadURL = function loadURL(url) {
-            // is remote url and no fetch method supplied
-            if (!fetchFn) {
-                api.fire('error', {
-                    type: 'error',
-                    body: "Can't load URL",
-                    code: 400,
-                });
-
-                return;
-            }
-
-            // set request start
-            state.timestamp = Date.now();
-
-            // load file
-            state.request = fetchFn(
-                url,
-                function(response) {
-                    // update duration
-                    state.duration = Date.now() - state.timestamp;
-
-                    // done!
-                    state.complete = true;
-
-                    // turn blob response into a file
-                    if (response instanceof Blob) {
-                        response = getFileFromBlob(
-                            response,
-                            response.name || getFilenameFromURL(url)
-                        );
-                    }
-
-                    api.fire(
-                        'load',
-                        // if has received blob, we go with blob, if no response, we return null
-                        response instanceof Blob ? response : response ? response.body : null
-                    );
-                },
-                function(error) {
-                    api.fire(
-                        'error',
-                        typeof error === 'string'
-                            ? {
-                                  type: 'error',
-                                  code: 0,
-                                  body: error,
-                              }
-                            : error
-                    );
-                },
-                function(computable, current, total) {
-                    // collected some meta data already
-                    if (total) {
-                        state.size = total;
-                    }
-
-                    // update duration
-                    state.duration = Date.now() - state.timestamp;
-
-                    // if we can't compute progress, we're not going to fire progress events
-                    if (!computable) {
-                        state.progress = null;
-                        return;
-                    }
-
-                    // update progress percentage
-                    state.progress = current / total;
-
-                    // expose
-                    api.fire('progress', state.progress);
-                },
-                function() {
-                    api.fire('abort');
-                },
-                function(response) {
-                    var fileinfo = getFileInfoFromHeaders(
-                        typeof response === 'string' ? response : response.headers
-                    );
-                    api.fire('meta', {
-                        size: state.size || fileinfo.size,
-                        filename: fileinfo.name,
-                        source: fileinfo.source,
-                    });
-                }
-            );
-        };
-
-        var api = Object.assign({}, on(), {
-            setSource: function setSource(source) {
-                return (state.source = source);
-            },
-            getProgress: getProgress, // file load progress
-            abort: abort, // abort file load
-            load: load, // start load
-        });
-
-        return api;
-    };
-
-    var isGet = function isGet(method) {
-        return /GET|HEAD/.test(method);
-    };
-
-    var sendRequest = function sendRequest(data, url, options) {
-        var api = {
-            onheaders: function onheaders() {},
-            onprogress: function onprogress() {},
-            onload: function onload() {},
-            ontimeout: function ontimeout() {},
-            onerror: function onerror() {},
-            onabort: function onabort() {},
-            abort: function abort() {
-                aborted = true;
-                xhr.abort();
-            },
-        };
-
-        // timeout identifier, only used when timeout is defined
-        var aborted = false;
-        var headersReceived = false;
-
-        // set default options
-        options = Object.assign(
-            {
-                method: 'POST',
-                headers: {},
-                withCredentials: false,
-            },
-            options
-        );
-
-        // encode url
-        url = encodeURI(url);
-
-        // if method is GET, add any received data to url
-
-        if (isGet(options.method) && data) {
-            url =
-                '' +
-                url +
-                encodeURIComponent(typeof data === 'string' ? data : JSON.stringify(data));
-        }
-
-        // create request
-        var xhr = new XMLHttpRequest();
-
-        // progress of load
-        var process = isGet(options.method) ? xhr : xhr.upload;
-        process.onprogress = function(e) {
-            // no progress event when aborted ( onprogress is called once after abort() )
-            if (aborted) {
-                return;
-            }
-
-            api.onprogress(e.lengthComputable, e.loaded, e.total);
-        };
-
-        // tries to get header info to the app as fast as possible
-        xhr.onreadystatechange = function() {
-            // not interesting in these states ('unsent' and 'openend' as they don't give us any additional info)
-            if (xhr.readyState < 2) {
-                return;
-            }
-
-            // no server response
-            if (xhr.readyState === 4 && xhr.status === 0) {
-                return;
-            }
-
-            if (headersReceived) {
-                return;
-            }
-
-            headersReceived = true;
-
-            // we've probably received some useful data in response headers
-            api.onheaders(xhr);
-        };
-
-        // load successful
-        xhr.onload = function() {
-            // is classified as valid response
-            if (xhr.status >= 200 && xhr.status < 300) {
-                api.onload(xhr);
-            } else {
-                api.onerror(xhr);
-            }
-        };
-
-        // error during load
-        xhr.onerror = function() {
-            return api.onerror(xhr);
-        };
-
-        // request aborted
-        xhr.onabort = function() {
-            aborted = true;
-            api.onabort();
-        };
-
-        // request timeout
-        xhr.ontimeout = function() {
-            return api.ontimeout(xhr);
-        };
-
-        // open up open up!
-        xhr.open(options.method, url, true);
-
-        // set timeout if defined (do it after open so IE11 plays ball)
-        if (isInt(options.timeout)) {
-            xhr.timeout = options.timeout;
-        }
-
-        // add headers
-        Object.keys(options.headers).forEach(function(key) {
-            var value = unescape(encodeURIComponent(options.headers[key]));
-            xhr.setRequestHeader(key, value);
-        });
-
-        // set type of response
-        if (options.responseType) {
-            xhr.responseType = options.responseType;
-        }
-
-        // set credentials
-        if (options.withCredentials) {
-            xhr.withCredentials = true;
-        }
-
-        // let's send our data
-        xhr.send(data);
-
-        return api;
-    };
-
-    var createResponse = function createResponse(type, code, body, headers) {
-        return {
-            type: type,
-            code: code,
-            body: body,
-            headers: headers,
-        };
-    };
-
-    var createTimeoutResponse = function createTimeoutResponse(cb) {
-        return function(xhr) {
-            cb(createResponse('error', 0, 'Timeout', xhr.getAllResponseHeaders()));
-        };
-    };
-
-    var hasQS = function hasQS(str) {
-        return /\?/.test(str);
-    };
-    var buildURL = function buildURL() {
-        var url = '';
-        for (var _len = arguments.length, parts = new Array(_len), _key = 0; _key < _len; _key++) {
-            parts[_key] = arguments[_key];
-        }
-        parts.forEach(function(part) {
-            url += hasQS(url) && hasQS(part) ? part.replace(/\?/, '&') : part;
-        });
-        return url;
-    };
-
-    var createFetchFunction = function createFetchFunction() {
-        var apiUrl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-        var action = arguments.length > 1 ? arguments[1] : undefined;
-        // custom handler (should also handle file, load, error, progress and abort)
-        if (typeof action === 'function') {
-            return action;
-        }
-
-        // no action supplied
-        if (!action || !isString(action.url)) {
-            return null;
-        }
-
-        // set onload hanlder
-        var onload =
-            action.onload ||
-            function(res) {
-                return res;
-            };
-        var onerror =
-            action.onerror ||
-            function(res) {
-                return null;
-            };
-
-        // internal handler
-        return function(url, load, error, progress, abort, headers) {
-            // do local or remote request based on if the url is external
-            var request = sendRequest(
-                url,
-                buildURL(apiUrl, action.url),
-                Object.assign({}, action, {
-                    responseType: 'blob',
-                })
-            );
-
-            request.onload = function(xhr) {
-                // get headers
-                var headers = xhr.getAllResponseHeaders();
-
-                // get filename
-                var filename = getFileInfoFromHeaders(headers).name || getFilenameFromURL(url);
-
-                // create response
-                load(
-                    createResponse(
-                        'load',
-                        xhr.status,
-                        action.method === 'HEAD'
-                            ? null
-                            : getFileFromBlob(onload(xhr.response), filename),
-                        headers
-                    )
-                );
-            };
-
-            request.onerror = function(xhr) {
-                error(
-                    createResponse(
-                        'error',
-                        xhr.status,
-                        onerror(xhr.response) || xhr.statusText,
-                        xhr.getAllResponseHeaders()
-                    )
-                );
-            };
-
-            request.onheaders = function(xhr) {
-                headers(createResponse('headers', xhr.status, null, xhr.getAllResponseHeaders()));
-            };
-
-            request.ontimeout = createTimeoutResponse(error);
-            request.onprogress = progress;
-            request.onabort = abort;
-
-            // should return request
-            return request;
-        };
-    };
-
-    var ChunkStatus = {
-        QUEUED: 0,
-        COMPLETE: 1,
-        PROCESSING: 2,
-        ERROR: 3,
-        WAITING: 4,
-    };
-
-    /*
-                                                       function signature:
-                                                         (file, metadata, load, error, progress, abort, transfer, options) => {
-                                                           return {
-                                                           abort:() => {}
-                                                         }
-                                                       }
-                                                       */
-
-    // apiUrl, action, name, file, metadata, load, error, progress, abort, transfer, options
-    var processFileChunked = function processFileChunked(
-        apiUrl,
-        action,
-        name,
-        file,
-        metadata,
-        load,
-        error,
-        progress,
-        abort,
-        transfer,
-        options
-    ) {
-        // all chunks
-        var chunks = [];
-        var chunkTransferId = options.chunkTransferId,
-            chunkServer = options.chunkServer,
-            chunkSize = options.chunkSize,
-            chunkRetryDelays = options.chunkRetryDelays;
-
-        // default state
-        var state = {
-            serverId: chunkTransferId,
-            aborted: false,
-        };
-
-        // set onload handlers
-        var ondata =
-            action.ondata ||
-            function(fd) {
-                return fd;
-            };
-        var onload =
-            action.onload ||
-            function(xhr, method) {
-                return method === 'HEAD' ? xhr.getResponseHeader('Upload-Offset') : xhr.response;
-            };
-        var onerror =
-            action.onerror ||
-            function(res) {
-                return null;
-            };
-
-        // create server hook
-        var requestTransferId = function requestTransferId(cb) {
-            var formData = new FormData();
-
-            // add metadata under same name
-            if (isObject(metadata)) formData.append(name, JSON.stringify(metadata));
-
-            var headers =
-                typeof action.headers === 'function'
-                    ? action.headers(file, metadata)
-                    : Object.assign({}, action.headers, {
-                          'Upload-Length': file.size,
-                      });
-
-            var requestParams = Object.assign({}, action, {
-                headers: headers,
-            });
-
-            // send request object
-            var request = sendRequest(
-                ondata(formData),
-                buildURL(apiUrl, action.url),
-                requestParams
-            );
-
-            request.onload = function(xhr) {
-                return cb(onload(xhr, requestParams.method));
-            };
-
-            request.onerror = function(xhr) {
-                return error(
-                    createResponse(
-                        'error',
-                        xhr.status,
-                        onerror(xhr.response) || xhr.statusText,
-                        xhr.getAllResponseHeaders()
-                    )
-                );
-            };
-
-            request.ontimeout = createTimeoutResponse(error);
-        };
-
-        var requestTransferOffset = function requestTransferOffset(cb) {
-            var requestUrl = buildURL(apiUrl, chunkServer.url, state.serverId);
-
-            var headers =
-                typeof action.headers === 'function'
-                    ? action.headers(state.serverId)
-                    : Object.assign({}, action.headers);
-
-            var requestParams = {
-                headers: headers,
-                method: 'HEAD',
-            };
-
-            var request = sendRequest(null, requestUrl, requestParams);
-
-            request.onload = function(xhr) {
-                return cb(onload(xhr, requestParams.method));
-            };
-
-            request.onerror = function(xhr) {
-                return error(
-                    createResponse(
-                        'error',
-                        xhr.status,
-                        onerror(xhr.response) || xhr.statusText,
-                        xhr.getAllResponseHeaders()
-                    )
-                );
-            };
-
-            request.ontimeout = createTimeoutResponse(error);
-        };
-
-        // create chunks
-        var lastChunkIndex = Math.floor(file.size / chunkSize);
-        for (var i = 0; i <= lastChunkIndex; i++) {
-            var offset = i * chunkSize;
-            var data = file.slice(offset, offset + chunkSize, 'application/offset+octet-stream');
-            chunks[i] = {
-                index: i,
-                size: data.size,
-                offset: offset,
-                data: data,
-                file: file,
-                progress: 0,
-                retries: _toConsumableArray(chunkRetryDelays),
-                status: ChunkStatus.QUEUED,
-                error: null,
-                request: null,
-                timeout: null,
-            };
-        }
-
-        var completeProcessingChunks = function completeProcessingChunks() {
-            return load(state.serverId);
-        };
-
-        var canProcessChunk = function canProcessChunk(chunk) {
-            return chunk.status === ChunkStatus.QUEUED || chunk.status === ChunkStatus.ERROR;
-        };
-
-        var processChunk = function processChunk(chunk) {
-            // processing is paused, wait here
-            if (state.aborted) return;
-
-            // get next chunk to process
-            chunk = chunk || chunks.find(canProcessChunk);
-
-            // no more chunks to process
-            if (!chunk) {
-                // all done?
-                if (
-                    chunks.every(function(chunk) {
-                        return chunk.status === ChunkStatus.COMPLETE;
-                    })
-                ) {
-                    completeProcessingChunks();
-                }
-
-                // no chunk to handle
-                return;
-            }
-
-            // now processing this chunk
-            chunk.status = ChunkStatus.PROCESSING;
-            chunk.progress = null;
-
-            // allow parsing of formdata
-            var ondata =
-                chunkServer.ondata ||
-                function(fd) {
-                    return fd;
-                };
-            var onerror =
-                chunkServer.onerror ||
-                function(res) {
-                    return null;
-                };
-
-            // send request object
-            var requestUrl = buildURL(apiUrl, chunkServer.url, state.serverId);
-
-            var headers =
-                typeof chunkServer.headers === 'function'
-                    ? chunkServer.headers(chunk)
-                    : Object.assign({}, chunkServer.headers, {
-                          'Content-Type': 'application/offset+octet-stream',
-                          'Upload-Offset': chunk.offset,
-                          'Upload-Length': file.size,
-                          'Upload-Name': file.name,
-                      });
-
-            var request = (chunk.request = sendRequest(
-                ondata(chunk.data),
-                requestUrl,
-                Object.assign({}, chunkServer, {
-                    headers: headers,
-                })
-            ));
-
-            request.onload = function() {
-                // done!
-                chunk.status = ChunkStatus.COMPLETE;
-
-                // remove request reference
-                chunk.request = null;
-
-                // start processing more chunks
-                processChunks();
-            };
-
-            request.onprogress = function(lengthComputable, loaded, total) {
-                chunk.progress = lengthComputable ? loaded : null;
-                updateTotalProgress();
-            };
-
-            request.onerror = function(xhr) {
-                chunk.status = ChunkStatus.ERROR;
-                chunk.request = null;
-                chunk.error = onerror(xhr.response) || xhr.statusText;
-                if (!retryProcessChunk(chunk)) {
-                    error(
-                        createResponse(
-                            'error',
-                            xhr.status,
-                            onerror(xhr.response) || xhr.statusText,
-                            xhr.getAllResponseHeaders()
-                        )
-                    );
-                }
-            };
-
-            request.ontimeout = function(xhr) {
-                chunk.status = ChunkStatus.ERROR;
-                chunk.request = null;
-                if (!retryProcessChunk(chunk)) {
-                    createTimeoutResponse(error)(xhr);
-                }
-            };
-
-            request.onabort = function() {
-                chunk.status = ChunkStatus.QUEUED;
-                chunk.request = null;
-                abort();
-            };
-        };
-
-        var retryProcessChunk = function retryProcessChunk(chunk) {
-            // no more retries left
-            if (chunk.retries.length === 0) return false;
-
-            // new retry
-            chunk.status = ChunkStatus.WAITING;
-            clearTimeout(chunk.timeout);
-            chunk.timeout = setTimeout(function() {
-                processChunk(chunk);
-            }, chunk.retries.shift());
-
-            // we're going to retry
-            return true;
-        };
-
-        var updateTotalProgress = function updateTotalProgress() {
-            // calculate total progress fraction
-            var totalBytesTransfered = chunks.reduce(function(p, chunk) {
-                if (p === null || chunk.progress === null) return null;
-                return p + chunk.progress;
-            }, 0);
-
-            // can't compute progress
-            if (totalBytesTransfered === null) return progress(false, 0, 0);
-
-            // calculate progress values
-            var totalSize = chunks.reduce(function(total, chunk) {
-                return total + chunk.size;
-            }, 0);
-
-            // can update progress indicator
-            progress(true, totalBytesTransfered, totalSize);
-        };
-
-        // process new chunks
-        var processChunks = function processChunks() {
-            var totalProcessing = chunks.filter(function(chunk) {
-                return chunk.status === ChunkStatus.PROCESSING;
-            }).length;
-            if (totalProcessing >= 1) return;
-            processChunk();
-        };
-
-        var abortChunks = function abortChunks() {
-            chunks.forEach(function(chunk) {
-                clearTimeout(chunk.timeout);
-                if (chunk.request) {
-                    chunk.request.abort();
-                }
-            });
-        };
-
-        // let's go!
-        if (!state.serverId) {
-            requestTransferId(function(serverId) {
-                // stop here if aborted, might have happened in between request and callback
-                if (state.aborted) return;
-
-                // pass back to item so we can use it if something goes wrong
-                transfer(serverId);
-
-                // store internally
-                state.serverId = serverId;
-                processChunks();
-            });
-        } else {
-            requestTransferOffset(function(offset) {
-                // stop here if aborted, might have happened in between request and callback
-                if (state.aborted) return;
-
-                // mark chunks with lower offset as complete
-                chunks
-                    .filter(function(chunk) {
-                        return chunk.offset < offset;
-                    })
-                    .forEach(function(chunk) {
-                        chunk.status = ChunkStatus.COMPLETE;
-                        chunk.progress = chunk.size;
-                    });
-
-                // continue processing
-                processChunks();
-            });
-        }
-
-        return {
-            abort: function abort() {
-                state.aborted = true;
-                abortChunks();
-            },
-        };
-    };
-
-    /*
-                                                               function signature:
-                                                                 (file, metadata, load, error, progress, abort) => {
-                                                                   return {
-                                                                   abort:() => {}
-                                                                 }
-                                                               }
-                                                               */
-    var createFileProcessorFunction = function createFileProcessorFunction(
-        apiUrl,
-        action,
-        name,
-        options
-    ) {
-        return function(file, metadata, load, error, progress, abort, transfer) {
-            // no file received
-            if (!file) return;
-
-            // if was passed a file, and we can chunk it, exit here
-            var canChunkUpload = options.chunkUploads;
-            var shouldChunkUpload = canChunkUpload && file.size > options.chunkSize;
-            var willChunkUpload = canChunkUpload && (shouldChunkUpload || options.chunkForce);
-            if (file instanceof Blob && willChunkUpload)
-                return processFileChunked(
-                    apiUrl,
-                    action,
-                    name,
-                    file,
-                    metadata,
-                    load,
-                    error,
-                    progress,
-                    abort,
-                    transfer,
-                    options
-                );
-
-            // set handlers
-            var ondata =
-                action.ondata ||
-                function(fd) {
-                    return fd;
-                };
-            var onload =
-                action.onload ||
-                function(res) {
-                    return res;
-                };
-            var onerror =
-                action.onerror ||
-                function(res) {
-                    return null;
-                };
-
-            var headers =
-                typeof action.headers === 'function'
-                    ? action.headers(file, metadata) || {}
-                    : Object.assign(
-                          {},
-
-                          action.headers
-                      );
-
-            var requestParams = Object.assign({}, action, {
-                headers: headers,
-            });
-
-            // create formdata object
-            var formData = new FormData();
-
-            // add metadata under same name
-            if (isObject(metadata)) {
-                formData.append(name, JSON.stringify(metadata));
-            }
-
-            // Turn into an array of objects so no matter what the input, we can handle it the same way
-            (file instanceof Blob ? [{ name: null, file: file }] : file).forEach(function(item) {
-                formData.append(
-                    name,
-                    item.file,
-                    item.name === null ? item.file.name : '' + item.name + item.file.name
-                );
-            });
-
-            // send request object
-            var request = sendRequest(
-                ondata(formData),
-                buildURL(apiUrl, action.url),
-                requestParams
-            );
-            request.onload = function(xhr) {
-                load(
-                    createResponse(
-                        'load',
-                        xhr.status,
-                        onload(xhr.response),
-                        xhr.getAllResponseHeaders()
-                    )
-                );
-            };
-
-            request.onerror = function(xhr) {
-                error(
-                    createResponse(
-                        'error',
-                        xhr.status,
-                        onerror(xhr.response) || xhr.statusText,
-                        xhr.getAllResponseHeaders()
-                    )
-                );
-            };
-
-            request.ontimeout = createTimeoutResponse(error);
-            request.onprogress = progress;
-            request.onabort = abort;
-
-            // should return request
-            return request;
-        };
-    };
-
-    var createProcessorFunction = function createProcessorFunction() {
-        var apiUrl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-        var action = arguments.length > 1 ? arguments[1] : undefined;
-        var name = arguments.length > 2 ? arguments[2] : undefined;
-        var options = arguments.length > 3 ? arguments[3] : undefined;
-
-        // custom handler (should also handle file, load, error, progress and abort)
-        if (typeof action === 'function')
-            return function() {
-                for (
-                    var _len = arguments.length, params = new Array(_len), _key = 0;
-                    _key < _len;
-                    _key++
-                ) {
-                    params[_key] = arguments[_key];
-                }
-                return action.apply(void 0, [name].concat(params, [options]));
-            };
-
-        // no action supplied
-        if (!action || !isString(action.url)) return null;
-
-        // internal handler
-        return createFileProcessorFunction(apiUrl, action, name, options);
-    };
-
-    /*
-                                                      function signature:
-                                                      (uniqueFileId, load, error) => { }
-                                                      */
-    var createRevertFunction = function createRevertFunction() {
-        var apiUrl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-        var action = arguments.length > 1 ? arguments[1] : undefined;
-        // is custom implementation
-        if (typeof action === 'function') {
-            return action;
-        }
-
-        // no action supplied, return stub function, interface will work, but file won't be removed
-        if (!action || !isString(action.url)) {
-            return function(uniqueFileId, load) {
-                return load();
-            };
-        }
-
-        // set onload hanlder
-        var onload =
-            action.onload ||
-            function(res) {
-                return res;
-            };
-        var onerror =
-            action.onerror ||
-            function(res) {
-                return null;
-            };
-
-        // internal implementation
-        return function(uniqueFileId, load, error) {
-            var request = sendRequest(
-                uniqueFileId,
-                apiUrl + action.url,
-                action // contains method, headers and withCredentials properties
-            );
-            request.onload = function(xhr) {
-                load(
-                    createResponse(
-                        'load',
-                        xhr.status,
-                        onload(xhr.response),
-                        xhr.getAllResponseHeaders()
-                    )
-                );
-            };
-
-            request.onerror = function(xhr) {
-                error(
-                    createResponse(
-                        'error',
-                        xhr.status,
-                        onerror(xhr.response) || xhr.statusText,
-                        xhr.getAllResponseHeaders()
-                    )
-                );
-            };
-
-            request.ontimeout = createTimeoutResponse(error);
-
-            return request;
-        };
-    };
-
-    var getRandomNumber = function getRandomNumber() {
-        var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-        var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-        return min + Math.random() * (max - min);
-    };
-
-    var createPerceivedPerformanceUpdater = function createPerceivedPerformanceUpdater(cb) {
-        var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
-        var offset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-        var tickMin = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 25;
-        var tickMax = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 250;
-        var timeout = null;
-        var start = Date.now();
-
-        var tick = function tick() {
-            var runtime = Date.now() - start;
-            var delay = getRandomNumber(tickMin, tickMax);
-
-            if (runtime + delay > duration) {
-                delay = runtime + delay - duration;
-            }
-
-            var progress = runtime / duration;
-            if (progress >= 1 || document.hidden) {
-                cb(1);
-                return;
-            }
-
-            cb(progress);
-
-            timeout = setTimeout(tick, delay);
-        };
-
-        if (duration > 0) tick();
-
-        return {
-            clear: function clear() {
-                clearTimeout(timeout);
-            },
-        };
-    };
-
-    var createFileProcessor = function createFileProcessor(processFn, options) {
-        var state = {
-            complete: false,
-            perceivedProgress: 0,
-            perceivedPerformanceUpdater: null,
-            progress: null,
-            timestamp: null,
-            perceivedDuration: 0,
-            duration: 0,
-            request: null,
-            response: null,
-        };
-        var allowMinimumUploadDuration = options.allowMinimumUploadDuration;
-
-        var process = function process(file, metadata) {
-            var progressFn = function progressFn() {
-                // we've not yet started the real download, stop here
-                // the request might not go through, for instance, there might be some server trouble
-                // if state.progress is null, the server does not allow computing progress and we show the spinner instead
-                if (state.duration === 0 || state.progress === null) return;
-
-                // as we're now processing, fire the progress event
-                api.fire('progress', api.getProgress());
-            };
-
-            var completeFn = function completeFn() {
-                state.complete = true;
-                api.fire('load-perceived', state.response.body);
-            };
-
-            // let's start processing
-            api.fire('start');
-
-            // set request start
-            state.timestamp = Date.now();
-
-            // create perceived performance progress indicator
-            state.perceivedPerformanceUpdater = createPerceivedPerformanceUpdater(
-                function(progress) {
-                    state.perceivedProgress = progress;
-                    state.perceivedDuration = Date.now() - state.timestamp;
-
-                    progressFn();
-
-                    // if fake progress is done, and a response has been received,
-                    // and we've not yet called the complete method
-                    if (state.response && state.perceivedProgress === 1 && !state.complete) {
-                        // we done!
-                        completeFn();
-                    }
-                },
-                // random delay as in a list of files you start noticing
-                // files uploading at the exact same speed
-                allowMinimumUploadDuration ? getRandomNumber(750, 1500) : 0
-            );
-
-            // remember request so we can abort it later
-            state.request = processFn(
-                // the file to process
-                file,
-
-                // the metadata to send along
-                metadata,
-
-                // callbacks (load, error, progress, abort, transfer)
-                // load expects the body to be a server id if
-                // you want to make use of revert
-                function(response) {
-                    // we put the response in state so we can access
-                    // it outside of this method
-                    state.response = isObject(response)
-                        ? response
-                        : {
-                              type: 'load',
-                              code: 200,
-                              body: '' + response,
-                              headers: {},
-                          };
-
-                    // update duration
-                    state.duration = Date.now() - state.timestamp;
-
-                    // force progress to 1 as we're now done
-                    state.progress = 1;
-
-                    // actual load is done let's share results
-                    api.fire('load', state.response.body);
-
-                    // we are really done
-                    // if perceived progress is 1 ( wait for perceived progress to complete )
-                    // or if server does not support progress ( null )
-                    if (
-                        !allowMinimumUploadDuration ||
-                        (allowMinimumUploadDuration && state.perceivedProgress === 1)
-                    ) {
-                        completeFn();
-                    }
-                },
-
-                // error is expected to be an object with type, code, body
-                function(error) {
-                    // cancel updater
-                    state.perceivedPerformanceUpdater.clear();
-
-                    // update others about this error
-                    api.fire(
-                        'error',
-                        isObject(error)
-                            ? error
-                            : {
-                                  type: 'error',
-                                  code: 0,
-                                  body: '' + error,
-                              }
-                    );
-                },
-
-                // actual processing progress
-                function(computable, current, total) {
-                    // update actual duration
-                    state.duration = Date.now() - state.timestamp;
-
-                    // update actual progress
-                    state.progress = computable ? current / total : null;
-
-                    progressFn();
-                },
-
-                // abort does not expect a value
-                function() {
-                    // stop updater
-                    state.perceivedPerformanceUpdater.clear();
-
-                    // fire the abort event so we can switch visuals
-                    api.fire('abort', state.response ? state.response.body : null);
-                },
-
-                // register the id for this transfer
-                function(transferId) {
-                    api.fire('transfer', transferId);
-                }
-            );
-        };
-
-        var abort = function abort() {
-            // no request running, can't abort
-            if (!state.request) return;
-
-            // stop updater
-            state.perceivedPerformanceUpdater.clear();
-
-            // abort actual request
-            if (state.request.abort) state.request.abort();
-
-            // if has response object, we've completed the request
-            state.complete = true;
-        };
-
-        var reset = function reset() {
-            abort();
-            state.complete = false;
-            state.perceivedProgress = 0;
-            state.progress = 0;
-            state.timestamp = null;
-            state.perceivedDuration = 0;
-            state.duration = 0;
-            state.request = null;
-            state.response = null;
-        };
-
-        var getProgress = allowMinimumUploadDuration
-            ? function() {
-                  return state.progress ? Math.min(state.progress, state.perceivedProgress) : null;
-              }
-            : function() {
-                  return state.progress || null;
-              };
-
-        var getDuration = allowMinimumUploadDuration
-            ? function() {
-                  return Math.min(state.duration, state.perceivedDuration);
-              }
-            : function() {
-                  return state.duration;
-              };
-
-        var api = Object.assign({}, on(), {
-            process: process, // start processing file
-            abort: abort, // abort active process request
-            getProgress: getProgress,
-            getDuration: getDuration,
-            reset: reset,
-        });
-
-        return api;
-    };
-
-    var getFilenameWithoutExtension = function getFilenameWithoutExtension(name) {
-        return name.substr(0, name.lastIndexOf('.')) || name;
-    };
-
-    var createFileStub = function createFileStub(source) {
-        var data = [source.name, source.size, source.type];
-
-        // is blob or base64, then we need to set the name
-        if (source instanceof Blob || isBase64DataURI(source)) {
-            data[0] = source.name || getDateString();
-        } else if (isBase64DataURI(source)) {
-            // if is base64 data uri we need to determine the average size and type
-            data[1] = source.length;
-            data[2] = getMimeTypeFromBase64DataURI(source);
-        } else if (isString(source)) {
-            // url
-            data[0] = getFilenameFromURL(source);
-            data[1] = 0;
-            data[2] = 'application/octet-stream';
-        }
-
-        return {
-            name: data[0],
-            size: data[1],
-            type: data[2],
-        };
-    };
-
-    var isFile = function isFile(value) {
-        return !!(value instanceof File || (value instanceof Blob && value.name));
-    };
-
-    var deepCloneObject = function deepCloneObject(src) {
-        if (!isObject(src)) return src;
-        var target = isArray(src) ? [] : {};
-        for (var key in src) {
-            if (!src.hasOwnProperty(key)) continue;
-            var v = src[key];
-            target[key] = v && isObject(v) ? deepCloneObject(v) : v;
-        }
-        return target;
-    };
-
-    var createItem = function createItem() {
-        var origin = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        var serverFileReference =
-            arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-        var file = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-        // unique id for this item, is used to identify the item across views
-        var id = getUniqueId();
-
-        /**
-         * Internal item state
-         */
-        var state = {
-            // is archived
-            archived: false,
-
-            // if is frozen, no longer fires events
-            frozen: false,
-
-            // removed from view
-            released: false,
-
-            // original source
-            source: null,
-
-            // file model reference
-            file: file,
-
-            // id of file on server
-            serverFileReference: serverFileReference,
-
-            // id of file transfer on server
-            transferId: null,
-
-            // is aborted
-            processingAborted: false,
-
-            // current item status
-            status: serverFileReference ? ItemStatus.PROCESSING_COMPLETE : ItemStatus.INIT,
-
-            // active processes
-            activeLoader: null,
-            activeProcessor: null,
-        };
-
-        // callback used when abort processing is called to link back to the resolve method
-        var abortProcessingRequestComplete = null;
-
-        /**
-         * Externally added item metadata
-         */
-        var metadata = {};
-
-        // item data
-        var setStatus = function setStatus(status) {
-            return (state.status = status);
-        };
-
-        // fire event unless the item has been archived
-        var fire = function fire(event) {
-            if (state.released || state.frozen) return;
-            for (
-                var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1;
-                _key < _len;
-                _key++
-            ) {
-                params[_key - 1] = arguments[_key];
-            }
-            api.fire.apply(api, [event].concat(params));
-        };
-
-        // file data
-        var getFileExtension = function getFileExtension() {
-            return getExtensionFromFilename(state.file.name);
-        };
-        var getFileType = function getFileType() {
-            return state.file.type;
-        };
-        var getFileSize = function getFileSize() {
-            return state.file.size;
-        };
-        var getFile = function getFile() {
-            return state.file;
-        };
-
-        //
-        // logic to load a file
-        //
-        var load = function load(source, loader, onload) {
-            // remember the original item source
-            state.source = source;
-
-            // source is known
-            api.fireSync('init');
-
-            // file stub is already there
-            if (state.file) {
-                api.fireSync('load-skip');
-                return;
-            }
-
-            // set a stub file object while loading the actual data
-            state.file = createFileStub(source);
-
-            // starts loading
-            loader.on('init', function() {
-                fire('load-init');
-            });
-
-            // we'eve received a size indication, let's update the stub
-            loader.on('meta', function(meta) {
-                // set size of file stub
-                state.file.size = meta.size;
-
-                // set name of file stub
-                state.file.filename = meta.filename;
-
-                // if has received source, we done
-                if (meta.source) {
-                    origin = FileOrigin.LIMBO;
-                    state.serverFileReference = meta.source;
-                    state.status = ItemStatus.PROCESSING_COMPLETE;
-                }
-
-                // size has been updated
-                fire('load-meta');
-            });
-
-            // the file is now loading we need to update the progress indicators
-            loader.on('progress', function(progress) {
-                setStatus(ItemStatus.LOADING);
-
-                fire('load-progress', progress);
-            });
-
-            // an error was thrown while loading the file, we need to switch to error state
-            loader.on('error', function(error) {
-                setStatus(ItemStatus.LOAD_ERROR);
-
-                fire('load-request-error', error);
-            });
-
-            // user or another process aborted the file load (cannot retry)
-            loader.on('abort', function() {
-                setStatus(ItemStatus.INIT);
-                fire('load-abort');
-            });
-
-            // done loading
-            loader.on('load', function(file) {
-                // as we've now loaded the file the loader is no longer required
-                state.activeLoader = null;
-
-                // called when file has loaded succesfully
-                var success = function success(result) {
-                    // set (possibly) transformed file
-                    state.file = isFile(result) ? result : state.file;
-
-                    // file received
-                    if (origin === FileOrigin.LIMBO && state.serverFileReference) {
-                        setStatus(ItemStatus.PROCESSING_COMPLETE);
-                    } else {
-                        setStatus(ItemStatus.IDLE);
-                    }
-
-                    fire('load');
-                };
-
-                var error = function error(result) {
-                    // set original file
-                    state.file = file;
-                    fire('load-meta');
-
-                    setStatus(ItemStatus.LOAD_ERROR);
-                    fire('load-file-error', result);
-                };
-
-                // if we already have a server file reference, we don't need to call the onload method
-                if (state.serverFileReference) {
-                    success(file);
-                    return;
-                }
-
-                // no server id, let's give this file the full treatment
-                onload(file, success, error);
-            });
-
-            // set loader source data
-            loader.setSource(source);
-
-            // set as active loader
-            state.activeLoader = loader;
-
-            // load the source data
-            loader.load();
-        };
-
-        var retryLoad = function retryLoad() {
-            if (!state.activeLoader) {
-                return;
-            }
-            state.activeLoader.load();
-        };
-
-        var abortLoad = function abortLoad() {
-            if (state.activeLoader) {
-                state.activeLoader.abort();
-                return;
-            }
-            setStatus(ItemStatus.INIT);
-            fire('load-abort');
-        };
-
-        //
-        // logic to process a file
-        //
-        var process = function process(processor, onprocess) {
-            // processing was aborted
-            if (state.processingAborted) {
-                state.processingAborted = false;
-                return;
-            }
-
-            // now processing
-            setStatus(ItemStatus.PROCESSING);
-
-            // reset abort callback
-            abortProcessingRequestComplete = null;
-
-            // if no file loaded we'll wait for the load event
-            if (!(state.file instanceof Blob)) {
-                api.on('load', function() {
-                    process(processor, onprocess);
-                });
-                return;
-            }
-
-            // setup processor
-            processor.on('load', function(serverFileReference) {
-                // need this id to be able to revert the upload
-                state.transferId = null;
-                state.serverFileReference = serverFileReference;
-            });
-
-            // register transfer id
-            processor.on('transfer', function(transferId) {
-                // need this id to be able to revert the upload
-                state.transferId = transferId;
-            });
-
-            processor.on('load-perceived', function(serverFileReference) {
-                // no longer required
-                state.activeProcessor = null;
-
-                // need this id to be able to rever the upload
-                state.transferId = null;
-                state.serverFileReference = serverFileReference;
-
-                setStatus(ItemStatus.PROCESSING_COMPLETE);
-                fire('process-complete', serverFileReference);
-            });
-
-            processor.on('start', function() {
-                fire('process-start');
-            });
-
-            processor.on('error', function(error) {
-                state.activeProcessor = null;
-                setStatus(ItemStatus.PROCESSING_ERROR);
-                fire('process-error', error);
-            });
-
-            processor.on('abort', function(serverFileReference) {
-                state.activeProcessor = null;
-
-                // if file was uploaded but processing was cancelled during perceived processor time store file reference
-                state.transferId = null;
-                state.serverFileReference = serverFileReference;
-
-                setStatus(ItemStatus.IDLE);
-                fire('process-abort');
-
-                // has timeout so doesn't interfere with remove action
-                if (abortProcessingRequestComplete) {
-                    abortProcessingRequestComplete();
-                }
-            });
-
-            processor.on('progress', function(progress) {
-                fire('process-progress', progress);
-            });
-
-            // when successfully transformed
-            var success = function success(file) {
-                // if was archived in the mean time, don't process
-                if (state.archived) return;
-
-                // process file!
-                processor.process(file, Object.assign({}, metadata));
-            };
-
-            // something went wrong during transform phase
-            var error = console.error;
-
-            // start processing the file
-            onprocess(state.file, success, error);
-
-            // set as active processor
-            state.activeProcessor = processor;
-        };
-
-        var requestProcessing = function requestProcessing() {
-            state.processingAborted = false;
-            setStatus(ItemStatus.PROCESSING_QUEUED);
-        };
-
-        var abortProcessing = function abortProcessing() {
-            return new Promise(function(resolve) {
-                if (!state.activeProcessor) {
-                    state.processingAborted = true;
-
-                    setStatus(ItemStatus.IDLE);
-                    fire('process-abort');
-
-                    resolve();
-                    return;
-                }
-
-                abortProcessingRequestComplete = function abortProcessingRequestComplete() {
-                    resolve();
-                };
-
-                state.activeProcessor.abort();
-            });
-        };
-
-        //
-        // logic to revert a processed file
-        //
-        var revert = function revert(revertFileUpload, forceRevert) {
-            return new Promise(function(resolve, reject) {
-                // cannot revert without a server id for this process
-                if (state.serverFileReference === null) {
-                    resolve();
-                    return;
-                }
-
-                // revert the upload (fire and forget)
-                revertFileUpload(
-                    state.serverFileReference,
-                    function() {
-                        // reset file server id as now it's no available on the server
-                        state.serverFileReference = null;
-                        resolve();
-                    },
-                    function(error) {
-                        // don't set error state when reverting is optional, it will always resolve
-                        if (!forceRevert) {
-                            resolve();
-                            return;
-                        }
-
-                        // oh no errors
-                        setStatus(ItemStatus.PROCESSING_REVERT_ERROR);
-                        fire('process-revert-error');
-                        reject(error);
-                    }
-                );
-
-                // fire event
-                setStatus(ItemStatus.IDLE);
-                fire('process-revert');
-            });
-        };
-
-        // exposed methods
-        var _setMetadata = function setMetadata(key, value, silent) {
-            var keys = key.split('.');
-            var root = keys[0];
-            var last = keys.pop();
-            var data = metadata;
-            keys.forEach(function(key) {
-                return (data = data[key]);
-            });
-
-            // compare old value against new value, if they're the same, we're not updating
-            if (JSON.stringify(data[last]) === JSON.stringify(value)) return;
-
-            // update value
-            data[last] = value;
-
-            // fire update
-            fire('metadata-update', {
-                key: root,
-                value: metadata[root],
-                silent: silent,
-            });
-        };
-
-        var getMetadata = function getMetadata(key) {
-            return deepCloneObject(key ? metadata[key] : metadata);
-        };
-
-        var api = Object.assign(
-            {
-                id: {
-                    get: function get() {
-                        return id;
-                    },
-                },
-                origin: {
-                    get: function get() {
-                        return origin;
-                    },
-                    set: function set(value) {
-                        return (origin = value);
-                    },
-                },
-                serverId: {
-                    get: function get() {
-                        return state.serverFileReference;
-                    },
-                },
-                transferId: {
-                    get: function get() {
-                        return state.transferId;
-                    },
-                },
-                status: {
-                    get: function get() {
-                        return state.status;
-                    },
-                },
-                filename: {
-                    get: function get() {
-                        return state.file.name;
-                    },
-                },
-                filenameWithoutExtension: {
-                    get: function get() {
-                        return getFilenameWithoutExtension(state.file.name);
-                    },
-                },
-                fileExtension: { get: getFileExtension },
-                fileType: { get: getFileType },
-                fileSize: { get: getFileSize },
-                file: { get: getFile },
-                relativePath: {
-                    get: function get() {
-                        return state.file._relativePath;
-                    },
-                },
-
-                source: {
-                    get: function get() {
-                        return state.source;
-                    },
-                },
-
-                getMetadata: getMetadata,
-                setMetadata: function setMetadata(key, value, silent) {
-                    if (isObject(key)) {
-                        var data = key;
-                        Object.keys(data).forEach(function(key) {
-                            _setMetadata(key, data[key], value);
-                        });
-                        return key;
-                    }
-                    _setMetadata(key, value, silent);
-                    return value;
-                },
-
-                extend: function extend(name, handler) {
-                    return (itemAPI[name] = handler);
-                },
-
-                abortLoad: abortLoad,
-                retryLoad: retryLoad,
-                requestProcessing: requestProcessing,
-                abortProcessing: abortProcessing,
-
-                load: load,
-                process: process,
-                revert: revert,
-            },
-
-            on(),
-            {
-                freeze: function freeze() {
-                    return (state.frozen = true);
-                },
-
-                release: function release() {
-                    return (state.released = true);
-                },
-                released: {
-                    get: function get() {
-                        return state.released;
-                    },
-                },
-
-                archive: function archive() {
-                    return (state.archived = true);
-                },
-                archived: {
-                    get: function get() {
-                        return state.archived;
-                    },
-                },
-            }
-        );
-
-        // create it here instead of returning it instantly so we can extend it later
-        var itemAPI = createObject(api);
-
-        return itemAPI;
-    };
-
-    var getItemIndexByQuery = function getItemIndexByQuery(items, query) {
-        // just return first index
-        if (isEmpty(query)) {
-            return 0;
-        }
-
-        // invalid queries
-        if (!isString(query)) {
-            return -1;
-        }
-
-        // return item by id (or -1 if not found)
-        return items.findIndex(function(item) {
-            return item.id === query;
-        });
-    };
-
-    var getItemById = function getItemById(items, itemId) {
-        var index = getItemIndexByQuery(items, itemId);
-        if (index < 0) {
-            return;
-        }
-        return items[index] || null;
-    };
-
-    var fetchBlob = function fetchBlob(url, load, error, progress, abort, headers) {
-        var request = sendRequest(null, url, {
-            method: 'GET',
-            responseType: 'blob',
-        });
-
-        request.onload = function(xhr) {
-            // get headers
-            var headers = xhr.getAllResponseHeaders();
-
-            // get filename
-            var filename = getFileInfoFromHeaders(headers).name || getFilenameFromURL(url);
-
-            // create response
-            load(
-                createResponse('load', xhr.status, getFileFromBlob(xhr.response, filename), headers)
-            );
-        };
-
-        request.onerror = function(xhr) {
-            error(createResponse('error', xhr.status, xhr.statusText, xhr.getAllResponseHeaders()));
-        };
-
-        request.onheaders = function(xhr) {
-            headers(createResponse('headers', xhr.status, null, xhr.getAllResponseHeaders()));
-        };
-
-        request.ontimeout = createTimeoutResponse(error);
-        request.onprogress = progress;
-        request.onabort = abort;
-
-        // should return request
-        return request;
-    };
-
-    var getDomainFromURL = function getDomainFromURL(url) {
-        if (url.indexOf('//') === 0) {
-            url = location.protocol + url;
-        }
-        return url
-            .toLowerCase()
-            .replace('blob:', '')
-            .replace(/([a-z])?:\/\//, '$1')
-            .split('/')[0];
-    };
-
-    var isExternalURL = function isExternalURL(url) {
-        return (
-            (url.indexOf(':') > -1 || url.indexOf('//') > -1) &&
-            getDomainFromURL(location.href) !== getDomainFromURL(url)
-        );
-    };
-
-    var dynamicLabel = function dynamicLabel(label) {
-        return function() {
-            return isFunction(label) ? label.apply(void 0, arguments) : label;
-        };
-    };
-
-    var isMockItem = function isMockItem(item) {
-        return !isFile(item.file);
-    };
-
-    var listUpdated = function listUpdated(dispatch, state) {
-        clearTimeout(state.listUpdateTimeout);
-        state.listUpdateTimeout = setTimeout(function() {
-            dispatch('DID_UPDATE_ITEMS', { items: getActiveItems(state.items) });
-        }, 0);
-    };
-
-    var optionalPromise = function optionalPromise(fn) {
-        for (
-            var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1;
-            _key < _len;
-            _key++
-        ) {
-            params[_key - 1] = arguments[_key];
-        }
-        return new Promise(function(resolve) {
-            if (!fn) {
-                return resolve(true);
-            }
-
-            var result = fn.apply(void 0, params);
-
-            if (result == null) {
-                return resolve(true);
-            }
-
-            if (typeof result === 'boolean') {
-                return resolve(result);
-            }
-
-            if (typeof result.then === 'function') {
-                result.then(resolve);
-            }
-        });
-    };
-
-    var sortItems = function sortItems(state, compare) {
-        state.items.sort(function(a, b) {
-            return compare(createItemAPI(a), createItemAPI(b));
-        });
-    };
-
-    // returns item based on state
-    var getItemByQueryFromState = function getItemByQueryFromState(state, itemHandler) {
-        return function() {
-            var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-            var query = _ref.query,
-                _ref$success = _ref.success,
-                success = _ref$success === void 0 ? function() {} : _ref$success,
-                _ref$failure = _ref.failure,
-                failure = _ref$failure === void 0 ? function() {} : _ref$failure,
-                options = _objectWithoutProperties(_ref, ['query', 'success', 'failure']);
-            var item = getItemByQuery(state.items, query);
-            if (!item) {
-                failure({
-                    error: createResponse('error', 0, 'Item not found'),
-                    file: null,
-                });
-
-                return;
-            }
-            itemHandler(item, success, failure, options || {});
-        };
-    };
-
-    var actions = function actions(dispatch, query, state) {
-        return {
-            /**
-             * Aborts all ongoing processes
-             */
-            ABORT_ALL: function ABORT_ALL() {
-                getActiveItems(state.items).forEach(function(item) {
-                    item.freeze();
-                    item.abortLoad();
-                    item.abortProcessing();
-                });
-            },
-
-            /**
-             * Sets initial files
-             */
-            DID_SET_FILES: function DID_SET_FILES(_ref2) {
-                var _ref2$value = _ref2.value,
-                    value = _ref2$value === void 0 ? [] : _ref2$value;
-                // map values to file objects
-                var files = value.map(function(file) {
-                    return {
-                        source: file.source ? file.source : file,
-                        options: file.options,
-                    };
-                });
-
-                // loop over files, if file is in list, leave it be, if not, remove
-                // test if items should be moved
-                var activeItems = getActiveItems(state.items);
-
-                activeItems.forEach(function(item) {
-                    // if item not is in new value, remove
-                    if (
-                        !files.find(function(file) {
-                            return file.source === item.source || file.source === item.file;
-                        })
-                    ) {
-                        dispatch('REMOVE_ITEM', { query: item, remove: false });
-                    }
-                });
-
-                // add new files
-                activeItems = getActiveItems(state.items);
-                files.forEach(function(file, index) {
-                    // if file is already in list
-                    if (
-                        activeItems.find(function(item) {
-                            return item.source === file.source || item.file === file.source;
-                        })
-                    )
-                        return;
-
-                    // not in list, add
-                    dispatch(
-                        'ADD_ITEM',
-                        Object.assign({}, file, {
-                            interactionMethod: InteractionMethod.NONE,
-                            index: index,
-                        })
-                    );
-                });
-            },
-
-            DID_UPDATE_ITEM_METADATA: function DID_UPDATE_ITEM_METADATA(_ref3) {
-                var id = _ref3.id,
-                    action = _ref3.action,
-                    change = _ref3.change;
-                // don't do anything
-                if (change.silent) return;
-
-                // if is called multiple times in close succession we combined all calls together to save resources
-                clearTimeout(state.itemUpdateTimeout);
-                state.itemUpdateTimeout = setTimeout(function() {
-                    var item = getItemById(state.items, id);
-
-                    // only revert and attempt to upload when we're uploading to a server
-                    if (!query('IS_ASYNC')) {
-                        // should we update the output data
-                        applyFilterChain('SHOULD_PREPARE_OUTPUT', false, {
-                            item: item,
-                            query: query,
-                            action: action,
-                            change: change,
-                        }).then(function(shouldPrepareOutput) {
-                            // plugins determined the output data should be prepared (or not), can be adjusted with beforePrepareOutput hook
-                            var beforePrepareFile = query('GET_BEFORE_PREPARE_FILE');
-                            if (beforePrepareFile)
-                                shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
-
-                            if (!shouldPrepareOutput) return;
-
-                            dispatch(
-                                'REQUEST_PREPARE_OUTPUT',
-                                {
-                                    query: id,
-                                    item: item,
-                                    success: function success(file) {
-                                        dispatch('DID_PREPARE_OUTPUT', { id: id, file: file });
-                                    },
-                                },
-
-                                true
-                            );
-                        });
-
-                        return;
-                    }
-
-                    // if is local item we need to enable upload button so change can be propagated to server
-                    if (item.origin === FileOrigin.LOCAL) {
-                        dispatch('DID_LOAD_ITEM', {
-                            id: item.id,
-                            error: null,
-                            serverFileReference: item.source,
-                        });
-                    }
-
-                    // for async scenarios
-                    var upload = function upload() {
-                        // we push this forward a bit so the interface is updated correctly
-                        setTimeout(function() {
-                            dispatch('REQUEST_ITEM_PROCESSING', { query: id });
-                        }, 32);
-                    };
-
-                    var revert = function revert(doUpload) {
-                        item.revert(
-                            createRevertFunction(
-                                state.options.server.url,
-                                state.options.server.revert
-                            ),
-                            query('GET_FORCE_REVERT')
-                        )
-                            .then(doUpload ? upload : function() {})
-                            .catch(function() {});
-                    };
-
-                    var abort = function abort(doUpload) {
-                        item.abortProcessing().then(doUpload ? upload : function() {});
-                    };
-
-                    // if we should re-upload the file immediately
-                    if (item.status === ItemStatus.PROCESSING_COMPLETE) {
-                        return revert(state.options.instantUpload);
-                    }
-
-                    // if currently uploading, cancel upload
-                    if (item.status === ItemStatus.PROCESSING) {
-                        return abort(state.options.instantUpload);
-                    }
-
-                    if (state.options.instantUpload) {
-                        upload();
-                    }
-                }, 0);
-            },
-
-            MOVE_ITEM: function MOVE_ITEM(_ref4) {
-                var query = _ref4.query,
-                    index = _ref4.index;
-                var item = getItemByQuery(state.items, query);
-                if (!item) return;
-                var currentIndex = state.items.indexOf(item);
-                index = limit(index, 0, state.items.length - 1);
-                if (currentIndex === index) return;
-                state.items.splice(index, 0, state.items.splice(currentIndex, 1)[0]);
-            },
-
-            SORT: function SORT(_ref5) {
-                var compare = _ref5.compare;
-                sortItems(state, compare);
-                dispatch('DID_SORT_ITEMS', {
-                    items: query('GET_ACTIVE_ITEMS'),
-                });
-            },
-
-            ADD_ITEMS: function ADD_ITEMS(_ref6) {
-                var items = _ref6.items,
-                    index = _ref6.index,
-                    interactionMethod = _ref6.interactionMethod,
-                    _ref6$success = _ref6.success,
-                    success = _ref6$success === void 0 ? function() {} : _ref6$success,
-                    _ref6$failure = _ref6.failure,
-                    failure = _ref6$failure === void 0 ? function() {} : _ref6$failure;
-                var currentIndex = index;
-
-                if (index === -1 || typeof index === 'undefined') {
-                    var insertLocation = query('GET_ITEM_INSERT_LOCATION');
-                    var totalItems = query('GET_TOTAL_ITEMS');
-                    currentIndex = insertLocation === 'before' ? 0 : totalItems;
-                }
-
-                var ignoredFiles = query('GET_IGNORED_FILES');
-                var isValidFile = function isValidFile(source) {
-                    return isFile(source)
-                        ? !ignoredFiles.includes(source.name.toLowerCase())
-                        : !isEmpty(source);
-                };
-                var validItems = items.filter(isValidFile);
-
-                var promises = validItems.map(function(source) {
-                    return new Promise(function(resolve, reject) {
-                        dispatch('ADD_ITEM', {
-                            interactionMethod: interactionMethod,
-                            source: source.source || source,
-                            success: resolve,
-                            failure: reject,
-                            index: currentIndex++,
-                            options: source.options || {},
-                        });
-                    });
-                });
-
-                Promise.all(promises)
-                    .then(success)
-                    .catch(failure);
-            },
-
-            /**
-             * @param source
-             * @param index
-             * @param interactionMethod
-             */
-            ADD_ITEM: function ADD_ITEM(_ref7) {
-                var source = _ref7.source,
-                    _ref7$index = _ref7.index,
-                    index = _ref7$index === void 0 ? -1 : _ref7$index,
-                    interactionMethod = _ref7.interactionMethod,
-                    _ref7$success = _ref7.success,
-                    success = _ref7$success === void 0 ? function() {} : _ref7$success,
-                    _ref7$failure = _ref7.failure,
-                    failure = _ref7$failure === void 0 ? function() {} : _ref7$failure,
-                    _ref7$options = _ref7.options,
-                    options = _ref7$options === void 0 ? {} : _ref7$options;
-                // if no source supplied
-                if (isEmpty(source)) {
-                    failure({
-                        error: createResponse('error', 0, 'No source'),
-                        file: null,
-                    });
-
-                    return;
-                }
-
-                // filter out invalid file items, used to filter dropped directory contents
-                if (
-                    isFile(source) &&
-                    state.options.ignoredFiles.includes(source.name.toLowerCase())
-                ) {
-                    // fail silently
-                    return;
-                }
-
-                // test if there's still room in the list of files
-                if (!hasRoomForItem(state)) {
-                    // if multiple allowed, we can't replace
-                    // or if only a single item is allowed but we're not allowed to replace it we exit
-                    if (
-                        state.options.allowMultiple ||
-                        (!state.options.allowMultiple && !state.options.allowReplace)
-                    ) {
-                        var error = createResponse('warning', 0, 'Max files');
-
-                        dispatch('DID_THROW_MAX_FILES', {
-                            source: source,
-                            error: error,
-                        });
-
-                        failure({ error: error, file: null });
-
-                        return;
-                    }
-
-                    // let's replace the item
-                    // id of first item we're about to remove
-                    var _item = getActiveItems(state.items)[0];
-
-                    // if has been processed remove it from the server as well
-                    if (
-                        _item.status === ItemStatus.PROCESSING_COMPLETE ||
-                        _item.status === ItemStatus.PROCESSING_REVERT_ERROR
-                    ) {
-                        var forceRevert = query('GET_FORCE_REVERT');
-                        _item
-                            .revert(
-                                createRevertFunction(
-                                    state.options.server.url,
-                                    state.options.server.revert
-                                ),
-                                forceRevert
-                            )
-                            .then(function() {
-                                if (!forceRevert) return;
-
-                                // try to add now
-                                dispatch('ADD_ITEM', {
-                                    source: source,
-                                    index: index,
-                                    interactionMethod: interactionMethod,
-                                    success: success,
-                                    failure: failure,
-                                    options: options,
-                                });
-                            })
-                            .catch(function() {}); // no need to handle this catch state for now
-
-                        if (forceRevert) return;
-                    }
-
-                    // remove first item as it will be replaced by this item
-                    dispatch('REMOVE_ITEM', { query: _item.id });
-                }
-
-                // where did the file originate
-                var origin =
-                    options.type === 'local'
-                        ? FileOrigin.LOCAL
-                        : options.type === 'limbo'
-                        ? FileOrigin.LIMBO
-                        : FileOrigin.INPUT;
-
-                // create a new blank item
-                var item = createItem(
-                    // where did this file come from
-                    origin,
-
-                    // an input file never has a server file reference
-                    origin === FileOrigin.INPUT ? null : source,
-
-                    // file mock data, if defined
-                    options.file
-                );
-
-                // set initial meta data
-                Object.keys(options.metadata || {}).forEach(function(key) {
-                    item.setMetadata(key, options.metadata[key]);
-                });
-
-                // created the item, let plugins add methods
-                applyFilters('DID_CREATE_ITEM', item, { query: query, dispatch: dispatch });
-
-                // where to insert new items
-                var itemInsertLocation = query('GET_ITEM_INSERT_LOCATION');
-
-                // adjust index if is not allowed to pick location
-                if (!state.options.itemInsertLocationFreedom) {
-                    index = itemInsertLocation === 'before' ? -1 : state.items.length;
-                }
-
-                // add item to list
-                insertItem(state.items, item, index);
-
-                // sort items in list
-                if (isFunction(itemInsertLocation) && source) {
-                    sortItems(state, itemInsertLocation);
-                }
-
-                // get a quick reference to the item id
-                var id = item.id;
-
-                // observe item events
-                item.on('init', function() {
-                    dispatch('DID_INIT_ITEM', { id: id });
-                });
-
-                item.on('load-init', function() {
-                    dispatch('DID_START_ITEM_LOAD', { id: id });
-                });
-
-                item.on('load-meta', function() {
-                    dispatch('DID_UPDATE_ITEM_META', { id: id });
-                });
-
-                item.on('load-progress', function(progress) {
-                    dispatch('DID_UPDATE_ITEM_LOAD_PROGRESS', { id: id, progress: progress });
-                });
-
-                item.on('load-request-error', function(error) {
-                    var mainStatus = dynamicLabel(state.options.labelFileLoadError)(error);
-
-                    // is client error, no way to recover
-                    if (error.code >= 400 && error.code < 500) {
-                        dispatch('DID_THROW_ITEM_INVALID', {
-                            id: id,
-                            error: error,
-                            status: {
-                                main: mainStatus,
-                                sub: error.code + ' (' + error.body + ')',
-                            },
-                        });
-
-                        // reject the file so can be dealt with through API
-                        failure({ error: error, file: createItemAPI(item) });
-                        return;
-                    }
-
-                    // is possible server error, so might be possible to retry
-                    dispatch('DID_THROW_ITEM_LOAD_ERROR', {
-                        id: id,
-                        error: error,
-                        status: {
-                            main: mainStatus,
-                            sub: state.options.labelTapToRetry,
-                        },
-                    });
-                });
-
-                item.on('load-file-error', function(error) {
-                    dispatch('DID_THROW_ITEM_INVALID', {
-                        id: id,
-                        error: error.status,
-                        status: error.status,
-                    });
-
-                    failure({ error: error.status, file: createItemAPI(item) });
-                });
-
-                item.on('load-abort', function() {
-                    dispatch('REMOVE_ITEM', { query: id });
-                });
-
-                item.on('load-skip', function() {
-                    dispatch('COMPLETE_LOAD_ITEM', {
-                        query: id,
-                        item: item,
-                        data: {
-                            source: source,
-                            success: success,
-                        },
-                    });
-                });
-
-                item.on('load', function() {
-                    var handleAdd = function handleAdd(shouldAdd) {
-                        // no should not add this file
-                        if (!shouldAdd) {
-                            dispatch('REMOVE_ITEM', {
-                                query: id,
-                            });
-
-                            return;
-                        }
-
-                        // now interested in metadata updates
-                        item.on('metadata-update', function(change) {
-                            dispatch('DID_UPDATE_ITEM_METADATA', { id: id, change: change });
-                        });
-
-                        // let plugins decide if the output data should be prepared at this point
-                        // means we'll do this and wait for idle state
-                        applyFilterChain('SHOULD_PREPARE_OUTPUT', false, {
-                            item: item,
-                            query: query,
-                        }).then(function(shouldPrepareOutput) {
-                            // plugins determined the output data should be prepared (or not), can be adjusted with beforePrepareOutput hook
-                            var beforePrepareFile = query('GET_BEFORE_PREPARE_FILE');
-                            if (beforePrepareFile)
-                                shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
-
-                            var loadComplete = function loadComplete() {
-                                dispatch('COMPLETE_LOAD_ITEM', {
-                                    query: id,
-                                    item: item,
-                                    data: {
-                                        source: source,
-                                        success: success,
-                                    },
-                                });
-
-                                listUpdated(dispatch, state);
-                            };
-
-                            // exit
-                            if (shouldPrepareOutput) {
-                                // wait for idle state and then run PREPARE_OUTPUT
-                                dispatch(
-                                    'REQUEST_PREPARE_OUTPUT',
-                                    {
-                                        query: id,
-                                        item: item,
-                                        success: function success(file) {
-                                            dispatch('DID_PREPARE_OUTPUT', { id: id, file: file });
-                                            loadComplete();
-                                        },
-                                    },
-
-                                    true
-                                );
-
-                                return;
-                            }
-
-                            loadComplete();
-                        });
-                    };
-
-                    // item loaded, allow plugins to
-                    // - read data (quickly)
-                    // - add metadata
-                    applyFilterChain('DID_LOAD_ITEM', item, { query: query, dispatch: dispatch })
-                        .then(function() {
-                            optionalPromise(query('GET_BEFORE_ADD_FILE'), createItemAPI(item)).then(
-                                handleAdd
-                            );
-                        })
-                        .catch(function(e) {
-                            if (!e || !e.error || !e.status) return handleAdd(false);
-                            dispatch('DID_THROW_ITEM_INVALID', {
-                                id: id,
-                                error: e.error,
-                                status: e.status,
-                            });
-                        });
-                });
-
-                item.on('process-start', function() {
-                    dispatch('DID_START_ITEM_PROCESSING', { id: id });
-                });
-
-                item.on('process-progress', function(progress) {
-                    dispatch('DID_UPDATE_ITEM_PROCESS_PROGRESS', { id: id, progress: progress });
-                });
-
-                item.on('process-error', function(error) {
-                    dispatch('DID_THROW_ITEM_PROCESSING_ERROR', {
-                        id: id,
-                        error: error,
-                        status: {
-                            main: dynamicLabel(state.options.labelFileProcessingError)(error),
-                            sub: state.options.labelTapToRetry,
-                        },
-                    });
-                });
-
-                item.on('process-revert-error', function(error) {
-                    dispatch('DID_THROW_ITEM_PROCESSING_REVERT_ERROR', {
-                        id: id,
-                        error: error,
-                        status: {
-                            main: dynamicLabel(state.options.labelFileProcessingRevertError)(error),
-                            sub: state.options.labelTapToRetry,
-                        },
-                    });
-                });
-
-                item.on('process-complete', function(serverFileReference) {
-                    dispatch('DID_COMPLETE_ITEM_PROCESSING', {
-                        id: id,
-                        error: null,
-                        serverFileReference: serverFileReference,
-                    });
-
-                    dispatch('DID_DEFINE_VALUE', { id: id, value: serverFileReference });
-                });
-
-                item.on('process-abort', function() {
-                    dispatch('DID_ABORT_ITEM_PROCESSING', { id: id });
-                });
-
-                item.on('process-revert', function() {
-                    dispatch('DID_REVERT_ITEM_PROCESSING', { id: id });
-                    dispatch('DID_DEFINE_VALUE', { id: id, value: null });
-                });
-
-                // let view know the item has been inserted
-                dispatch('DID_ADD_ITEM', {
-                    id: id,
-                    index: index,
-                    interactionMethod: interactionMethod,
-                });
-
-                listUpdated(dispatch, state);
-
-                // start loading the source
-                var _ref8 = state.options.server || {},
-                    url = _ref8.url,
-                    load = _ref8.load,
-                    restore = _ref8.restore,
-                    fetch = _ref8.fetch;
-
-                item.load(
-                    source,
-
-                    // this creates a function that loads the file based on the type of file (string, base64, blob, file) and location of file (local, remote, limbo)
-                    createFileLoader(
-                        origin === FileOrigin.INPUT
-                            ? // input, if is remote, see if should use custom fetch, else use default fetchBlob
-                              isString(source) && isExternalURL(source)
-                                ? fetch
-                                    ? createFetchFunction(url, fetch)
-                                    : fetchBlob // remote url
-                                : fetchBlob // try to fetch url
-                            : // limbo or local
-                            origin === FileOrigin.LIMBO
-                            ? createFetchFunction(url, restore) // limbo
-                            : createFetchFunction(url, load) // local
-                    ),
-
-                    // called when the file is loaded so it can be piped through the filters
-                    function(file, success, error) {
-                        // let's process the file
-                        applyFilterChain('LOAD_FILE', file, { query: query })
-                            .then(success)
-                            .catch(error);
-                    }
-                );
-            },
-
-            REQUEST_PREPARE_OUTPUT: function REQUEST_PREPARE_OUTPUT(_ref9) {
-                var item = _ref9.item,
-                    success = _ref9.success,
-                    _ref9$failure = _ref9.failure,
-                    failure = _ref9$failure === void 0 ? function() {} : _ref9$failure;
-                // error response if item archived
-                var err = {
-                    error: createResponse('error', 0, 'Item not found'),
-                    file: null,
-                };
-
-                // don't handle archived items, an item could have been archived (load aborted) while waiting to be prepared
-                if (item.archived) return failure(err);
-
-                // allow plugins to alter the file data
-                applyFilterChain('PREPARE_OUTPUT', item.file, { query: query, item: item }).then(
-                    function(result) {
-                        applyFilterChain('COMPLETE_PREPARE_OUTPUT', result, {
-                            query: query,
-                            item: item,
-                        }).then(function(result) {
-                            // don't handle archived items, an item could have been archived (load aborted) while being prepared
-                            if (item.archived) return failure(err);
-
-                            // we done!
-                            success(result);
-                        });
-                    }
-                );
-            },
-
-            COMPLETE_LOAD_ITEM: function COMPLETE_LOAD_ITEM(_ref10) {
-                var item = _ref10.item,
-                    data = _ref10.data;
-                var success = data.success,
-                    source = data.source;
-
-                // sort items in list
-                var itemInsertLocation = query('GET_ITEM_INSERT_LOCATION');
-                if (isFunction(itemInsertLocation) && source) {
-                    sortItems(state, itemInsertLocation);
-                }
-
-                // let interface know the item has loaded
-                dispatch('DID_LOAD_ITEM', {
-                    id: item.id,
-                    error: null,
-                    serverFileReference: item.origin === FileOrigin.INPUT ? null : source,
-                });
-
-                // item has been successfully loaded and added to the
-                // list of items so can now be safely returned for use
-                success(createItemAPI(item));
-
-                // if this is a local server file we need to show a different state
-                if (item.origin === FileOrigin.LOCAL) {
-                    dispatch('DID_LOAD_LOCAL_ITEM', { id: item.id });
-                    return;
-                }
-
-                // if is a temp server file we prevent async upload call here (as the file is already on the server)
-                if (item.origin === FileOrigin.LIMBO) {
-                    dispatch('DID_COMPLETE_ITEM_PROCESSING', {
-                        id: item.id,
-                        error: null,
-                        serverFileReference: source,
-                    });
-
-                    dispatch('DID_DEFINE_VALUE', {
-                        id: item.id,
-                        value: item.serverId || source,
-                    });
-
-                    return;
-                }
-
-                // id we are allowed to upload the file immediately, lets do it
-                if (query('IS_ASYNC') && state.options.instantUpload) {
-                    dispatch('REQUEST_ITEM_PROCESSING', { query: item.id });
-                }
-            },
-
-            RETRY_ITEM_LOAD: getItemByQueryFromState(state, function(item) {
-                // try loading the source one more time
-                item.retryLoad();
-            }),
-
-            REQUEST_ITEM_PREPARE: getItemByQueryFromState(state, function(item, _success, failure) {
-                dispatch(
-                    'REQUEST_PREPARE_OUTPUT',
-                    {
-                        query: item.id,
-                        item: item,
-                        success: function success(file) {
-                            dispatch('DID_PREPARE_OUTPUT', { id: item.id, file: file });
-                            _success({
-                                file: item,
-                                output: file,
-                            });
-                        },
-                        failure: failure,
-                    },
-
-                    true
-                );
-            }),
-
-            REQUEST_ITEM_PROCESSING: getItemByQueryFromState(state, function(
-                item,
-                success,
-                failure
-            ) {
-                // cannot be queued (or is already queued)
-                var itemCanBeQueuedForProcessing =
-                    // waiting for something
-                    item.status === ItemStatus.IDLE ||
-                    // processing went wrong earlier
-                    item.status === ItemStatus.PROCESSING_ERROR;
-
-                // not ready to be processed
-                if (!itemCanBeQueuedForProcessing) {
-                    var processNow = function processNow() {
-                        return dispatch('REQUEST_ITEM_PROCESSING', {
-                            query: item,
-                            success: success,
-                            failure: failure,
-                        });
-                    };
-
-                    var process = function process() {
-                        return document.hidden ? processNow() : setTimeout(processNow, 32);
-                    };
-
-                    // if already done processing or tried to revert but didn't work, try again
-                    if (
-                        item.status === ItemStatus.PROCESSING_COMPLETE ||
-                        item.status === ItemStatus.PROCESSING_REVERT_ERROR
-                    ) {
-                        item.revert(
-                            createRevertFunction(
-                                state.options.server.url,
-                                state.options.server.revert
-                            ),
-                            query('GET_FORCE_REVERT')
-                        )
-                            .then(process)
-                            .catch(function() {}); // don't continue with processing if something went wrong
-                    } else if (item.status === ItemStatus.PROCESSING) {
-                        item.abortProcessing().then(process);
-                    }
-
-                    return;
-                }
-
-                // already queued for processing
-                if (item.status === ItemStatus.PROCESSING_QUEUED) return;
-
-                item.requestProcessing();
-
-                dispatch('DID_REQUEST_ITEM_PROCESSING', { id: item.id });
-
-                dispatch('PROCESS_ITEM', { query: item, success: success, failure: failure }, true);
-            }),
-
-            PROCESS_ITEM: getItemByQueryFromState(state, function(item, success, failure) {
-                var maxParallelUploads = query('GET_MAX_PARALLEL_UPLOADS');
-                var totalCurrentUploads = query('GET_ITEMS_BY_STATUS', ItemStatus.PROCESSING)
-                    .length;
-
-                // queue and wait till queue is freed up
-                if (totalCurrentUploads === maxParallelUploads) {
-                    // queue for later processing
-                    state.processingQueue.push({
-                        id: item.id,
-                        success: success,
-                        failure: failure,
-                    });
-
-                    // stop it!
-                    return;
-                }
-
-                // if was not queued or is already processing exit here
-                if (item.status === ItemStatus.PROCESSING) return;
-
-                var processNext = function processNext() {
-                    // process queueud items
-                    var queueEntry = state.processingQueue.shift();
-
-                    // no items left
-                    if (!queueEntry) return;
-
-                    // get item reference
-                    var id = queueEntry.id,
-                        success = queueEntry.success,
-                        failure = queueEntry.failure;
-                    var itemReference = getItemByQuery(state.items, id);
-
-                    // if item was archived while in queue, jump to next
-                    if (!itemReference || itemReference.archived) {
-                        processNext();
-                        return;
-                    }
-
-                    // process queued item
-                    dispatch(
-                        'PROCESS_ITEM',
-                        { query: id, success: success, failure: failure },
-                        true
-                    );
-                };
-
-                // we done function
-                item.onOnce('process-complete', function() {
-                    success(createItemAPI(item));
-                    processNext();
-
-                    // if origin is local, and we're instant uploading, trigger remove of original
-                    // as revert will remove file from list
-                    var server = state.options.server;
-                    var instantUpload = state.options.instantUpload;
-                    if (
-                        instantUpload &&
-                        item.origin === FileOrigin.LOCAL &&
-                        isFunction(server.remove)
-                    ) {
-                        var noop = function noop() {};
-                        item.origin = FileOrigin.LIMBO;
-                        state.options.server.remove(item.source, noop, noop);
-                    }
-
-                    // All items processed? No errors?
-                    var allItemsProcessed =
-                        query('GET_ITEMS_BY_STATUS', ItemStatus.PROCESSING_COMPLETE).length ===
-                        state.items.length;
-                    if (allItemsProcessed) {
-                        dispatch('DID_COMPLETE_ITEM_PROCESSING_ALL');
-                    }
-                });
-
-                // we error function
-                item.onOnce('process-error', function(error) {
-                    failure({ error: error, file: createItemAPI(item) });
-                    processNext();
-                });
-
-                // start file processing
-                var options = state.options;
-                item.process(
-                    createFileProcessor(
-                        createProcessorFunction(
-                            options.server.url,
-                            options.server.process,
-                            options.name,
-                            {
-                                chunkTransferId: item.transferId,
-                                chunkServer: options.server.patch,
-                                chunkUploads: options.chunkUploads,
-                                chunkForce: options.chunkForce,
-                                chunkSize: options.chunkSize,
-                                chunkRetryDelays: options.chunkRetryDelays,
-                            }
-                        ),
-
-                        {
-                            allowMinimumUploadDuration: query('GET_ALLOW_MINIMUM_UPLOAD_DURATION'),
-                        }
-                    ),
-
-                    // called when the file is about to be processed so it can be piped through the transform filters
-                    function(file, success, error) {
-                        // allow plugins to alter the file data
-                        applyFilterChain('PREPARE_OUTPUT', file, { query: query, item: item })
-                            .then(function(file) {
-                                dispatch('DID_PREPARE_OUTPUT', { id: item.id, file: file });
-
-                                success(file);
-                            })
-                            .catch(error);
-                    }
-                );
-            }),
-
-            RETRY_ITEM_PROCESSING: getItemByQueryFromState(state, function(item) {
-                dispatch('REQUEST_ITEM_PROCESSING', { query: item });
-            }),
-
-            REQUEST_REMOVE_ITEM: getItemByQueryFromState(state, function(item) {
-                optionalPromise(query('GET_BEFORE_REMOVE_FILE'), createItemAPI(item)).then(function(
-                    shouldRemove
-                ) {
-                    if (!shouldRemove) {
-                        return;
-                    }
-                    dispatch('REMOVE_ITEM', { query: item });
-                });
-            }),
-
-            RELEASE_ITEM: getItemByQueryFromState(state, function(item) {
-                item.release();
-            }),
-
-            REMOVE_ITEM: getItemByQueryFromState(state, function(item, success, failure, options) {
-                var removeFromView = function removeFromView() {
-                    // get id reference
-                    var id = item.id;
-
-                    // archive the item, this does not remove it from the list
-                    getItemById(state.items, id).archive();
-
-                    // tell the view the item has been removed
-                    dispatch('DID_REMOVE_ITEM', { error: null, id: id, item: item });
-
-                    // now the list has been modified
-                    listUpdated(dispatch, state);
-
-                    // correctly removed
-                    success(createItemAPI(item));
-                };
-
-                // if this is a local file and the `server.remove` function has been configured,
-                // send source there so dev can remove file from server
-                var server = state.options.server;
-                if (
-                    item.origin === FileOrigin.LOCAL &&
-                    server &&
-                    isFunction(server.remove) &&
-                    options.remove !== false
-                ) {
-                    dispatch('DID_START_ITEM_REMOVE', { id: item.id });
-
-                    server.remove(
-                        item.source,
-                        function() {
-                            return removeFromView();
-                        },
-                        function(status) {
-                            dispatch('DID_THROW_ITEM_REMOVE_ERROR', {
-                                id: item.id,
-                                error: createResponse('error', 0, status, null),
-                                status: {
-                                    main: dynamicLabel(state.options.labelFileRemoveError)(status),
-                                    sub: state.options.labelTapToRetry,
-                                },
-                            });
-                        }
-                    );
-                } else {
-                    // if is requesting revert and can revert need to call revert handler (not calling request_ because that would also trigger beforeRemoveHook)
-                    if (
-                        options.revert &&
-                        item.origin !== FileOrigin.LOCAL &&
-                        item.serverId !== null
-                    ) {
-                        item.revert(
-                            createRevertFunction(
-                                state.options.server.url,
-                                state.options.server.revert
-                            ),
-                            query('GET_FORCE_REVERT')
-                        );
-                    }
-
-                    // can now safely remove from view
-                    removeFromView();
-                }
-            }),
-
-            ABORT_ITEM_LOAD: getItemByQueryFromState(state, function(item) {
-                item.abortLoad();
-            }),
-
-            ABORT_ITEM_PROCESSING: getItemByQueryFromState(state, function(item) {
-                // test if is already processed
-                if (item.serverId) {
-                    dispatch('REVERT_ITEM_PROCESSING', { id: item.id });
-                    return;
-                }
-
-                // abort
-                item.abortProcessing().then(function() {
-                    var shouldRemove = state.options.instantUpload;
-                    if (shouldRemove) {
-                        dispatch('REMOVE_ITEM', { query: item.id });
-                    }
-                });
-            }),
-
-            REQUEST_REVERT_ITEM_PROCESSING: getItemByQueryFromState(state, function(item) {
-                // not instant uploading, revert immediately
-                if (!state.options.instantUpload) {
-                    dispatch('REVERT_ITEM_PROCESSING', { query: item });
-                    return;
-                }
-
-                // if we're instant uploading the file will also be removed if we revert,
-                // so if a before remove file hook is defined we need to run it now
-                var handleRevert = function handleRevert(shouldRevert) {
-                    if (!shouldRevert) return;
-                    dispatch('REVERT_ITEM_PROCESSING', { query: item });
-                };
-
-                var fn = query('GET_BEFORE_REMOVE_FILE');
-                if (!fn) {
-                    return handleRevert(true);
-                }
-
-                var requestRemoveResult = fn(createItemAPI(item));
-                if (requestRemoveResult == null) {
-                    // undefined or null
-                    return handleRevert(true);
-                }
-
-                if (typeof requestRemoveResult === 'boolean') {
-                    return handleRevert(requestRemoveResult);
-                }
-
-                if (typeof requestRemoveResult.then === 'function') {
-                    requestRemoveResult.then(handleRevert);
-                }
-            }),
-
-            REVERT_ITEM_PROCESSING: getItemByQueryFromState(state, function(item) {
-                item.revert(
-                    createRevertFunction(state.options.server.url, state.options.server.revert),
-                    query('GET_FORCE_REVERT')
-                )
-                    .then(function() {
-                        var shouldRemove = state.options.instantUpload || isMockItem(item);
-                        if (shouldRemove) {
-                            dispatch('REMOVE_ITEM', { query: item.id });
-                        }
-                    })
-                    .catch(function() {});
-            }),
-
-            SET_OPTIONS: function SET_OPTIONS(_ref11) {
-                var options = _ref11.options;
-                forin(options, function(key, value) {
-                    dispatch('SET_' + fromCamels(key, '_').toUpperCase(), { value: value });
-                });
-            },
-        };
-    };
-
-    var formatFilename = function formatFilename(name) {
-        return name;
-    };
-
-    var createElement$1 = function createElement(tagName) {
-        return document.createElement(tagName);
-    };
-
-    var text = function text(node, value) {
-        var textNode = node.childNodes[0];
-        if (!textNode) {
-            textNode = document.createTextNode(value);
-            node.appendChild(textNode);
-        } else if (value !== textNode.nodeValue) {
-            textNode.nodeValue = value;
-        }
-    };
-
-    var polarToCartesian = function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-        var angleInRadians = (((angleInDegrees % 360) - 90) * Math.PI) / 180.0;
-        return {
-            x: centerX + radius * Math.cos(angleInRadians),
-            y: centerY + radius * Math.sin(angleInRadians),
-        };
-    };
-
-    var describeArc = function describeArc(x, y, radius, startAngle, endAngle, arcSweep) {
-        var start = polarToCartesian(x, y, radius, endAngle);
-        var end = polarToCartesian(x, y, radius, startAngle);
-        return ['M', start.x, start.y, 'A', radius, radius, 0, arcSweep, 0, end.x, end.y].join(' ');
-    };
-
-    var percentageArc = function percentageArc(x, y, radius, from, to) {
-        var arcSweep = 1;
-        if (to > from && to - from <= 0.5) {
-            arcSweep = 0;
-        }
-        if (from > to && from - to >= 0.5) {
-            arcSweep = 0;
-        }
-        return describeArc(
-            x,
-            y,
-            radius,
-            Math.min(0.9999, from) * 360,
-            Math.min(0.9999, to) * 360,
-            arcSweep
-        );
-    };
-
-    var create = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-        // start at 0
-        props.spin = false;
-        props.progress = 0;
-        props.opacity = 0;
-
-        // svg
-        var svg = createElement('svg');
-        root.ref.path = createElement('path', {
-            'stroke-width': 2,
-            'stroke-linecap': 'round',
-        });
-
-        svg.appendChild(root.ref.path);
-
-        root.ref.svg = svg;
-
-        root.appendChild(svg);
-    };
-
-    var write = function write(_ref2) {
-        var root = _ref2.root,
-            props = _ref2.props;
-        if (props.opacity === 0) {
-            return;
-        }
-
-        if (props.align) {
-            root.element.dataset.align = props.align;
-        }
-
-        // get width of stroke
-        var ringStrokeWidth = parseInt(attr(root.ref.path, 'stroke-width'), 10);
-
-        // calculate size of ring
-        var size = root.rect.element.width * 0.5;
-
-        // ring state
-        var ringFrom = 0;
-        var ringTo = 0;
-
-        // now in busy mode
-        if (props.spin) {
-            ringFrom = 0;
-            ringTo = 0.5;
-        } else {
-            ringFrom = 0;
-            ringTo = props.progress;
-        }
-
-        // get arc path
-        var coordinates = percentageArc(size, size, size - ringStrokeWidth, ringFrom, ringTo);
-
-        // update progress bar
-        attr(root.ref.path, 'd', coordinates);
-
-        // hide while contains 0 value
-        attr(root.ref.path, 'stroke-opacity', props.spin || props.progress > 0 ? 1 : 0);
-    };
-
-    var progressIndicator = createView({
-        tag: 'div',
-        name: 'progress-indicator',
-        ignoreRectUpdate: true,
-        ignoreRect: true,
-        create: create,
-        write: write,
-        mixins: {
-            apis: ['progress', 'spin', 'align'],
-            styles: ['opacity'],
-            animations: {
-                opacity: { type: 'tween', duration: 500 },
-                progress: {
-                    type: 'spring',
-                    stiffness: 0.95,
-                    damping: 0.65,
-                    mass: 10,
-                },
-            },
-        },
-    });
-
-    var create$1 = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-        root.element.innerHTML = (props.icon || '') + ('<span>' + props.label + '</span>');
-
-        props.isDisabled = false;
-    };
-
-    var write$1 = function write(_ref2) {
-        var root = _ref2.root,
-            props = _ref2.props;
-        var isDisabled = props.isDisabled;
-        var shouldDisable = root.query('GET_DISABLED') || props.opacity === 0;
-
-        if (shouldDisable && !isDisabled) {
-            props.isDisabled = true;
-            attr(root.element, 'disabled', 'disabled');
-        } else if (!shouldDisable && isDisabled) {
-            props.isDisabled = false;
-            root.element.removeAttribute('disabled');
-        }
-    };
-
-    var fileActionButton = createView({
-        tag: 'button',
-        attributes: {
-            type: 'button',
-        },
-
-        ignoreRect: true,
-        ignoreRectUpdate: true,
-        name: 'file-action-button',
-        mixins: {
-            apis: ['label'],
-            styles: ['translateX', 'translateY', 'scaleX', 'scaleY', 'opacity'],
-            animations: {
-                scaleX: 'spring',
-                scaleY: 'spring',
-                translateX: 'spring',
-                translateY: 'spring',
-                opacity: { type: 'tween', duration: 250 },
-            },
-
-            listeners: true,
-        },
-
-        create: create$1,
-        write: write$1,
-    });
-
-    var toNaturalFileSize = function toNaturalFileSize(bytes) {
-        var decimalSeparator =
-            arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '.';
-        var base = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1000;
-        // no negative byte sizes
-        bytes = Math.round(Math.abs(bytes));
-
-        var KB = base;
-        var MB = base * base;
-        var GB = base * base * base;
-
-        // just bytes
-        if (bytes < KB) {
-            return bytes + ' bytes';
-        }
-
-        // kilobytes
-        if (bytes < MB) {
-            return Math.floor(bytes / KB) + ' KB';
-        }
-
-        // megabytes
-        if (bytes < GB) {
-            return removeDecimalsWhenZero(bytes / MB, 1, decimalSeparator) + ' MB';
-        }
-
-        // gigabytes
-        return removeDecimalsWhenZero(bytes / GB, 2, decimalSeparator) + ' GB';
-    };
-
-    var removeDecimalsWhenZero = function removeDecimalsWhenZero(value, decimalCount, separator) {
-        return value
-            .toFixed(decimalCount)
-            .split('.')
-            .filter(function(part) {
-                return part !== '0';
-            })
-            .join(separator);
-    };
-
-    var create$2 = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-        // filename
-        var fileName = createElement$1('span');
-        fileName.className = 'filepond--file-info-main';
-        // hide for screenreaders
-        // the file is contained in a fieldset with legend that contains the filename
-        // no need to read it twice
-        attr(fileName, 'aria-hidden', 'true');
-        root.appendChild(fileName);
-        root.ref.fileName = fileName;
-
-        // filesize
-        var fileSize = createElement$1('span');
-        fileSize.className = 'filepond--file-info-sub';
-        root.appendChild(fileSize);
-        root.ref.fileSize = fileSize;
-
-        // set initial values
-        text(fileSize, root.query('GET_LABEL_FILE_WAITING_FOR_SIZE'));
-        text(fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
-    };
-
-    var updateFile = function updateFile(_ref2) {
-        var root = _ref2.root,
-            props = _ref2.props;
-        text(
-            root.ref.fileSize,
-            toNaturalFileSize(
-                root.query('GET_ITEM_SIZE', props.id),
-                '.',
-                root.query('GET_FILE_SIZE_BASE')
-            )
-        );
-
-        text(root.ref.fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
-    };
-
-    var updateFileSizeOnError = function updateFileSizeOnError(_ref3) {
-        var root = _ref3.root,
-            props = _ref3.props;
-        // if size is available don't fallback to unknown size message
-        if (isInt(root.query('GET_ITEM_SIZE', props.id))) {
-            updateFile({ root: root, props: props });
-            return;
-        }
-
-        text(root.ref.fileSize, root.query('GET_LABEL_FILE_SIZE_NOT_AVAILABLE'));
-    };
-
-    var fileInfo = createView({
-        name: 'file-info',
-        ignoreRect: true,
-        ignoreRectUpdate: true,
-        write: createRoute({
-            DID_LOAD_ITEM: updateFile,
-            DID_UPDATE_ITEM_META: updateFile,
-            DID_THROW_ITEM_LOAD_ERROR: updateFileSizeOnError,
-            DID_THROW_ITEM_INVALID: updateFileSizeOnError,
-        }),
-
-        didCreateView: function didCreateView(root) {
-            applyFilters('CREATE_VIEW', Object.assign({}, root, { view: root }));
-        },
-        create: create$2,
-        mixins: {
-            styles: ['translateX', 'translateY'],
-            animations: {
-                translateX: 'spring',
-                translateY: 'spring',
-            },
-        },
-    });
-
-    var toPercentage = function toPercentage(value) {
-        return Math.round(value * 100);
-    };
-
-    var create$3 = function create(_ref) {
-        var root = _ref.root;
-
-        // main status
-        var main = createElement$1('span');
-        main.className = 'filepond--file-status-main';
-        root.appendChild(main);
-        root.ref.main = main;
-
-        // sub status
-        var sub = createElement$1('span');
-        sub.className = 'filepond--file-status-sub';
-        root.appendChild(sub);
-        root.ref.sub = sub;
-
-        didSetItemLoadProgress({ root: root, action: { progress: null } });
-    };
-
-    var didSetItemLoadProgress = function didSetItemLoadProgress(_ref2) {
-        var root = _ref2.root,
-            action = _ref2.action;
-        var title =
-            action.progress === null
-                ? root.query('GET_LABEL_FILE_LOADING')
-                : root.query('GET_LABEL_FILE_LOADING') + ' ' + toPercentage(action.progress) + '%';
-
-        text(root.ref.main, title);
-        text(root.ref.sub, root.query('GET_LABEL_TAP_TO_CANCEL'));
-    };
-
-    var didSetItemProcessProgress = function didSetItemProcessProgress(_ref3) {
-        var root = _ref3.root,
-            action = _ref3.action;
-        var title =
-            action.progress === null
-                ? root.query('GET_LABEL_FILE_PROCESSING')
-                : root.query('GET_LABEL_FILE_PROCESSING') +
-                  ' ' +
-                  toPercentage(action.progress) +
-                  '%';
-
-        text(root.ref.main, title);
-        text(root.ref.sub, root.query('GET_LABEL_TAP_TO_CANCEL'));
-    };
-
-    var didRequestItemProcessing = function didRequestItemProcessing(_ref4) {
-        var root = _ref4.root;
-        text(root.ref.main, root.query('GET_LABEL_FILE_PROCESSING'));
-        text(root.ref.sub, root.query('GET_LABEL_TAP_TO_CANCEL'));
-    };
-
-    var didAbortItemProcessing = function didAbortItemProcessing(_ref5) {
-        var root = _ref5.root;
-        text(root.ref.main, root.query('GET_LABEL_FILE_PROCESSING_ABORTED'));
-        text(root.ref.sub, root.query('GET_LABEL_TAP_TO_RETRY'));
-    };
-
-    var didCompleteItemProcessing = function didCompleteItemProcessing(_ref6) {
-        var root = _ref6.root;
-        text(root.ref.main, root.query('GET_LABEL_FILE_PROCESSING_COMPLETE'));
-        text(root.ref.sub, root.query('GET_LABEL_TAP_TO_UNDO'));
-    };
-
-    var clear = function clear(_ref7) {
-        var root = _ref7.root;
-        text(root.ref.main, '');
-        text(root.ref.sub, '');
-    };
-
-    var error = function error(_ref8) {
-        var root = _ref8.root,
-            action = _ref8.action;
-        text(root.ref.main, action.status.main);
-        text(root.ref.sub, action.status.sub);
-    };
-
-    var fileStatus = createView({
-        name: 'file-status',
-        ignoreRect: true,
-        ignoreRectUpdate: true,
-        write: createRoute({
-            DID_LOAD_ITEM: clear,
-            DID_REVERT_ITEM_PROCESSING: clear,
-            DID_REQUEST_ITEM_PROCESSING: didRequestItemProcessing,
-            DID_ABORT_ITEM_PROCESSING: didAbortItemProcessing,
-            DID_COMPLETE_ITEM_PROCESSING: didCompleteItemProcessing,
-            DID_UPDATE_ITEM_PROCESS_PROGRESS: didSetItemProcessProgress,
-            DID_UPDATE_ITEM_LOAD_PROGRESS: didSetItemLoadProgress,
-            DID_THROW_ITEM_LOAD_ERROR: error,
-            DID_THROW_ITEM_INVALID: error,
-            DID_THROW_ITEM_PROCESSING_ERROR: error,
-            DID_THROW_ITEM_PROCESSING_REVERT_ERROR: error,
-            DID_THROW_ITEM_REMOVE_ERROR: error,
-        }),
-
-        didCreateView: function didCreateView(root) {
-            applyFilters('CREATE_VIEW', Object.assign({}, root, { view: root }));
-        },
-        create: create$3,
-        mixins: {
-            styles: ['translateX', 'translateY', 'opacity'],
-            animations: {
-                opacity: { type: 'tween', duration: 250 },
-                translateX: 'spring',
-                translateY: 'spring',
-            },
-        },
-    });
-
-    /**
-     * Button definitions for the file view
-     */
-
-    var Buttons = {
-        AbortItemLoad: {
-            label: 'GET_LABEL_BUTTON_ABORT_ITEM_LOAD',
-            action: 'ABORT_ITEM_LOAD',
-            className: 'filepond--action-abort-item-load',
-            align: 'LOAD_INDICATOR_POSITION', // right
-        },
-        RetryItemLoad: {
-            label: 'GET_LABEL_BUTTON_RETRY_ITEM_LOAD',
-            action: 'RETRY_ITEM_LOAD',
-            icon: 'GET_ICON_RETRY',
-            className: 'filepond--action-retry-item-load',
-            align: 'BUTTON_PROCESS_ITEM_POSITION', // right
-        },
-        RemoveItem: {
-            label: 'GET_LABEL_BUTTON_REMOVE_ITEM',
-            action: 'REQUEST_REMOVE_ITEM',
-            icon: 'GET_ICON_REMOVE',
-            className: 'filepond--action-remove-item',
-            align: 'BUTTON_REMOVE_ITEM_POSITION', // left
-        },
-        ProcessItem: {
-            label: 'GET_LABEL_BUTTON_PROCESS_ITEM',
-            action: 'REQUEST_ITEM_PROCESSING',
-            icon: 'GET_ICON_PROCESS',
-            className: 'filepond--action-process-item',
-            align: 'BUTTON_PROCESS_ITEM_POSITION', // right
-        },
-        AbortItemProcessing: {
-            label: 'GET_LABEL_BUTTON_ABORT_ITEM_PROCESSING',
-            action: 'ABORT_ITEM_PROCESSING',
-            className: 'filepond--action-abort-item-processing',
-            align: 'BUTTON_PROCESS_ITEM_POSITION', // right
-        },
-        RetryItemProcessing: {
-            label: 'GET_LABEL_BUTTON_RETRY_ITEM_PROCESSING',
-            action: 'RETRY_ITEM_PROCESSING',
-            icon: 'GET_ICON_RETRY',
-            className: 'filepond--action-retry-item-processing',
-            align: 'BUTTON_PROCESS_ITEM_POSITION', // right
-        },
-        RevertItemProcessing: {
-            label: 'GET_LABEL_BUTTON_UNDO_ITEM_PROCESSING',
-            action: 'REQUEST_REVERT_ITEM_PROCESSING',
-            icon: 'GET_ICON_UNDO',
-            className: 'filepond--action-revert-item-processing',
-            align: 'BUTTON_PROCESS_ITEM_POSITION', // right
-        },
-    };
-
-    // make a list of buttons, we can then remove buttons from this list if they're disabled
-    var ButtonKeys = [];
-    forin(Buttons, function(key) {
-        ButtonKeys.push(key);
-    });
-
-    var calculateFileInfoOffset = function calculateFileInfoOffset(root) {
-        if (getRemoveIndicatorAligment(root) === 'right') return 0;
-        var buttonRect = root.ref.buttonRemoveItem.rect.element;
-        return buttonRect.hidden ? null : buttonRect.width + buttonRect.left;
-    };
-
-    var calculateButtonWidth = function calculateButtonWidth(root) {
-        var buttonRect = root.ref.buttonAbortItemLoad.rect.element;
-        return buttonRect.width;
-    };
-
-    // Force on full pixels so text stays crips
-    var calculateFileVerticalCenterOffset = function calculateFileVerticalCenterOffset(root) {
-        return Math.floor(root.ref.buttonRemoveItem.rect.element.height / 4);
-    };
-    var calculateFileHorizontalCenterOffset = function calculateFileHorizontalCenterOffset(root) {
-        return Math.floor(root.ref.buttonRemoveItem.rect.element.left / 2);
-    };
-
-    var getLoadIndicatorAlignment = function getLoadIndicatorAlignment(root) {
-        return root.query('GET_STYLE_LOAD_INDICATOR_POSITION');
-    };
-    var getProcessIndicatorAlignment = function getProcessIndicatorAlignment(root) {
-        return root.query('GET_STYLE_PROGRESS_INDICATOR_POSITION');
-    };
-    var getRemoveIndicatorAligment = function getRemoveIndicatorAligment(root) {
-        return root.query('GET_STYLE_BUTTON_REMOVE_ITEM_POSITION');
-    };
-
-    var DefaultStyle = {
-        buttonAbortItemLoad: { opacity: 0 },
-        buttonRetryItemLoad: { opacity: 0 },
-        buttonRemoveItem: { opacity: 0 },
-        buttonProcessItem: { opacity: 0 },
-        buttonAbortItemProcessing: { opacity: 0 },
-        buttonRetryItemProcessing: { opacity: 0 },
-        buttonRevertItemProcessing: { opacity: 0 },
-        loadProgressIndicator: { opacity: 0, align: getLoadIndicatorAlignment },
-        processProgressIndicator: { opacity: 0, align: getProcessIndicatorAlignment },
-        processingCompleteIndicator: { opacity: 0, scaleX: 0.75, scaleY: 0.75 },
-        info: { translateX: 0, translateY: 0, opacity: 0 },
-        status: { translateX: 0, translateY: 0, opacity: 0 },
-    };
-
-    var IdleStyle = {
-        buttonRemoveItem: { opacity: 1 },
-        buttonProcessItem: { opacity: 1 },
-        info: { translateX: calculateFileInfoOffset },
-        status: { translateX: calculateFileInfoOffset },
-    };
-
-    var ProcessingStyle = {
-        buttonAbortItemProcessing: { opacity: 1 },
-        processProgressIndicator: { opacity: 1 },
-        status: { opacity: 1 },
-    };
-
-    var StyleMap = {
-        DID_THROW_ITEM_INVALID: {
-            buttonRemoveItem: { opacity: 1 },
-            info: { translateX: calculateFileInfoOffset },
-            status: { translateX: calculateFileInfoOffset, opacity: 1 },
-        },
-
-        DID_START_ITEM_LOAD: {
-            buttonAbortItemLoad: { opacity: 1 },
-            loadProgressIndicator: { opacity: 1 },
-            status: { opacity: 1 },
-        },
-
-        DID_THROW_ITEM_LOAD_ERROR: {
-            buttonRetryItemLoad: { opacity: 1 },
-            buttonRemoveItem: { opacity: 1 },
-            info: { translateX: calculateFileInfoOffset },
-            status: { opacity: 1 },
-        },
-
-        DID_START_ITEM_REMOVE: {
-            processProgressIndicator: { opacity: 1, align: getRemoveIndicatorAligment },
-            info: { translateX: calculateFileInfoOffset },
-            status: { opacity: 0 },
-        },
-
-        DID_THROW_ITEM_REMOVE_ERROR: {
-            processProgressIndicator: { opacity: 0, align: getRemoveIndicatorAligment },
-            buttonRemoveItem: { opacity: 1 },
-            info: { translateX: calculateFileInfoOffset },
-            status: { opacity: 1, translateX: calculateFileInfoOffset },
-        },
-
-        DID_LOAD_ITEM: IdleStyle,
-        DID_LOAD_LOCAL_ITEM: {
-            buttonRemoveItem: { opacity: 1 },
-            info: { translateX: calculateFileInfoOffset },
-            status: { translateX: calculateFileInfoOffset },
-        },
-
-        DID_START_ITEM_PROCESSING: ProcessingStyle,
-        DID_REQUEST_ITEM_PROCESSING: ProcessingStyle,
-        DID_UPDATE_ITEM_PROCESS_PROGRESS: ProcessingStyle,
-        DID_COMPLETE_ITEM_PROCESSING: {
-            buttonRevertItemProcessing: { opacity: 1 },
-            info: { opacity: 1 },
-            status: { opacity: 1 },
-        },
-
-        DID_THROW_ITEM_PROCESSING_ERROR: {
-            buttonRemoveItem: { opacity: 1 },
-            buttonRetryItemProcessing: { opacity: 1 },
-            status: { opacity: 1 },
-            info: { translateX: calculateFileInfoOffset },
-        },
-
-        DID_THROW_ITEM_PROCESSING_REVERT_ERROR: {
-            buttonRevertItemProcessing: { opacity: 1 },
-            status: { opacity: 1 },
-            info: { opacity: 1 },
-        },
-
-        DID_ABORT_ITEM_PROCESSING: {
-            buttonRemoveItem: { opacity: 1 },
-            buttonProcessItem: { opacity: 1 },
-            info: { translateX: calculateFileInfoOffset },
-            status: { opacity: 1 },
-        },
-
-        DID_REVERT_ITEM_PROCESSING: IdleStyle,
-    };
-
-    // complete indicator view
-    var processingCompleteIndicatorView = createView({
-        create: function create(_ref) {
-            var root = _ref.root;
-            root.element.innerHTML = root.query('GET_ICON_DONE');
-        },
-        name: 'processing-complete-indicator',
-        ignoreRect: true,
-        mixins: {
-            styles: ['scaleX', 'scaleY', 'opacity'],
-            animations: {
-                scaleX: 'spring',
-                scaleY: 'spring',
-                opacity: { type: 'tween', duration: 250 },
-            },
-        },
-    });
-
-    /**
-     * Creates the file view
-     */
-    var create$4 = function create(_ref2) {
-        var root = _ref2.root,
-            props = _ref2.props;
-        // copy Buttons object
-        var LocalButtons = Object.keys(Buttons).reduce(function(prev, curr) {
-            prev[curr] = Object.assign({}, Buttons[curr]);
-            return prev;
-        }, {});
-        var id = props.id;
-
-        // allow reverting upload
-        var allowRevert = root.query('GET_ALLOW_REVERT');
-
-        // allow remove file
-        var allowRemove = root.query('GET_ALLOW_REMOVE');
-
-        // allow processing upload
-        var allowProcess = root.query('GET_ALLOW_PROCESS');
-
-        // is instant uploading, need this to determine the icon of the undo button
-        var instantUpload = root.query('GET_INSTANT_UPLOAD');
-
-        // is async set up
-        var isAsync = root.query('IS_ASYNC');
-
-        // should align remove item buttons
-        var alignRemoveItemButton = root.query('GET_STYLE_BUTTON_REMOVE_ITEM_ALIGN');
-
-        // enabled buttons array
-        var buttonFilter;
-        if (isAsync) {
-            if (allowProcess && !allowRevert) {
-                // only remove revert button
-                buttonFilter = function buttonFilter(key) {
-                    return !/RevertItemProcessing/.test(key);
-                };
-            } else if (!allowProcess && allowRevert) {
-                // only remove process button
-                buttonFilter = function buttonFilter(key) {
-                    return !/ProcessItem|RetryItemProcessing|AbortItemProcessing/.test(key);
-                };
-            } else if (!allowProcess && !allowRevert) {
-                // remove all process buttons
-                buttonFilter = function buttonFilter(key) {
-                    return !/Process/.test(key);
-                };
-            }
-        } else {
-            // no process controls available
-            buttonFilter = function buttonFilter(key) {
-                return !/Process/.test(key);
-            };
-        }
-
-        var enabledButtons = buttonFilter ? ButtonKeys.filter(buttonFilter) : ButtonKeys.concat();
-
-        // update icon and label for revert button when instant uploading
-        if (instantUpload && allowRevert) {
-            LocalButtons['RevertItemProcessing'].label = 'GET_LABEL_BUTTON_REMOVE_ITEM';
-            LocalButtons['RevertItemProcessing'].icon = 'GET_ICON_REMOVE';
-        }
-
-        // remove last button (revert) if not allowed
-        if (isAsync && !allowRevert) {
-            var map = StyleMap['DID_COMPLETE_ITEM_PROCESSING'];
-            map.info.translateX = calculateFileHorizontalCenterOffset;
-            map.info.translateY = calculateFileVerticalCenterOffset;
-            map.status.translateY = calculateFileVerticalCenterOffset;
-            map.processingCompleteIndicator = { opacity: 1, scaleX: 1, scaleY: 1 };
-        }
-
-        // should align center
-        if (isAsync && !allowProcess) {
-            [
-                'DID_START_ITEM_PROCESSING',
-                'DID_REQUEST_ITEM_PROCESSING',
-                'DID_UPDATE_ITEM_PROCESS_PROGRESS',
-                'DID_THROW_ITEM_PROCESSING_ERROR',
-            ].forEach(function(key) {
-                StyleMap[key].status.translateY = calculateFileVerticalCenterOffset;
-            });
-            StyleMap['DID_THROW_ITEM_PROCESSING_ERROR'].status.translateX = calculateButtonWidth;
-        }
-
-        // move remove button to right
-        if (alignRemoveItemButton && allowRevert) {
-            LocalButtons['RevertItemProcessing'].align = 'BUTTON_REMOVE_ITEM_POSITION';
-            var _map = StyleMap['DID_COMPLETE_ITEM_PROCESSING'];
-            _map.info.translateX = calculateFileInfoOffset;
-            _map.status.translateY = calculateFileVerticalCenterOffset;
-            _map.processingCompleteIndicator = { opacity: 1, scaleX: 1, scaleY: 1 };
-        }
-
-        // show/hide RemoveItem button
-        if (!allowRemove) {
-            LocalButtons['RemoveItem'].disabled = true;
-        }
-
-        // create the button views
-        forin(LocalButtons, function(key, definition) {
-            // create button
-            var buttonView = root.createChildView(fileActionButton, {
-                label: root.query(definition.label),
-                icon: root.query(definition.icon),
-                opacity: 0,
-            });
-
-            // should be appended?
-            if (enabledButtons.includes(key)) {
-                root.appendChildView(buttonView);
-            }
-
-            // toggle
-            if (definition.disabled) {
-                buttonView.element.setAttribute('disabled', 'disabled');
-                buttonView.element.setAttribute('hidden', 'hidden');
-            }
-
-            // add position attribute
-            buttonView.element.dataset.align = root.query('GET_STYLE_' + definition.align);
-
-            // add class
-            buttonView.element.classList.add(definition.className);
-
-            // handle interactions
-            buttonView.on('click', function(e) {
-                e.stopPropagation();
-                if (definition.disabled) return;
-                root.dispatch(definition.action, { query: id });
-            });
-
-            // set reference
-            root.ref['button' + key] = buttonView;
-        });
-
-        // checkmark
-        root.ref.processingCompleteIndicator = root.appendChildView(
-            root.createChildView(processingCompleteIndicatorView)
-        );
-
-        root.ref.processingCompleteIndicator.element.dataset.align = root.query(
-            'GET_STYLE_BUTTON_PROCESS_ITEM_POSITION'
-        );
-
-        // create file info view
-        root.ref.info = root.appendChildView(root.createChildView(fileInfo, { id: id }));
-
-        // create file status view
-        root.ref.status = root.appendChildView(root.createChildView(fileStatus, { id: id }));
-
-        // add progress indicators
-        var loadIndicatorView = root.appendChildView(
-            root.createChildView(progressIndicator, {
-                opacity: 0,
-                align: root.query('GET_STYLE_LOAD_INDICATOR_POSITION'),
-            })
-        );
-
-        loadIndicatorView.element.classList.add('filepond--load-indicator');
-        root.ref.loadProgressIndicator = loadIndicatorView;
-
-        var progressIndicatorView = root.appendChildView(
-            root.createChildView(progressIndicator, {
-                opacity: 0,
-                align: root.query('GET_STYLE_PROGRESS_INDICATOR_POSITION'),
-            })
-        );
-
-        progressIndicatorView.element.classList.add('filepond--process-indicator');
-        root.ref.processProgressIndicator = progressIndicatorView;
-
-        // current active styles
-        root.ref.activeStyles = [];
-    };
-
-    var write$2 = function write(_ref3) {
-        var root = _ref3.root,
-            actions = _ref3.actions,
-            props = _ref3.props;
-        // route actions
-        route({ root: root, actions: actions, props: props });
-
-        // select last state change action
-        var action = actions
-            .concat()
-            .filter(function(action) {
-                return /^DID_/.test(action.type);
-            })
-            .reverse()
-            .find(function(action) {
-                return StyleMap[action.type];
-            });
-
-        // a new action happened, let's get the matching styles
-        if (action) {
-            // define new active styles
-            root.ref.activeStyles = [];
-
-            var stylesToApply = StyleMap[action.type];
-            forin(DefaultStyle, function(name, defaultStyles) {
-                // get reference to control
-                var control = root.ref[name];
-
-                // loop over all styles for this control
-                forin(defaultStyles, function(key, defaultValue) {
-                    var value =
-                        stylesToApply[name] && typeof stylesToApply[name][key] !== 'undefined'
-                            ? stylesToApply[name][key]
-                            : defaultValue;
-                    root.ref.activeStyles.push({ control: control, key: key, value: value });
-                });
-            });
-        }
-
-        // apply active styles to element
-        root.ref.activeStyles.forEach(function(_ref4) {
-            var control = _ref4.control,
-                key = _ref4.key,
-                value = _ref4.value;
-            control[key] = typeof value === 'function' ? value(root) : value;
-        });
-    };
-
-    var route = createRoute({
-        DID_SET_LABEL_BUTTON_ABORT_ITEM_PROCESSING: function DID_SET_LABEL_BUTTON_ABORT_ITEM_PROCESSING(
-            _ref5
-        ) {
-            var root = _ref5.root,
-                action = _ref5.action;
-            root.ref.buttonAbortItemProcessing.label = action.value;
-        },
-        DID_SET_LABEL_BUTTON_ABORT_ITEM_LOAD: function DID_SET_LABEL_BUTTON_ABORT_ITEM_LOAD(_ref6) {
-            var root = _ref6.root,
-                action = _ref6.action;
-            root.ref.buttonAbortItemLoad.label = action.value;
-        },
-        DID_SET_LABEL_BUTTON_ABORT_ITEM_REMOVAL: function DID_SET_LABEL_BUTTON_ABORT_ITEM_REMOVAL(
-            _ref7
-        ) {
-            var root = _ref7.root,
-                action = _ref7.action;
-            root.ref.buttonAbortItemRemoval.label = action.value;
-        },
-        DID_REQUEST_ITEM_PROCESSING: function DID_REQUEST_ITEM_PROCESSING(_ref8) {
-            var root = _ref8.root;
-            root.ref.processProgressIndicator.spin = true;
-            root.ref.processProgressIndicator.progress = 0;
-        },
-        DID_START_ITEM_LOAD: function DID_START_ITEM_LOAD(_ref9) {
-            var root = _ref9.root;
-            root.ref.loadProgressIndicator.spin = true;
-            root.ref.loadProgressIndicator.progress = 0;
-        },
-        DID_START_ITEM_REMOVE: function DID_START_ITEM_REMOVE(_ref10) {
-            var root = _ref10.root;
-            root.ref.processProgressIndicator.spin = true;
-            root.ref.processProgressIndicator.progress = 0;
-        },
-        DID_UPDATE_ITEM_LOAD_PROGRESS: function DID_UPDATE_ITEM_LOAD_PROGRESS(_ref11) {
-            var root = _ref11.root,
-                action = _ref11.action;
-            root.ref.loadProgressIndicator.spin = false;
-            root.ref.loadProgressIndicator.progress = action.progress;
-        },
-        DID_UPDATE_ITEM_PROCESS_PROGRESS: function DID_UPDATE_ITEM_PROCESS_PROGRESS(_ref12) {
-            var root = _ref12.root,
-                action = _ref12.action;
-            root.ref.processProgressIndicator.spin = false;
-            root.ref.processProgressIndicator.progress = action.progress;
-        },
-    });
-
-    var file = createView({
-        create: create$4,
-        write: write$2,
-        didCreateView: function didCreateView(root) {
-            applyFilters('CREATE_VIEW', Object.assign({}, root, { view: root }));
-        },
-        name: 'file',
-    });
-
-    /**
-     * Creates the file view
-     */
-    var create$5 = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-
-        // filename
-        root.ref.fileName = createElement$1('legend');
-        root.appendChild(root.ref.fileName);
-
-        // file appended
-        root.ref.file = root.appendChildView(root.createChildView(file, { id: props.id }));
-
-        // data has moved to data.js
-        root.ref.data = false;
-    };
-
-    /**
-     * Data storage
-     */
-    var didLoadItem = function didLoadItem(_ref2) {
-        var root = _ref2.root,
-            props = _ref2.props;
-        // updates the legend of the fieldset so screenreaders can better group buttons
-        text(root.ref.fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
-    };
-
-    var fileWrapper = createView({
-        create: create$5,
-        ignoreRect: true,
-        write: createRoute({
-            DID_LOAD_ITEM: didLoadItem,
-        }),
-
-        didCreateView: function didCreateView(root) {
-            applyFilters('CREATE_VIEW', Object.assign({}, root, { view: root }));
-        },
-        tag: 'fieldset',
-        name: 'file-wrapper',
-    });
-
-    var PANEL_SPRING_PROPS = { type: 'spring', damping: 0.6, mass: 7 };
-
-    var create$6 = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-        [
-            {
-                name: 'top',
-            },
-
-            {
-                name: 'center',
-                props: {
-                    translateY: null,
-                    scaleY: null,
-                },
-
-                mixins: {
-                    animations: {
-                        scaleY: PANEL_SPRING_PROPS,
-                    },
-
-                    styles: ['translateY', 'scaleY'],
-                },
-            },
-
-            {
-                name: 'bottom',
-                props: {
-                    translateY: null,
-                },
-
-                mixins: {
-                    animations: {
-                        translateY: PANEL_SPRING_PROPS,
-                    },
-
-                    styles: ['translateY'],
-                },
-            },
-        ].forEach(function(section) {
-            createSection(root, section, props.name);
-        });
-
-        root.element.classList.add('filepond--' + props.name);
-
-        root.ref.scalable = null;
-    };
-
-    var createSection = function createSection(root, section, className) {
-        var viewConstructor = createView({
-            name: 'panel-' + section.name + ' filepond--' + className,
-            mixins: section.mixins,
-            ignoreRectUpdate: true,
-        });
-
-        var view = root.createChildView(viewConstructor, section.props);
-
-        root.ref[section.name] = root.appendChildView(view);
-    };
-
-    var write$3 = function write(_ref2) {
-        var root = _ref2.root,
-            props = _ref2.props;
-
-        // update scalable state
-        if (root.ref.scalable === null || props.scalable !== root.ref.scalable) {
-            root.ref.scalable = isBoolean(props.scalable) ? props.scalable : true;
-            root.element.dataset.scalable = root.ref.scalable;
-        }
-
-        // no height, can't set
-        if (!props.height) return;
-
-        // get child rects
-        var topRect = root.ref.top.rect.element;
-        var bottomRect = root.ref.bottom.rect.element;
-
-        // make sure height never is smaller than bottom and top seciton heights combined (will probably never happen, but who knows)
-        var height = Math.max(topRect.height + bottomRect.height, props.height);
-
-        // offset center part
-        root.ref.center.translateY = topRect.height;
-
-        // scale center part
-        // use math ceil to prevent transparent lines because of rounding errors
-        root.ref.center.scaleY = (height - topRect.height - bottomRect.height) / 100;
-
-        // offset bottom part
-        root.ref.bottom.translateY = height - bottomRect.height;
-    };
-
-    var panel = createView({
-        name: 'panel',
-        read: function read(_ref3) {
-            var root = _ref3.root,
-                props = _ref3.props;
-            return (props.heightCurrent = root.ref.bottom.translateY);
-        },
-        write: write$3,
-        create: create$6,
-        ignoreRect: true,
-        mixins: {
-            apis: ['height', 'heightCurrent', 'scalable'],
-        },
-    });
-
-    var createDragHelper = function createDragHelper(items) {
-        var itemIds = items.map(function(item) {
-            return item.id;
-        });
-        var prevIndex = undefined;
-        return {
-            setIndex: function setIndex(index) {
-                prevIndex = index;
-            },
-            getIndex: function getIndex() {
-                return prevIndex;
-            },
-            getItemIndex: function getItemIndex(item) {
-                return itemIds.indexOf(item.id);
-            },
-        };
-    };
-
-    var ITEM_TRANSLATE_SPRING = {
-        type: 'spring',
-        stiffness: 0.75,
-        damping: 0.45,
-        mass: 10,
-    };
-
-    var ITEM_SCALE_SPRING = 'spring';
-
-    var StateMap = {
-        DID_START_ITEM_LOAD: 'busy',
-        DID_UPDATE_ITEM_LOAD_PROGRESS: 'loading',
-        DID_THROW_ITEM_INVALID: 'load-invalid',
-        DID_THROW_ITEM_LOAD_ERROR: 'load-error',
-        DID_LOAD_ITEM: 'idle',
-        DID_THROW_ITEM_REMOVE_ERROR: 'remove-error',
-        DID_START_ITEM_REMOVE: 'busy',
-        DID_START_ITEM_PROCESSING: 'busy processing',
-        DID_REQUEST_ITEM_PROCESSING: 'busy processing',
-        DID_UPDATE_ITEM_PROCESS_PROGRESS: 'processing',
-        DID_COMPLETE_ITEM_PROCESSING: 'processing-complete',
-        DID_THROW_ITEM_PROCESSING_ERROR: 'processing-error',
-        DID_THROW_ITEM_PROCESSING_REVERT_ERROR: 'processing-revert-error',
-        DID_ABORT_ITEM_PROCESSING: 'cancelled',
-        DID_REVERT_ITEM_PROCESSING: 'idle',
-    };
-
-    /**
-     * Creates the file view
-     */
-    var create$7 = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-
-        // select
-        root.ref.handleClick = function(e) {
-            return root.dispatch('DID_ACTIVATE_ITEM', { id: props.id });
-        };
-
-        // set id
-        root.element.id = 'filepond--item-' + props.id;
-        root.element.addEventListener('click', root.ref.handleClick);
-
-        // file view
-        root.ref.container = root.appendChildView(
-            root.createChildView(fileWrapper, { id: props.id })
-        );
-
-        // file panel
-        root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'item-panel' }));
-
-        // default start height
-        root.ref.panel.height = null;
-
-        // by default not marked for removal
-        props.markedForRemoval = false;
-
-        // if not allowed to reorder file items, exit here
-        if (!root.query('GET_ALLOW_REORDER')) return;
-
-        // set to idle so shows grab cursor
-        root.element.dataset.dragState = 'idle';
-
-        var grab = function grab(e) {
-            if (!e.isPrimary) return;
-
-            var removedActivateListener = false;
-
-            var origin = {
-                x: e.pageX,
-                y: e.pageY,
-            };
-
-            props.dragOrigin = {
-                x: root.translateX,
-                y: root.translateY,
-            };
-
-            props.dragCenter = {
-                x: e.offsetX,
-                y: e.offsetY,
-            };
-
-            var dragState = createDragHelper(root.query('GET_ACTIVE_ITEMS'));
-
-            root.dispatch('DID_GRAB_ITEM', { id: props.id, dragState: dragState });
-
-            var drag = function drag(e) {
-                if (!e.isPrimary) return;
-
-                e.stopPropagation();
-                e.preventDefault();
-
-                props.dragOffset = {
-                    x: e.pageX - origin.x,
-                    y: e.pageY - origin.y,
-                };
-
-                // if dragged stop listening to clicks, will re-add when done dragging
-                var dist =
-                    props.dragOffset.x * props.dragOffset.x +
-                    props.dragOffset.y * props.dragOffset.y;
-                if (dist > 16 && !removedActivateListener) {
-                    removedActivateListener = true;
-                    root.element.removeEventListener('click', root.ref.handleClick);
-                }
-
-                root.dispatch('DID_DRAG_ITEM', { id: props.id, dragState: dragState });
-            };
-
-            var drop = function drop(e) {
-                if (!e.isPrimary) return;
-
-                document.removeEventListener('pointermove', drag);
-                document.removeEventListener('pointerup', drop);
-
-                props.dragOffset = {
-                    x: e.pageX - origin.x,
-                    y: e.pageY - origin.y,
-                };
-
-                root.dispatch('DID_DROP_ITEM', { id: props.id, dragState: dragState });
-
-                // start listening to clicks again
-                if (removedActivateListener) {
-                    setTimeout(function() {
-                        return root.element.addEventListener('click', root.ref.handleClick);
-                    }, 0);
-                }
-            };
-
-            document.addEventListener('pointermove', drag);
-            document.addEventListener('pointerup', drop);
-        };
-
-        root.element.addEventListener('pointerdown', grab);
-    };
-
-    var route$1 = createRoute({
-        DID_UPDATE_PANEL_HEIGHT: function DID_UPDATE_PANEL_HEIGHT(_ref2) {
-            var root = _ref2.root,
-                action = _ref2.action;
-            root.height = action.height;
-        },
-    });
-
-    var write$4 = createRoute(
-        {
-            DID_GRAB_ITEM: function DID_GRAB_ITEM(_ref3) {
-                var root = _ref3.root,
-                    props = _ref3.props;
-                props.dragOrigin = {
-                    x: root.translateX,
-                    y: root.translateY,
-                };
-            },
-            DID_DRAG_ITEM: function DID_DRAG_ITEM(_ref4) {
-                var root = _ref4.root;
-                root.element.dataset.dragState = 'drag';
-            },
-            DID_DROP_ITEM: function DID_DROP_ITEM(_ref5) {
-                var root = _ref5.root,
-                    props = _ref5.props;
-                props.dragOffset = null;
-                props.dragOrigin = null;
-                root.element.dataset.dragState = 'drop';
-            },
-        },
-        function(_ref6) {
-            var root = _ref6.root,
-                actions = _ref6.actions,
-                props = _ref6.props,
-                shouldOptimize = _ref6.shouldOptimize;
-
-            if (root.element.dataset.dragState === 'drop') {
-                if (root.scaleX <= 1) {
-                    root.element.dataset.dragState = 'idle';
-                }
-            }
-
-            // select last state change action
-            var action = actions
-                .concat()
-                .filter(function(action) {
-                    return /^DID_/.test(action.type);
-                })
-                .reverse()
-                .find(function(action) {
-                    return StateMap[action.type];
-                });
-
-            // no need to set same state twice
-            if (action && action.type !== props.currentState) {
-                // set current state
-                props.currentState = action.type;
-
-                // set state
-                root.element.dataset.filepondItemState = StateMap[props.currentState] || '';
-            }
-
-            // route actions
-            var aspectRatio =
-                root.query('GET_ITEM_PANEL_ASPECT_RATIO') || root.query('GET_PANEL_ASPECT_RATIO');
-            if (!aspectRatio) {
-                route$1({ root: root, actions: actions, props: props });
-                if (!root.height && root.ref.container.rect.element.height > 0) {
-                    root.height = root.ref.container.rect.element.height;
-                }
-            } else if (!shouldOptimize) {
-                root.height = root.rect.element.width * aspectRatio;
-            }
-
-            // sync panel height with item height
-            if (shouldOptimize) {
-                root.ref.panel.height = null;
-            }
-
-            root.ref.panel.height = root.height;
-        }
-    );
-
-    var item = createView({
-        create: create$7,
-        write: write$4,
-        destroy: function destroy(_ref7) {
-            var root = _ref7.root,
-                props = _ref7.props;
-            root.element.removeEventListener('click', root.ref.handleClick);
-            root.dispatch('RELEASE_ITEM', { query: props.id });
-        },
-        tag: 'li',
-        name: 'item',
-        mixins: {
-            apis: [
-                'id',
-                'interactionMethod',
-                'markedForRemoval',
-                'spawnDate',
-                'dragCenter',
-                'dragOrigin',
-                'dragOffset',
-            ],
-            styles: ['translateX', 'translateY', 'scaleX', 'scaleY', 'opacity', 'height'],
-
-            animations: {
-                scaleX: ITEM_SCALE_SPRING,
-                scaleY: ITEM_SCALE_SPRING,
-                translateX: ITEM_TRANSLATE_SPRING,
-                translateY: ITEM_TRANSLATE_SPRING,
-                opacity: { type: 'tween', duration: 150 },
-            },
-        },
-    });
-
-    var getItemsPerRow = function(horizontalSpace, itemWidth) {
-        // add one pixel leeway, when using percentages for item width total items can be 1.99 per row
-
-        return Math.max(1, Math.floor((horizontalSpace + 1) / itemWidth));
-    };
-
-    var getItemIndexByPosition = function getItemIndexByPosition(view, children, positionInView) {
-        if (!positionInView) return;
-
-        var horizontalSpace = view.rect.element.width;
-        // const children = view.childViews;
-        var l = children.length;
-        var last = null;
-
-        // -1, don't move items to accomodate (either add to top or bottom)
-        if (l === 0 || positionInView.top < children[0].rect.element.top) return -1;
-
-        // let's get the item width
-        var item = children[0];
-        var itemRect = item.rect.element;
-        var itemHorizontalMargin = itemRect.marginLeft + itemRect.marginRight;
-        var itemWidth = itemRect.width + itemHorizontalMargin;
-        var itemsPerRow = getItemsPerRow(horizontalSpace, itemWidth);
-
-        // stack
-        if (itemsPerRow === 1) {
-            for (var index = 0; index < l; index++) {
-                var child = children[index];
-                var childMid = child.rect.outer.top + child.rect.element.height * 0.5;
-                if (positionInView.top < childMid) {
-                    return index;
-                }
-            }
-            return l;
-        }
-
-        // grid
-        var itemVerticalMargin = itemRect.marginTop + itemRect.marginBottom;
-        var itemHeight = itemRect.height + itemVerticalMargin;
-        for (var _index = 0; _index < l; _index++) {
-            var indexX = _index % itemsPerRow;
-            var indexY = Math.floor(_index / itemsPerRow);
-
-            var offsetX = indexX * itemWidth;
-            var offsetY = indexY * itemHeight;
-
-            var itemTop = offsetY - itemRect.marginTop;
-            var itemRight = offsetX + itemWidth;
-            var itemBottom = offsetY + itemHeight + itemRect.marginBottom;
-
-            if (positionInView.top < itemBottom && positionInView.top > itemTop) {
-                if (positionInView.left < itemRight) {
-                    return _index;
-                } else if (_index !== l - 1) {
-                    last = _index;
-                } else {
-                    last = null;
-                }
-            }
-        }
-
-        if (last !== null) {
-            return last;
-        }
-
-        return l;
-    };
-
-    var dropAreaDimensions = {
-        height: 0,
-        width: 0,
-        get getHeight() {
-            return this.height;
-        },
-        set setHeight(val) {
-            if (this.height === 0 || val === 0) this.height = val;
-        },
-        get getWidth() {
-            return this.width;
-        },
-        set setWidth(val) {
-            if (this.width === 0 || val === 0) this.width = val;
-        },
-        setDimensions: function setDimensions(height, width) {
-            if (this.height === 0 || height === 0) this.height = height;
-            if (this.width === 0 || width === 0) this.width = width;
-        },
-    };
-
-    var create$8 = function create(_ref) {
-        var root = _ref.root;
-        // need to set role to list as otherwise it won't be read as a list by VoiceOver
-        attr(root.element, 'role', 'list');
-
-        root.ref.lastItemSpanwDate = Date.now();
-    };
-
-    /**
-     * Inserts a new item
-     * @param root
-     * @param action
-     */
-    var addItemView = function addItemView(_ref2) {
-        var root = _ref2.root,
-            action = _ref2.action;
-        var id = action.id,
-            index = action.index,
-            interactionMethod = action.interactionMethod;
-
-        root.ref.addIndex = index;
-
-        var now = Date.now();
-        var spawnDate = now;
-        var opacity = 1;
-
-        if (interactionMethod !== InteractionMethod.NONE) {
-            opacity = 0;
-            var cooldown = root.query('GET_ITEM_INSERT_INTERVAL');
-            var dist = now - root.ref.lastItemSpanwDate;
-            spawnDate = dist < cooldown ? now + (cooldown - dist) : now;
-        }
-
-        root.ref.lastItemSpanwDate = spawnDate;
-
-        root.appendChildView(
-            root.createChildView(
-                // view type
-                item,
-
-                // props
-                {
-                    spawnDate: spawnDate,
-                    id: id,
-                    opacity: opacity,
-                    interactionMethod: interactionMethod,
-                }
-            ),
-
-            index
-        );
-    };
-
-    var moveItem = function moveItem(item, x, y) {
-        var vx = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-        var vy = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-        // set to null to remove animation while dragging
-        if (item.dragOffset) {
-            item.translateX = null;
-            item.translateY = null;
-            item.translateX = item.dragOrigin.x + item.dragOffset.x;
-            item.translateY = item.dragOrigin.y + item.dragOffset.y;
-            item.scaleX = 1.025;
-            item.scaleY = 1.025;
-        } else {
-            item.translateX = x;
-            item.translateY = y;
-
-            if (Date.now() > item.spawnDate) {
-                // reveal element
-                if (item.opacity === 0) {
-                    introItemView(item, x, y, vx, vy);
-                }
-
-                // make sure is default scale every frame
-                item.scaleX = 1;
-                item.scaleY = 1;
-                item.opacity = 1;
-            }
-        }
-    };
-
-    var introItemView = function introItemView(item, x, y, vx, vy) {
-        if (item.interactionMethod === InteractionMethod.NONE) {
-            item.translateX = null;
-            item.translateX = x;
-            item.translateY = null;
-            item.translateY = y;
-        } else if (item.interactionMethod === InteractionMethod.DROP) {
-            item.translateX = null;
-            item.translateX = x - vx * 20;
-
-            item.translateY = null;
-            item.translateY = y - vy * 10;
-
-            item.scaleX = 0.8;
-            item.scaleY = 0.8;
-        } else if (item.interactionMethod === InteractionMethod.BROWSE) {
-            item.translateY = null;
-            item.translateY = y - 30;
-        } else if (item.interactionMethod === InteractionMethod.API) {
-            item.translateX = null;
-            item.translateX = x - 30;
-            item.translateY = null;
-        }
-    };
-
-    /**
-     * Removes an existing item
-     * @param root
-     * @param action
-     */
-    var removeItemView = function removeItemView(_ref3) {
-        var root = _ref3.root,
-            action = _ref3.action;
-        var id = action.id;
-
-        // get the view matching the given id
-        var view = root.childViews.find(function(child) {
-            return child.id === id;
-        });
-
-        // if no view found, exit
-        if (!view) {
-            return;
-        }
-
-        // animate view out of view
-        view.scaleX = 0.9;
-        view.scaleY = 0.9;
-        view.opacity = 0;
-
-        // mark for removal
-        view.markedForRemoval = true;
-    };
-
-    var getItemHeight = function getItemHeight(child) {
-        return (
-            child.rect.element.height +
-            child.rect.element.marginBottom * 0.5 +
-            child.rect.element.marginTop * 0.5
-        );
-    };
-    var getItemWidth = function getItemWidth(child) {
-        return (
-            child.rect.element.width +
-            child.rect.element.marginLeft * 0.5 +
-            child.rect.element.marginRight * 0.5
-        );
-    };
-
-    var dragItem = function dragItem(_ref4) {
-        var root = _ref4.root,
-            action = _ref4.action;
-        var id = action.id,
-            dragState = action.dragState;
-
-        // reference to item
-        var item = root.query('GET_ITEM', { id: id });
-
-        // get the view matching the given id
-        var view = root.childViews.find(function(child) {
-            return child.id === id;
-        });
-
-        var numItems = root.childViews.length;
-        var oldIndex = dragState.getItemIndex(item);
-
-        // if no view found, exit
-        if (!view) return;
-
-        var dragPosition = {
-            x: view.dragOrigin.x + view.dragOffset.x + view.dragCenter.x,
-            y: view.dragOrigin.y + view.dragOffset.y + view.dragCenter.y,
-        };
-
-        // get drag area dimensions
-        var dragHeight = getItemHeight(view);
-        var dragWidth = getItemWidth(view);
-
-        // get rows and columns (There will always be at least one row and one column if a file is present)
-        var cols = Math.floor(root.rect.outer.width / dragWidth);
-        if (cols > numItems) cols = numItems;
-
-        // rows are used to find when we have left the preview area bounding box
-        var rows = Math.floor(numItems / cols + 1);
-
-        dropAreaDimensions.setHeight = dragHeight * rows;
-        dropAreaDimensions.setWidth = dragWidth * cols;
-
-        // get new index of dragged item
-        var location = {
-            y: Math.floor(dragPosition.y / dragHeight),
-            x: Math.floor(dragPosition.x / dragWidth),
-            getGridIndex: function getGridIndex() {
-                if (
-                    dragPosition.y > dropAreaDimensions.getHeight ||
-                    dragPosition.y < 0 ||
-                    dragPosition.x > dropAreaDimensions.getWidth ||
-                    dragPosition.x < 0
-                )
-                    return oldIndex;
-                return this.y * cols + this.x;
-            },
-            getColIndex: function getColIndex() {
-                var items = root.query('GET_ACTIVE_ITEMS');
-                var visibleChildren = root.childViews.filter(function(child) {
-                    return child.rect.element.height;
-                });
-                var children = items.map(function(item) {
-                    return visibleChildren.find(function(childView) {
-                        return childView.id === item.id;
-                    });
-                });
-
-                var currentIndex = children.findIndex(function(child) {
-                    return child === view;
-                });
-                var dragHeight = getItemHeight(view);
-                var l = children.length;
-                var idx = l;
-                var childHeight = 0;
-                var childBottom = 0;
-                var childTop = 0;
-                for (var i = 0; i < l; i++) {
-                    childHeight = getItemHeight(children[i]);
-                    childTop = childBottom;
-                    childBottom = childTop + childHeight;
-                    if (dragPosition.y < childBottom) {
-                        if (currentIndex > i) {
-                            if (dragPosition.y < childTop + dragHeight) {
-                                idx = i;
-                                break;
-                            }
-                            continue;
-                        }
-                        idx = i;
-                        break;
-                    }
-                }
-                return idx;
-            },
-        };
-
-        // get new index
-        var index = cols > 1 ? location.getGridIndex() : location.getColIndex();
-        root.dispatch('MOVE_ITEM', { query: view, index: index });
-
-        // if the index of the item changed, dispatch reorder action
-        var currentIndex = dragState.getIndex();
-
-        if (currentIndex === undefined || currentIndex !== index) {
-            dragState.setIndex(index);
-
-            if (currentIndex === undefined) return;
-
-            root.dispatch('DID_REORDER_ITEMS', {
-                items: root.query('GET_ACTIVE_ITEMS'),
-                origin: oldIndex,
-                target: index,
-            });
-        }
-    };
-
-    /**
-     * Setup action routes
-     */
-    var route$2 = createRoute({
-        DID_ADD_ITEM: addItemView,
-        DID_REMOVE_ITEM: removeItemView,
-        DID_DRAG_ITEM: dragItem,
-    });
-
-    /**
-     * Write to view
-     * @param root
-     * @param actions
-     * @param props
-     */
-    var write$5 = function write(_ref5) {
-        var root = _ref5.root,
-            props = _ref5.props,
-            actions = _ref5.actions,
-            shouldOptimize = _ref5.shouldOptimize;
-        // route actions
-        route$2({ root: root, props: props, actions: actions });
-        var dragCoordinates = props.dragCoordinates;
-
-        // available space on horizontal axis
-        var horizontalSpace = root.rect.element.width;
-
-        // only draw children that have dimensions
-        var visibleChildren = root.childViews.filter(function(child) {
-            return child.rect.element.height;
-        });
-
-        // sort based on current active items
-        var children = root
-            .query('GET_ACTIVE_ITEMS')
-            .map(function(item) {
-                return visibleChildren.find(function(child) {
-                    return child.id === item.id;
-                });
-            })
-            .filter(function(item) {
-                return item;
-            });
-
-        // get index
-        var dragIndex = dragCoordinates
-            ? getItemIndexByPosition(root, children, dragCoordinates)
-            : null;
-
-        // add index is used to reserve the dropped/added item index till the actual item is rendered
-        var addIndex = root.ref.addIndex || null;
-
-        // add index no longer needed till possibly next draw
-        root.ref.addIndex = null;
-
-        var dragIndexOffset = 0;
-        var removeIndexOffset = 0;
-        var addIndexOffset = 0;
-
-        if (children.length === 0) return;
-
-        var childRect = children[0].rect.element;
-        var itemVerticalMargin = childRect.marginTop + childRect.marginBottom;
-        var itemHorizontalMargin = childRect.marginLeft + childRect.marginRight;
-        var itemWidth = childRect.width + itemHorizontalMargin;
-        var itemHeight = childRect.height + itemVerticalMargin;
-        var itemsPerRow = getItemsPerRow(horizontalSpace, itemWidth);
-
-        // stack
-        if (itemsPerRow === 1) {
-            var offsetY = 0;
-            var dragOffset = 0;
-
-            children.forEach(function(child, index) {
-                if (dragIndex) {
-                    var dist = index - dragIndex;
-                    if (dist === -2) {
-                        dragOffset = -itemVerticalMargin * 0.25;
-                    } else if (dist === -1) {
-                        dragOffset = -itemVerticalMargin * 0.75;
-                    } else if (dist === 0) {
-                        dragOffset = itemVerticalMargin * 0.75;
-                    } else if (dist === 1) {
-                        dragOffset = itemVerticalMargin * 0.25;
-                    } else {
-                        dragOffset = 0;
-                    }
-                }
-
-                if (shouldOptimize) {
-                    child.translateX = null;
-                    child.translateY = null;
-                }
-
-                if (!child.markedForRemoval) {
-                    moveItem(child, 0, offsetY + dragOffset);
-                }
-
-                var itemHeight = child.rect.element.height + itemVerticalMargin;
-
-                var visualHeight = itemHeight * (child.markedForRemoval ? child.opacity : 1);
-
-                offsetY += visualHeight;
-            });
-        }
-        // grid
-        else {
-            var prevX = 0;
-            var prevY = 0;
-
-            children.forEach(function(child, index) {
-                if (index === dragIndex) {
-                    dragIndexOffset = 1;
-                }
-
-                if (index === addIndex) {
-                    addIndexOffset += 1;
-                }
-
-                if (child.markedForRemoval && child.opacity < 0.5) {
-                    removeIndexOffset -= 1;
-                }
-
-                var visualIndex = index + addIndexOffset + dragIndexOffset + removeIndexOffset;
-
-                var indexX = visualIndex % itemsPerRow;
-                var indexY = Math.floor(visualIndex / itemsPerRow);
-
-                var offsetX = indexX * itemWidth;
-                var offsetY = indexY * itemHeight;
-
-                var vectorX = Math.sign(offsetX - prevX);
-                var vectorY = Math.sign(offsetY - prevY);
-
-                prevX = offsetX;
-                prevY = offsetY;
-
-                if (child.markedForRemoval) return;
-
-                if (shouldOptimize) {
-                    child.translateX = null;
-                    child.translateY = null;
-                }
-
-                moveItem(child, offsetX, offsetY, vectorX, vectorY);
-            });
-        }
-    };
-
-    /**
-     * Filters actions that are meant specifically for a certain child of the list
-     * @param child
-     * @param actions
-     */
-    var filterSetItemActions = function filterSetItemActions(child, actions) {
-        return actions.filter(function(action) {
-            // if action has an id, filter out actions that don't have this child id
-            if (action.data && action.data.id) {
-                return child.id === action.data.id;
-            }
-
-            // allow all other actions
-            return true;
-        });
-    };
-
-    var list = createView({
-        create: create$8,
-        write: write$5,
-        tag: 'ul',
-        name: 'list',
-        didWriteView: function didWriteView(_ref6) {
-            var root = _ref6.root;
-            root.childViews
-                .filter(function(view) {
-                    return view.markedForRemoval && view.opacity === 0 && view.resting;
-                })
-                .forEach(function(view) {
-                    view._destroy();
-                    root.removeChildView(view);
-                });
-        },
-        filterFrameActionsForChild: filterSetItemActions,
-        mixins: {
-            apis: ['dragCoordinates'],
-        },
-    });
-
-    var create$9 = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-        root.ref.list = root.appendChildView(root.createChildView(list));
-        props.dragCoordinates = null;
-        props.overflowing = false;
-    };
-
-    var storeDragCoordinates = function storeDragCoordinates(_ref2) {
-        var root = _ref2.root,
-            props = _ref2.props,
-            action = _ref2.action;
-        if (!root.query('GET_ITEM_INSERT_LOCATION_FREEDOM')) return;
-        props.dragCoordinates = {
-            left: action.position.scopeLeft - root.ref.list.rect.element.left,
-            top:
-                action.position.scopeTop -
-                (root.rect.outer.top + root.rect.element.marginTop + root.rect.element.scrollTop),
-        };
-    };
-
-    var clearDragCoordinates = function clearDragCoordinates(_ref3) {
-        var props = _ref3.props;
-        props.dragCoordinates = null;
-    };
-
-    var route$3 = createRoute({
-        DID_DRAG: storeDragCoordinates,
-        DID_END_DRAG: clearDragCoordinates,
-    });
-
-    var write$6 = function write(_ref4) {
-        var root = _ref4.root,
-            props = _ref4.props,
-            actions = _ref4.actions;
-
-        // route actions
-        route$3({ root: root, props: props, actions: actions });
-
-        // current drag position
-        root.ref.list.dragCoordinates = props.dragCoordinates;
-
-        // if currently overflowing but no longer received overflow
-        if (props.overflowing && !props.overflow) {
-            props.overflowing = false;
-
-            // reset overflow state
-            root.element.dataset.state = '';
-            root.height = null;
-        }
-
-        // if is not overflowing currently but does receive overflow value
-        if (props.overflow) {
-            var newHeight = Math.round(props.overflow);
-            if (newHeight !== root.height) {
-                props.overflowing = true;
-                root.element.dataset.state = 'overflow';
-                root.height = newHeight;
-            }
-        }
-    };
-
-    var listScroller = createView({
-        create: create$9,
-        write: write$6,
-        name: 'list-scroller',
-        mixins: {
-            apis: ['overflow', 'dragCoordinates'],
-            styles: ['height', 'translateY'],
-            animations: {
-                translateY: 'spring',
-            },
-        },
-    });
-
-    var attrToggle = function attrToggle(element, name, state) {
-        var enabledValue = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-        if (state) {
-            attr(element, name, enabledValue);
-        } else {
-            element.removeAttribute(name);
-        }
-    };
-
-    var resetFileInput = function resetFileInput(input) {
-        // no value, no need to reset
-        if (!input || input.value === '') {
-            return;
-        }
-
-        try {
-            // for modern browsers
-            input.value = '';
-        } catch (err) {}
-
-        // for IE10
-        if (input.value) {
-            // quickly append input to temp form and reset form
-            var form = createElement$1('form');
-            var parentNode = input.parentNode;
-            var ref = input.nextSibling;
-            form.appendChild(input);
-            form.reset();
-
-            // re-inject input where it originally was
-            if (ref) {
-                parentNode.insertBefore(input, ref);
-            } else {
-                parentNode.appendChild(input);
-            }
-        }
-    };
-
-    var create$a = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-
-        // set id so can be referenced from outside labels
-        root.element.id = 'filepond--browser-' + props.id;
-
-        // set name of element (is removed when a value is set)
-        attr(root.element, 'name', root.query('GET_NAME'));
-
-        // we have to link this element to the status element
-        attr(root.element, 'aria-controls', 'filepond--assistant-' + props.id);
-
-        // set label, we use labelled by as otherwise the screenreader does not read the "browse" text in the label (as it has tabindex: 0)
-        attr(root.element, 'aria-labelledby', 'filepond--drop-label-' + props.id);
-
-        // set configurable props
-        setAcceptedFileTypes({
-            root: root,
-            action: { value: root.query('GET_ACCEPTED_FILE_TYPES') },
-        });
-        toggleAllowMultiple({ root: root, action: { value: root.query('GET_ALLOW_MULTIPLE') } });
-        toggleDirectoryFilter({
-            root: root,
-            action: { value: root.query('GET_ALLOW_DIRECTORIES_ONLY') },
-        });
-        toggleDisabled({ root: root });
-        toggleRequired({ root: root, action: { value: root.query('GET_REQUIRED') } });
-        setCaptureMethod({ root: root, action: { value: root.query('GET_CAPTURE_METHOD') } });
-
-        // handle changes to the input field
-        root.ref.handleChange = function(e) {
-            if (!root.element.value) {
-                return;
-            }
-
-            // extract files and move value of webkitRelativePath path to _relativePath
-            var files = Array.from(root.element.files).map(function(file) {
-                file._relativePath = file.webkitRelativePath;
-                return file;
-            });
-
-            // we add a little delay so the OS file select window can move out of the way before we add our file
-            setTimeout(function() {
-                // load files
-                props.onload(files);
-
-                // reset input, it's just for exposing a method to drop files, should not retain any state
-                resetFileInput(root.element);
-            }, 250);
-        };
-
-        root.element.addEventListener('change', root.ref.handleChange);
-    };
-
-    var setAcceptedFileTypes = function setAcceptedFileTypes(_ref2) {
-        var root = _ref2.root,
-            action = _ref2.action;
-        if (!root.query('GET_ALLOW_SYNC_ACCEPT_ATTRIBUTE')) return;
-        attrToggle(
-            root.element,
-            'accept',
-            !!action.value,
-            action.value ? action.value.join(',') : ''
-        );
-    };
-
-    var toggleAllowMultiple = function toggleAllowMultiple(_ref3) {
-        var root = _ref3.root,
-            action = _ref3.action;
-        attrToggle(root.element, 'multiple', action.value);
-    };
-
-    var toggleDirectoryFilter = function toggleDirectoryFilter(_ref4) {
-        var root = _ref4.root,
-            action = _ref4.action;
-        attrToggle(root.element, 'webkitdirectory', action.value);
-    };
-
-    var toggleDisabled = function toggleDisabled(_ref5) {
-        var root = _ref5.root;
-        var isDisabled = root.query('GET_DISABLED');
-        var doesAllowBrowse = root.query('GET_ALLOW_BROWSE');
-        var disableField = isDisabled || !doesAllowBrowse;
-        attrToggle(root.element, 'disabled', disableField);
-    };
-
-    var toggleRequired = function toggleRequired(_ref6) {
-        var root = _ref6.root,
-            action = _ref6.action;
-        // want to remove required, always possible
-        if (!action.value) {
-            attrToggle(root.element, 'required', false);
-        }
-        // if want to make required, only possible when zero items
-        else if (root.query('GET_TOTAL_ITEMS') === 0) {
-            attrToggle(root.element, 'required', true);
-        }
-    };
-
-    var setCaptureMethod = function setCaptureMethod(_ref7) {
-        var root = _ref7.root,
-            action = _ref7.action;
-        attrToggle(
-            root.element,
-            'capture',
-            !!action.value,
-            action.value === true ? '' : action.value
-        );
-    };
-
-    var updateRequiredStatus = function updateRequiredStatus(_ref8) {
-        var root = _ref8.root;
-        var element = root.element;
-        // always remove the required attribute when more than zero items
-        if (root.query('GET_TOTAL_ITEMS') > 0) {
-            attrToggle(element, 'required', false);
-            attrToggle(element, 'name', false);
-        } else {
-            // add name attribute
-            attrToggle(element, 'name', true, root.query('GET_NAME'));
-
-            // remove any validation messages
-            var shouldCheckValidity = root.query('GET_CHECK_VALIDITY');
-            if (shouldCheckValidity) {
-                element.setCustomValidity('');
-            }
-
-            // we only add required if the field has been deemed required
-            if (root.query('GET_REQUIRED')) {
-                attrToggle(element, 'required', true);
-            }
-        }
-    };
-
-    var updateFieldValidityStatus = function updateFieldValidityStatus(_ref9) {
-        var root = _ref9.root;
-        var shouldCheckValidity = root.query('GET_CHECK_VALIDITY');
-        if (!shouldCheckValidity) return;
-        root.element.setCustomValidity(root.query('GET_LABEL_INVALID_FIELD'));
-    };
-
-    var browser = createView({
-        tag: 'input',
-        name: 'browser',
-        ignoreRect: true,
-        ignoreRectUpdate: true,
-        attributes: {
-            type: 'file',
-        },
-
-        create: create$a,
-        destroy: function destroy(_ref10) {
-            var root = _ref10.root;
-            root.element.removeEventListener('change', root.ref.handleChange);
-        },
-        write: createRoute({
-            DID_LOAD_ITEM: updateRequiredStatus,
-            DID_REMOVE_ITEM: updateRequiredStatus,
-            DID_THROW_ITEM_INVALID: updateFieldValidityStatus,
-
-            DID_SET_DISABLED: toggleDisabled,
-            DID_SET_ALLOW_BROWSE: toggleDisabled,
-            DID_SET_ALLOW_DIRECTORIES_ONLY: toggleDirectoryFilter,
-            DID_SET_ALLOW_MULTIPLE: toggleAllowMultiple,
-            DID_SET_ACCEPTED_FILE_TYPES: setAcceptedFileTypes,
-            DID_SET_CAPTURE_METHOD: setCaptureMethod,
-            DID_SET_REQUIRED: toggleRequired,
-        }),
-    });
-
-    var Key = {
-        ENTER: 13,
-        SPACE: 32,
-    };
-
-    var create$b = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-
-        // create the label and link it to the file browser
-        var label = createElement$1('label');
-        attr(label, 'for', 'filepond--browser-' + props.id);
-
-        // use for labeling file input (aria-labelledby on file input)
-        attr(label, 'id', 'filepond--drop-label-' + props.id);
-
-        // hide the label for screenreaders, the input element will read the contents of the label when it's focussed. If we don't set aria-hidden the screenreader will also navigate the contents of the label separately from the input.
-        attr(label, 'aria-hidden', 'true');
-
-        // handle keys
-        root.ref.handleKeyDown = function(e) {
-            var isActivationKey = e.keyCode === Key.ENTER || e.keyCode === Key.SPACE;
-            if (!isActivationKey) return;
-            // stops from triggering the element a second time
-            e.preventDefault();
-
-            // click link (will then in turn activate file input)
-            root.ref.label.click();
-        };
-
-        root.ref.handleClick = function(e) {
-            var isLabelClick = e.target === label || label.contains(e.target);
-
-            // don't want to click twice
-            if (isLabelClick) return;
-
-            // click link (will then in turn activate file input)
-            root.ref.label.click();
-        };
-
-        // attach events
-        label.addEventListener('keydown', root.ref.handleKeyDown);
-        root.element.addEventListener('click', root.ref.handleClick);
-
-        // update
-        updateLabelValue(label, props.caption);
-
-        // add!
-        root.appendChild(label);
-        root.ref.label = label;
-    };
-
-    var updateLabelValue = function updateLabelValue(label, value) {
-        label.innerHTML = value;
-        var clickable = label.querySelector('.filepond--label-action');
-        if (clickable) {
-            attr(clickable, 'tabindex', '0');
-        }
-        return value;
-    };
-
-    var dropLabel = createView({
-        name: 'drop-label',
-        ignoreRect: true,
-        create: create$b,
-        destroy: function destroy(_ref2) {
-            var root = _ref2.root;
-            root.ref.label.addEventListener('keydown', root.ref.handleKeyDown);
-            root.element.removeEventListener('click', root.ref.handleClick);
-        },
-        write: createRoute({
-            DID_SET_LABEL_IDLE: function DID_SET_LABEL_IDLE(_ref3) {
-                var root = _ref3.root,
-                    action = _ref3.action;
-                updateLabelValue(root.ref.label, action.value);
-            },
-        }),
-
-        mixins: {
-            styles: ['opacity', 'translateX', 'translateY'],
-            animations: {
-                opacity: { type: 'tween', duration: 150 },
-                translateX: 'spring',
-                translateY: 'spring',
-            },
-        },
-    });
-
-    var blob = createView({
-        name: 'drip-blob',
-        ignoreRect: true,
-        mixins: {
-            styles: ['translateX', 'translateY', 'scaleX', 'scaleY', 'opacity'],
-            animations: {
-                scaleX: 'spring',
-                scaleY: 'spring',
-                translateX: 'spring',
-                translateY: 'spring',
-                opacity: { type: 'tween', duration: 250 },
-            },
-        },
-    });
-
-    var addBlob = function addBlob(_ref) {
-        var root = _ref.root;
-        var centerX = root.rect.element.width * 0.5;
-        var centerY = root.rect.element.height * 0.5;
-
-        root.ref.blob = root.appendChildView(
-            root.createChildView(blob, {
-                opacity: 0,
-                scaleX: 2.5,
-                scaleY: 2.5,
-                translateX: centerX,
-                translateY: centerY,
-            })
-        );
-    };
-
-    var moveBlob = function moveBlob(_ref2) {
-        var root = _ref2.root,
-            action = _ref2.action;
-        if (!root.ref.blob) {
-            addBlob({ root: root });
-            return;
-        }
-
-        root.ref.blob.translateX = action.position.scopeLeft;
-        root.ref.blob.translateY = action.position.scopeTop;
-        root.ref.blob.scaleX = 1;
-        root.ref.blob.scaleY = 1;
-        root.ref.blob.opacity = 1;
-    };
-
-    var hideBlob = function hideBlob(_ref3) {
-        var root = _ref3.root;
-        if (!root.ref.blob) {
-            return;
-        }
-        root.ref.blob.opacity = 0;
-    };
-
-    var explodeBlob = function explodeBlob(_ref4) {
-        var root = _ref4.root;
-        if (!root.ref.blob) {
-            return;
-        }
-        root.ref.blob.scaleX = 2.5;
-        root.ref.blob.scaleY = 2.5;
-        root.ref.blob.opacity = 0;
-    };
-
-    var write$7 = function write(_ref5) {
-        var root = _ref5.root,
-            props = _ref5.props,
-            actions = _ref5.actions;
-        route$4({ root: root, props: props, actions: actions });
-        var blob = root.ref.blob;
-
-        if (actions.length === 0 && blob && blob.opacity === 0) {
-            root.removeChildView(blob);
-            root.ref.blob = null;
-        }
-    };
-
-    var route$4 = createRoute({
-        DID_DRAG: moveBlob,
-        DID_DROP: explodeBlob,
-        DID_END_DRAG: hideBlob,
-    });
-
-    var drip = createView({
-        ignoreRect: true,
-        ignoreRectUpdate: true,
-        name: 'drip',
-        write: write$7,
-    });
-
-    var setInputFiles = function setInputFiles(element, files) {
-        try {
-            // Create a DataTransfer instance and add a newly created file
-            var dataTransfer = new DataTransfer();
-            files.forEach(function(file) {
-                if (file instanceof File) {
-                    dataTransfer.items.add(file);
-                } else {
-                    dataTransfer.items.add(
-                        new File([file], file.name, {
-                            type: file.type,
-                        })
-                    );
-                }
-            });
-
-            // Assign the DataTransfer files list to the file input
-            element.files = dataTransfer.files;
-        } catch (err) {
-            return false;
-        }
-        return true;
-    };
-
-    var create$c = function create(_ref) {
-        var root = _ref.root;
-        return (root.ref.fields = {});
-    };
-
-    var getField = function getField(root, id) {
-        return root.ref.fields[id];
-    };
-
-    var syncFieldPositionsWithItems = function syncFieldPositionsWithItems(root) {
-        root.query('GET_ACTIVE_ITEMS').forEach(function(item) {
-            if (!root.ref.fields[item.id]) return;
-            root.element.appendChild(root.ref.fields[item.id]);
-        });
-    };
-
-    var didReorderItems = function didReorderItems(_ref2) {
-        var root = _ref2.root;
-        return syncFieldPositionsWithItems(root);
-    };
-
-    var didAddItem = function didAddItem(_ref3) {
-        var root = _ref3.root,
-            action = _ref3.action;
-        var fileItem = root.query('GET_ITEM', action.id);
-        var isLocalFile = fileItem.origin === FileOrigin.LOCAL;
-        var shouldUseFileInput = !isLocalFile && root.query('SHOULD_UPDATE_FILE_INPUT');
-        var dataContainer = createElement$1('input');
-        dataContainer.type = shouldUseFileInput ? 'file' : 'hidden';
-        dataContainer.name = root.query('GET_NAME');
-        dataContainer.disabled = root.query('GET_DISABLED');
-        root.ref.fields[action.id] = dataContainer;
-        syncFieldPositionsWithItems(root);
-    };
-
-    var didLoadItem$1 = function didLoadItem(_ref4) {
-        var root = _ref4.root,
-            action = _ref4.action;
-        var field = getField(root, action.id);
-        if (!field) return;
-
-        // store server ref in hidden input
-        if (action.serverFileReference !== null) field.value = action.serverFileReference;
-
-        // store file item in file input
-        if (!root.query('SHOULD_UPDATE_FILE_INPUT')) return;
-
-        var fileItem = root.query('GET_ITEM', action.id);
-        setInputFiles(field, [fileItem.file]);
-    };
-
-    var didPrepareOutput = function didPrepareOutput(_ref5) {
-        var root = _ref5.root,
-            action = _ref5.action;
-        // this timeout pushes the handler after 'load'
-        if (!root.query('SHOULD_UPDATE_FILE_INPUT')) return;
-        setTimeout(function() {
-            var field = getField(root, action.id);
-            if (!field) return;
-            setInputFiles(field, [action.file]);
-        }, 0);
-    };
-
-    var didSetDisabled = function didSetDisabled(_ref6) {
-        var root = _ref6.root;
-        root.element.disabled = root.query('GET_DISABLED');
-    };
-
-    var didRemoveItem = function didRemoveItem(_ref7) {
-        var root = _ref7.root,
-            action = _ref7.action;
-        var field = getField(root, action.id);
-        if (!field) return;
-        if (field.parentNode) field.parentNode.removeChild(field);
-        delete root.ref.fields[action.id];
-    };
-
-    // only runs for server files (so doesn't deal with file input)
-    var didDefineValue = function didDefineValue(_ref8) {
-        var root = _ref8.root,
-            action = _ref8.action;
-        var field = getField(root, action.id);
-        if (!field) return;
-        if (action.value === null) {
-            // clear field value
-            field.removeAttribute('value');
-        } else {
-            // set field value
-            field.value = action.value;
-        }
-        syncFieldPositionsWithItems(root);
-    };
-
-    var write$8 = createRoute({
-        DID_SET_DISABLED: didSetDisabled,
-        DID_ADD_ITEM: didAddItem,
-        DID_LOAD_ITEM: didLoadItem$1,
-        DID_REMOVE_ITEM: didRemoveItem,
-        DID_DEFINE_VALUE: didDefineValue,
-        DID_PREPARE_OUTPUT: didPrepareOutput,
-        DID_REORDER_ITEMS: didReorderItems,
-        DID_SORT_ITEMS: didReorderItems,
-    });
-
-    var data = createView({
-        tag: 'fieldset',
-        name: 'data',
-        create: create$c,
-        write: write$8,
-        ignoreRect: true,
-    });
-
-    var getRootNode = function getRootNode(element) {
-        return 'getRootNode' in element ? element.getRootNode() : document;
-    };
-
-    var images = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'tiff'];
-    var text$1 = ['css', 'csv', 'html', 'txt'];
-    var map = {
-        zip: 'zip|compressed',
-        epub: 'application/epub+zip',
-    };
-
-    var guesstimateMimeType = function guesstimateMimeType() {
-        var extension = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-        extension = extension.toLowerCase();
-        if (images.includes(extension)) {
-            return (
-                'image/' +
-                (extension === 'jpg' ? 'jpeg' : extension === 'svg' ? 'svg+xml' : extension)
-            );
-        }
-        if (text$1.includes(extension)) {
-            return 'text/' + extension;
-        }
-
-        return map[extension] || '';
-    };
-
-    var requestDataTransferItems = function requestDataTransferItems(dataTransfer) {
-        return new Promise(function(resolve, reject) {
-            // try to get links from transfer, if found we'll exit immediately (unless a file is in the dataTransfer as well, this is because Firefox could represent the file as a URL and a file object at the same time)
-            var links = getLinks(dataTransfer);
-            if (links.length && !hasFiles(dataTransfer)) {
-                return resolve(links);
-            }
-            // try to get files from the transfer
-            getFiles(dataTransfer).then(resolve);
-        });
-    };
-
-    /**
-     * Test if datatransfer has files
-     */
-    var hasFiles = function hasFiles(dataTransfer) {
-        if (dataTransfer.files) return dataTransfer.files.length > 0;
-        return false;
-    };
-
-    /**
-     * Extracts files from a DataTransfer object
-     */
-    var getFiles = function getFiles(dataTransfer) {
-        return new Promise(function(resolve, reject) {
-            // get the transfer items as promises
-            var promisedFiles = (dataTransfer.items ? Array.from(dataTransfer.items) : [])
-                // only keep file system items (files and directories)
-                .filter(function(item) {
-                    return isFileSystemItem(item);
-                })
-
-                // map each item to promise
-                .map(function(item) {
-                    return getFilesFromItem(item);
-                });
-
-            // if is empty, see if we can extract some info from the files property as a fallback
-            if (!promisedFiles.length) {
-                // TODO: test for directories (should not be allowed)
-                // Use FileReader, problem is that the files property gets lost in the process
-                resolve(dataTransfer.files ? Array.from(dataTransfer.files) : []);
-                return;
-            }
-
-            // done!
-            Promise.all(promisedFiles)
-                .then(function(returnedFileGroups) {
-                    // flatten groups
-                    var files = [];
-                    returnedFileGroups.forEach(function(group) {
-                        files.push.apply(files, group);
-                    });
-
-                    // done (filter out empty files)!
-                    resolve(
-                        files
-                            .filter(function(file) {
-                                return file;
-                            })
-                            .map(function(file) {
-                                if (!file._relativePath)
-                                    file._relativePath = file.webkitRelativePath;
-                                return file;
-                            })
-                    );
-                })
-                .catch(console.error);
-        });
-    };
-
-    var isFileSystemItem = function isFileSystemItem(item) {
-        if (isEntry(item)) {
-            var entry = getAsEntry(item);
-            if (entry) {
-                return entry.isFile || entry.isDirectory;
-            }
-        }
-        return item.kind === 'file';
-    };
-
-    var getFilesFromItem = function getFilesFromItem(item) {
-        return new Promise(function(resolve, reject) {
-            if (isDirectoryEntry(item)) {
-                getFilesInDirectory(getAsEntry(item))
-                    .then(resolve)
-                    .catch(reject);
-                return;
-            }
-
-            resolve([item.getAsFile()]);
-        });
-    };
-
-    var getFilesInDirectory = function getFilesInDirectory(entry) {
-        return new Promise(function(resolve, reject) {
-            var files = [];
-
-            // the total entries to read
-            var dirCounter = 0;
-            var fileCounter = 0;
-
-            var resolveIfDone = function resolveIfDone() {
-                if (fileCounter === 0 && dirCounter === 0) {
-                    resolve(files);
-                }
-            };
-
-            // the recursive function
-            var readEntries = function readEntries(dirEntry) {
-                dirCounter++;
-
-                var directoryReader = dirEntry.createReader();
-
-                // directories are returned in batches, we need to process all batches before we're done
-                var readBatch = function readBatch() {
-                    directoryReader.readEntries(function(entries) {
-                        if (entries.length === 0) {
-                            dirCounter--;
-                            resolveIfDone();
-                            return;
-                        }
-
-                        entries.forEach(function(entry) {
-                            // recursively read more directories
-                            if (entry.isDirectory) {
-                                readEntries(entry);
-                            } else {
-                                // read as file
-                                fileCounter++;
-
-                                entry.file(function(file) {
-                                    var correctedFile = correctMissingFileType(file);
-                                    if (entry.fullPath)
-                                        correctedFile._relativePath = entry.fullPath;
-                                    files.push(correctedFile);
-                                    fileCounter--;
-                                    resolveIfDone();
-                                });
-                            }
-                        });
-
-                        // try to get next batch of files
-                        readBatch();
-                    }, reject);
-                };
-
-                // read first batch of files
-                readBatch();
-            };
-
-            // go!
-            readEntries(entry);
-        });
-    };
-
-    var correctMissingFileType = function correctMissingFileType(file) {
-        if (file.type.length) return file;
-        var date = file.lastModifiedDate;
-        var name = file.name;
-        var type = guesstimateMimeType(getExtensionFromFilename(file.name));
-        if (!type.length) return file;
-        file = file.slice(0, file.size, type);
-        file.name = name;
-        file.lastModifiedDate = date;
-        return file;
-    };
-
-    var isDirectoryEntry = function isDirectoryEntry(item) {
-        return isEntry(item) && (getAsEntry(item) || {}).isDirectory;
-    };
-
-    var isEntry = function isEntry(item) {
-        return 'webkitGetAsEntry' in item;
-    };
-
-    var getAsEntry = function getAsEntry(item) {
-        return item.webkitGetAsEntry();
-    };
-
-    /**
-     * Extracts links from a DataTransfer object
-     */
-    var getLinks = function getLinks(dataTransfer) {
-        var links = [];
-        try {
-            // look in meta data property
-            links = getLinksFromTransferMetaData(dataTransfer);
-            if (links.length) {
-                return links;
-            }
-            links = getLinksFromTransferURLData(dataTransfer);
-        } catch (e) {
-            // nope nope nope (probably IE trouble)
-        }
-        return links;
-    };
-
-    var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {
-        var data = dataTransfer.getData('url');
-        if (typeof data === 'string' && data.length) {
-            return [data];
-        }
-        return [];
-    };
-
-    var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {
-        var data = dataTransfer.getData('text/html');
-        if (typeof data === 'string' && data.length) {
-            var matches = data.match(/src\s*=\s*"(.+?)"/);
-            if (matches) {
-                return [matches[1]];
-            }
-        }
-        return [];
-    };
-
-    var dragNDropObservers = [];
-
-    var eventPosition = function eventPosition(e) {
-        return {
-            pageLeft: e.pageX,
-            pageTop: e.pageY,
-            scopeLeft: e.offsetX || e.layerX,
-            scopeTop: e.offsetY || e.layerY,
-        };
-    };
-
-    var createDragNDropClient = function createDragNDropClient(
-        element,
-        scopeToObserve,
-        filterElement
-    ) {
-        var observer = getDragNDropObserver(scopeToObserve);
-
-        var client = {
-            element: element,
-            filterElement: filterElement,
-            state: null,
-            ondrop: function ondrop() {},
-            onenter: function onenter() {},
-            ondrag: function ondrag() {},
-            onexit: function onexit() {},
-            onload: function onload() {},
-            allowdrop: function allowdrop() {},
-        };
-
-        client.destroy = observer.addListener(client);
-
-        return client;
-    };
-
-    var getDragNDropObserver = function getDragNDropObserver(element) {
-        // see if already exists, if so, return
-        var observer = dragNDropObservers.find(function(item) {
-            return item.element === element;
-        });
-        if (observer) {
-            return observer;
-        }
-
-        // create new observer, does not yet exist for this element
-        var newObserver = createDragNDropObserver(element);
-        dragNDropObservers.push(newObserver);
-        return newObserver;
-    };
-
-    var createDragNDropObserver = function createDragNDropObserver(element) {
-        var clients = [];
-
-        var routes = {
-            dragenter: dragenter,
-            dragover: dragover,
-            dragleave: dragleave,
-            drop: drop,
-        };
-
-        var handlers = {};
-
-        forin(routes, function(event, createHandler) {
-            handlers[event] = createHandler(element, clients);
-            element.addEventListener(event, handlers[event], false);
-        });
-
-        var observer = {
-            element: element,
-            addListener: function addListener(client) {
-                // add as client
-                clients.push(client);
-
-                // return removeListener function
-                return function() {
-                    // remove client
-                    clients.splice(clients.indexOf(client), 1);
-
-                    // if no more clients, clean up observer
-                    if (clients.length === 0) {
-                        dragNDropObservers.splice(dragNDropObservers.indexOf(observer), 1);
-
-                        forin(routes, function(event) {
-                            element.removeEventListener(event, handlers[event], false);
-                        });
-                    }
-                };
-            },
-        };
-
-        return observer;
-    };
-
-    var elementFromPoint = function elementFromPoint(root, point) {
-        if (!('elementFromPoint' in root)) {
-            root = document;
-        }
-        return root.elementFromPoint(point.x, point.y);
-    };
-
-    var isEventTarget = function isEventTarget(e, target) {
-        // get root
-        var root = getRootNode(target);
-
-        // get element at position
-        // if root is not actual shadow DOM and does not have elementFromPoint method, use the one on document
-        var elementAtPosition = elementFromPoint(root, {
-            x: e.pageX - window.pageXOffset,
-            y: e.pageY - window.pageYOffset,
-        });
-
-        // test if target is the element or if one of its children is
-        return elementAtPosition === target || target.contains(elementAtPosition);
-    };
-
-    var initialTarget = null;
-
-    var setDropEffect = function setDropEffect(dataTransfer, effect) {
-        // is in try catch as IE11 will throw error if not
-        try {
-            dataTransfer.dropEffect = effect;
-        } catch (e) {}
-    };
-
-    var dragenter = function dragenter(root, clients) {
-        return function(e) {
-            e.preventDefault();
-
-            initialTarget = e.target;
-
-            clients.forEach(function(client) {
-                var element = client.element,
-                    onenter = client.onenter;
-
-                if (isEventTarget(e, element)) {
-                    client.state = 'enter';
-
-                    // fire enter event
-                    onenter(eventPosition(e));
-                }
-            });
-        };
-    };
-
-    var dragover = function dragover(root, clients) {
-        return function(e) {
-            e.preventDefault();
-
-            var dataTransfer = e.dataTransfer;
-
-            requestDataTransferItems(dataTransfer).then(function(items) {
-                var overDropTarget = false;
-
-                clients.some(function(client) {
-                    var filterElement = client.filterElement,
-                        element = client.element,
-                        onenter = client.onenter,
-                        onexit = client.onexit,
-                        ondrag = client.ondrag,
-                        allowdrop = client.allowdrop;
-
-                    // by default we can drop
-                    setDropEffect(dataTransfer, 'copy');
-
-                    // allow transfer of these items
-                    var allowsTransfer = allowdrop(items);
-
-                    // only used when can be dropped on page
-                    if (!allowsTransfer) {
-                        setDropEffect(dataTransfer, 'none');
-                        return;
-                    }
-
-                    // targetting this client
-                    if (isEventTarget(e, element)) {
-                        overDropTarget = true;
-
-                        // had no previous state, means we are entering this client
-                        if (client.state === null) {
-                            client.state = 'enter';
-                            onenter(eventPosition(e));
-                            return;
-                        }
-
-                        // now over element (no matter if it allows the drop or not)
-                        client.state = 'over';
-
-                        // needs to allow transfer
-                        if (filterElement && !allowsTransfer) {
-                            setDropEffect(dataTransfer, 'none');
-                            return;
-                        }
-
-                        // dragging
-                        ondrag(eventPosition(e));
-                    } else {
-                        // should be over an element to drop
-                        if (filterElement && !overDropTarget) {
-                            setDropEffect(dataTransfer, 'none');
-                        }
-
-                        // might have just left this client?
-                        if (client.state) {
-                            client.state = null;
-                            onexit(eventPosition(e));
-                        }
-                    }
-                });
-            });
-        };
-    };
-
-    var drop = function drop(root, clients) {
-        return function(e) {
-            e.preventDefault();
-
-            var dataTransfer = e.dataTransfer;
-
-            requestDataTransferItems(dataTransfer).then(function(items) {
-                clients.forEach(function(client) {
-                    var filterElement = client.filterElement,
-                        element = client.element,
-                        ondrop = client.ondrop,
-                        onexit = client.onexit,
-                        allowdrop = client.allowdrop;
-
-                    client.state = null;
-
-                    // if we're filtering on element we need to be over the element to drop
-                    if (filterElement && !isEventTarget(e, element)) return;
-
-                    // no transfer for this client
-                    if (!allowdrop(items)) return onexit(eventPosition(e));
-
-                    // we can drop these items on this client
-                    ondrop(eventPosition(e), items);
-                });
-            });
-        };
-    };
-
-    var dragleave = function dragleave(root, clients) {
-        return function(e) {
-            if (initialTarget !== e.target) {
-                return;
-            }
-
-            clients.forEach(function(client) {
-                var onexit = client.onexit;
-
-                client.state = null;
-
-                onexit(eventPosition(e));
-            });
-        };
-    };
-
-    var createHopper = function createHopper(scope, validateItems, options) {
-        // is now hopper scope
-        scope.classList.add('filepond--hopper');
-
-        // shortcuts
-        var catchesDropsOnPage = options.catchesDropsOnPage,
-            requiresDropOnElement = options.requiresDropOnElement,
-            _options$filterItems = options.filterItems,
-            filterItems =
-                _options$filterItems === void 0
-                    ? function(items) {
-                          return items;
-                      }
-                    : _options$filterItems;
-
-        // create a dnd client
-        var client = createDragNDropClient(
-            scope,
-            catchesDropsOnPage ? document.documentElement : scope,
-            requiresDropOnElement
-        );
-
-        // current client state
-        var lastState = '';
-        var currentState = '';
-
-        // determines if a file may be dropped
-        client.allowdrop = function(items) {
-            // TODO: if we can, throw error to indicate the items cannot by dropped
-
-            return validateItems(filterItems(items));
-        };
-
-        client.ondrop = function(position, items) {
-            var filteredItems = filterItems(items);
-
-            if (!validateItems(filteredItems)) {
-                api.ondragend(position);
-                return;
-            }
-
-            currentState = 'drag-drop';
-
-            api.onload(filteredItems, position);
-        };
-
-        client.ondrag = function(position) {
-            api.ondrag(position);
-        };
-
-        client.onenter = function(position) {
-            currentState = 'drag-over';
-
-            api.ondragstart(position);
-        };
-
-        client.onexit = function(position) {
-            currentState = 'drag-exit';
-
-            api.ondragend(position);
-        };
-
-        var api = {
-            updateHopperState: function updateHopperState() {
-                if (lastState !== currentState) {
-                    scope.dataset.hopperState = currentState;
-                    lastState = currentState;
-                }
-            },
-            onload: function onload() {},
-            ondragstart: function ondragstart() {},
-            ondrag: function ondrag() {},
-            ondragend: function ondragend() {},
-            destroy: function destroy() {
-                // destroy client
-                client.destroy();
-            },
-        };
-
-        return api;
-    };
-
-    var listening = false;
-    var listeners$1 = [];
-
-    var handlePaste = function handlePaste(e) {
-        // if is pasting in input or textarea and the target is outside of a filepond scope, ignore
-        var activeEl = document.activeElement;
-        if (activeEl && /textarea|input/i.test(activeEl.nodeName)) {
-            // test textarea or input is contained in filepond root
-            var inScope = false;
-            var element = activeEl;
-            while (element !== document.body) {
-                if (element.classList.contains('filepond--root')) {
-                    inScope = true;
-                    break;
-                }
-                element = element.parentNode;
-            }
-
-            if (!inScope) return;
-        }
-
-        requestDataTransferItems(e.clipboardData).then(function(files) {
-            // no files received
-            if (!files.length) {
-                return;
-            }
-
-            // notify listeners of received files
-            listeners$1.forEach(function(listener) {
-                return listener(files);
-            });
-        });
-    };
-
-    var listen = function listen(cb) {
-        // can't add twice
-        if (listeners$1.includes(cb)) {
-            return;
-        }
-
-        // add initial listener
-        listeners$1.push(cb);
-
-        // setup paste listener for entire page
-        if (listening) {
-            return;
-        }
-
-        listening = true;
-        document.addEventListener('paste', handlePaste);
-    };
-
-    var unlisten = function unlisten(listener) {
-        arrayRemove(listeners$1, listeners$1.indexOf(listener));
-
-        // clean up
-        if (listeners$1.length === 0) {
-            document.removeEventListener('paste', handlePaste);
-            listening = false;
-        }
-    };
-
-    var createPaster = function createPaster() {
-        var cb = function cb(files) {
-            api.onload(files);
-        };
-
-        var api = {
-            destroy: function destroy() {
-                unlisten(cb);
-            },
-            onload: function onload() {},
-        };
-
-        listen(cb);
-
-        return api;
-    };
-
-    /**
-     * Creates the file view
-     */
-    var create$d = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-        root.element.id = 'filepond--assistant-' + props.id;
-        attr(root.element, 'role', 'status');
-        attr(root.element, 'aria-live', 'polite');
-        attr(root.element, 'aria-relevant', 'additions');
-    };
-
-    var addFilesNotificationTimeout = null;
-    var notificationClearTimeout = null;
-
-    var filenames = [];
-
-    var assist = function assist(root, message) {
-        root.element.textContent = message;
-    };
-
-    var clear$1 = function clear(root) {
-        root.element.textContent = '';
-    };
-
-    var listModified = function listModified(root, filename, label) {
-        var total = root.query('GET_TOTAL_ITEMS');
-        assist(
-            root,
-            label +
-                ' ' +
-                filename +
-                ', ' +
-                total +
-                ' ' +
-                (total === 1
-                    ? root.query('GET_LABEL_FILE_COUNT_SINGULAR')
-                    : root.query('GET_LABEL_FILE_COUNT_PLURAL'))
-        );
-
-        // clear group after set amount of time so the status is not read twice
-        clearTimeout(notificationClearTimeout);
-        notificationClearTimeout = setTimeout(function() {
-            clear$1(root);
-        }, 1500);
-    };
-
-    var isUsingFilePond = function isUsingFilePond(root) {
-        return root.element.parentNode.contains(document.activeElement);
-    };
-
-    var itemAdded = function itemAdded(_ref2) {
-        var root = _ref2.root,
-            action = _ref2.action;
-        if (!isUsingFilePond(root)) {
-            return;
-        }
-
-        root.element.textContent = '';
-        var item = root.query('GET_ITEM', action.id);
-        filenames.push(item.filename);
-
-        clearTimeout(addFilesNotificationTimeout);
-        addFilesNotificationTimeout = setTimeout(function() {
-            listModified(root, filenames.join(', '), root.query('GET_LABEL_FILE_ADDED'));
-
-            filenames.length = 0;
-        }, 750);
-    };
-
-    var itemRemoved = function itemRemoved(_ref3) {
-        var root = _ref3.root,
-            action = _ref3.action;
-        if (!isUsingFilePond(root)) {
-            return;
-        }
-
-        var item = action.item;
-        listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));
-    };
-
-    var itemProcessed = function itemProcessed(_ref4) {
-        var root = _ref4.root,
-            action = _ref4.action;
-        // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-
-        var item = root.query('GET_ITEM', action.id);
-        var filename = item.filename;
-        var label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');
-
-        assist(root, filename + ' ' + label);
-    };
-
-    var itemProcessedUndo = function itemProcessedUndo(_ref5) {
-        var root = _ref5.root,
-            action = _ref5.action;
-        var item = root.query('GET_ITEM', action.id);
-        var filename = item.filename;
-        var label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');
-
-        assist(root, filename + ' ' + label);
-    };
-
-    var itemError = function itemError(_ref6) {
-        var root = _ref6.root,
-            action = _ref6.action;
-        var item = root.query('GET_ITEM', action.id);
-        var filename = item.filename;
-
-        // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-
-        assist(root, action.status.main + ' ' + filename + ' ' + action.status.sub);
-    };
-
-    var assistant = createView({
-        create: create$d,
-        ignoreRect: true,
-        ignoreRectUpdate: true,
-        write: createRoute({
-            DID_LOAD_ITEM: itemAdded,
-            DID_REMOVE_ITEM: itemRemoved,
-            DID_COMPLETE_ITEM_PROCESSING: itemProcessed,
-
-            DID_ABORT_ITEM_PROCESSING: itemProcessedUndo,
-            DID_REVERT_ITEM_PROCESSING: itemProcessedUndo,
-
-            DID_THROW_ITEM_REMOVE_ERROR: itemError,
-            DID_THROW_ITEM_LOAD_ERROR: itemError,
-            DID_THROW_ITEM_INVALID: itemError,
-            DID_THROW_ITEM_PROCESSING_ERROR: itemError,
-        }),
-
-        tag: 'span',
-        name: 'assistant',
-    });
-
-    var toCamels = function toCamels(string) {
-        var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
-        return string.replace(new RegExp(separator + '.', 'g'), function(sub) {
-            return sub.charAt(1).toUpperCase();
-        });
-    };
-
-    var debounce = function debounce(func) {
-        var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 16;
-        var immidiateOnly =
-            arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-        var last = Date.now();
-        var timeout = null;
-
-        return function() {
-            for (
-                var _len = arguments.length, args = new Array(_len), _key = 0;
-                _key < _len;
-                _key++
-            ) {
-                args[_key] = arguments[_key];
-            }
-            clearTimeout(timeout);
-
-            var dist = Date.now() - last;
-
-            var fn = function fn() {
-                last = Date.now();
-                func.apply(void 0, args);
-            };
-
-            if (dist < interval) {
-                // we need to delay by the difference between interval and dist
-                // for example: if distance is 10 ms and interval is 16 ms,
-                // we need to wait an additional 6ms before calling the function)
-                if (!immidiateOnly) {
-                    timeout = setTimeout(fn, interval - dist);
-                }
-            } else {
-                // go!
-                fn();
-            }
-        };
-    };
-
-    var MAX_FILES_LIMIT = 1000000;
-
-    var prevent = function prevent(e) {
-        return e.preventDefault();
-    };
-
-    var create$e = function create(_ref) {
-        var root = _ref.root,
-            props = _ref.props;
-        // Add id
-        var id = root.query('GET_ID');
-        if (id) {
-            root.element.id = id;
-        }
-
-        // Add className
-        var className = root.query('GET_CLASS_NAME');
-        if (className) {
-            className
-                .split(' ')
-                .filter(function(name) {
-                    return name.length;
-                })
-                .forEach(function(name) {
-                    root.element.classList.add(name);
-                });
-        }
-
-        // Field label
-        root.ref.label = root.appendChildView(
-            root.createChildView(
-                dropLabel,
-                Object.assign({}, props, {
-                    translateY: null,
-                    caption: root.query('GET_LABEL_IDLE'),
-                })
-            )
-        );
-
-        // List of items
-        root.ref.list = root.appendChildView(
-            root.createChildView(listScroller, { translateY: null })
-        );
-
-        // Background panel
-        root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'panel-root' }));
-
-        // Assistant notifies assistive tech when content changes
-        root.ref.assistant = root.appendChildView(
-            root.createChildView(assistant, Object.assign({}, props))
-        );
-
-        // Data
-        root.ref.data = root.appendChildView(root.createChildView(data, Object.assign({}, props)));
-
-        // Measure (tests if fixed height was set)
-        // DOCTYPE needs to be set for this to work
-        root.ref.measure = createElement$1('div');
-        root.ref.measure.style.height = '100%';
-        root.element.appendChild(root.ref.measure);
-
-        // information on the root height or fixed height status
-        root.ref.bounds = null;
-
-        // apply initial style properties
-        root.query('GET_STYLES')
-            .filter(function(style) {
-                return !isEmpty(style.value);
-            })
-            .map(function(_ref2) {
-                var name = _ref2.name,
-                    value = _ref2.value;
-                root.element.dataset[name] = value;
-            });
-
-        // determine if width changed
-        root.ref.widthPrevious = null;
-        root.ref.widthUpdated = debounce(function() {
-            root.ref.updateHistory = [];
-            root.dispatch('DID_RESIZE_ROOT');
-        }, 250);
-
-        // history of updates
-        root.ref.previousAspectRatio = null;
-        root.ref.updateHistory = [];
-
-        // prevent scrolling and zooming on iOS (only if supports pointer events, for then we can enable reorder)
-        var canHover = window.matchMedia('(pointer: fine) and (hover: hover)').matches;
-        var hasPointerEvents = 'PointerEvent' in window;
-        if (root.query('GET_ALLOW_REORDER') && hasPointerEvents && !canHover) {
-            root.element.addEventListener('touchmove', prevent, { passive: false });
-            root.element.addEventListener('gesturestart', prevent);
-        }
-
-        // add credits
-        var credits = root.query('GET_CREDITS');
-        var hasCredits = credits.length === 2;
-        if (hasCredits) {
-            var frag = document.createElement('a');
-            frag.className = 'filepond--credits';
-            frag.setAttribute('aria-hidden', 'true');
-            frag.href = credits[0];
-            frag.tabindex = -1;
-            frag.target = '_blank';
-            frag.rel = 'noopener noreferrer';
-            frag.textContent = credits[1];
-            root.element.appendChild(frag);
-            root.ref.credits = frag;
-        }
-    };
-
-    var write$9 = function write(_ref3) {
-        var root = _ref3.root,
-            props = _ref3.props,
-            actions = _ref3.actions;
-        // route actions
-        route$5({ root: root, props: props, actions: actions });
-
-        // apply style properties
-        actions
-            .filter(function(action) {
-                return /^DID_SET_STYLE_/.test(action.type);
-            })
-            .filter(function(action) {
-                return !isEmpty(action.data.value);
-            })
-            .map(function(_ref4) {
-                var type = _ref4.type,
-                    data = _ref4.data;
-                var name = toCamels(type.substr(8).toLowerCase(), '_');
-                root.element.dataset[name] = data.value;
-                root.invalidateLayout();
-            });
-
-        if (root.rect.element.hidden) return;
-
-        if (root.rect.element.width !== root.ref.widthPrevious) {
-            root.ref.widthPrevious = root.rect.element.width;
-            root.ref.widthUpdated();
-        }
-
-        // get box bounds, we do this only once
-        var bounds = root.ref.bounds;
-        if (!bounds) {
-            bounds = root.ref.bounds = calculateRootBoundingBoxHeight(root);
-
-            // destroy measure element
-            root.element.removeChild(root.ref.measure);
-            root.ref.measure = null;
-        }
-
-        // get quick references to various high level parts of the upload tool
-        var _root$ref = root.ref,
-            hopper = _root$ref.hopper,
-            label = _root$ref.label,
-            list = _root$ref.list,
-            panel = _root$ref.panel;
-
-        // sets correct state to hopper scope
-        if (hopper) {
-            hopper.updateHopperState();
-        }
-
-        // bool to indicate if we're full or not
-        var aspectRatio = root.query('GET_PANEL_ASPECT_RATIO');
-        var isMultiItem = root.query('GET_ALLOW_MULTIPLE');
-        var totalItems = root.query('GET_TOTAL_ITEMS');
-        var maxItems = isMultiItem ? root.query('GET_MAX_FILES') || MAX_FILES_LIMIT : 1;
-        var atMaxCapacity = totalItems === maxItems;
-
-        // action used to add item
-        var addAction = actions.find(function(action) {
-            return action.type === 'DID_ADD_ITEM';
-        });
-
-        // if reached max capacity and we've just reached it
-        if (atMaxCapacity && addAction) {
-            // get interaction type
-            var interactionMethod = addAction.data.interactionMethod;
-
-            // hide label
-            label.opacity = 0;
-
-            if (isMultiItem) {
-                label.translateY = -40;
-            } else {
-                if (interactionMethod === InteractionMethod.API) {
-                    label.translateX = 40;
-                } else if (interactionMethod === InteractionMethod.BROWSE) {
-                    label.translateY = 40;
-                } else {
-                    label.translateY = 30;
-                }
-            }
-        } else if (!atMaxCapacity) {
-            label.opacity = 1;
-            label.translateX = 0;
-            label.translateY = 0;
-        }
-
-        var listItemMargin = calculateListItemMargin(root);
-
-        var listHeight = calculateListHeight(root);
-
-        var labelHeight = label.rect.element.height;
-        var currentLabelHeight = !isMultiItem || atMaxCapacity ? 0 : labelHeight;
-
-        var listMarginTop = atMaxCapacity ? list.rect.element.marginTop : 0;
-        var listMarginBottom = totalItems === 0 ? 0 : list.rect.element.marginBottom;
-
-        var visualHeight =
-            currentLabelHeight + listMarginTop + listHeight.visual + listMarginBottom;
-        var boundsHeight =
-            currentLabelHeight + listMarginTop + listHeight.bounds + listMarginBottom;
-
-        // link list to label bottom position
-        list.translateY =
-            Math.max(0, currentLabelHeight - list.rect.element.marginTop) - listItemMargin.top;
-
-        if (aspectRatio) {
-            // fixed aspect ratio
-
-            // calculate height based on width
-            var width = root.rect.element.width;
-            var height = width * aspectRatio;
-
-            // clear history if aspect ratio has changed
-            if (aspectRatio !== root.ref.previousAspectRatio) {
-                root.ref.previousAspectRatio = aspectRatio;
-                root.ref.updateHistory = [];
-            }
-
-            // remember this width
-            var history = root.ref.updateHistory;
-            history.push(width);
-
-            var MAX_BOUNCES = 2;
-            if (history.length > MAX_BOUNCES * 2) {
-                var l = history.length;
-                var bottom = l - 10;
-                var bounces = 0;
-                for (var i = l; i >= bottom; i--) {
-                    if (history[i] === history[i - 2]) {
-                        bounces++;
-                    }
-
-                    if (bounces >= MAX_BOUNCES) {
-                        // dont adjust height
-                        return;
-                    }
-                }
-            }
-
-            // fix height of panel so it adheres to aspect ratio
-            panel.scalable = false;
-            panel.height = height;
-
-            // available height for list
-            var listAvailableHeight =
-                // the height of the panel minus the label height
-                height -
-                currentLabelHeight -
-                // the room we leave open between the end of the list and the panel bottom
-                (listMarginBottom - listItemMargin.bottom) -
-                // if we're full we need to leave some room between the top of the panel and the list
-                (atMaxCapacity ? listMarginTop : 0);
-
-            if (listHeight.visual > listAvailableHeight) {
-                list.overflow = listAvailableHeight;
-            } else {
-                list.overflow = null;
-            }
-
-            // set container bounds (so pushes siblings downwards)
-            root.height = height;
-        } else if (bounds.fixedHeight) {
-            // fixed height
-
-            // fix height of panel
-            panel.scalable = false;
-
-            // available height for list
-            var _listAvailableHeight =
-                // the height of the panel minus the label height
-                bounds.fixedHeight -
-                currentLabelHeight -
-                // the room we leave open between the end of the list and the panel bottom
-                (listMarginBottom - listItemMargin.bottom) -
-                // if we're full we need to leave some room between the top of the panel and the list
-                (atMaxCapacity ? listMarginTop : 0);
-
-            // set list height
-            if (listHeight.visual > _listAvailableHeight) {
-                list.overflow = _listAvailableHeight;
-            } else {
-                list.overflow = null;
-            }
-
-            // no need to set container bounds as these are handles by CSS fixed height
-        } else if (bounds.cappedHeight) {
-            // max-height
-
-            // not a fixed height panel
-            var isCappedHeight = visualHeight >= bounds.cappedHeight;
-            var panelHeight = Math.min(bounds.cappedHeight, visualHeight);
-            panel.scalable = true;
-            panel.height = isCappedHeight
-                ? panelHeight
-                : panelHeight - listItemMargin.top - listItemMargin.bottom;
-
-            // available height for list
-            var _listAvailableHeight2 =
-                // the height of the panel minus the label height
-                panelHeight -
-                currentLabelHeight -
-                // the room we leave open between the end of the list and the panel bottom
-                (listMarginBottom - listItemMargin.bottom) -
-                // if we're full we need to leave some room between the top of the panel and the list
-                (atMaxCapacity ? listMarginTop : 0);
-
-            // set list height (if is overflowing)
-            if (visualHeight > bounds.cappedHeight && listHeight.visual > _listAvailableHeight2) {
-                list.overflow = _listAvailableHeight2;
-            } else {
-                list.overflow = null;
-            }
-
-            // set container bounds (so pushes siblings downwards)
-            root.height = Math.min(
-                bounds.cappedHeight,
-                boundsHeight - listItemMargin.top - listItemMargin.bottom
-            );
-        } else {
-            // flexible height
-
-            // not a fixed height panel
-            var itemMargin = totalItems > 0 ? listItemMargin.top + listItemMargin.bottom : 0;
-            panel.scalable = true;
-            panel.height = Math.max(labelHeight, visualHeight - itemMargin);
-
-            // set container bounds (so pushes siblings downwards)
-            root.height = Math.max(labelHeight, boundsHeight - itemMargin);
-        }
-
-        // move credits to bottom
-        if (root.ref.credits && panel.heightCurrent)
-            root.ref.credits.style.transform = 'translateY(' + panel.heightCurrent + 'px)';
-    };
-
-    var calculateListItemMargin = function calculateListItemMargin(root) {
-        var item = root.ref.list.childViews[0].childViews[0];
-        return item
-            ? {
-                  top: item.rect.element.marginTop,
-                  bottom: item.rect.element.marginBottom,
-              }
-            : {
-                  top: 0,
-                  bottom: 0,
-              };
-    };
-
-    var calculateListHeight = function calculateListHeight(root) {
-        var visual = 0;
-        var bounds = 0;
-
-        // get file list reference
-        var scrollList = root.ref.list;
-        var itemList = scrollList.childViews[0];
-        var visibleChildren = itemList.childViews.filter(function(child) {
-            return child.rect.element.height;
-        });
-        var children = root
-            .query('GET_ACTIVE_ITEMS')
-            .map(function(item) {
-                return visibleChildren.find(function(child) {
-                    return child.id === item.id;
-                });
-            })
-            .filter(function(item) {
-                return item;
-            });
-
-        // no children, done!
-        if (children.length === 0) return { visual: visual, bounds: bounds };
-
-        var horizontalSpace = itemList.rect.element.width;
-        var dragIndex = getItemIndexByPosition(itemList, children, scrollList.dragCoordinates);
-
-        var childRect = children[0].rect.element;
-
-        var itemVerticalMargin = childRect.marginTop + childRect.marginBottom;
-        var itemHorizontalMargin = childRect.marginLeft + childRect.marginRight;
-
-        var itemWidth = childRect.width + itemHorizontalMargin;
-        var itemHeight = childRect.height + itemVerticalMargin;
-
-        var newItem = typeof dragIndex !== 'undefined' && dragIndex >= 0 ? 1 : 0;
-        var removedItem = children.find(function(child) {
-            return child.markedForRemoval && child.opacity < 0.45;
-        })
-            ? -1
-            : 0;
-        var verticalItemCount = children.length + newItem + removedItem;
-        var itemsPerRow = getItemsPerRow(horizontalSpace, itemWidth);
-
-        // stack
-        if (itemsPerRow === 1) {
-            children.forEach(function(item) {
-                var height = item.rect.element.height + itemVerticalMargin;
-                bounds += height;
-                visual += height * item.opacity;
-            });
-        }
-        // grid
-        else {
-            bounds = Math.ceil(verticalItemCount / itemsPerRow) * itemHeight;
-            visual = bounds;
-        }
-
-        return { visual: visual, bounds: bounds };
-    };
-
-    var calculateRootBoundingBoxHeight = function calculateRootBoundingBoxHeight(root) {
-        var height = root.ref.measureHeight || null;
-        var cappedHeight = parseInt(root.style.maxHeight, 10) || null;
-        var fixedHeight = height === 0 ? null : height;
-
-        return {
-            cappedHeight: cappedHeight,
-            fixedHeight: fixedHeight,
-        };
-    };
-
-    var exceedsMaxFiles = function exceedsMaxFiles(root, items) {
-        var allowReplace = root.query('GET_ALLOW_REPLACE');
-        var allowMultiple = root.query('GET_ALLOW_MULTIPLE');
-        var totalItems = root.query('GET_TOTAL_ITEMS');
-        var maxItems = root.query('GET_MAX_FILES');
-
-        // total amount of items being dragged
-        var totalBrowseItems = items.length;
-
-        // if does not allow multiple items and dragging more than one item
-        if (!allowMultiple && totalBrowseItems > 1) {
-            return true;
-        }
-
-        // limit max items to one if not allowed to drop multiple items
-        maxItems = allowMultiple ? maxItems : allowReplace ? maxItems : 1;
-
-        // no more room?
-        var hasMaxItems = isInt(maxItems);
-        if (hasMaxItems && totalItems + totalBrowseItems > maxItems) {
-            root.dispatch('DID_THROW_MAX_FILES', {
-                source: items,
-                error: createResponse('warning', 0, 'Max files'),
-            });
-
-            return true;
-        }
-
-        return false;
-    };
-
-    var getDragIndex = function getDragIndex(list, children, position) {
-        var itemList = list.childViews[0];
-        return getItemIndexByPosition(itemList, children, {
-            left: position.scopeLeft - itemList.rect.element.left,
-            top:
-                position.scopeTop -
-                (list.rect.outer.top + list.rect.element.marginTop + list.rect.element.scrollTop),
-        });
-    };
-
-    /**
-     * Enable or disable file drop functionality
-     */
-    var toggleDrop = function toggleDrop(root) {
-        var isAllowed = root.query('GET_ALLOW_DROP');
-        var isDisabled = root.query('GET_DISABLED');
-        var enabled = isAllowed && !isDisabled;
-        if (enabled && !root.ref.hopper) {
-            var hopper = createHopper(
-                root.element,
-                function(items) {
-                    // allow quick validation of dropped items
-                    var beforeDropFile =
-                        root.query('GET_BEFORE_DROP_FILE') ||
-                        function() {
-                            return true;
-                        };
-
-                    // all items should be validated by all filters as valid
-                    var dropValidation = root.query('GET_DROP_VALIDATION');
-                    return dropValidation
-                        ? items.every(function(item) {
-                              return (
-                                  applyFilters('ALLOW_HOPPER_ITEM', item, {
-                                      query: root.query,
-                                  }).every(function(result) {
-                                      return result === true;
-                                  }) && beforeDropFile(item)
-                              );
-                          })
-                        : true;
-                },
-                {
-                    filterItems: function filterItems(items) {
-                        var ignoredFiles = root.query('GET_IGNORED_FILES');
-                        return items.filter(function(item) {
-                            if (isFile(item)) {
-                                return !ignoredFiles.includes(item.name.toLowerCase());
-                            }
-                            return true;
-                        });
-                    },
-                    catchesDropsOnPage: root.query('GET_DROP_ON_PAGE'),
-                    requiresDropOnElement: root.query('GET_DROP_ON_ELEMENT'),
-                }
-            );
-
-            hopper.onload = function(items, position) {
-                // get item children elements and sort based on list sort
-                var list = root.ref.list.childViews[0];
-                var visibleChildren = list.childViews.filter(function(child) {
-                    return child.rect.element.height;
-                });
-                var children = root
-                    .query('GET_ACTIVE_ITEMS')
-                    .map(function(item) {
-                        return visibleChildren.find(function(child) {
-                            return child.id === item.id;
-                        });
-                    })
-                    .filter(function(item) {
-                        return item;
-                    });
-
-                applyFilterChain('ADD_ITEMS', items, { dispatch: root.dispatch }).then(function(
-                    queue
-                ) {
-                    // these files don't fit so stop here
-                    if (exceedsMaxFiles(root, queue)) return false;
-
-                    // go
-                    root.dispatch('ADD_ITEMS', {
-                        items: queue,
-                        index: getDragIndex(root.ref.list, children, position),
-                        interactionMethod: InteractionMethod.DROP,
-                    });
-                });
-
-                root.dispatch('DID_DROP', { position: position });
-
-                root.dispatch('DID_END_DRAG', { position: position });
-            };
-
-            hopper.ondragstart = function(position) {
-                root.dispatch('DID_START_DRAG', { position: position });
-            };
-
-            hopper.ondrag = debounce(function(position) {
-                root.dispatch('DID_DRAG', { position: position });
-            });
-
-            hopper.ondragend = function(position) {
-                root.dispatch('DID_END_DRAG', { position: position });
-            };
-
-            root.ref.hopper = hopper;
-
-            root.ref.drip = root.appendChildView(root.createChildView(drip));
-        } else if (!enabled && root.ref.hopper) {
-            root.ref.hopper.destroy();
-            root.ref.hopper = null;
-            root.removeChildView(root.ref.drip);
-        }
-    };
-
-    /**
-     * Enable or disable browse functionality
-     */
-    var toggleBrowse = function toggleBrowse(root, props) {
-        var isAllowed = root.query('GET_ALLOW_BROWSE');
-        var isDisabled = root.query('GET_DISABLED');
-        var enabled = isAllowed && !isDisabled;
-        if (enabled && !root.ref.browser) {
-            root.ref.browser = root.appendChildView(
-                root.createChildView(
-                    browser,
-                    Object.assign({}, props, {
-                        onload: function onload(items) {
-                            applyFilterChain('ADD_ITEMS', items, {
-                                dispatch: root.dispatch,
-                            }).then(function(queue) {
-                                // these files don't fit so stop here
-                                if (exceedsMaxFiles(root, queue)) return false;
-
-                                // add items!
-                                root.dispatch('ADD_ITEMS', {
-                                    items: queue,
-                                    index: -1,
-                                    interactionMethod: InteractionMethod.BROWSE,
-                                });
-                            });
-                        },
-                    })
-                ),
-
-                0
-            );
-        } else if (!enabled && root.ref.browser) {
-            root.removeChildView(root.ref.browser);
-            root.ref.browser = null;
-        }
-    };
-
-    /**
-     * Enable or disable paste functionality
-     */
-    var togglePaste = function togglePaste(root) {
-        var isAllowed = root.query('GET_ALLOW_PASTE');
-        var isDisabled = root.query('GET_DISABLED');
-        var enabled = isAllowed && !isDisabled;
-        if (enabled && !root.ref.paster) {
-            root.ref.paster = createPaster();
-            root.ref.paster.onload = function(items) {
-                applyFilterChain('ADD_ITEMS', items, { dispatch: root.dispatch }).then(function(
-                    queue
-                ) {
-                    // these files don't fit so stop here
-                    if (exceedsMaxFiles(root, queue)) return false;
-
-                    // add items!
-                    root.dispatch('ADD_ITEMS', {
-                        items: queue,
-                        index: -1,
-                        interactionMethod: InteractionMethod.PASTE,
-                    });
-                });
-            };
-        } else if (!enabled && root.ref.paster) {
-            root.ref.paster.destroy();
-            root.ref.paster = null;
-        }
-    };
-
-    /**
-     * Route actions
-     */
-    var route$5 = createRoute({
-        DID_SET_ALLOW_BROWSE: function DID_SET_ALLOW_BROWSE(_ref5) {
-            var root = _ref5.root,
-                props = _ref5.props;
-            toggleBrowse(root, props);
-        },
-        DID_SET_ALLOW_DROP: function DID_SET_ALLOW_DROP(_ref6) {
-            var root = _ref6.root;
-            toggleDrop(root);
-        },
-        DID_SET_ALLOW_PASTE: function DID_SET_ALLOW_PASTE(_ref7) {
-            var root = _ref7.root;
-            togglePaste(root);
-        },
-        DID_SET_DISABLED: function DID_SET_DISABLED(_ref8) {
-            var root = _ref8.root,
-                props = _ref8.props;
-            toggleDrop(root);
-            togglePaste(root);
-            toggleBrowse(root, props);
-            var isDisabled = root.query('GET_DISABLED');
-            if (isDisabled) {
-                root.element.dataset.disabled = 'disabled';
-            } else {
-                // delete root.element.dataset.disabled; <= this does not work on iOS 10
-                root.element.removeAttribute('data-disabled');
-            }
-        },
-    });
-
-    var root = createView({
-        name: 'root',
-        read: function read(_ref9) {
-            var root = _ref9.root;
-            if (root.ref.measure) {
-                root.ref.measureHeight = root.ref.measure.offsetHeight;
-            }
-        },
-        create: create$e,
-        write: write$9,
-        destroy: function destroy(_ref10) {
-            var root = _ref10.root;
-            if (root.ref.paster) {
-                root.ref.paster.destroy();
-            }
-            if (root.ref.hopper) {
-                root.ref.hopper.destroy();
-            }
-            root.element.removeEventListener('touchmove', prevent);
-            root.element.removeEventListener('gesturestart', prevent);
-        },
-        mixins: {
-            styles: ['height'],
-        },
-    });
-
-    // creates the app
-    var createApp = function createApp() {
-        var initialOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        // let element
-        var originalElement = null;
-
-        // get default options
-        var defaultOptions = getOptions();
-
-        // create the data store, this will contain all our app info
-        var store = createStore(
-            // initial state (should be serializable)
-            createInitialState(defaultOptions),
-
-            // queries
-            [queries, createOptionQueries(defaultOptions)],
-
-            // action handlers
-            [actions, createOptionActions(defaultOptions)]
-        );
-
-        // set initial options
-        store.dispatch('SET_OPTIONS', { options: initialOptions });
-
-        // kick thread if visibility changes
-        var visibilityHandler = function visibilityHandler() {
-            if (document.hidden) return;
-            store.dispatch('KICK');
-        };
-        document.addEventListener('visibilitychange', visibilityHandler);
-
-        // re-render on window resize start and finish
-        var resizeDoneTimer = null;
-        var isResizing = false;
-        var isResizingHorizontally = false;
-        var initialWindowWidth = null;
-        var currentWindowWidth = null;
-        var resizeHandler = function resizeHandler() {
-            if (!isResizing) {
-                isResizing = true;
-            }
-            clearTimeout(resizeDoneTimer);
-            resizeDoneTimer = setTimeout(function() {
-                isResizing = false;
-                initialWindowWidth = null;
-                currentWindowWidth = null;
-                if (isResizingHorizontally) {
-                    isResizingHorizontally = false;
-                    store.dispatch('DID_STOP_RESIZE');
-                }
-            }, 500);
-        };
-        window.addEventListener('resize', resizeHandler);
-
-        // render initial view
-        var view = root(store, { id: getUniqueId() });
-
-        //
-        // PRIVATE API -------------------------------------------------------------------------------------
-        //
-        var isResting = false;
-        var isHidden = false;
-
-        var readWriteApi = {
-            // necessary for update loop
-
-            /**
-             * Reads from dom (never call manually)
-             * @private
-             */
-            _read: function _read() {
-                // test if we're resizing horizontally
-                // TODO: see if we can optimize this by measuring root rect
-                if (isResizing) {
-                    currentWindowWidth = window.innerWidth;
-                    if (!initialWindowWidth) {
-                        initialWindowWidth = currentWindowWidth;
-                    }
-
-                    if (!isResizingHorizontally && currentWindowWidth !== initialWindowWidth) {
-                        store.dispatch('DID_START_RESIZE');
-                        isResizingHorizontally = true;
-                    }
-                }
-
-                if (isHidden && isResting) {
-                    // test if is no longer hidden
-                    isResting = view.element.offsetParent === null;
-                }
-
-                // if resting, no need to read as numbers will still all be correct
-                if (isResting) return;
-
-                // read view data
-                view._read();
-
-                // if is hidden we need to know so we exit rest mode when revealed
-                isHidden = view.rect.element.hidden;
-            },
-
-            /**
-             * Writes to dom (never call manually)
-             * @private
-             */
-            _write: function _write(ts) {
-                // get all actions from store
-                var actions = store
-                    .processActionQueue()
-
-                    // filter out set actions (these will automatically trigger DID_SET)
-                    .filter(function(action) {
-                        return !/^SET_/.test(action.type);
-                    });
-
-                // if was idling and no actions stop here
-                if (isResting && !actions.length) return;
-
-                // some actions might trigger events
-                routeActionsToEvents(actions);
-
-                // update the view
-                isResting = view._write(ts, actions, isResizingHorizontally);
-
-                // will clean up all archived items
-                removeReleasedItems(store.query('GET_ITEMS'));
-
-                // now idling
-                if (isResting) {
-                    store.processDispatchQueue();
-                }
-            },
-        };
-
-        //
-        // EXPOSE EVENTS -------------------------------------------------------------------------------------
-        //
-        var createEvent = function createEvent(name) {
-            return function(data) {
-                // create default event
-                var event = {
-                    type: name,
-                };
-
-                // no data to add
-                if (!data) {
-                    return event;
-                }
-
-                // copy relevant props
-                if (data.hasOwnProperty('error')) {
-                    event.error = data.error ? Object.assign({}, data.error) : null;
-                }
-
-                if (data.status) {
-                    event.status = Object.assign({}, data.status);
-                }
-
-                if (data.file) {
-                    event.output = data.file;
-                }
-
-                // only source is available, else add item if possible
-                if (data.source) {
-                    event.file = data.source;
-                } else if (data.item || data.id) {
-                    var item = data.item ? data.item : store.query('GET_ITEM', data.id);
-                    event.file = item ? createItemAPI(item) : null;
-                }
-
-                // map all items in a possible items array
-                if (data.items) {
-                    event.items = data.items.map(createItemAPI);
-                }
-
-                // if this is a progress event add the progress amount
-                if (/progress/.test(name)) {
-                    event.progress = data.progress;
-                }
-
-                // copy relevant props
-                if (data.hasOwnProperty('origin') && data.hasOwnProperty('target')) {
-                    event.origin = data.origin;
-                    event.target = data.target;
-                }
-
-                return event;
-            };
-        };
-
-        var eventRoutes = {
-            DID_DESTROY: createEvent('destroy'),
-
-            DID_INIT: createEvent('init'),
-
-            DID_THROW_MAX_FILES: createEvent('warning'),
-
-            DID_INIT_ITEM: createEvent('initfile'),
-            DID_START_ITEM_LOAD: createEvent('addfilestart'),
-            DID_UPDATE_ITEM_LOAD_PROGRESS: createEvent('addfileprogress'),
-            DID_LOAD_ITEM: createEvent('addfile'),
-
-            DID_THROW_ITEM_INVALID: [createEvent('error'), createEvent('addfile')],
-
-            DID_THROW_ITEM_LOAD_ERROR: [createEvent('error'), createEvent('addfile')],
-
-            DID_THROW_ITEM_REMOVE_ERROR: [createEvent('error'), createEvent('removefile')],
-
-            DID_PREPARE_OUTPUT: createEvent('preparefile'),
-
-            DID_START_ITEM_PROCESSING: createEvent('processfilestart'),
-            DID_UPDATE_ITEM_PROCESS_PROGRESS: createEvent('processfileprogress'),
-            DID_ABORT_ITEM_PROCESSING: createEvent('processfileabort'),
-            DID_COMPLETE_ITEM_PROCESSING: createEvent('processfile'),
-            DID_COMPLETE_ITEM_PROCESSING_ALL: createEvent('processfiles'),
-            DID_REVERT_ITEM_PROCESSING: createEvent('processfilerevert'),
-
-            DID_THROW_ITEM_PROCESSING_ERROR: [createEvent('error'), createEvent('processfile')],
-
-            DID_REMOVE_ITEM: createEvent('removefile'),
-
-            DID_UPDATE_ITEMS: createEvent('updatefiles'),
-
-            DID_ACTIVATE_ITEM: createEvent('activatefile'),
-
-            DID_REORDER_ITEMS: createEvent('reorderfiles'),
-        };
-
-        var exposeEvent = function exposeEvent(event) {
-            // create event object to be dispatched
-            var detail = Object.assign({ pond: exports }, event);
-            delete detail.type;
-            view.element.dispatchEvent(
-                new CustomEvent('FilePond:' + event.type, {
-                    // event info
-                    detail: detail,
-
-                    // event behaviour
-                    bubbles: true,
-                    cancelable: true,
-                    composed: true, // triggers listeners outside of shadow root
-                })
-            );
-
-            // event object to params used for `on()` event handlers and callbacks `oninit()`
-            var params = [];
-
-            // if is possible error event, make it the first param
-            if (event.hasOwnProperty('error')) {
-                params.push(event.error);
-            }
-
-            // file is always section
-            if (event.hasOwnProperty('file')) {
-                params.push(event.file);
-            }
-
-            // append other props
-            var filtered = ['type', 'error', 'file'];
-            Object.keys(event)
-                .filter(function(key) {
-                    return !filtered.includes(key);
-                })
-                .forEach(function(key) {
-                    return params.push(event[key]);
-                });
-
-            // on(type, () => { })
-            exports.fire.apply(exports, [event.type].concat(params));
-
-            // oninit = () => {}
-            var handler = store.query('GET_ON' + event.type.toUpperCase());
-            if (handler) {
-                handler.apply(void 0, params);
-            }
-        };
-
-        var routeActionsToEvents = function routeActionsToEvents(actions) {
-            if (!actions.length) return;
-            actions
-                .filter(function(action) {
-                    return eventRoutes[action.type];
-                })
-                .forEach(function(action) {
-                    var routes = eventRoutes[action.type];
-                    (Array.isArray(routes) ? routes : [routes]).forEach(function(route) {
-                        // this isn't fantastic, but because of the stacking of settimeouts plugins can handle the did_load before the did_init
-                        if (action.type === 'DID_INIT_ITEM') {
-                            exposeEvent(route(action.data));
-                        } else {
-                            setTimeout(function() {
-                                exposeEvent(route(action.data));
-                            }, 0);
-                        }
-                    });
-                });
-        };
-
-        //
-        // PUBLIC API -------------------------------------------------------------------------------------
-        //
-        var setOptions = function setOptions(options) {
-            return store.dispatch('SET_OPTIONS', { options: options });
-        };
-
-        var getFile = function getFile(query) {
-            return store.query('GET_ACTIVE_ITEM', query);
-        };
-
-        var prepareFile = function prepareFile(query) {
-            return new Promise(function(resolve, reject) {
-                store.dispatch('REQUEST_ITEM_PREPARE', {
-                    query: query,
-                    success: function success(item) {
-                        resolve(item);
-                    },
-                    failure: function failure(error) {
-                        reject(error);
-                    },
-                });
-            });
-        };
-
-        var addFile = function addFile(source) {
-            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-            return new Promise(function(resolve, reject) {
-                addFiles([{ source: source, options: options }], { index: options.index })
-                    .then(function(items) {
-                        return resolve(items && items[0]);
-                    })
-                    .catch(reject);
-            });
-        };
-
-        var isFilePondFile = function isFilePondFile(obj) {
-            return obj.file && obj.id;
-        };
-
-        var removeFile = function removeFile(query, options) {
-            // if only passed options
-            if (typeof query === 'object' && !isFilePondFile(query) && !options) {
-                options = query;
-                query = undefined;
-            }
-
-            // request item removal
-            store.dispatch('REMOVE_ITEM', Object.assign({}, options, { query: query }));
-
-            // see if item has been removed
-            return store.query('GET_ACTIVE_ITEM', query) === null;
-        };
-
-        var addFiles = function addFiles() {
-            for (
-                var _len = arguments.length, args = new Array(_len), _key = 0;
-                _key < _len;
-                _key++
-            ) {
-                args[_key] = arguments[_key];
-            }
-            return new Promise(function(resolve, reject) {
-                var sources = [];
-                var options = {};
-
-                // user passed a sources array
-                if (isArray(args[0])) {
-                    sources.push.apply(sources, args[0]);
-                    Object.assign(options, args[1] || {});
-                } else {
-                    // user passed sources as arguments, last one might be options object
-                    var lastArgument = args[args.length - 1];
-                    if (typeof lastArgument === 'object' && !(lastArgument instanceof Blob)) {
-                        Object.assign(options, args.pop());
-                    }
-
-                    // add rest to sources
-                    sources.push.apply(sources, args);
-                }
-
-                store.dispatch('ADD_ITEMS', {
-                    items: sources,
-                    index: options.index,
-                    interactionMethod: InteractionMethod.API,
-                    success: resolve,
-                    failure: reject,
-                });
-            });
-        };
-
-        var getFiles = function getFiles() {
-            return store.query('GET_ACTIVE_ITEMS');
-        };
-
-        var processFile = function processFile(query) {
-            return new Promise(function(resolve, reject) {
-                store.dispatch('REQUEST_ITEM_PROCESSING', {
-                    query: query,
-                    success: function success(item) {
-                        resolve(item);
-                    },
-                    failure: function failure(error) {
-                        reject(error);
-                    },
-                });
-            });
-        };
-
-        var prepareFiles = function prepareFiles() {
-            for (
-                var _len2 = arguments.length, args = new Array(_len2), _key2 = 0;
-                _key2 < _len2;
-                _key2++
-            ) {
-                args[_key2] = arguments[_key2];
-            }
-            var queries = Array.isArray(args[0]) ? args[0] : args;
-            var items = queries.length ? queries : getFiles();
-            return Promise.all(items.map(prepareFile));
-        };
-
-        var processFiles = function processFiles() {
-            for (
-                var _len3 = arguments.length, args = new Array(_len3), _key3 = 0;
-                _key3 < _len3;
-                _key3++
-            ) {
-                args[_key3] = arguments[_key3];
-            }
-            var queries = Array.isArray(args[0]) ? args[0] : args;
-            if (!queries.length) {
-                var files = getFiles().filter(function(item) {
-                    return (
-                        !(item.status === ItemStatus.IDLE && item.origin === FileOrigin.LOCAL) &&
-                        item.status !== ItemStatus.PROCESSING &&
-                        item.status !== ItemStatus.PROCESSING_COMPLETE &&
-                        item.status !== ItemStatus.PROCESSING_REVERT_ERROR
-                    );
-                });
-
-                return Promise.all(files.map(processFile));
-            }
-            return Promise.all(queries.map(processFile));
-        };
-
-        var removeFiles = function removeFiles() {
-            for (
-                var _len4 = arguments.length, args = new Array(_len4), _key4 = 0;
-                _key4 < _len4;
-                _key4++
-            ) {
-                args[_key4] = arguments[_key4];
-            }
-
-            var queries = Array.isArray(args[0]) ? args[0] : args;
-
-            var options;
-            if (typeof queries[queries.length - 1] === 'object') {
-                options = queries.pop();
-            } else if (Array.isArray(args[0])) {
-                options = args[1];
-            }
-
-            var files = getFiles();
-
-            if (!queries.length)
-                return Promise.all(
-                    files.map(function(file) {
-                        return removeFile(file, options);
-                    })
-                );
-
-            // when removing by index the indexes shift after each file removal so we need to convert indexes to ids
-            var mappedQueries = queries
-                .map(function(query) {
-                    return isNumber(query) ? (files[query] ? files[query].id : null) : query;
-                })
-                .filter(function(query) {
-                    return query;
-                });
-
-            return mappedQueries.map(function(q) {
-                return removeFile(q, options);
-            });
-        };
-
-        var exports = Object.assign(
-            {},
-
-            on(),
-            {},
-
-            readWriteApi,
-            {},
-
-            createOptionAPI(store, defaultOptions),
-            {
-                /**
-                 * Override options defined in options object
-                 * @param options
-                 */
-                setOptions: setOptions,
-
-                /**
-                 * Load the given file
-                 * @param source - the source of the file (either a File, base64 data uri or url)
-                 * @param options - object, { index: 0 }
-                 */
-                addFile: addFile,
-
-                /**
-                 * Load the given files
-                 * @param sources - the sources of the files to load
-                 * @param options - object, { index: 0 }
-                 */
-                addFiles: addFiles,
-
-                /**
-                 * Returns the file objects matching the given query
-                 * @param query { string, number, null }
-                 */
-                getFile: getFile,
-
-                /**
-                 * Upload file with given name
-                 * @param query { string, number, null  }
-                 */
-                processFile: processFile,
-
-                /**
-                 * Request prepare output for file with given name
-                 * @param query { string, number, null  }
-                 */
-                prepareFile: prepareFile,
-
-                /**
-                 * Removes a file by its name
-                 * @param query { string, number, null  }
-                 */
-                removeFile: removeFile,
-
-                /**
-                 * Moves a file to a new location in the files list
-                 */
-                moveFile: function moveFile(query, index) {
-                    return store.dispatch('MOVE_ITEM', { query: query, index: index });
-                },
-
-                /**
-                 * Returns all files (wrapped in public api)
-                 */
-                getFiles: getFiles,
-
-                /**
-                 * Starts uploading all files
-                 */
-                processFiles: processFiles,
-
-                /**
-                 * Clears all files from the files list
-                 */
-                removeFiles: removeFiles,
-
-                /**
-                 * Starts preparing output of all files
-                 */
-                prepareFiles: prepareFiles,
-
-                /**
-                 * Sort list of files
-                 */
-                sort: function sort(compare) {
-                    return store.dispatch('SORT', { compare: compare });
-                },
-
-                /**
-                 * Browse the file system for a file
-                 */
-                browse: function browse() {
-                    // needs to be trigger directly as user action needs to be traceable (is not traceable in requestAnimationFrame)
-                    var input = view.element.querySelector('input[type=file]');
-                    if (input) {
-                        input.click();
-                    }
-                },
-
-                /**
-                 * Destroys the app
-                 */
-                destroy: function destroy() {
-                    // request destruction
-                    exports.fire('destroy', view.element);
-
-                    // stop active processes (file uploads, fetches, stuff like that)
-                    // loop over items and depending on states call abort for ongoing processes
-                    store.dispatch('ABORT_ALL');
-
-                    // destroy view
-                    view._destroy();
-
-                    // stop listening to resize
-                    window.removeEventListener('resize', resizeHandler);
-
-                    // stop listening to the visiblitychange event
-                    document.removeEventListener('visibilitychange', visibilityHandler);
-
-                    // dispatch destroy
-                    store.dispatch('DID_DESTROY');
-                },
-
-                /**
-                 * Inserts the plugin before the target element
-                 */
-                insertBefore: function insertBefore$1(element) {
-                    return insertBefore(view.element, element);
-                },
-
-                /**
-                 * Inserts the plugin after the target element
-                 */
-                insertAfter: function insertAfter$1(element) {
-                    return insertAfter(view.element, element);
-                },
-
-                /**
-                 * Appends the plugin to the target element
-                 */
-                appendTo: function appendTo(element) {
-                    return element.appendChild(view.element);
-                },
-
-                /**
-                 * Replaces an element with the app
-                 */
-                replaceElement: function replaceElement(element) {
-                    // insert the app before the element
-                    insertBefore(view.element, element);
-
-                    // remove the original element
-                    element.parentNode.removeChild(element);
-
-                    // remember original element
-                    originalElement = element;
-                },
-
-                /**
-                 * Restores the original element
-                 */
-                restoreElement: function restoreElement() {
-                    if (!originalElement) {
-                        return; // no element to restore
-                    }
-
-                    // restore original element
-                    insertAfter(originalElement, view.element);
-
-                    // remove our element
-                    view.element.parentNode.removeChild(view.element);
-
-                    // remove reference
-                    originalElement = null;
-                },
-
-                /**
-                 * Returns true if the app root is attached to given element
-                 * @param element
-                 */
-                isAttachedTo: function isAttachedTo(element) {
-                    return view.element === element || originalElement === element;
-                },
-
-                /**
-                 * Returns the root element
-                 */
-                element: {
-                    get: function get() {
-                        return view.element;
-                    },
-                },
-
-                /**
-                 * Returns the current pond status
-                 */
-                status: {
-                    get: function get() {
-                        return store.query('GET_STATUS');
-                    },
-                },
-            }
-        );
-
-        // Done!
-        store.dispatch('DID_INIT');
-
-        // create actual api object
-        return createObject(exports);
-    };
-
-    var createAppObject = function createAppObject() {
-        var customOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        // default options
-        var defaultOptions = {};
-        forin(getOptions(), function(key, value) {
-            defaultOptions[key] = value[0];
-        });
-
-        // set app options
-        var app = createApp(
-            Object.assign(
-                {},
-
-                defaultOptions,
-                {},
-
-                customOptions
-            )
-        );
-
-        // return the plugin instance
-        return app;
-    };
-
-    var lowerCaseFirstLetter = function lowerCaseFirstLetter(string) {
-        return string.charAt(0).toLowerCase() + string.slice(1);
-    };
-
-    var attributeNameToPropertyName = function attributeNameToPropertyName(attributeName) {
-        return toCamels(attributeName.replace(/^data-/, ''));
-    };
-
-    var mapObject = function mapObject(object, propertyMap) {
-        // remove unwanted
-        forin(propertyMap, function(selector, mapping) {
-            forin(object, function(property, value) {
-                // create regexp shortcut
-                var selectorRegExp = new RegExp(selector);
-
-                // tests if
-                var matches = selectorRegExp.test(property);
-
-                // no match, skip
-                if (!matches) {
-                    return;
-                }
-
-                // if there's a mapping, the original property is always removed
-                delete object[property];
-
-                // should only remove, we done!
-                if (mapping === false) {
-                    return;
-                }
-
-                // move value to new property
-                if (isString(mapping)) {
-                    object[mapping] = value;
-                    return;
-                }
-
-                // move to group
-                var group = mapping.group;
-                if (isObject(mapping) && !object[group]) {
-                    object[group] = {};
-                }
-
-                object[group][lowerCaseFirstLetter(property.replace(selectorRegExp, ''))] = value;
-            });
-
-            // do submapping
-            if (mapping.mapping) {
-                mapObject(object[mapping.group], mapping.mapping);
-            }
-        });
-    };
-
-    var getAttributesAsObject = function getAttributesAsObject(node) {
-        var attributeMapping =
-            arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        // turn attributes into object
-        var attributes = [];
-        forin(node.attributes, function(index) {
-            attributes.push(node.attributes[index]);
-        });
-
-        var output = attributes
-            .filter(function(attribute) {
-                return attribute.name;
-            })
-            .reduce(function(obj, attribute) {
-                var value = attr(node, attribute.name);
-
-                obj[attributeNameToPropertyName(attribute.name)] =
-                    value === attribute.name ? true : value;
-                return obj;
-            }, {});
-
-        // do mapping of object properties
-        mapObject(output, attributeMapping);
-
-        return output;
-    };
-
-    var createAppAtElement = function createAppAtElement(element) {
-        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-        // how attributes of the input element are mapped to the options for the plugin
-        var attributeMapping = {
-            // translate to other name
-            '^class$': 'className',
-            '^multiple$': 'allowMultiple',
-            '^capture$': 'captureMethod',
-            '^webkitdirectory$': 'allowDirectoriesOnly',
-
-            // group under single property
-            '^server': {
-                group: 'server',
-                mapping: {
-                    '^process': {
-                        group: 'process',
-                    },
-
-                    '^revert': {
-                        group: 'revert',
-                    },
-
-                    '^fetch': {
-                        group: 'fetch',
-                    },
-
-                    '^restore': {
-                        group: 'restore',
-                    },
-
-                    '^load': {
-                        group: 'load',
-                    },
-                },
-            },
-
-            // don't include in object
-            '^type$': false,
-            '^files$': false,
-        };
-
-        // add additional option translators
-        applyFilters('SET_ATTRIBUTE_TO_OPTION_MAP', attributeMapping);
-
-        // create final options object by setting options object and then overriding options supplied on element
-        var mergedOptions = Object.assign({}, options);
-
-        var attributeOptions = getAttributesAsObject(
-            element.nodeName === 'FIELDSET' ? element.querySelector('input[type=file]') : element,
-            attributeMapping
-        );
-
-        // merge with options object
-        Object.keys(attributeOptions).forEach(function(key) {
-            if (isObject(attributeOptions[key])) {
-                if (!isObject(mergedOptions[key])) {
-                    mergedOptions[key] = {};
-                }
-                Object.assign(mergedOptions[key], attributeOptions[key]);
-            } else {
-                mergedOptions[key] = attributeOptions[key];
-            }
-        });
-
-        // if parent is a fieldset, get files from parent by selecting all input fields that are not file upload fields
-        // these will then be automatically set to the initial files
-        mergedOptions.files = (options.files || []).concat(
-            Array.from(element.querySelectorAll('input:not([type=file])')).map(function(input) {
-                return {
-                    source: input.value,
-                    options: {
-                        type: input.dataset.type,
-                    },
-                };
-            })
-        );
-
-        // build plugin
-        var app = createAppObject(mergedOptions);
-
-        // add already selected files
-        if (element.files) {
-            Array.from(element.files).forEach(function(file) {
-                app.addFile(file);
-            });
-        }
-
-        // replace the target element
-        app.replaceElement(element);
-
-        // expose
-        return app;
-    };
-
-    // if an element is passed, we create the instance at that element, if not, we just create an up object
-    var createApp$1 = function createApp() {
-        return isNode(arguments.length <= 0 ? undefined : arguments[0])
-            ? createAppAtElement.apply(void 0, arguments)
-            : createAppObject.apply(void 0, arguments);
-    };
-
-    var PRIVATE_METHODS = ['fire', '_read', '_write'];
-
-    var createAppAPI = function createAppAPI(app) {
-        var api = {};
-
-        copyObjectPropertiesToObject(app, api, PRIVATE_METHODS);
-
-        return api;
-    };
-
-    /**
-     * Replaces placeholders in given string with replacements
-     * @param string - "Foo {bar}""
-     * @param replacements - { "bar": 10 }
-     */
-    var replaceInString = function replaceInString(string, replacements) {
-        return string.replace(/(?:{([a-zA-Z]+)})/g, function(match, group) {
-            return replacements[group];
-        });
-    };
-
-    var createWorker = function createWorker(fn) {
-        var workerBlob = new Blob(['(', fn.toString(), ')()'], {
-            type: 'application/javascript',
-        });
-
-        var workerURL = URL.createObjectURL(workerBlob);
-        var worker = new Worker(workerURL);
-
-        return {
-            transfer: function transfer(message, cb) {},
-            post: function post(message, cb, transferList) {
-                var id = getUniqueId();
-
-                worker.onmessage = function(e) {
-                    if (e.data.id === id) {
-                        cb(e.data.message);
-                    }
-                };
-
-                worker.postMessage(
-                    {
-                        id: id,
-                        message: message,
-                    },
-
-                    transferList
-                );
-            },
-            terminate: function terminate() {
-                worker.terminate();
-                URL.revokeObjectURL(workerURL);
-            },
-        };
-    };
-
-    var loadImage = function loadImage(url) {
-        return new Promise(function(resolve, reject) {
-            var img = new Image();
-            img.onload = function() {
-                resolve(img);
-            };
-            img.onerror = function(e) {
-                reject(e);
-            };
-            img.src = url;
-        });
-    };
-
-    var renameFile = function renameFile(file, name) {
-        var renamedFile = file.slice(0, file.size, file.type);
-        renamedFile.lastModifiedDate = file.lastModifiedDate;
-        renamedFile.name = name;
-        return renamedFile;
-    };
-
-    var copyFile = function copyFile(file) {
-        return renameFile(file, file.name);
-    };
-
-    // already registered plugins (can't register twice)
-    var registeredPlugins = [];
-
-    // pass utils to plugin
-    var createAppPlugin = function createAppPlugin(plugin) {
-        // already registered
-        if (registeredPlugins.includes(plugin)) {
-            return;
-        }
-
-        // remember this plugin
-        registeredPlugins.push(plugin);
-
-        // setup!
-        var pluginOutline = plugin({
-            addFilter: addFilter,
-            utils: {
-                Type: Type,
-                forin: forin,
-                isString: isString,
-                isFile: isFile,
-                toNaturalFileSize: toNaturalFileSize,
-                replaceInString: replaceInString,
-                getExtensionFromFilename: getExtensionFromFilename,
-                getFilenameWithoutExtension: getFilenameWithoutExtension,
-                guesstimateMimeType: guesstimateMimeType,
-                getFileFromBlob: getFileFromBlob,
-                getFilenameFromURL: getFilenameFromURL,
-                createRoute: createRoute,
-                createWorker: createWorker,
-                createView: createView,
-                createItemAPI: createItemAPI,
-                loadImage: loadImage,
-                copyFile: copyFile,
-                renameFile: renameFile,
-                createBlob: createBlob,
-                applyFilterChain: applyFilterChain,
-                text: text,
-                getNumericAspectRatioFromString: getNumericAspectRatioFromString,
-            },
-
-            views: {
-                fileActionButton: fileActionButton,
-            },
-        });
-
-        // add plugin options to default options
-        extendDefaultOptions(pluginOutline.options);
-    };
-
-    // feature detection used by supported() method
-    var isOperaMini = function isOperaMini() {
-        return Object.prototype.toString.call(window.operamini) === '[object OperaMini]';
-    };
-    var hasPromises = function hasPromises() {
-        return 'Promise' in window;
-    };
-    var hasBlobSlice = function hasBlobSlice() {
-        return 'slice' in Blob.prototype;
-    };
-    var hasCreateObjectURL = function hasCreateObjectURL() {
-        return 'URL' in window && 'createObjectURL' in window.URL;
-    };
-    var hasVisibility = function hasVisibility() {
-        return 'visibilityState' in document;
-    };
-    var hasTiming = function hasTiming() {
-        return 'performance' in window;
-    }; // iOS 8.x
-    var hasCSSSupports = function hasCSSSupports() {
-        return 'supports' in (window.CSS || {});
-    }; // use to detect Safari 9+
-    var isIE11 = function isIE11() {
-        return /MSIE|Trident/.test(window.navigator.userAgent);
-    };
-
-    var supported = (function() {
-        // Runs immediately and then remembers result for subsequent calls
-        var isSupported =
-            // Has to be a browser
-            isBrowser() &&
-            // Can't run on Opera Mini due to lack of everything
-            !isOperaMini() &&
-            // Require these APIs to feature detect a modern browser
-            hasVisibility() &&
-            hasPromises() &&
-            hasBlobSlice() &&
-            hasCreateObjectURL() &&
-            hasTiming() &&
-            // doesn't need CSSSupports but is a good way to detect Safari 9+ (we do want to support IE11 though)
-            (hasCSSSupports() || isIE11());
-
-        return function() {
-            return isSupported;
-        };
-    })();
-
-    /**
-     * Plugin internal state (over all instances)
-     */
-    var state = {
-        // active app instances, used to redraw the apps and to find the later
-        apps: [],
-    };
-
-    // plugin name
-    var name = 'filepond';
-
-    /**
-     * Public Plugin methods
-     */
-    var fn = function fn() {};
-    exports.Status = {};
-    exports.FileStatus = {};
-    exports.FileOrigin = {};
-    exports.OptionTypes = {};
-    exports.create = fn;
-    exports.destroy = fn;
-    exports.parse = fn;
-    exports.find = fn;
-    exports.registerPlugin = fn;
-    exports.getOptions = fn;
-    exports.setOptions = fn;
-
-    // if not supported, no API
-    if (supported()) {
-        // start painter and fire load event
-        createPainter(
-            function() {
-                state.apps.forEach(function(app) {
-                    return app._read();
-                });
-            },
-            function(ts) {
-                state.apps.forEach(function(app) {
-                    return app._write(ts);
-                });
-            }
-        );
-
-        // fire loaded event so we know when FilePond is available
-        var dispatch = function dispatch() {
-            // let others know we have area ready
-            document.dispatchEvent(
-                new CustomEvent('FilePond:loaded', {
-                    detail: {
-                        supported: supported,
-                        create: exports.create,
-                        destroy: exports.destroy,
-                        parse: exports.parse,
-                        find: exports.find,
-                        registerPlugin: exports.registerPlugin,
-                        setOptions: exports.setOptions,
-                    },
-                })
-            );
-
-            // clean up event
-            document.removeEventListener('DOMContentLoaded', dispatch);
-        };
-
-        if (document.readyState !== 'loading') {
-            // move to back of execution queue, FilePond should have been exported by then
-            setTimeout(function() {
-                return dispatch();
-            }, 0);
-        } else {
-            document.addEventListener('DOMContentLoaded', dispatch);
-        }
-
-        // updates the OptionTypes object based on the current options
-        var updateOptionTypes = function updateOptionTypes() {
-            return forin(getOptions(), function(key, value) {
-                exports.OptionTypes[key] = value[1];
-            });
-        };
-
-        exports.Status = Object.assign({}, Status);
-        exports.FileOrigin = Object.assign({}, FileOrigin);
-        exports.FileStatus = Object.assign({}, ItemStatus);
-
-        exports.OptionTypes = {};
-        updateOptionTypes();
-
-        // create method, creates apps and adds them to the app array
-        exports.create = function create() {
-            var app = createApp$1.apply(void 0, arguments);
-            app.on('destroy', exports.destroy);
-            state.apps.push(app);
-            return createAppAPI(app);
-        };
-
-        // destroys apps and removes them from the app array
-        exports.destroy = function destroy(hook) {
-            // returns true if the app was destroyed successfully
-            var indexToRemove = state.apps.findIndex(function(app) {
-                return app.isAttachedTo(hook);
-            });
-            if (indexToRemove >= 0) {
-                // remove from apps
-                var app = state.apps.splice(indexToRemove, 1)[0];
-
-                // restore original dom element
-                app.restoreElement();
-
-                return true;
-            }
-
-            return false;
-        };
-
-        // parses the given context for plugins (does not include the context element itself)
-        exports.parse = function parse(context) {
-            // get all possible hooks
-            var matchedHooks = Array.from(context.querySelectorAll('.' + name));
-
-            // filter out already active hooks
-            var newHooks = matchedHooks.filter(function(newHook) {
-                return !state.apps.find(function(app) {
-                    return app.isAttachedTo(newHook);
-                });
-            });
-
-            // create new instance for each hook
-            return newHooks.map(function(hook) {
-                return exports.create(hook);
-            });
-        };
-
-        // returns an app based on the given element hook
-        exports.find = function find(hook) {
-            var app = state.apps.find(function(app) {
-                return app.isAttachedTo(hook);
-            });
-            if (!app) {
-                return null;
-            }
-            return createAppAPI(app);
-        };
-
-        // adds a plugin extension
-        exports.registerPlugin = function registerPlugin() {
-            for (
-                var _len = arguments.length, plugins = new Array(_len), _key = 0;
-                _key < _len;
-                _key++
-            ) {
-                plugins[_key] = arguments[_key];
-            }
-
-            // register plugins
-            plugins.forEach(createAppPlugin);
-
-            // update OptionTypes, each plugin might have extended the default options
-            updateOptionTypes();
-        };
-
-        exports.getOptions = function getOptions$1() {
-            var opts = {};
-            forin(getOptions(), function(key, value) {
-                opts[key] = value[0];
-            });
-            return opts;
-        };
-
-        exports.setOptions = function setOptions$1(opts) {
-            if (isObject(opts)) {
-                // update existing plugins
-                state.apps.forEach(function(app) {
-                    app.setOptions(opts);
-                });
-
-                // override defaults
-                setOptions(opts);
-            }
-
-            // return new options
-            return exports.getOptions();
-        };
-    }
-
-    exports.supported = supported;
-
-    Object.defineProperty(exports, '__esModule', { value: true });
+
+/***/ }),
+
+/***/ 288:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_79325__) {
+
+"use strict";
+
+var TO_STRING_TAG_SUPPORT = __nested_webpack_require_79325__(1694);
+var classof = __nested_webpack_require_79325__(648);
+
+// `Object.prototype.toString` method implementation
+// https://tc39.es/ecma262/#sec-object.prototype.tostring
+module.exports = TO_STRING_TAG_SUPPORT ? {}.toString : function toString() {
+  return '[object ' + classof(this) + ']';
+};
+
+
+/***/ }),
+
+/***/ 3887:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_79769__) {
+
+var getBuiltIn = __nested_webpack_require_79769__(5005);
+var getOwnPropertyNamesModule = __nested_webpack_require_79769__(8006);
+var getOwnPropertySymbolsModule = __nested_webpack_require_79769__(5181);
+var anObject = __nested_webpack_require_79769__(9670);
+
+// all object keys, includes non-enumerable and symbols
+module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
+  var keys = getOwnPropertyNamesModule.f(anObject(it));
+  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+  return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
+};
+
+
+/***/ }),
+
+/***/ 857:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_80406__) {
+
+var global = __nested_webpack_require_80406__(7854);
+
+module.exports = global;
+
+
+/***/ }),
+
+/***/ 2248:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_80571__) {
+
+var redefine = __nested_webpack_require_80571__(1320);
+
+module.exports = function (target, src, options) {
+  for (var key in src) redefine(target, key, src[key], options);
+  return target;
+};
+
+
+/***/ }),
+
+/***/ 1320:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_80849__) {
+
+var global = __nested_webpack_require_80849__(7854);
+var createNonEnumerableProperty = __nested_webpack_require_80849__(8880);
+var has = __nested_webpack_require_80849__(6656);
+var setGlobal = __nested_webpack_require_80849__(3505);
+var inspectSource = __nested_webpack_require_80849__(2788);
+var InternalStateModule = __nested_webpack_require_80849__(9909);
+
+var getInternalState = InternalStateModule.get;
+var enforceInternalState = InternalStateModule.enforce;
+var TEMPLATE = String(String).split('String');
+
+(module.exports = function (O, key, value, options) {
+  var unsafe = options ? !!options.unsafe : false;
+  var simple = options ? !!options.enumerable : false;
+  var noTargetGet = options ? !!options.noTargetGet : false;
+  var state;
+  if (typeof value == 'function') {
+    if (typeof key == 'string' && !has(value, 'name')) {
+      createNonEnumerableProperty(value, 'name', key);
+    }
+    state = enforceInternalState(value);
+    if (!state.source) {
+      state.source = TEMPLATE.join(typeof key == 'string' ? key : '');
+    }
+  }
+  if (O === global) {
+    if (simple) O[key] = value;
+    else setGlobal(key, value);
+    return;
+  } else if (!unsafe) {
+    delete O[key];
+  } else if (!noTargetGet && O[key]) {
+    simple = true;
+  }
+  if (simple) O[key] = value;
+  else createNonEnumerableProperty(O, key, value);
+// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+})(Function.prototype, 'toString', function toString() {
+  return typeof this == 'function' && getInternalState(this).source || inspectSource(this);
 });
 
 
 /***/ }),
 
-/***/ "./node_modules/jquery-filepond/filepond.jquery.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/jquery-filepond/filepond.jquery.js ***!
-  \*********************************************************/
-/***/ (() => {
+/***/ 7651:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_82466__) {
 
-(function($, FilePond){
-    'use strict';
+var classof = __nested_webpack_require_82466__(4326);
+var regexpExec = __nested_webpack_require_82466__(2261);
 
-    // No jQuery No Go
-    if (!$ || !FilePond) {
-        return;
+// `RegExpExec` abstract operation
+// https://tc39.es/ecma262/#sec-regexpexec
+module.exports = function (R, S) {
+  var exec = R.exec;
+  if (typeof exec === 'function') {
+    var result = exec.call(R, S);
+    if (typeof result !== 'object') {
+      throw TypeError('RegExp exec method returned something other than an Object or null');
     }
-    
-    // Test if FilePond is supported
-    if (!FilePond.supported()) {
-        // add stub
-        $.fn.filepond = function() {};
-        return;
+    return result;
+  }
+
+  if (classof(R) !== 'RegExp') {
+    throw TypeError('RegExp#exec called on incompatible receiver');
+  }
+
+  return regexpExec.call(R, S);
+};
+
+
+
+/***/ }),
+
+/***/ 2261:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_83158__) {
+
+"use strict";
+
+var regexpFlags = __nested_webpack_require_83158__(7066);
+var stickyHelpers = __nested_webpack_require_83158__(2999);
+
+var nativeExec = RegExp.prototype.exec;
+// This always refers to the native implementation, because the
+// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
+// which loads this file before patching the method.
+var nativeReplace = String.prototype.replace;
+
+var patchedExec = nativeExec;
+
+var UPDATES_LAST_INDEX_WRONG = (function () {
+  var re1 = /a/;
+  var re2 = /b*/g;
+  nativeExec.call(re1, 'a');
+  nativeExec.call(re2, 'a');
+  return re1.lastIndex !== 0 || re2.lastIndex !== 0;
+})();
+
+var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y || stickyHelpers.BROKEN_CARET;
+
+// nonparticipating capturing group, copied from es5-shim's String#split patch.
+// eslint-disable-next-line regexp/no-assertion-capturing-group, regexp/no-empty-group -- required for testing
+var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
+
+var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED || UNSUPPORTED_Y;
+
+if (PATCH) {
+  patchedExec = function exec(str) {
+    var re = this;
+    var lastIndex, reCopy, match, i;
+    var sticky = UNSUPPORTED_Y && re.sticky;
+    var flags = regexpFlags.call(re);
+    var source = re.source;
+    var charsAdded = 0;
+    var strCopy = str;
+
+    if (sticky) {
+      flags = flags.replace('y', '');
+      if (flags.indexOf('g') === -1) {
+        flags += 'g';
+      }
+
+      strCopy = String(str).slice(re.lastIndex);
+      // Support anchored sticky behavior.
+      if (re.lastIndex > 0 && (!re.multiline || re.multiline && str[re.lastIndex - 1] !== '\n')) {
+        source = '(?: ' + source + ')';
+        strCopy = ' ' + strCopy;
+        charsAdded++;
+      }
+      // ^(? + rx + ) is needed, in combination with some str slicing, to
+      // simulate the 'y' flag.
+      reCopy = new RegExp('^(?:' + source + ')', flags);
     }
 
-    // Helpers
-    function argsToArray(args) {
-        return Array.prototype.slice.call(args);
+    if (NPCG_INCLUDED) {
+      reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
+    }
+    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
+
+    match = nativeExec.call(sticky ? reCopy : re, strCopy);
+
+    if (sticky) {
+      if (match) {
+        match.input = match.input.slice(charsAdded);
+        match[0] = match[0].slice(charsAdded);
+        match.index = re.lastIndex;
+        re.lastIndex += match[0].length;
+      } else re.lastIndex = 0;
+    } else if (UPDATES_LAST_INDEX_WRONG && match) {
+      re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
+    }
+    if (NPCG_INCLUDED && match && match.length > 1) {
+      // Fix browsers whose `exec` methods don't consistently return `undefined`
+      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
+      nativeReplace.call(match[0], reCopy, function () {
+        for (i = 1; i < arguments.length - 2; i++) {
+          if (arguments[i] === undefined) match[i] = undefined;
+        }
+      });
     }
 
-    function isFactory(args) {
-        return !args.length || typeof args[0] === 'object';
+    return match;
+  };
+}
+
+module.exports = patchedExec;
+
+
+/***/ }),
+
+/***/ 7066:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_86176__) {
+
+"use strict";
+
+var anObject = __nested_webpack_require_86176__(9670);
+
+// `RegExp.prototype.flags` getter implementation
+// https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.dotAll) result += 's';
+  if (that.unicode) result += 'u';
+  if (that.sticky) result += 'y';
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 2999:
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_86753__) {
+
+"use strict";
+
+
+var fails = __nested_webpack_require_86753__(7293);
+
+// babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError,
+// so we use an intermediate function.
+function RE(s, f) {
+  return RegExp(s, f);
+}
+
+exports.UNSUPPORTED_Y = fails(function () {
+  // babel-minify transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
+  var re = RE('a', 'y');
+  re.lastIndex = 2;
+  return re.exec('abcd') != null;
+});
+
+exports.BROKEN_CARET = fails(function () {
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=773687
+  var re = RE('^r', 'gy');
+  re.lastIndex = 2;
+  return re.exec('str') != null;
+});
+
+
+/***/ }),
+
+/***/ 4488:
+/***/ (function(module) {
+
+// `RequireObjectCoercible` abstract operation
+// https://tc39.es/ecma262/#sec-requireobjectcoercible
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on " + it);
+  return it;
+};
+
+
+/***/ }),
+
+/***/ 3505:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_87737__) {
+
+var global = __nested_webpack_require_87737__(7854);
+var createNonEnumerableProperty = __nested_webpack_require_87737__(8880);
+
+module.exports = function (key, value) {
+  try {
+    createNonEnumerableProperty(global, key, value);
+  } catch (error) {
+    global[key] = value;
+  } return value;
+};
+
+
+/***/ }),
+
+/***/ 6340:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_88106__) {
+
+"use strict";
+
+var getBuiltIn = __nested_webpack_require_88106__(5005);
+var definePropertyModule = __nested_webpack_require_88106__(3070);
+var wellKnownSymbol = __nested_webpack_require_88106__(5112);
+var DESCRIPTORS = __nested_webpack_require_88106__(9781);
+
+var SPECIES = wellKnownSymbol('species');
+
+module.exports = function (CONSTRUCTOR_NAME) {
+  var Constructor = getBuiltIn(CONSTRUCTOR_NAME);
+  var defineProperty = definePropertyModule.f;
+
+  if (DESCRIPTORS && Constructor && !Constructor[SPECIES]) {
+    defineProperty(Constructor, SPECIES, {
+      configurable: true,
+      get: function () { return this; }
+    });
+  }
+};
+
+
+/***/ }),
+
+/***/ 8003:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_88786__) {
+
+var defineProperty = __nested_webpack_require_88786__(3070).f;
+var has = __nested_webpack_require_88786__(6656);
+var wellKnownSymbol = __nested_webpack_require_88786__(5112);
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+
+module.exports = function (it, TAG, STATIC) {
+  if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
+    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
+  }
+};
+
+
+/***/ }),
+
+/***/ 6200:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_89271__) {
+
+var shared = __nested_webpack_require_89271__(2309);
+var uid = __nested_webpack_require_89271__(9711);
+
+var keys = shared('keys');
+
+module.exports = function (key) {
+  return keys[key] || (keys[key] = uid(key));
+};
+
+
+/***/ }),
+
+/***/ 5465:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_89559__) {
+
+var global = __nested_webpack_require_89559__(7854);
+var setGlobal = __nested_webpack_require_89559__(3505);
+
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || setGlobal(SHARED, {});
+
+module.exports = store;
+
+
+/***/ }),
+
+/***/ 2309:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_89855__) {
+
+var IS_PURE = __nested_webpack_require_89855__(1913);
+var store = __nested_webpack_require_89855__(5465);
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: '3.9.0',
+  mode: IS_PURE ? 'pure' : 'global',
+  copyright: '© 2021 Denis Pushkarev (zloirock.ru)'
+});
+
+
+/***/ }),
+
+/***/ 6707:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_90288__) {
+
+var anObject = __nested_webpack_require_90288__(9670);
+var aFunction = __nested_webpack_require_90288__(3099);
+var wellKnownSymbol = __nested_webpack_require_90288__(5112);
+
+var SPECIES = wellKnownSymbol('species');
+
+// `SpeciesConstructor` abstract operation
+// https://tc39.es/ecma262/#sec-speciesconstructor
+module.exports = function (O, defaultConstructor) {
+  var C = anObject(O).constructor;
+  var S;
+  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? defaultConstructor : aFunction(S);
+};
+
+
+/***/ }),
+
+/***/ 8710:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_90863__) {
+
+var toInteger = __nested_webpack_require_90863__(9958);
+var requireObjectCoercible = __nested_webpack_require_90863__(4488);
+
+// `String.prototype.{ codePointAt, at }` methods implementation
+var createMethod = function (CONVERT_TO_STRING) {
+  return function ($this, pos) {
+    var S = String(requireObjectCoercible($this));
+    var position = toInteger(pos);
+    var size = S.length;
+    var first, second;
+    if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
+    first = S.charCodeAt(position);
+    return first < 0xD800 || first > 0xDBFF || position + 1 === size
+      || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
+        ? CONVERT_TO_STRING ? S.charAt(position) : first
+        : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
+  };
+};
+
+module.exports = {
+  // `String.prototype.codePointAt` method
+  // https://tc39.es/ecma262/#sec-string.prototype.codepointat
+  codeAt: createMethod(false),
+  // `String.prototype.at` method
+  // https://github.com/mathiasbynens/String.prototype.at
+  charAt: createMethod(true)
+};
+
+
+/***/ }),
+
+/***/ 3197:
+/***/ (function(module) {
+
+"use strict";
+
+// based on https://github.com/bestiejs/punycode.js/blob/master/punycode.js
+var maxInt = 2147483647; // aka. 0x7FFFFFFF or 2^31-1
+var base = 36;
+var tMin = 1;
+var tMax = 26;
+var skew = 38;
+var damp = 700;
+var initialBias = 72;
+var initialN = 128; // 0x80
+var delimiter = '-'; // '\x2D'
+var regexNonASCII = /[^\0-\u007E]/; // non-ASCII chars
+var regexSeparators = /[.\u3002\uFF0E\uFF61]/g; // RFC 3490 separators
+var OVERFLOW_ERROR = 'Overflow: input needs wider integers to process';
+var baseMinusTMin = base - tMin;
+var floor = Math.floor;
+var stringFromCharCode = String.fromCharCode;
+
+/**
+ * Creates an array containing the numeric code points of each Unicode
+ * character in the string. While JavaScript uses UCS-2 internally,
+ * this function will convert a pair of surrogate halves (each of which
+ * UCS-2 exposes as separate characters) into a single code point,
+ * matching UTF-16.
+ */
+var ucs2decode = function (string) {
+  var output = [];
+  var counter = 0;
+  var length = string.length;
+  while (counter < length) {
+    var value = string.charCodeAt(counter++);
+    if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+      // It's a high surrogate, and there is a next character.
+      var extra = string.charCodeAt(counter++);
+      if ((extra & 0xFC00) == 0xDC00) { // Low surrogate.
+        output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+      } else {
+        // It's an unmatched surrogate; only append this code unit, in case the
+        // next code unit is the high surrogate of a surrogate pair.
+        output.push(value);
+        counter--;
+      }
+    } else {
+      output.push(value);
+    }
+  }
+  return output;
+};
+
+/**
+ * Converts a digit/integer into a basic code point.
+ */
+var digitToBasic = function (digit) {
+  //  0..25 map to ASCII a..z or A..Z
+  // 26..35 map to ASCII 0..9
+  return digit + 22 + 75 * (digit < 26);
+};
+
+/**
+ * Bias adaptation function as per section 3.4 of RFC 3492.
+ * https://tools.ietf.org/html/rfc3492#section-3.4
+ */
+var adapt = function (delta, numPoints, firstTime) {
+  var k = 0;
+  delta = firstTime ? floor(delta / damp) : delta >> 1;
+  delta += floor(delta / numPoints);
+  for (; delta > baseMinusTMin * tMax >> 1; k += base) {
+    delta = floor(delta / baseMinusTMin);
+  }
+  return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+};
+
+/**
+ * Converts a string of Unicode symbols (e.g. a domain name label) to a
+ * Punycode string of ASCII-only symbols.
+ */
+// eslint-disable-next-line max-statements -- TODO
+var encode = function (input) {
+  var output = [];
+
+  // Convert the input in UCS-2 to an array of Unicode code points.
+  input = ucs2decode(input);
+
+  // Cache the length.
+  var inputLength = input.length;
+
+  // Initialize the state.
+  var n = initialN;
+  var delta = 0;
+  var bias = initialBias;
+  var i, currentValue;
+
+  // Handle the basic code points.
+  for (i = 0; i < input.length; i++) {
+    currentValue = input[i];
+    if (currentValue < 0x80) {
+      output.push(stringFromCharCode(currentValue));
+    }
+  }
+
+  var basicLength = output.length; // number of basic code points.
+  var handledCPCount = basicLength; // number of code points that have been handled;
+
+  // Finish the basic string with a delimiter unless it's empty.
+  if (basicLength) {
+    output.push(delimiter);
+  }
+
+  // Main encoding loop:
+  while (handledCPCount < inputLength) {
+    // All non-basic code points < n have been handled already. Find the next larger one:
+    var m = maxInt;
+    for (i = 0; i < input.length; i++) {
+      currentValue = input[i];
+      if (currentValue >= n && currentValue < m) {
+        m = currentValue;
+      }
     }
 
-	function isGetter(obj, key) {
-		var descriptor = Object.getOwnPropertyDescriptor(obj, key);
-		return descriptor ? typeof descriptor.get !== 'undefined' : false;
-	}
+    // Increase `delta` enough to advance the decoder's <n,i> state to <m,0>, but guard against overflow.
+    var handledCPCountPlusOne = handledCPCount + 1;
+    if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+      throw RangeError(OVERFLOW_ERROR);
+    }
 
-	function isSetter(obj, key) {
-		var descriptor = Object.getOwnPropertyDescriptor(obj, key);
-		return descriptor ? typeof descriptor.set !== 'undefined' : false;
-	}
+    delta += (m - n) * handledCPCountPlusOne;
+    n = m;
 
-	function isMethod(obj, key) {
-		return typeof obj[key] === 'function';
-	}
+    for (i = 0; i < input.length; i++) {
+      currentValue = input[i];
+      if (currentValue < n && ++delta > maxInt) {
+        throw RangeError(OVERFLOW_ERROR);
+      }
+      if (currentValue == n) {
+        // Represent delta as a generalized variable-length integer.
+        var q = delta;
+        for (var k = base; /* no condition */; k += base) {
+          var t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+          if (q < t) break;
+          var qMinusT = q - t;
+          var baseMinusT = base - t;
+          output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT)));
+          q = floor(qMinusT / baseMinusT);
+        }
 
-    // Setup plugin
-    $.fn.filepond = function() {
+        output.push(stringFromCharCode(digitToBasic(q)));
+        bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+        delta = 0;
+        ++handledCPCount;
+      }
+    }
 
-        // get arguments as array
-        var args = argsToArray(arguments);
+    ++delta;
+    ++n;
+  }
+  return output.join('');
+};
 
-        // method results array
-        var results = [];
+module.exports = function (input) {
+  var encoded = [];
+  var labels = input.toLowerCase().replace(regexSeparators, '\u002E').split('.');
+  var i, label;
+  for (i = 0; i < labels.length; i++) {
+    label = labels[i];
+    encoded.push(regexNonASCII.test(label) ? 'xn--' + encode(label) : label);
+  }
+  return encoded.join('.');
+};
 
-        // Execute for every item in the list
-        var items = this.each(function() {
 
-            // test if is create call
-            if (isFactory(args)) {
-                FilePond.create(this, args[0])
-                return;
-            }
-            
-            // get a reference to the pond instance based on the element
-            var pond = FilePond.find(this);
+/***/ }),
 
-            // if no pond found, exit here
-            if (!pond) {
-                return;
-            }
+/***/ 6091:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_97360__) {
 
-            // get property name or method name
-            var key = args[0];
+var fails = __nested_webpack_require_97360__(7293);
+var whitespaces = __nested_webpack_require_97360__(1361);
 
-            // get params to pass
-            var params = args.concat().slice(1);
+var non = '\u200B\u0085\u180E';
 
-            // run method
-            if (isMethod(pond, key)) {
-                results.push(pond[key].apply(pond, params));
-                return;
-            }
+// check that a method works with the correct list
+// of whitespaces and has a correct name
+module.exports = function (METHOD_NAME) {
+  return fails(function () {
+    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
+  });
+};
 
-            // set setter
-            if (isSetter(pond, key) && params.length) {
-                pond[key] = params[0];
-                return;
-            }
 
-            // get getter
-            if (isGetter(pond, key)) {
-                results.push(pond[key]);
-                return;
-            }
+/***/ }),
 
-            console.warn('$().filepond("' + key + '") is an unknown property or method.');
-        });
+/***/ 3111:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_97868__) {
 
-        // returns a jQuery object if no results returned
-        return results.length ? this.length === 1 ? results[0] : results : items;
+var requireObjectCoercible = __nested_webpack_require_97868__(4488);
+var whitespaces = __nested_webpack_require_97868__(1361);
+
+var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$');
+
+// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+var createMethod = function (TYPE) {
+  return function ($this) {
+    var string = String(requireObjectCoercible($this));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+};
+
+module.exports = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.es/ecma262/#sec-string.prototype.trimstart
+  start: createMethod(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.es/ecma262/#sec-string.prototype.trimend
+  end: createMethod(2),
+  // `String.prototype.trim` method
+  // https://tc39.es/ecma262/#sec-string.prototype.trim
+  trim: createMethod(3)
+};
+
+
+/***/ }),
+
+/***/ 1400:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_98992__) {
+
+var toInteger = __nested_webpack_require_98992__(9958);
+
+var max = Math.max;
+var min = Math.min;
+
+// Helper for a popular repeating case of the spec:
+// Let integer be ? ToInteger(index).
+// If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
+module.exports = function (index, length) {
+  var integer = toInteger(index);
+  return integer < 0 ? max(integer + length, 0) : min(integer, length);
+};
+
+
+/***/ }),
+
+/***/ 7067:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_99521__) {
+
+var toInteger = __nested_webpack_require_99521__(9958);
+var toLength = __nested_webpack_require_99521__(7466);
+
+// `ToIndex` abstract operation
+// https://tc39.es/ecma262/#sec-toindex
+module.exports = function (it) {
+  if (it === undefined) return 0;
+  var number = toInteger(it);
+  var length = toLength(number);
+  if (number !== length) throw RangeError('Wrong length or index');
+  return length;
+};
+
+
+/***/ }),
+
+/***/ 5656:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_99996__) {
+
+// toObject with fallback for non-array-like ES3 strings
+var IndexedObject = __nested_webpack_require_99996__(8361);
+var requireObjectCoercible = __nested_webpack_require_99996__(4488);
+
+module.exports = function (it) {
+  return IndexedObject(requireObjectCoercible(it));
+};
+
+
+/***/ }),
+
+/***/ 9958:
+/***/ (function(module) {
+
+var ceil = Math.ceil;
+var floor = Math.floor;
+
+// `ToInteger` abstract operation
+// https://tc39.es/ecma262/#sec-tointeger
+module.exports = function (argument) {
+  return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
+};
+
+
+/***/ }),
+
+/***/ 7466:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_100645__) {
+
+var toInteger = __nested_webpack_require_100645__(9958);
+
+var min = Math.min;
+
+// `ToLength` abstract operation
+// https://tc39.es/ecma262/#sec-tolength
+module.exports = function (argument) {
+  return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+};
+
+
+/***/ }),
+
+/***/ 7908:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_101032__) {
+
+var requireObjectCoercible = __nested_webpack_require_101032__(4488);
+
+// `ToObject` abstract operation
+// https://tc39.es/ecma262/#sec-toobject
+module.exports = function (argument) {
+  return Object(requireObjectCoercible(argument));
+};
+
+
+/***/ }),
+
+/***/ 4590:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_101355__) {
+
+var toPositiveInteger = __nested_webpack_require_101355__(3002);
+
+module.exports = function (it, BYTES) {
+  var offset = toPositiveInteger(it);
+  if (offset % BYTES) throw RangeError('Wrong offset');
+  return offset;
+};
+
+
+/***/ }),
+
+/***/ 3002:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_101660__) {
+
+var toInteger = __nested_webpack_require_101660__(9958);
+
+module.exports = function (it) {
+  var result = toInteger(it);
+  if (result < 0) throw RangeError("The argument can't be less than 0");
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 7593:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_101959__) {
+
+var isObject = __nested_webpack_require_101959__(111);
+
+// `ToPrimitive` abstract operation
+// https://tc39.es/ecma262/#sec-toprimitive
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (input, PREFERRED_STRING) {
+  if (!isObject(input)) return input;
+  var fn, val;
+  if (PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+  if (typeof (fn = input.valueOf) == 'function' && !isObject(val = fn.call(input))) return val;
+  if (!PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+
+/***/ 1694:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_102821__) {
+
+var wellKnownSymbol = __nested_webpack_require_102821__(5112);
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var test = {};
+
+test[TO_STRING_TAG] = 'z';
+
+module.exports = String(test) === '[object z]';
+
+
+/***/ }),
+
+/***/ 9843:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_103114__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_103114__(2109);
+var global = __nested_webpack_require_103114__(7854);
+var DESCRIPTORS = __nested_webpack_require_103114__(9781);
+var TYPED_ARRAYS_CONSTRUCTORS_REQUIRES_WRAPPERS = __nested_webpack_require_103114__(3832);
+var ArrayBufferViewCore = __nested_webpack_require_103114__(260);
+var ArrayBufferModule = __nested_webpack_require_103114__(3331);
+var anInstance = __nested_webpack_require_103114__(5787);
+var createPropertyDescriptor = __nested_webpack_require_103114__(9114);
+var createNonEnumerableProperty = __nested_webpack_require_103114__(8880);
+var toLength = __nested_webpack_require_103114__(7466);
+var toIndex = __nested_webpack_require_103114__(7067);
+var toOffset = __nested_webpack_require_103114__(4590);
+var toPrimitive = __nested_webpack_require_103114__(7593);
+var has = __nested_webpack_require_103114__(6656);
+var classof = __nested_webpack_require_103114__(648);
+var isObject = __nested_webpack_require_103114__(111);
+var create = __nested_webpack_require_103114__(30);
+var setPrototypeOf = __nested_webpack_require_103114__(7674);
+var getOwnPropertyNames = __nested_webpack_require_103114__(8006).f;
+var typedArrayFrom = __nested_webpack_require_103114__(7321);
+var forEach = __nested_webpack_require_103114__(2092).forEach;
+var setSpecies = __nested_webpack_require_103114__(6340);
+var definePropertyModule = __nested_webpack_require_103114__(3070);
+var getOwnPropertyDescriptorModule = __nested_webpack_require_103114__(1236);
+var InternalStateModule = __nested_webpack_require_103114__(9909);
+var inheritIfRequired = __nested_webpack_require_103114__(9587);
+
+var getInternalState = InternalStateModule.get;
+var setInternalState = InternalStateModule.set;
+var nativeDefineProperty = definePropertyModule.f;
+var nativeGetOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+var round = Math.round;
+var RangeError = global.RangeError;
+var ArrayBuffer = ArrayBufferModule.ArrayBuffer;
+var DataView = ArrayBufferModule.DataView;
+var NATIVE_ARRAY_BUFFER_VIEWS = ArrayBufferViewCore.NATIVE_ARRAY_BUFFER_VIEWS;
+var TYPED_ARRAY_TAG = ArrayBufferViewCore.TYPED_ARRAY_TAG;
+var TypedArray = ArrayBufferViewCore.TypedArray;
+var TypedArrayPrototype = ArrayBufferViewCore.TypedArrayPrototype;
+var aTypedArrayConstructor = ArrayBufferViewCore.aTypedArrayConstructor;
+var isTypedArray = ArrayBufferViewCore.isTypedArray;
+var BYTES_PER_ELEMENT = 'BYTES_PER_ELEMENT';
+var WRONG_LENGTH = 'Wrong length';
+
+var fromList = function (C, list) {
+  var index = 0;
+  var length = list.length;
+  var result = new (aTypedArrayConstructor(C))(length);
+  while (length > index) result[index] = list[index++];
+  return result;
+};
+
+var addGetter = function (it, key) {
+  nativeDefineProperty(it, key, { get: function () {
+    return getInternalState(this)[key];
+  } });
+};
+
+var isArrayBuffer = function (it) {
+  var klass;
+  return it instanceof ArrayBuffer || (klass = classof(it)) == 'ArrayBuffer' || klass == 'SharedArrayBuffer';
+};
+
+var isTypedArrayIndex = function (target, key) {
+  return isTypedArray(target)
+    && typeof key != 'symbol'
+    && key in target
+    && String(+key) == String(key);
+};
+
+var wrappedGetOwnPropertyDescriptor = function getOwnPropertyDescriptor(target, key) {
+  return isTypedArrayIndex(target, key = toPrimitive(key, true))
+    ? createPropertyDescriptor(2, target[key])
+    : nativeGetOwnPropertyDescriptor(target, key);
+};
+
+var wrappedDefineProperty = function defineProperty(target, key, descriptor) {
+  if (isTypedArrayIndex(target, key = toPrimitive(key, true))
+    && isObject(descriptor)
+    && has(descriptor, 'value')
+    && !has(descriptor, 'get')
+    && !has(descriptor, 'set')
+    // TODO: add validation descriptor w/o calling accessors
+    && !descriptor.configurable
+    && (!has(descriptor, 'writable') || descriptor.writable)
+    && (!has(descriptor, 'enumerable') || descriptor.enumerable)
+  ) {
+    target[key] = descriptor.value;
+    return target;
+  } return nativeDefineProperty(target, key, descriptor);
+};
+
+if (DESCRIPTORS) {
+  if (!NATIVE_ARRAY_BUFFER_VIEWS) {
+    getOwnPropertyDescriptorModule.f = wrappedGetOwnPropertyDescriptor;
+    definePropertyModule.f = wrappedDefineProperty;
+    addGetter(TypedArrayPrototype, 'buffer');
+    addGetter(TypedArrayPrototype, 'byteOffset');
+    addGetter(TypedArrayPrototype, 'byteLength');
+    addGetter(TypedArrayPrototype, 'length');
+  }
+
+  $({ target: 'Object', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {
+    getOwnPropertyDescriptor: wrappedGetOwnPropertyDescriptor,
+    defineProperty: wrappedDefineProperty
+  });
+
+  module.exports = function (TYPE, wrapper, CLAMPED) {
+    var BYTES = TYPE.match(/\d+$/)[0] / 8;
+    var CONSTRUCTOR_NAME = TYPE + (CLAMPED ? 'Clamped' : '') + 'Array';
+    var GETTER = 'get' + TYPE;
+    var SETTER = 'set' + TYPE;
+    var NativeTypedArrayConstructor = global[CONSTRUCTOR_NAME];
+    var TypedArrayConstructor = NativeTypedArrayConstructor;
+    var TypedArrayConstructorPrototype = TypedArrayConstructor && TypedArrayConstructor.prototype;
+    var exported = {};
+
+    var getter = function (that, index) {
+      var data = getInternalState(that);
+      return data.view[GETTER](index * BYTES + data.byteOffset, true);
     };
 
-    // Static API
-    Object.keys(FilePond).forEach(function(key) {
-        $.fn.filepond[key] = FilePond[key];
+    var setter = function (that, index, value) {
+      var data = getInternalState(that);
+      if (CLAMPED) value = (value = round(value)) < 0 ? 0 : value > 0xFF ? 0xFF : value & 0xFF;
+      data.view[SETTER](index * BYTES + data.byteOffset, value, true);
+    };
+
+    var addElement = function (that, index) {
+      nativeDefineProperty(that, index, {
+        get: function () {
+          return getter(this, index);
+        },
+        set: function (value) {
+          return setter(this, index, value);
+        },
+        enumerable: true
+      });
+    };
+
+    if (!NATIVE_ARRAY_BUFFER_VIEWS) {
+      TypedArrayConstructor = wrapper(function (that, data, offset, $length) {
+        anInstance(that, TypedArrayConstructor, CONSTRUCTOR_NAME);
+        var index = 0;
+        var byteOffset = 0;
+        var buffer, byteLength, length;
+        if (!isObject(data)) {
+          length = toIndex(data);
+          byteLength = length * BYTES;
+          buffer = new ArrayBuffer(byteLength);
+        } else if (isArrayBuffer(data)) {
+          buffer = data;
+          byteOffset = toOffset(offset, BYTES);
+          var $len = data.byteLength;
+          if ($length === undefined) {
+            if ($len % BYTES) throw RangeError(WRONG_LENGTH);
+            byteLength = $len - byteOffset;
+            if (byteLength < 0) throw RangeError(WRONG_LENGTH);
+          } else {
+            byteLength = toLength($length) * BYTES;
+            if (byteLength + byteOffset > $len) throw RangeError(WRONG_LENGTH);
+          }
+          length = byteLength / BYTES;
+        } else if (isTypedArray(data)) {
+          return fromList(TypedArrayConstructor, data);
+        } else {
+          return typedArrayFrom.call(TypedArrayConstructor, data);
+        }
+        setInternalState(that, {
+          buffer: buffer,
+          byteOffset: byteOffset,
+          byteLength: byteLength,
+          length: length,
+          view: new DataView(buffer)
+        });
+        while (index < length) addElement(that, index++);
+      });
+
+      if (setPrototypeOf) setPrototypeOf(TypedArrayConstructor, TypedArray);
+      TypedArrayConstructorPrototype = TypedArrayConstructor.prototype = create(TypedArrayPrototype);
+    } else if (TYPED_ARRAYS_CONSTRUCTORS_REQUIRES_WRAPPERS) {
+      TypedArrayConstructor = wrapper(function (dummy, data, typedArrayOffset, $length) {
+        anInstance(dummy, TypedArrayConstructor, CONSTRUCTOR_NAME);
+        return inheritIfRequired(function () {
+          if (!isObject(data)) return new NativeTypedArrayConstructor(toIndex(data));
+          if (isArrayBuffer(data)) return $length !== undefined
+            ? new NativeTypedArrayConstructor(data, toOffset(typedArrayOffset, BYTES), $length)
+            : typedArrayOffset !== undefined
+              ? new NativeTypedArrayConstructor(data, toOffset(typedArrayOffset, BYTES))
+              : new NativeTypedArrayConstructor(data);
+          if (isTypedArray(data)) return fromList(TypedArrayConstructor, data);
+          return typedArrayFrom.call(TypedArrayConstructor, data);
+        }(), dummy, TypedArrayConstructor);
+      });
+
+      if (setPrototypeOf) setPrototypeOf(TypedArrayConstructor, TypedArray);
+      forEach(getOwnPropertyNames(NativeTypedArrayConstructor), function (key) {
+        if (!(key in TypedArrayConstructor)) {
+          createNonEnumerableProperty(TypedArrayConstructor, key, NativeTypedArrayConstructor[key]);
+        }
+      });
+      TypedArrayConstructor.prototype = TypedArrayConstructorPrototype;
+    }
+
+    if (TypedArrayConstructorPrototype.constructor !== TypedArrayConstructor) {
+      createNonEnumerableProperty(TypedArrayConstructorPrototype, 'constructor', TypedArrayConstructor);
+    }
+
+    if (TYPED_ARRAY_TAG) {
+      createNonEnumerableProperty(TypedArrayConstructorPrototype, TYPED_ARRAY_TAG, CONSTRUCTOR_NAME);
+    }
+
+    exported[CONSTRUCTOR_NAME] = TypedArrayConstructor;
+
+    $({
+      global: true, forced: TypedArrayConstructor != NativeTypedArrayConstructor, sham: !NATIVE_ARRAY_BUFFER_VIEWS
+    }, exported);
+
+    if (!(BYTES_PER_ELEMENT in TypedArrayConstructor)) {
+      createNonEnumerableProperty(TypedArrayConstructor, BYTES_PER_ELEMENT, BYTES);
+    }
+
+    if (!(BYTES_PER_ELEMENT in TypedArrayConstructorPrototype)) {
+      createNonEnumerableProperty(TypedArrayConstructorPrototype, BYTES_PER_ELEMENT, BYTES);
+    }
+
+    setSpecies(CONSTRUCTOR_NAME);
+  };
+} else module.exports = function () { /* empty */ };
+
+
+/***/ }),
+
+/***/ 3832:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_112503__) {
+
+/* eslint-disable no-new -- required for testing */
+var global = __nested_webpack_require_112503__(7854);
+var fails = __nested_webpack_require_112503__(7293);
+var checkCorrectnessOfIteration = __nested_webpack_require_112503__(7072);
+var NATIVE_ARRAY_BUFFER_VIEWS = __nested_webpack_require_112503__(260).NATIVE_ARRAY_BUFFER_VIEWS;
+
+var ArrayBuffer = global.ArrayBuffer;
+var Int8Array = global.Int8Array;
+
+module.exports = !NATIVE_ARRAY_BUFFER_VIEWS || !fails(function () {
+  Int8Array(1);
+}) || !fails(function () {
+  new Int8Array(-1);
+}) || !checkCorrectnessOfIteration(function (iterable) {
+  new Int8Array();
+  new Int8Array(null);
+  new Int8Array(1.5);
+  new Int8Array(iterable);
+}, true) || fails(function () {
+  // Safari (11+) bug - a reason why even Safari 13 should load a typed array polyfill
+  return new Int8Array(new ArrayBuffer(2), 1, undefined).length !== 1;
+});
+
+
+/***/ }),
+
+/***/ 3074:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_113426__) {
+
+var aTypedArrayConstructor = __nested_webpack_require_113426__(260).aTypedArrayConstructor;
+var speciesConstructor = __nested_webpack_require_113426__(6707);
+
+module.exports = function (instance, list) {
+  var C = speciesConstructor(instance, instance.constructor);
+  var index = 0;
+  var length = list.length;
+  var result = new (aTypedArrayConstructor(C))(length);
+  while (length > index) result[index] = list[index++];
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 7321:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_113940__) {
+
+var toObject = __nested_webpack_require_113940__(7908);
+var toLength = __nested_webpack_require_113940__(7466);
+var getIteratorMethod = __nested_webpack_require_113940__(1246);
+var isArrayIteratorMethod = __nested_webpack_require_113940__(7659);
+var bind = __nested_webpack_require_113940__(9974);
+var aTypedArrayConstructor = __nested_webpack_require_113940__(260).aTypedArrayConstructor;
+
+module.exports = function from(source /* , mapfn, thisArg */) {
+  var O = toObject(source);
+  var argumentsLength = arguments.length;
+  var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
+  var mapping = mapfn !== undefined;
+  var iteratorMethod = getIteratorMethod(O);
+  var i, length, result, step, iterator, next;
+  if (iteratorMethod != undefined && !isArrayIteratorMethod(iteratorMethod)) {
+    iterator = iteratorMethod.call(O);
+    next = iterator.next;
+    O = [];
+    while (!(step = next.call(iterator)).done) {
+      O.push(step.value);
+    }
+  }
+  if (mapping && argumentsLength > 2) {
+    mapfn = bind(mapfn, arguments[2], 2);
+  }
+  length = toLength(O.length);
+  result = new (aTypedArrayConstructor(this))(length);
+  for (i = 0; length > i; i++) {
+    result[i] = mapping ? mapfn(O[i], i) : O[i];
+  }
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 9711:
+/***/ (function(module) {
+
+var id = 0;
+var postfix = Math.random();
+
+module.exports = function (key) {
+  return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
+};
+
+
+/***/ }),
+
+/***/ 3307:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_115419__) {
+
+var NATIVE_SYMBOL = __nested_webpack_require_115419__(133);
+
+module.exports = NATIVE_SYMBOL
+  /* global Symbol -- safe */
+  && !Symbol.sham
+  && typeof Symbol.iterator == 'symbol';
+
+
+/***/ }),
+
+/***/ 5112:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_115685__) {
+
+var global = __nested_webpack_require_115685__(7854);
+var shared = __nested_webpack_require_115685__(2309);
+var has = __nested_webpack_require_115685__(6656);
+var uid = __nested_webpack_require_115685__(9711);
+var NATIVE_SYMBOL = __nested_webpack_require_115685__(133);
+var USE_SYMBOL_AS_UID = __nested_webpack_require_115685__(3307);
+
+var WellKnownSymbolsStore = shared('wks');
+var Symbol = global.Symbol;
+var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol : Symbol && Symbol.withoutSetter || uid;
+
+module.exports = function (name) {
+  if (!has(WellKnownSymbolsStore, name)) {
+    if (NATIVE_SYMBOL && has(Symbol, name)) WellKnownSymbolsStore[name] = Symbol[name];
+    else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
+  } return WellKnownSymbolsStore[name];
+};
+
+
+/***/ }),
+
+/***/ 1361:
+/***/ (function(module) {
+
+// a string of all valid unicode whitespaces
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
+  '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+
+/***/ }),
+
+/***/ 8264:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_116785__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_116785__(2109);
+var global = __nested_webpack_require_116785__(7854);
+var arrayBufferModule = __nested_webpack_require_116785__(3331);
+var setSpecies = __nested_webpack_require_116785__(6340);
+
+var ARRAY_BUFFER = 'ArrayBuffer';
+var ArrayBuffer = arrayBufferModule[ARRAY_BUFFER];
+var NativeArrayBuffer = global[ARRAY_BUFFER];
+
+// `ArrayBuffer` constructor
+// https://tc39.es/ecma262/#sec-arraybuffer-constructor
+$({ global: true, forced: NativeArrayBuffer !== ArrayBuffer }, {
+  ArrayBuffer: ArrayBuffer
+});
+
+setSpecies(ARRAY_BUFFER);
+
+
+/***/ }),
+
+/***/ 2222:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_117427__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_117427__(2109);
+var fails = __nested_webpack_require_117427__(7293);
+var isArray = __nested_webpack_require_117427__(3157);
+var isObject = __nested_webpack_require_117427__(111);
+var toObject = __nested_webpack_require_117427__(7908);
+var toLength = __nested_webpack_require_117427__(7466);
+var createProperty = __nested_webpack_require_117427__(6135);
+var arraySpeciesCreate = __nested_webpack_require_117427__(5417);
+var arrayMethodHasSpeciesSupport = __nested_webpack_require_117427__(1194);
+var wellKnownSymbol = __nested_webpack_require_117427__(5112);
+var V8_VERSION = __nested_webpack_require_117427__(7392);
+
+var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
+
+// We can't use this feature detection in V8 since it causes
+// deoptimization and serious performance degradation
+// https://github.com/zloirock/core-js/issues/679
+var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION >= 51 || !fails(function () {
+  var array = [];
+  array[IS_CONCAT_SPREADABLE] = false;
+  return array.concat()[0] !== array;
+});
+
+var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
+
+var isConcatSpreadable = function (O) {
+  if (!isObject(O)) return false;
+  var spreadable = O[IS_CONCAT_SPREADABLE];
+  return spreadable !== undefined ? !!spreadable : isArray(O);
+};
+
+var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
+
+// `Array.prototype.concat` method
+// https://tc39.es/ecma262/#sec-array.prototype.concat
+// with adding support of @@isConcatSpreadable and @@species
+$({ target: 'Array', proto: true, forced: FORCED }, {
+  // eslint-disable-next-line no-unused-vars -- required for `.length`
+  concat: function concat(arg) {
+    var O = toObject(this);
+    var A = arraySpeciesCreate(O, 0);
+    var n = 0;
+    var i, k, length, len, E;
+    for (i = -1, length = arguments.length; i < length; i++) {
+      E = i === -1 ? O : arguments[i];
+      if (isConcatSpreadable(E)) {
+        len = toLength(E.length);
+        if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
+      } else {
+        if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        createProperty(A, n++, E);
+      }
+    }
+    A.length = n;
+    return A;
+  }
+});
+
+
+/***/ }),
+
+/***/ 7327:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_119834__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_119834__(2109);
+var $filter = __nested_webpack_require_119834__(2092).filter;
+var arrayMethodHasSpeciesSupport = __nested_webpack_require_119834__(1194);
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('filter');
+
+// `Array.prototype.filter` method
+// https://tc39.es/ecma262/#sec-array.prototype.filter
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  filter: function filter(callbackfn /* , thisArg */) {
+    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
+/***/ 2772:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_120523__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_120523__(2109);
+var $indexOf = __nested_webpack_require_120523__(1318).indexOf;
+var arrayMethodIsStrict = __nested_webpack_require_120523__(9341);
+
+var nativeIndexOf = [].indexOf;
+
+var NEGATIVE_ZERO = !!nativeIndexOf && 1 / [1].indexOf(1, -0) < 0;
+var STRICT_METHOD = arrayMethodIsStrict('indexOf');
+
+// `Array.prototype.indexOf` method
+// https://tc39.es/ecma262/#sec-array.prototype.indexof
+$({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || !STRICT_METHOD }, {
+  indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
+    return NEGATIVE_ZERO
+      // convert -0 to +0
+      ? nativeIndexOf.apply(this, arguments) || 0
+      : $indexOf(this, searchElement, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
+/***/ 6992:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_121364__) {
+
+"use strict";
+
+var toIndexedObject = __nested_webpack_require_121364__(5656);
+var addToUnscopables = __nested_webpack_require_121364__(1223);
+var Iterators = __nested_webpack_require_121364__(7497);
+var InternalStateModule = __nested_webpack_require_121364__(9909);
+var defineIterator = __nested_webpack_require_121364__(654);
+
+var ARRAY_ITERATOR = 'Array Iterator';
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);
+
+// `Array.prototype.entries` method
+// https://tc39.es/ecma262/#sec-array.prototype.entries
+// `Array.prototype.keys` method
+// https://tc39.es/ecma262/#sec-array.prototype.keys
+// `Array.prototype.values` method
+// https://tc39.es/ecma262/#sec-array.prototype.values
+// `Array.prototype[@@iterator]` method
+// https://tc39.es/ecma262/#sec-array.prototype-@@iterator
+// `CreateArrayIterator` internal method
+// https://tc39.es/ecma262/#sec-createarrayiterator
+module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
+  setInternalState(this, {
+    type: ARRAY_ITERATOR,
+    target: toIndexedObject(iterated), // target
+    index: 0,                          // next index
+    kind: kind                         // kind
+  });
+// `%ArrayIteratorPrototype%.next` method
+// https://tc39.es/ecma262/#sec-%arrayiteratorprototype%.next
+}, function () {
+  var state = getInternalState(this);
+  var target = state.target;
+  var kind = state.kind;
+  var index = state.index++;
+  if (!target || index >= target.length) {
+    state.target = undefined;
+    return { value: undefined, done: true };
+  }
+  if (kind == 'keys') return { value: index, done: false };
+  if (kind == 'values') return { value: target[index], done: false };
+  return { value: [index, target[index]], done: false };
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values%
+// https://tc39.es/ecma262/#sec-createunmappedargumentsobject
+// https://tc39.es/ecma262/#sec-createmappedargumentsobject
+Iterators.Arguments = Iterators.Array;
+
+// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+
+/***/ }),
+
+/***/ 1249:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_123565__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_123565__(2109);
+var $map = __nested_webpack_require_123565__(2092).map;
+var arrayMethodHasSpeciesSupport = __nested_webpack_require_123565__(1194);
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('map');
+
+// `Array.prototype.map` method
+// https://tc39.es/ecma262/#sec-array.prototype.map
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  map: function map(callbackfn /* , thisArg */) {
+    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+
+/***/ 7042:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_124230__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_124230__(2109);
+var isObject = __nested_webpack_require_124230__(111);
+var isArray = __nested_webpack_require_124230__(3157);
+var toAbsoluteIndex = __nested_webpack_require_124230__(1400);
+var toLength = __nested_webpack_require_124230__(7466);
+var toIndexedObject = __nested_webpack_require_124230__(5656);
+var createProperty = __nested_webpack_require_124230__(6135);
+var wellKnownSymbol = __nested_webpack_require_124230__(5112);
+var arrayMethodHasSpeciesSupport = __nested_webpack_require_124230__(1194);
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('slice');
+
+var SPECIES = wellKnownSymbol('species');
+var nativeSlice = [].slice;
+var max = Math.max;
+
+// `Array.prototype.slice` method
+// https://tc39.es/ecma262/#sec-array.prototype.slice
+// fallback for not array-like ES3 strings and DOM objects
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  slice: function slice(start, end) {
+    var O = toIndexedObject(this);
+    var length = toLength(O.length);
+    var k = toAbsoluteIndex(start, length);
+    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
+    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
+    var Constructor, result, n;
+    if (isArray(O)) {
+      Constructor = O.constructor;
+      // cross-realm fallback
+      if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
+        Constructor = undefined;
+      } else if (isObject(Constructor)) {
+        Constructor = Constructor[SPECIES];
+        if (Constructor === null) Constructor = undefined;
+      }
+      if (Constructor === Array || Constructor === undefined) {
+        return nativeSlice.call(O, k, fin);
+      }
+    }
+    result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
+    for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
+    result.length = n;
+    return result;
+  }
+});
+
+
+/***/ }),
+
+/***/ 561:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_126211__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_126211__(2109);
+var toAbsoluteIndex = __nested_webpack_require_126211__(1400);
+var toInteger = __nested_webpack_require_126211__(9958);
+var toLength = __nested_webpack_require_126211__(7466);
+var toObject = __nested_webpack_require_126211__(7908);
+var arraySpeciesCreate = __nested_webpack_require_126211__(5417);
+var createProperty = __nested_webpack_require_126211__(6135);
+var arrayMethodHasSpeciesSupport = __nested_webpack_require_126211__(1194);
+
+var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('splice');
+
+var max = Math.max;
+var min = Math.min;
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
+
+// `Array.prototype.splice` method
+// https://tc39.es/ecma262/#sec-array.prototype.splice
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  splice: function splice(start, deleteCount /* , ...items */) {
+    var O = toObject(this);
+    var len = toLength(O.length);
+    var actualStart = toAbsoluteIndex(start, len);
+    var argumentsLength = arguments.length;
+    var insertCount, actualDeleteCount, A, k, from, to;
+    if (argumentsLength === 0) {
+      insertCount = actualDeleteCount = 0;
+    } else if (argumentsLength === 1) {
+      insertCount = 0;
+      actualDeleteCount = len - actualStart;
+    } else {
+      insertCount = argumentsLength - 2;
+      actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
+    }
+    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
+      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
+    }
+    A = arraySpeciesCreate(O, actualDeleteCount);
+    for (k = 0; k < actualDeleteCount; k++) {
+      from = actualStart + k;
+      if (from in O) createProperty(A, k, O[from]);
+    }
+    A.length = actualDeleteCount;
+    if (insertCount < actualDeleteCount) {
+      for (k = actualStart; k < len - actualDeleteCount; k++) {
+        from = k + actualDeleteCount;
+        to = k + insertCount;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
+    } else if (insertCount > actualDeleteCount) {
+      for (k = len - actualDeleteCount; k > actualStart; k--) {
+        from = k + actualDeleteCount - 1;
+        to = k + insertCount - 1;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+    }
+    for (k = 0; k < insertCount; k++) {
+      O[k + actualStart] = arguments[k + 2];
+    }
+    O.length = len - actualDeleteCount + insertCount;
+    return A;
+  }
+});
+
+
+/***/ }),
+
+/***/ 8309:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_128857__) {
+
+var DESCRIPTORS = __nested_webpack_require_128857__(9781);
+var defineProperty = __nested_webpack_require_128857__(3070).f;
+
+var FunctionPrototype = Function.prototype;
+var FunctionPrototypeToString = FunctionPrototype.toString;
+var nameRE = /^\s*function ([^ (]*)/;
+var NAME = 'name';
+
+// Function instances `.name` property
+// https://tc39.es/ecma262/#sec-function-instances-name
+if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
+  defineProperty(FunctionPrototype, NAME, {
+    configurable: true,
+    get: function () {
+      try {
+        return FunctionPrototypeToString.call(this).match(nameRE)[1];
+      } catch (error) {
+        return '';
+      }
+    }
+  });
+}
+
+
+/***/ }),
+
+/***/ 489:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_129614__) {
+
+var $ = __nested_webpack_require_129614__(2109);
+var fails = __nested_webpack_require_129614__(7293);
+var toObject = __nested_webpack_require_129614__(7908);
+var nativeGetPrototypeOf = __nested_webpack_require_129614__(9518);
+var CORRECT_PROTOTYPE_GETTER = __nested_webpack_require_129614__(8544);
+
+var FAILS_ON_PRIMITIVES = fails(function () { nativeGetPrototypeOf(1); });
+
+// `Object.getPrototypeOf` method
+// https://tc39.es/ecma262/#sec-object.getprototypeof
+$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !CORRECT_PROTOTYPE_GETTER }, {
+  getPrototypeOf: function getPrototypeOf(it) {
+    return nativeGetPrototypeOf(toObject(it));
+  }
+});
+
+
+
+/***/ }),
+
+/***/ 1539:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_130327__) {
+
+var TO_STRING_TAG_SUPPORT = __nested_webpack_require_130327__(1694);
+var redefine = __nested_webpack_require_130327__(1320);
+var toString = __nested_webpack_require_130327__(288);
+
+// `Object.prototype.toString` method
+// https://tc39.es/ecma262/#sec-object.prototype.tostring
+if (!TO_STRING_TAG_SUPPORT) {
+  redefine(Object.prototype, 'toString', toString, { unsafe: true });
+}
+
+
+/***/ }),
+
+/***/ 4916:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_130780__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_130780__(2109);
+var exec = __nested_webpack_require_130780__(2261);
+
+// `RegExp.prototype.exec` method
+// https://tc39.es/ecma262/#sec-regexp.prototype.exec
+$({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
+  exec: exec
+});
+
+
+/***/ }),
+
+/***/ 9714:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_131156__) {
+
+"use strict";
+
+var redefine = __nested_webpack_require_131156__(1320);
+var anObject = __nested_webpack_require_131156__(9670);
+var fails = __nested_webpack_require_131156__(7293);
+var flags = __nested_webpack_require_131156__(7066);
+
+var TO_STRING = 'toString';
+var RegExpPrototype = RegExp.prototype;
+var nativeToString = RegExpPrototype[TO_STRING];
+
+var NOT_GENERIC = fails(function () { return nativeToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
+// FF44- RegExp#toString has a wrong name
+var INCORRECT_NAME = nativeToString.name != TO_STRING;
+
+// `RegExp.prototype.toString` method
+// https://tc39.es/ecma262/#sec-regexp.prototype.tostring
+if (NOT_GENERIC || INCORRECT_NAME) {
+  redefine(RegExp.prototype, TO_STRING, function toString() {
+    var R = anObject(this);
+    var p = String(R.source);
+    var rf = R.flags;
+    var f = String(rf === undefined && R instanceof RegExp && !('flags' in RegExpPrototype) ? flags.call(R) : rf);
+    return '/' + p + '/' + f;
+  }, { unsafe: true });
+}
+
+
+/***/ }),
+
+/***/ 8783:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_132221__) {
+
+"use strict";
+
+var charAt = __nested_webpack_require_132221__(8710).charAt;
+var InternalStateModule = __nested_webpack_require_132221__(9909);
+var defineIterator = __nested_webpack_require_132221__(654);
+
+var STRING_ITERATOR = 'String Iterator';
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(STRING_ITERATOR);
+
+// `String.prototype[@@iterator]` method
+// https://tc39.es/ecma262/#sec-string.prototype-@@iterator
+defineIterator(String, 'String', function (iterated) {
+  setInternalState(this, {
+    type: STRING_ITERATOR,
+    string: String(iterated),
+    index: 0
+  });
+// `%StringIteratorPrototype%.next` method
+// https://tc39.es/ecma262/#sec-%stringiteratorprototype%.next
+}, function next() {
+  var state = getInternalState(this);
+  var string = state.string;
+  var index = state.index;
+  var point;
+  if (index >= string.length) return { value: undefined, done: true };
+  point = charAt(string, index);
+  state.index += point.length;
+  return { value: point, done: false };
+});
+
+
+/***/ }),
+
+/***/ 4723:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_133333__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __nested_webpack_require_133333__(7007);
+var anObject = __nested_webpack_require_133333__(9670);
+var toLength = __nested_webpack_require_133333__(7466);
+var requireObjectCoercible = __nested_webpack_require_133333__(4488);
+var advanceStringIndex = __nested_webpack_require_133333__(1530);
+var regExpExec = __nested_webpack_require_133333__(7651);
+
+// @@match logic
+fixRegExpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
+  return [
+    // `String.prototype.match` method
+    // https://tc39.es/ecma262/#sec-string.prototype.match
+    function match(regexp) {
+      var O = requireObjectCoercible(this);
+      var matcher = regexp == undefined ? undefined : regexp[MATCH];
+      return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
+    },
+    // `RegExp.prototype[@@match]` method
+    // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
+    function (regexp) {
+      var res = maybeCallNative(nativeMatch, regexp, this);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+
+      if (!rx.global) return regExpExec(rx, S);
+
+      var fullUnicode = rx.unicode;
+      rx.lastIndex = 0;
+      var A = [];
+      var n = 0;
+      var result;
+      while ((result = regExpExec(rx, S)) !== null) {
+        var matchStr = String(result[0]);
+        A[n] = matchStr;
+        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+        n++;
+      }
+      return n === 0 ? null : A;
+    }
+  ];
+});
+
+
+/***/ }),
+
+/***/ 5306:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_134975__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __nested_webpack_require_134975__(7007);
+var anObject = __nested_webpack_require_134975__(9670);
+var toLength = __nested_webpack_require_134975__(7466);
+var toInteger = __nested_webpack_require_134975__(9958);
+var requireObjectCoercible = __nested_webpack_require_134975__(4488);
+var advanceStringIndex = __nested_webpack_require_134975__(1530);
+var getSubstitution = __nested_webpack_require_134975__(647);
+var regExpExec = __nested_webpack_require_134975__(7651);
+
+var max = Math.max;
+var min = Math.min;
+
+var maybeToString = function (it) {
+  return it === undefined ? it : String(it);
+};
+
+// @@replace logic
+fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative, reason) {
+  var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = reason.REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE;
+  var REPLACE_KEEPS_$0 = reason.REPLACE_KEEPS_$0;
+  var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? '$' : '$0';
+
+  return [
+    // `String.prototype.replace` method
+    // https://tc39.es/ecma262/#sec-string.prototype.replace
+    function replace(searchValue, replaceValue) {
+      var O = requireObjectCoercible(this);
+      var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
+      return replacer !== undefined
+        ? replacer.call(searchValue, O, replaceValue)
+        : nativeReplace.call(String(O), searchValue, replaceValue);
+    },
+    // `RegExp.prototype[@@replace]` method
+    // https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
+    function (regexp, replaceValue) {
+      if (
+        (!REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE && REPLACE_KEEPS_$0) ||
+        (typeof replaceValue === 'string' && replaceValue.indexOf(UNSAFE_SUBSTITUTE) === -1)
+      ) {
+        var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
+        if (res.done) return res.value;
+      }
+
+      var rx = anObject(regexp);
+      var S = String(this);
+
+      var functionalReplace = typeof replaceValue === 'function';
+      if (!functionalReplace) replaceValue = String(replaceValue);
+
+      var global = rx.global;
+      if (global) {
+        var fullUnicode = rx.unicode;
+        rx.lastIndex = 0;
+      }
+      var results = [];
+      while (true) {
+        var result = regExpExec(rx, S);
+        if (result === null) break;
+
+        results.push(result);
+        if (!global) break;
+
+        var matchStr = String(result[0]);
+        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+      }
+
+      var accumulatedResult = '';
+      var nextSourcePosition = 0;
+      for (var i = 0; i < results.length; i++) {
+        result = results[i];
+
+        var matched = String(result[0]);
+        var position = max(min(toInteger(result.index), S.length), 0);
+        var captures = [];
+        // NOTE: This is equivalent to
+        //   captures = result.slice(1).map(maybeToString)
+        // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
+        // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
+        // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
+        for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
+        var namedCaptures = result.groups;
+        if (functionalReplace) {
+          var replacerArgs = [matched].concat(captures, position, S);
+          if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
+          var replacement = String(replaceValue.apply(undefined, replacerArgs));
+        } else {
+          replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
+        }
+        if (position >= nextSourcePosition) {
+          accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
+          nextSourcePosition = position + matched.length;
+        }
+      }
+      return accumulatedResult + S.slice(nextSourcePosition);
+    }
+  ];
+});
+
+
+/***/ }),
+
+/***/ 3123:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_139010__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __nested_webpack_require_139010__(7007);
+var isRegExp = __nested_webpack_require_139010__(7850);
+var anObject = __nested_webpack_require_139010__(9670);
+var requireObjectCoercible = __nested_webpack_require_139010__(4488);
+var speciesConstructor = __nested_webpack_require_139010__(6707);
+var advanceStringIndex = __nested_webpack_require_139010__(1530);
+var toLength = __nested_webpack_require_139010__(7466);
+var callRegExpExec = __nested_webpack_require_139010__(7651);
+var regexpExec = __nested_webpack_require_139010__(2261);
+var fails = __nested_webpack_require_139010__(7293);
+
+var arrayPush = [].push;
+var min = Math.min;
+var MAX_UINT32 = 0xFFFFFFFF;
+
+// babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
+var SUPPORTS_Y = !fails(function () { return !RegExp(MAX_UINT32, 'y'); });
+
+// @@split logic
+fixRegExpWellKnownSymbolLogic('split', 2, function (SPLIT, nativeSplit, maybeCallNative) {
+  var internalSplit;
+  if (
+    'abbc'.split(/(b)*/)[1] == 'c' ||
+    // eslint-disable-next-line regexp/no-empty-group -- required for testing
+    'test'.split(/(?:)/, -1).length != 4 ||
+    'ab'.split(/(?:ab)*/).length != 2 ||
+    '.'.split(/(.?)(.?)/).length != 4 ||
+    // eslint-disable-next-line regexp/no-assertion-capturing-group, regexp/no-empty-group -- required for testing
+    '.'.split(/()()/).length > 1 ||
+    ''.split(/.?/).length
+  ) {
+    // based on es5-shim implementation, need to rework it
+    internalSplit = function (separator, limit) {
+      var string = String(requireObjectCoercible(this));
+      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+      if (lim === 0) return [];
+      if (separator === undefined) return [string];
+      // If `separator` is not a regex, use native split
+      if (!isRegExp(separator)) {
+        return nativeSplit.call(string, separator, lim);
+      }
+      var output = [];
+      var flags = (separator.ignoreCase ? 'i' : '') +
+                  (separator.multiline ? 'm' : '') +
+                  (separator.unicode ? 'u' : '') +
+                  (separator.sticky ? 'y' : '');
+      var lastLastIndex = 0;
+      // Make `global` and avoid `lastIndex` issues by working with a copy
+      var separatorCopy = new RegExp(separator.source, flags + 'g');
+      var match, lastIndex, lastLength;
+      while (match = regexpExec.call(separatorCopy, string)) {
+        lastIndex = separatorCopy.lastIndex;
+        if (lastIndex > lastLastIndex) {
+          output.push(string.slice(lastLastIndex, match.index));
+          if (match.length > 1 && match.index < string.length) arrayPush.apply(output, match.slice(1));
+          lastLength = match[0].length;
+          lastLastIndex = lastIndex;
+          if (output.length >= lim) break;
+        }
+        if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
+      }
+      if (lastLastIndex === string.length) {
+        if (lastLength || !separatorCopy.test('')) output.push('');
+      } else output.push(string.slice(lastLastIndex));
+      return output.length > lim ? output.slice(0, lim) : output;
+    };
+  // Chakra, V8
+  } else if ('0'.split(undefined, 0).length) {
+    internalSplit = function (separator, limit) {
+      return separator === undefined && limit === 0 ? [] : nativeSplit.call(this, separator, limit);
+    };
+  } else internalSplit = nativeSplit;
+
+  return [
+    // `String.prototype.split` method
+    // https://tc39.es/ecma262/#sec-string.prototype.split
+    function split(separator, limit) {
+      var O = requireObjectCoercible(this);
+      var splitter = separator == undefined ? undefined : separator[SPLIT];
+      return splitter !== undefined
+        ? splitter.call(separator, O, limit)
+        : internalSplit.call(String(O), separator, limit);
+    },
+    // `RegExp.prototype[@@split]` method
+    // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
+    //
+    // NOTE: This cannot be properly polyfilled in engines that don't support
+    // the 'y' flag.
+    function (regexp, limit) {
+      var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== nativeSplit);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+      var C = speciesConstructor(rx, RegExp);
+
+      var unicodeMatching = rx.unicode;
+      var flags = (rx.ignoreCase ? 'i' : '') +
+                  (rx.multiline ? 'm' : '') +
+                  (rx.unicode ? 'u' : '') +
+                  (SUPPORTS_Y ? 'y' : 'g');
+
+      // ^(? + rx + ) is needed, in combination with some S slicing, to
+      // simulate the 'y' flag.
+      var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
+      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+      if (lim === 0) return [];
+      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
+      var p = 0;
+      var q = 0;
+      var A = [];
+      while (q < S.length) {
+        splitter.lastIndex = SUPPORTS_Y ? q : 0;
+        var z = callRegExpExec(splitter, SUPPORTS_Y ? S : S.slice(q));
+        var e;
+        if (
+          z === null ||
+          (e = min(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
+        ) {
+          q = advanceStringIndex(S, q, unicodeMatching);
+        } else {
+          A.push(S.slice(p, q));
+          if (A.length === lim) return A;
+          for (var i = 1; i <= z.length - 1; i++) {
+            A.push(z[i]);
+            if (A.length === lim) return A;
+          }
+          q = p = e;
+        }
+      }
+      A.push(S.slice(p));
+      return A;
+    }
+  ];
+}, !SUPPORTS_Y);
+
+
+/***/ }),
+
+/***/ 3210:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_144619__) {
+
+"use strict";
+
+var $ = __nested_webpack_require_144619__(2109);
+var $trim = __nested_webpack_require_144619__(3111).trim;
+var forcedStringTrimMethod = __nested_webpack_require_144619__(6091);
+
+// `String.prototype.trim` method
+// https://tc39.es/ecma262/#sec-string.prototype.trim
+$({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+  trim: function trim() {
+    return $trim(this);
+  }
+});
+
+
+/***/ }),
+
+/***/ 2990:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_145111__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_145111__(260);
+var $copyWithin = __nested_webpack_require_145111__(1048);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.copyWithin` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.copywithin
+exportTypedArrayMethod('copyWithin', function copyWithin(target, start /* , end */) {
+  return $copyWithin.call(aTypedArray(this), target, start, arguments.length > 2 ? arguments[2] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 8927:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_145777__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_145777__(260);
+var $every = __nested_webpack_require_145777__(2092).every;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.every` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.every
+exportTypedArrayMethod('every', function every(callbackfn /* , thisArg */) {
+  return $every(aTypedArray(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 3105:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_146412__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_146412__(260);
+var $fill = __nested_webpack_require_146412__(1285);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.fill` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill
+// eslint-disable-next-line no-unused-vars -- required for `.length`
+exportTypedArrayMethod('fill', function fill(value /* , start, end */) {
+  return $fill.apply(aTypedArray(this), arguments);
+});
+
+
+/***/ }),
+
+/***/ 5035:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_147058__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_147058__(260);
+var $filter = __nested_webpack_require_147058__(2092).filter;
+var fromSpeciesAndList = __nested_webpack_require_147058__(3074);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.filter` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.filter
+exportTypedArrayMethod('filter', function filter(callbackfn /* , thisArg */) {
+  var list = $filter(aTypedArray(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  return fromSpeciesAndList(this, list);
+});
+
+
+/***/ }),
+
+/***/ 7174:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_147797__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_147797__(260);
+var $findIndex = __nested_webpack_require_147797__(2092).findIndex;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.findIndex` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.findindex
+exportTypedArrayMethod('findIndex', function findIndex(predicate /* , thisArg */) {
+  return $findIndex(aTypedArray(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 4345:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_148458__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_148458__(260);
+var $find = __nested_webpack_require_148458__(2092).find;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.find` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.find
+exportTypedArrayMethod('find', function find(predicate /* , thisArg */) {
+  return $find(aTypedArray(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 2846:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_149084__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_149084__(260);
+var $forEach = __nested_webpack_require_149084__(2092).forEach;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.forEach` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.foreach
+exportTypedArrayMethod('forEach', function forEach(callbackfn /* , thisArg */) {
+  $forEach(aTypedArray(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 4731:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_149726__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_149726__(260);
+var $includes = __nested_webpack_require_149726__(1318).includes;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.includes` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.includes
+exportTypedArrayMethod('includes', function includes(searchElement /* , fromIndex */) {
+  return $includes(aTypedArray(this), searchElement, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 7209:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_150390__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_150390__(260);
+var $indexOf = __nested_webpack_require_150390__(1318).indexOf;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.indexOf` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.indexof
+exportTypedArrayMethod('indexOf', function indexOf(searchElement /* , fromIndex */) {
+  return $indexOf(aTypedArray(this), searchElement, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 6319:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_151047__) {
+
+"use strict";
+
+var global = __nested_webpack_require_151047__(7854);
+var ArrayBufferViewCore = __nested_webpack_require_151047__(260);
+var ArrayIterators = __nested_webpack_require_151047__(6992);
+var wellKnownSymbol = __nested_webpack_require_151047__(5112);
+
+var ITERATOR = wellKnownSymbol('iterator');
+var Uint8Array = global.Uint8Array;
+var arrayValues = ArrayIterators.values;
+var arrayKeys = ArrayIterators.keys;
+var arrayEntries = ArrayIterators.entries;
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+var nativeTypedArrayIterator = Uint8Array && Uint8Array.prototype[ITERATOR];
+
+var CORRECT_ITER_NAME = !!nativeTypedArrayIterator
+  && (nativeTypedArrayIterator.name == 'values' || nativeTypedArrayIterator.name == undefined);
+
+var typedArrayValues = function values() {
+  return arrayValues.call(aTypedArray(this));
+};
+
+// `%TypedArray%.prototype.entries` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries
+exportTypedArrayMethod('entries', function entries() {
+  return arrayEntries.call(aTypedArray(this));
+});
+// `%TypedArray%.prototype.keys` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.keys
+exportTypedArrayMethod('keys', function keys() {
+  return arrayKeys.call(aTypedArray(this));
+});
+// `%TypedArray%.prototype.values` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.values
+exportTypedArrayMethod('values', typedArrayValues, !CORRECT_ITER_NAME);
+// `%TypedArray%.prototype[@@iterator]` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator
+exportTypedArrayMethod(ITERATOR, typedArrayValues, !CORRECT_ITER_NAME);
+
+
+/***/ }),
+
+/***/ 8867:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_152782__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_152782__(260);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+var $join = [].join;
+
+// `%TypedArray%.prototype.join` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.join
+// eslint-disable-next-line no-unused-vars -- required for `.length`
+exportTypedArrayMethod('join', function join(separator) {
+  return $join.apply(aTypedArray(this), arguments);
+});
+
+
+/***/ }),
+
+/***/ 7789:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_153395__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_153395__(260);
+var $lastIndexOf = __nested_webpack_require_153395__(6583);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.lastIndexOf` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.lastindexof
+// eslint-disable-next-line no-unused-vars -- required for `.length`
+exportTypedArrayMethod('lastIndexOf', function lastIndexOf(searchElement /* , fromIndex */) {
+  return $lastIndexOf.apply(aTypedArray(this), arguments);
+});
+
+
+/***/ }),
+
+/***/ 3739:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_154090__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_154090__(260);
+var $map = __nested_webpack_require_154090__(2092).map;
+var speciesConstructor = __nested_webpack_require_154090__(6707);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var aTypedArrayConstructor = ArrayBufferViewCore.aTypedArrayConstructor;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.map` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.map
+exportTypedArrayMethod('map', function map(mapfn /* , thisArg */) {
+  return $map(aTypedArray(this), mapfn, arguments.length > 1 ? arguments[1] : undefined, function (O, length) {
+    return new (aTypedArrayConstructor(speciesConstructor(O, O.constructor)))(length);
+  });
+});
+
+
+/***/ }),
+
+/***/ 4483:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_154941__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_154941__(260);
+var $reduceRight = __nested_webpack_require_154941__(3671).right;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.reduceRicht` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduceright
+exportTypedArrayMethod('reduceRight', function reduceRight(callbackfn /* , initialValue */) {
+  return $reduceRight(aTypedArray(this), callbackfn, arguments.length, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 9368:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_155635__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_155635__(260);
+var $reduce = __nested_webpack_require_155635__(3671).left;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.reduce` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduce
+exportTypedArrayMethod('reduce', function reduce(callbackfn /* , initialValue */) {
+  return $reduce(aTypedArray(this), callbackfn, arguments.length, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 2056:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_156298__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_156298__(260);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+var floor = Math.floor;
+
+// `%TypedArray%.prototype.reverse` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.reverse
+exportTypedArrayMethod('reverse', function reverse() {
+  var that = this;
+  var length = aTypedArray(that).length;
+  var middle = floor(length / 2);
+  var index = 0;
+  var value;
+  while (index < middle) {
+    value = that[index];
+    that[index++] = that[--length];
+    that[length] = value;
+  } return that;
+});
+
+
+/***/ }),
+
+/***/ 3462:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_157051__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_157051__(260);
+var toLength = __nested_webpack_require_157051__(7466);
+var toOffset = __nested_webpack_require_157051__(4590);
+var toObject = __nested_webpack_require_157051__(7908);
+var fails = __nested_webpack_require_157051__(7293);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+var FORCED = fails(function () {
+  /* global Int8Array -- safe */
+  new Int8Array(1).set({});
+});
+
+// `%TypedArray%.prototype.set` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.set
+exportTypedArrayMethod('set', function set(arrayLike /* , offset */) {
+  aTypedArray(this);
+  var offset = toOffset(arguments.length > 1 ? arguments[1] : undefined, 1);
+  var length = this.length;
+  var src = toObject(arrayLike);
+  var len = toLength(src.length);
+  var index = 0;
+  if (len + offset > length) throw RangeError('Wrong length');
+  while (index < len) this[offset + index] = src[index++];
+}, FORCED);
+
+
+/***/ }),
+
+/***/ 678:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_158136__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_158136__(260);
+var speciesConstructor = __nested_webpack_require_158136__(6707);
+var fails = __nested_webpack_require_158136__(7293);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var aTypedArrayConstructor = ArrayBufferViewCore.aTypedArrayConstructor;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+var $slice = [].slice;
+
+var FORCED = fails(function () {
+  /* global Int8Array -- safe */
+  new Int8Array(1).slice();
+});
+
+// `%TypedArray%.prototype.slice` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice
+exportTypedArrayMethod('slice', function slice(start, end) {
+  var list = $slice.call(aTypedArray(this), start, end);
+  var C = speciesConstructor(this, this.constructor);
+  var index = 0;
+  var length = list.length;
+  var result = new (aTypedArrayConstructor(C))(length);
+  while (length > index) result[index] = list[index++];
+  return result;
+}, FORCED);
+
+
+/***/ }),
+
+/***/ 7462:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_159191__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_159191__(260);
+var $some = __nested_webpack_require_159191__(2092).some;
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.some` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.some
+exportTypedArrayMethod('some', function some(callbackfn /* , thisArg */) {
+  return $some(aTypedArray(this), callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+});
+
+
+/***/ }),
+
+/***/ 3824:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_159819__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_159819__(260);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+var $sort = [].sort;
+
+// `%TypedArray%.prototype.sort` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort
+exportTypedArrayMethod('sort', function sort(comparefn) {
+  return $sort.call(aTypedArray(this), comparefn);
+});
+
+
+/***/ }),
+
+/***/ 5021:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_160362__) {
+
+"use strict";
+
+var ArrayBufferViewCore = __nested_webpack_require_160362__(260);
+var toLength = __nested_webpack_require_160362__(7466);
+var toAbsoluteIndex = __nested_webpack_require_160362__(1400);
+var speciesConstructor = __nested_webpack_require_160362__(6707);
+
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+
+// `%TypedArray%.prototype.subarray` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray
+exportTypedArrayMethod('subarray', function subarray(begin, end) {
+  var O = aTypedArray(this);
+  var length = O.length;
+  var beginIndex = toAbsoluteIndex(begin, length);
+  return new (speciesConstructor(O, O.constructor))(
+    O.buffer,
+    O.byteOffset + beginIndex * O.BYTES_PER_ELEMENT,
+    toLength((end === undefined ? length : toAbsoluteIndex(end, length)) - beginIndex)
+  );
+});
+
+
+/***/ }),
+
+/***/ 2974:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_161310__) {
+
+"use strict";
+
+var global = __nested_webpack_require_161310__(7854);
+var ArrayBufferViewCore = __nested_webpack_require_161310__(260);
+var fails = __nested_webpack_require_161310__(7293);
+
+var Int8Array = global.Int8Array;
+var aTypedArray = ArrayBufferViewCore.aTypedArray;
+var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
+var $toLocaleString = [].toLocaleString;
+var $slice = [].slice;
+
+// iOS Safari 6.x fails here
+var TO_LOCALE_STRING_BUG = !!Int8Array && fails(function () {
+  $toLocaleString.call(new Int8Array(1));
+});
+
+var FORCED = fails(function () {
+  return [1, 2].toLocaleString() != new Int8Array([1, 2]).toLocaleString();
+}) || !fails(function () {
+  Int8Array.prototype.toLocaleString.call([1, 2]);
+});
+
+// `%TypedArray%.prototype.toLocaleString` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring
+exportTypedArrayMethod('toLocaleString', function toLocaleString() {
+  return $toLocaleString.apply(TO_LOCALE_STRING_BUG ? $slice.call(aTypedArray(this)) : aTypedArray(this), arguments);
+}, FORCED);
+
+
+/***/ }),
+
+/***/ 5016:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_162445__) {
+
+"use strict";
+
+var exportTypedArrayMethod = __nested_webpack_require_162445__(260).exportTypedArrayMethod;
+var fails = __nested_webpack_require_162445__(7293);
+var global = __nested_webpack_require_162445__(7854);
+
+var Uint8Array = global.Uint8Array;
+var Uint8ArrayPrototype = Uint8Array && Uint8Array.prototype || {};
+var arrayToString = [].toString;
+var arrayJoin = [].join;
+
+if (fails(function () { arrayToString.call({}); })) {
+  arrayToString = function toString() {
+    return arrayJoin.call(this);
+  };
+}
+
+var IS_NOT_ARRAY_METHOD = Uint8ArrayPrototype.toString != arrayToString;
+
+// `%TypedArray%.prototype.toString` method
+// https://tc39.es/ecma262/#sec-%typedarray%.prototype.tostring
+exportTypedArrayMethod('toString', arrayToString, IS_NOT_ARRAY_METHOD);
+
+
+/***/ }),
+
+/***/ 2472:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_163286__) {
+
+var createTypedArrayConstructor = __nested_webpack_require_163286__(9843);
+
+// `Uint8Array` constructor
+// https://tc39.es/ecma262/#sec-typedarray-objects
+createTypedArrayConstructor('Uint8', function (init) {
+  return function Uint8Array(data, byteOffset, length) {
+    return init(this, data, byteOffset, length);
+  };
+});
+
+
+/***/ }),
+
+/***/ 4747:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_163713__) {
+
+var global = __nested_webpack_require_163713__(7854);
+var DOMIterables = __nested_webpack_require_163713__(8324);
+var forEach = __nested_webpack_require_163713__(8533);
+var createNonEnumerableProperty = __nested_webpack_require_163713__(8880);
+
+for (var COLLECTION_NAME in DOMIterables) {
+  var Collection = global[COLLECTION_NAME];
+  var CollectionPrototype = Collection && Collection.prototype;
+  // some Chrome versions have non-configurable methods on DOMTokenList
+  if (CollectionPrototype && CollectionPrototype.forEach !== forEach) try {
+    createNonEnumerableProperty(CollectionPrototype, 'forEach', forEach);
+  } catch (error) {
+    CollectionPrototype.forEach = forEach;
+  }
+}
+
+
+/***/ }),
+
+/***/ 3948:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_164461__) {
+
+var global = __nested_webpack_require_164461__(7854);
+var DOMIterables = __nested_webpack_require_164461__(8324);
+var ArrayIteratorMethods = __nested_webpack_require_164461__(6992);
+var createNonEnumerableProperty = __nested_webpack_require_164461__(8880);
+var wellKnownSymbol = __nested_webpack_require_164461__(5112);
+
+var ITERATOR = wellKnownSymbol('iterator');
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var ArrayValues = ArrayIteratorMethods.values;
+
+for (var COLLECTION_NAME in DOMIterables) {
+  var Collection = global[COLLECTION_NAME];
+  var CollectionPrototype = Collection && Collection.prototype;
+  if (CollectionPrototype) {
+    // some Chrome versions have non-configurable methods on DOMTokenList
+    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
+      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
+    } catch (error) {
+      CollectionPrototype[ITERATOR] = ArrayValues;
+    }
+    if (!CollectionPrototype[TO_STRING_TAG]) {
+      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
+    }
+    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
+      // some Chrome versions have non-configurable methods on DOMTokenList
+      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
+        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
+      } catch (error) {
+        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
+      }
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ 1637:
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_166049__) {
+
+"use strict";
+
+// TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
+__nested_webpack_require_166049__(6992);
+var $ = __nested_webpack_require_166049__(2109);
+var getBuiltIn = __nested_webpack_require_166049__(5005);
+var USE_NATIVE_URL = __nested_webpack_require_166049__(590);
+var redefine = __nested_webpack_require_166049__(1320);
+var redefineAll = __nested_webpack_require_166049__(2248);
+var setToStringTag = __nested_webpack_require_166049__(8003);
+var createIteratorConstructor = __nested_webpack_require_166049__(4994);
+var InternalStateModule = __nested_webpack_require_166049__(9909);
+var anInstance = __nested_webpack_require_166049__(5787);
+var hasOwn = __nested_webpack_require_166049__(6656);
+var bind = __nested_webpack_require_166049__(9974);
+var classof = __nested_webpack_require_166049__(648);
+var anObject = __nested_webpack_require_166049__(9670);
+var isObject = __nested_webpack_require_166049__(111);
+var create = __nested_webpack_require_166049__(30);
+var createPropertyDescriptor = __nested_webpack_require_166049__(9114);
+var getIterator = __nested_webpack_require_166049__(8554);
+var getIteratorMethod = __nested_webpack_require_166049__(1246);
+var wellKnownSymbol = __nested_webpack_require_166049__(5112);
+
+var $fetch = getBuiltIn('fetch');
+var Headers = getBuiltIn('Headers');
+var ITERATOR = wellKnownSymbol('iterator');
+var URL_SEARCH_PARAMS = 'URLSearchParams';
+var URL_SEARCH_PARAMS_ITERATOR = URL_SEARCH_PARAMS + 'Iterator';
+var setInternalState = InternalStateModule.set;
+var getInternalParamsState = InternalStateModule.getterFor(URL_SEARCH_PARAMS);
+var getInternalIteratorState = InternalStateModule.getterFor(URL_SEARCH_PARAMS_ITERATOR);
+
+var plus = /\+/g;
+var sequences = Array(4);
+
+var percentSequence = function (bytes) {
+  return sequences[bytes - 1] || (sequences[bytes - 1] = RegExp('((?:%[\\da-f]{2}){' + bytes + '})', 'gi'));
+};
+
+var percentDecode = function (sequence) {
+  try {
+    return decodeURIComponent(sequence);
+  } catch (error) {
+    return sequence;
+  }
+};
+
+var deserialize = function (it) {
+  var result = it.replace(plus, ' ');
+  var bytes = 4;
+  try {
+    return decodeURIComponent(result);
+  } catch (error) {
+    while (bytes) {
+      result = result.replace(percentSequence(bytes--), percentDecode);
+    }
+    return result;
+  }
+};
+
+var find = /[!'()~]|%20/g;
+
+var replace = {
+  '!': '%21',
+  "'": '%27',
+  '(': '%28',
+  ')': '%29',
+  '~': '%7E',
+  '%20': '+'
+};
+
+var replacer = function (match) {
+  return replace[match];
+};
+
+var serialize = function (it) {
+  return encodeURIComponent(it).replace(find, replacer);
+};
+
+var parseSearchParams = function (result, query) {
+  if (query) {
+    var attributes = query.split('&');
+    var index = 0;
+    var attribute, entry;
+    while (index < attributes.length) {
+      attribute = attributes[index++];
+      if (attribute.length) {
+        entry = attribute.split('=');
+        result.push({
+          key: deserialize(entry.shift()),
+          value: deserialize(entry.join('='))
+        });
+      }
+    }
+  }
+};
+
+var updateSearchParams = function (query) {
+  this.entries.length = 0;
+  parseSearchParams(this.entries, query);
+};
+
+var validateArgumentsLength = function (passed, required) {
+  if (passed < required) throw TypeError('Not enough arguments');
+};
+
+var URLSearchParamsIterator = createIteratorConstructor(function Iterator(params, kind) {
+  setInternalState(this, {
+    type: URL_SEARCH_PARAMS_ITERATOR,
+    iterator: getIterator(getInternalParamsState(params).entries),
+    kind: kind
+  });
+}, 'Iterator', function next() {
+  var state = getInternalIteratorState(this);
+  var kind = state.kind;
+  var step = state.iterator.next();
+  var entry = step.value;
+  if (!step.done) {
+    step.value = kind === 'keys' ? entry.key : kind === 'values' ? entry.value : [entry.key, entry.value];
+  } return step;
+});
+
+// `URLSearchParams` constructor
+// https://url.spec.whatwg.org/#interface-urlsearchparams
+var URLSearchParamsConstructor = function URLSearchParams(/* init */) {
+  anInstance(this, URLSearchParamsConstructor, URL_SEARCH_PARAMS);
+  var init = arguments.length > 0 ? arguments[0] : undefined;
+  var that = this;
+  var entries = [];
+  var iteratorMethod, iterator, next, step, entryIterator, entryNext, first, second, key;
+
+  setInternalState(that, {
+    type: URL_SEARCH_PARAMS,
+    entries: entries,
+    updateURL: function () { /* empty */ },
+    updateSearchParams: updateSearchParams
+  });
+
+  if (init !== undefined) {
+    if (isObject(init)) {
+      iteratorMethod = getIteratorMethod(init);
+      if (typeof iteratorMethod === 'function') {
+        iterator = iteratorMethod.call(init);
+        next = iterator.next;
+        while (!(step = next.call(iterator)).done) {
+          entryIterator = getIterator(anObject(step.value));
+          entryNext = entryIterator.next;
+          if (
+            (first = entryNext.call(entryIterator)).done ||
+            (second = entryNext.call(entryIterator)).done ||
+            !entryNext.call(entryIterator).done
+          ) throw TypeError('Expected sequence with length 2');
+          entries.push({ key: first.value + '', value: second.value + '' });
+        }
+      } else for (key in init) if (hasOwn(init, key)) entries.push({ key: key, value: init[key] + '' });
+    } else {
+      parseSearchParams(entries, typeof init === 'string' ? init.charAt(0) === '?' ? init.slice(1) : init : init + '');
+    }
+  }
+};
+
+var URLSearchParamsPrototype = URLSearchParamsConstructor.prototype;
+
+redefineAll(URLSearchParamsPrototype, {
+  // `URLSearchParams.prototype.append` method
+  // https://url.spec.whatwg.org/#dom-urlsearchparams-append
+  append: function append(name, value) {
+    validateArgumentsLength(arguments.length, 2);
+    var state = getInternalParamsState(this);
+    state.entries.push({ key: name + '', value: value + '' });
+    state.updateURL();
+  },
+  // `URLSearchParams.prototype.delete` method
+  // https://url.spec.whatwg.org/#dom-urlsearchparams-delete
+  'delete': function (name) {
+    validateArgumentsLength(arguments.length, 1);
+    var state = getInternalParamsState(this);
+    var entries = state.entries;
+    var key = name + '';
+    var index = 0;
+    while (index < entries.length) {
+      if (entries[index].key === key) entries.splice(index, 1);
+      else index++;
+    }
+    state.updateURL();
+  },
+  // `URLSearchParams.prototype.get` method
+  // https://url.spec.whatwg.org/#dom-urlsearchparams-get
+  get: function get(name) {
+    validateArgumentsLength(arguments.length, 1);
+    var entries = getInternalParamsState(this).entries;
+    var key = name + '';
+    var index = 0;
+    for (; index < entries.length; index++) {
+      if (entries[index].key === key) return entries[index].value;
+    }
+    return null;
+  },
+  // `URLSearchParams.prototype.getAll` method
+  // https://url.spec.whatwg.org/#dom-urlsearchparams-getall
+  getAll: function getAll(name) {
+    validateArgumentsLength(arguments.length, 1);
+    var entries = getInternalParamsState(this).entries;
+    var key = name + '';
+    var result = [];
+    var index = 0;
+    for (; index < entries.length; index++) {
+      if (entries[index].key === key) result.push(entries[index].value);
+    }
+    return result;
+  },
+  // `URLSearchParams.prototype.has` method
+  // https://url.spec.whatwg.org/#dom-urlsearchparams-has
+  has: function has(name) {
+    validateArgumentsLength(arguments.length, 1);
+    var entries = getInternalParamsState(this).entries;
+    var key = name + '';
+    var index = 0;
+    while (index < entries.length) {
+      if (entries[index++].key === key) return true;
+    }
+    return false;
+  },
+  // `URLSearchParams.prototype.set` method
+  // https://url.spec.whatwg.org/#dom-urlsearchparams-set
+  set: function set(name, value) {
+    validateArgumentsLength(arguments.length, 1);
+    var state = getInternalParamsState(this);
+    var entries = state.entries;
+    var found = false;
+    var key = name + '';
+    var val = value + '';
+    var index = 0;
+    var entry;
+    for (; index < entries.length; index++) {
+      entry = entries[index];
+      if (entry.key === key) {
+        if (found) entries.splice(index--, 1);
+        else {
+          found = true;
+          entry.value = val;
+        }
+      }
+    }
+    if (!found) entries.push({ key: key, value: val });
+    state.updateURL();
+  },
+  // `URLSearchParams.prototype.sort` method
+  // https://url.spec.whatwg.org/#dom-urlsearchparams-sort
+  sort: function sort() {
+    var state = getInternalParamsState(this);
+    var entries = state.entries;
+    // Array#sort is not stable in some engines
+    var slice = entries.slice();
+    var entry, entriesIndex, sliceIndex;
+    entries.length = 0;
+    for (sliceIndex = 0; sliceIndex < slice.length; sliceIndex++) {
+      entry = slice[sliceIndex];
+      for (entriesIndex = 0; entriesIndex < sliceIndex; entriesIndex++) {
+        if (entries[entriesIndex].key > entry.key) {
+          entries.splice(entriesIndex, 0, entry);
+          break;
+        }
+      }
+      if (entriesIndex === sliceIndex) entries.push(entry);
+    }
+    state.updateURL();
+  },
+  // `URLSearchParams.prototype.forEach` method
+  forEach: function forEach(callback /* , thisArg */) {
+    var entries = getInternalParamsState(this).entries;
+    var boundFunction = bind(callback, arguments.length > 1 ? arguments[1] : undefined, 3);
+    var index = 0;
+    var entry;
+    while (index < entries.length) {
+      entry = entries[index++];
+      boundFunction(entry.value, entry.key, this);
+    }
+  },
+  // `URLSearchParams.prototype.keys` method
+  keys: function keys() {
+    return new URLSearchParamsIterator(this, 'keys');
+  },
+  // `URLSearchParams.prototype.values` method
+  values: function values() {
+    return new URLSearchParamsIterator(this, 'values');
+  },
+  // `URLSearchParams.prototype.entries` method
+  entries: function entries() {
+    return new URLSearchParamsIterator(this, 'entries');
+  }
+}, { enumerable: true });
+
+// `URLSearchParams.prototype[@@iterator]` method
+redefine(URLSearchParamsPrototype, ITERATOR, URLSearchParamsPrototype.entries);
+
+// `URLSearchParams.prototype.toString` method
+// https://url.spec.whatwg.org/#urlsearchparams-stringification-behavior
+redefine(URLSearchParamsPrototype, 'toString', function toString() {
+  var entries = getInternalParamsState(this).entries;
+  var result = [];
+  var index = 0;
+  var entry;
+  while (index < entries.length) {
+    entry = entries[index++];
+    result.push(serialize(entry.key) + '=' + serialize(entry.value));
+  } return result.join('&');
+}, { enumerable: true });
+
+setToStringTag(URLSearchParamsConstructor, URL_SEARCH_PARAMS);
+
+$({ global: true, forced: !USE_NATIVE_URL }, {
+  URLSearchParams: URLSearchParamsConstructor
+});
+
+// Wrap `fetch` for correct work with polyfilled `URLSearchParams`
+// https://github.com/zloirock/core-js/issues/674
+if (!USE_NATIVE_URL && typeof $fetch == 'function' && typeof Headers == 'function') {
+  $({ global: true, enumerable: true, forced: true }, {
+    fetch: function fetch(input /* , init */) {
+      var args = [input];
+      var init, body, headers;
+      if (arguments.length > 1) {
+        init = arguments[1];
+        if (isObject(init)) {
+          body = init.body;
+          if (classof(body) === URL_SEARCH_PARAMS) {
+            headers = init.headers ? new Headers(init.headers) : new Headers();
+            if (!headers.has('content-type')) {
+              headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+            }
+            init = create(init, {
+              body: createPropertyDescriptor(0, String(body)),
+              headers: createPropertyDescriptor(0, headers)
+            });
+          }
+        }
+        args.push(init);
+      } return $fetch.apply(this, args);
+    }
+  });
+}
+
+module.exports = {
+  URLSearchParams: URLSearchParamsConstructor,
+  getState: getInternalParamsState
+};
+
+
+/***/ }),
+
+/***/ 285:
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nested_webpack_require_177789__) {
+
+"use strict";
+
+// TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
+__nested_webpack_require_177789__(8783);
+var $ = __nested_webpack_require_177789__(2109);
+var DESCRIPTORS = __nested_webpack_require_177789__(9781);
+var USE_NATIVE_URL = __nested_webpack_require_177789__(590);
+var global = __nested_webpack_require_177789__(7854);
+var defineProperties = __nested_webpack_require_177789__(6048);
+var redefine = __nested_webpack_require_177789__(1320);
+var anInstance = __nested_webpack_require_177789__(5787);
+var has = __nested_webpack_require_177789__(6656);
+var assign = __nested_webpack_require_177789__(1574);
+var arrayFrom = __nested_webpack_require_177789__(8457);
+var codeAt = __nested_webpack_require_177789__(8710).codeAt;
+var toASCII = __nested_webpack_require_177789__(3197);
+var setToStringTag = __nested_webpack_require_177789__(8003);
+var URLSearchParamsModule = __nested_webpack_require_177789__(1637);
+var InternalStateModule = __nested_webpack_require_177789__(9909);
+
+var NativeURL = global.URL;
+var URLSearchParams = URLSearchParamsModule.URLSearchParams;
+var getInternalSearchParamsState = URLSearchParamsModule.getState;
+var setInternalState = InternalStateModule.set;
+var getInternalURLState = InternalStateModule.getterFor('URL');
+var floor = Math.floor;
+var pow = Math.pow;
+
+var INVALID_AUTHORITY = 'Invalid authority';
+var INVALID_SCHEME = 'Invalid scheme';
+var INVALID_HOST = 'Invalid host';
+var INVALID_PORT = 'Invalid port';
+
+var ALPHA = /[A-Za-z]/;
+var ALPHANUMERIC = /[\d+-.A-Za-z]/;
+var DIGIT = /\d/;
+var HEX_START = /^(0x|0X)/;
+var OCT = /^[0-7]+$/;
+var DEC = /^\d+$/;
+var HEX = /^[\dA-Fa-f]+$/;
+/* eslint-disable no-control-regex -- safe */
+var FORBIDDEN_HOST_CODE_POINT = /[\u0000\t\u000A\u000D #%/:?@[\\]]/;
+var FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT = /[\u0000\t\u000A\u000D #/:?@[\\]]/;
+var LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE = /^[\u0000-\u001F ]+|[\u0000-\u001F ]+$/g;
+var TAB_AND_NEW_LINE = /[\t\u000A\u000D]/g;
+/* eslint-enable no-control-regex -- safe */
+var EOF;
+
+var parseHost = function (url, input) {
+  var result, codePoints, index;
+  if (input.charAt(0) == '[') {
+    if (input.charAt(input.length - 1) != ']') return INVALID_HOST;
+    result = parseIPv6(input.slice(1, -1));
+    if (!result) return INVALID_HOST;
+    url.host = result;
+  // opaque host
+  } else if (!isSpecial(url)) {
+    if (FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT.test(input)) return INVALID_HOST;
+    result = '';
+    codePoints = arrayFrom(input);
+    for (index = 0; index < codePoints.length; index++) {
+      result += percentEncode(codePoints[index], C0ControlPercentEncodeSet);
+    }
+    url.host = result;
+  } else {
+    input = toASCII(input);
+    if (FORBIDDEN_HOST_CODE_POINT.test(input)) return INVALID_HOST;
+    result = parseIPv4(input);
+    if (result === null) return INVALID_HOST;
+    url.host = result;
+  }
+};
+
+var parseIPv4 = function (input) {
+  var parts = input.split('.');
+  var partsLength, numbers, index, part, radix, number, ipv4;
+  if (parts.length && parts[parts.length - 1] == '') {
+    parts.pop();
+  }
+  partsLength = parts.length;
+  if (partsLength > 4) return input;
+  numbers = [];
+  for (index = 0; index < partsLength; index++) {
+    part = parts[index];
+    if (part == '') return input;
+    radix = 10;
+    if (part.length > 1 && part.charAt(0) == '0') {
+      radix = HEX_START.test(part) ? 16 : 8;
+      part = part.slice(radix == 8 ? 1 : 2);
+    }
+    if (part === '') {
+      number = 0;
+    } else {
+      if (!(radix == 10 ? DEC : radix == 8 ? OCT : HEX).test(part)) return input;
+      number = parseInt(part, radix);
+    }
+    numbers.push(number);
+  }
+  for (index = 0; index < partsLength; index++) {
+    number = numbers[index];
+    if (index == partsLength - 1) {
+      if (number >= pow(256, 5 - partsLength)) return null;
+    } else if (number > 255) return null;
+  }
+  ipv4 = numbers.pop();
+  for (index = 0; index < numbers.length; index++) {
+    ipv4 += numbers[index] * pow(256, 3 - index);
+  }
+  return ipv4;
+};
+
+// eslint-disable-next-line max-statements -- TODO
+var parseIPv6 = function (input) {
+  var address = [0, 0, 0, 0, 0, 0, 0, 0];
+  var pieceIndex = 0;
+  var compress = null;
+  var pointer = 0;
+  var value, length, numbersSeen, ipv4Piece, number, swaps, swap;
+
+  var char = function () {
+    return input.charAt(pointer);
+  };
+
+  if (char() == ':') {
+    if (input.charAt(1) != ':') return;
+    pointer += 2;
+    pieceIndex++;
+    compress = pieceIndex;
+  }
+  while (char()) {
+    if (pieceIndex == 8) return;
+    if (char() == ':') {
+      if (compress !== null) return;
+      pointer++;
+      pieceIndex++;
+      compress = pieceIndex;
+      continue;
+    }
+    value = length = 0;
+    while (length < 4 && HEX.test(char())) {
+      value = value * 16 + parseInt(char(), 16);
+      pointer++;
+      length++;
+    }
+    if (char() == '.') {
+      if (length == 0) return;
+      pointer -= length;
+      if (pieceIndex > 6) return;
+      numbersSeen = 0;
+      while (char()) {
+        ipv4Piece = null;
+        if (numbersSeen > 0) {
+          if (char() == '.' && numbersSeen < 4) pointer++;
+          else return;
+        }
+        if (!DIGIT.test(char())) return;
+        while (DIGIT.test(char())) {
+          number = parseInt(char(), 10);
+          if (ipv4Piece === null) ipv4Piece = number;
+          else if (ipv4Piece == 0) return;
+          else ipv4Piece = ipv4Piece * 10 + number;
+          if (ipv4Piece > 255) return;
+          pointer++;
+        }
+        address[pieceIndex] = address[pieceIndex] * 256 + ipv4Piece;
+        numbersSeen++;
+        if (numbersSeen == 2 || numbersSeen == 4) pieceIndex++;
+      }
+      if (numbersSeen != 4) return;
+      break;
+    } else if (char() == ':') {
+      pointer++;
+      if (!char()) return;
+    } else if (char()) return;
+    address[pieceIndex++] = value;
+  }
+  if (compress !== null) {
+    swaps = pieceIndex - compress;
+    pieceIndex = 7;
+    while (pieceIndex != 0 && swaps > 0) {
+      swap = address[pieceIndex];
+      address[pieceIndex--] = address[compress + swaps - 1];
+      address[compress + --swaps] = swap;
+    }
+  } else if (pieceIndex != 8) return;
+  return address;
+};
+
+var findLongestZeroSequence = function (ipv6) {
+  var maxIndex = null;
+  var maxLength = 1;
+  var currStart = null;
+  var currLength = 0;
+  var index = 0;
+  for (; index < 8; index++) {
+    if (ipv6[index] !== 0) {
+      if (currLength > maxLength) {
+        maxIndex = currStart;
+        maxLength = currLength;
+      }
+      currStart = null;
+      currLength = 0;
+    } else {
+      if (currStart === null) currStart = index;
+      ++currLength;
+    }
+  }
+  if (currLength > maxLength) {
+    maxIndex = currStart;
+    maxLength = currLength;
+  }
+  return maxIndex;
+};
+
+var serializeHost = function (host) {
+  var result, index, compress, ignore0;
+  // ipv4
+  if (typeof host == 'number') {
+    result = [];
+    for (index = 0; index < 4; index++) {
+      result.unshift(host % 256);
+      host = floor(host / 256);
+    } return result.join('.');
+  // ipv6
+  } else if (typeof host == 'object') {
+    result = '';
+    compress = findLongestZeroSequence(host);
+    for (index = 0; index < 8; index++) {
+      if (ignore0 && host[index] === 0) continue;
+      if (ignore0) ignore0 = false;
+      if (compress === index) {
+        result += index ? ':' : '::';
+        ignore0 = true;
+      } else {
+        result += host[index].toString(16);
+        if (index < 7) result += ':';
+      }
+    }
+    return '[' + result + ']';
+  } return host;
+};
+
+var C0ControlPercentEncodeSet = {};
+var fragmentPercentEncodeSet = assign({}, C0ControlPercentEncodeSet, {
+  ' ': 1, '"': 1, '<': 1, '>': 1, '`': 1
+});
+var pathPercentEncodeSet = assign({}, fragmentPercentEncodeSet, {
+  '#': 1, '?': 1, '{': 1, '}': 1
+});
+var userinfoPercentEncodeSet = assign({}, pathPercentEncodeSet, {
+  '/': 1, ':': 1, ';': 1, '=': 1, '@': 1, '[': 1, '\\': 1, ']': 1, '^': 1, '|': 1
+});
+
+var percentEncode = function (char, set) {
+  var code = codeAt(char, 0);
+  return code > 0x20 && code < 0x7F && !has(set, char) ? char : encodeURIComponent(char);
+};
+
+var specialSchemes = {
+  ftp: 21,
+  file: null,
+  http: 80,
+  https: 443,
+  ws: 80,
+  wss: 443
+};
+
+var isSpecial = function (url) {
+  return has(specialSchemes, url.scheme);
+};
+
+var includesCredentials = function (url) {
+  return url.username != '' || url.password != '';
+};
+
+var cannotHaveUsernamePasswordPort = function (url) {
+  return !url.host || url.cannotBeABaseURL || url.scheme == 'file';
+};
+
+var isWindowsDriveLetter = function (string, normalized) {
+  var second;
+  return string.length == 2 && ALPHA.test(string.charAt(0))
+    && ((second = string.charAt(1)) == ':' || (!normalized && second == '|'));
+};
+
+var startsWithWindowsDriveLetter = function (string) {
+  var third;
+  return string.length > 1 && isWindowsDriveLetter(string.slice(0, 2)) && (
+    string.length == 2 ||
+    ((third = string.charAt(2)) === '/' || third === '\\' || third === '?' || third === '#')
+  );
+};
+
+var shortenURLsPath = function (url) {
+  var path = url.path;
+  var pathSize = path.length;
+  if (pathSize && (url.scheme != 'file' || pathSize != 1 || !isWindowsDriveLetter(path[0], true))) {
+    path.pop();
+  }
+};
+
+var isSingleDot = function (segment) {
+  return segment === '.' || segment.toLowerCase() === '%2e';
+};
+
+var isDoubleDot = function (segment) {
+  segment = segment.toLowerCase();
+  return segment === '..' || segment === '%2e.' || segment === '.%2e' || segment === '%2e%2e';
+};
+
+// States:
+var SCHEME_START = {};
+var SCHEME = {};
+var NO_SCHEME = {};
+var SPECIAL_RELATIVE_OR_AUTHORITY = {};
+var PATH_OR_AUTHORITY = {};
+var RELATIVE = {};
+var RELATIVE_SLASH = {};
+var SPECIAL_AUTHORITY_SLASHES = {};
+var SPECIAL_AUTHORITY_IGNORE_SLASHES = {};
+var AUTHORITY = {};
+var HOST = {};
+var HOSTNAME = {};
+var PORT = {};
+var FILE = {};
+var FILE_SLASH = {};
+var FILE_HOST = {};
+var PATH_START = {};
+var PATH = {};
+var CANNOT_BE_A_BASE_URL_PATH = {};
+var QUERY = {};
+var FRAGMENT = {};
+
+// eslint-disable-next-line max-statements -- TODO
+var parseURL = function (url, input, stateOverride, base) {
+  var state = stateOverride || SCHEME_START;
+  var pointer = 0;
+  var buffer = '';
+  var seenAt = false;
+  var seenBracket = false;
+  var seenPasswordToken = false;
+  var codePoints, char, bufferCodePoints, failure;
+
+  if (!stateOverride) {
+    url.scheme = '';
+    url.username = '';
+    url.password = '';
+    url.host = null;
+    url.port = null;
+    url.path = [];
+    url.query = null;
+    url.fragment = null;
+    url.cannotBeABaseURL = false;
+    input = input.replace(LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE, '');
+  }
+
+  input = input.replace(TAB_AND_NEW_LINE, '');
+
+  codePoints = arrayFrom(input);
+
+  while (pointer <= codePoints.length) {
+    char = codePoints[pointer];
+    switch (state) {
+      case SCHEME_START:
+        if (char && ALPHA.test(char)) {
+          buffer += char.toLowerCase();
+          state = SCHEME;
+        } else if (!stateOverride) {
+          state = NO_SCHEME;
+          continue;
+        } else return INVALID_SCHEME;
+        break;
+
+      case SCHEME:
+        if (char && (ALPHANUMERIC.test(char) || char == '+' || char == '-' || char == '.')) {
+          buffer += char.toLowerCase();
+        } else if (char == ':') {
+          if (stateOverride && (
+            (isSpecial(url) != has(specialSchemes, buffer)) ||
+            (buffer == 'file' && (includesCredentials(url) || url.port !== null)) ||
+            (url.scheme == 'file' && !url.host)
+          )) return;
+          url.scheme = buffer;
+          if (stateOverride) {
+            if (isSpecial(url) && specialSchemes[url.scheme] == url.port) url.port = null;
+            return;
+          }
+          buffer = '';
+          if (url.scheme == 'file') {
+            state = FILE;
+          } else if (isSpecial(url) && base && base.scheme == url.scheme) {
+            state = SPECIAL_RELATIVE_OR_AUTHORITY;
+          } else if (isSpecial(url)) {
+            state = SPECIAL_AUTHORITY_SLASHES;
+          } else if (codePoints[pointer + 1] == '/') {
+            state = PATH_OR_AUTHORITY;
+            pointer++;
+          } else {
+            url.cannotBeABaseURL = true;
+            url.path.push('');
+            state = CANNOT_BE_A_BASE_URL_PATH;
+          }
+        } else if (!stateOverride) {
+          buffer = '';
+          state = NO_SCHEME;
+          pointer = 0;
+          continue;
+        } else return INVALID_SCHEME;
+        break;
+
+      case NO_SCHEME:
+        if (!base || (base.cannotBeABaseURL && char != '#')) return INVALID_SCHEME;
+        if (base.cannotBeABaseURL && char == '#') {
+          url.scheme = base.scheme;
+          url.path = base.path.slice();
+          url.query = base.query;
+          url.fragment = '';
+          url.cannotBeABaseURL = true;
+          state = FRAGMENT;
+          break;
+        }
+        state = base.scheme == 'file' ? FILE : RELATIVE;
+        continue;
+
+      case SPECIAL_RELATIVE_OR_AUTHORITY:
+        if (char == '/' && codePoints[pointer + 1] == '/') {
+          state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
+          pointer++;
+        } else {
+          state = RELATIVE;
+          continue;
+        } break;
+
+      case PATH_OR_AUTHORITY:
+        if (char == '/') {
+          state = AUTHORITY;
+          break;
+        } else {
+          state = PATH;
+          continue;
+        }
+
+      case RELATIVE:
+        url.scheme = base.scheme;
+        if (char == EOF) {
+          url.username = base.username;
+          url.password = base.password;
+          url.host = base.host;
+          url.port = base.port;
+          url.path = base.path.slice();
+          url.query = base.query;
+        } else if (char == '/' || (char == '\\' && isSpecial(url))) {
+          state = RELATIVE_SLASH;
+        } else if (char == '?') {
+          url.username = base.username;
+          url.password = base.password;
+          url.host = base.host;
+          url.port = base.port;
+          url.path = base.path.slice();
+          url.query = '';
+          state = QUERY;
+        } else if (char == '#') {
+          url.username = base.username;
+          url.password = base.password;
+          url.host = base.host;
+          url.port = base.port;
+          url.path = base.path.slice();
+          url.query = base.query;
+          url.fragment = '';
+          state = FRAGMENT;
+        } else {
+          url.username = base.username;
+          url.password = base.password;
+          url.host = base.host;
+          url.port = base.port;
+          url.path = base.path.slice();
+          url.path.pop();
+          state = PATH;
+          continue;
+        } break;
+
+      case RELATIVE_SLASH:
+        if (isSpecial(url) && (char == '/' || char == '\\')) {
+          state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
+        } else if (char == '/') {
+          state = AUTHORITY;
+        } else {
+          url.username = base.username;
+          url.password = base.password;
+          url.host = base.host;
+          url.port = base.port;
+          state = PATH;
+          continue;
+        } break;
+
+      case SPECIAL_AUTHORITY_SLASHES:
+        state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
+        if (char != '/' || buffer.charAt(pointer + 1) != '/') continue;
+        pointer++;
+        break;
+
+      case SPECIAL_AUTHORITY_IGNORE_SLASHES:
+        if (char != '/' && char != '\\') {
+          state = AUTHORITY;
+          continue;
+        } break;
+
+      case AUTHORITY:
+        if (char == '@') {
+          if (seenAt) buffer = '%40' + buffer;
+          seenAt = true;
+          bufferCodePoints = arrayFrom(buffer);
+          for (var i = 0; i < bufferCodePoints.length; i++) {
+            var codePoint = bufferCodePoints[i];
+            if (codePoint == ':' && !seenPasswordToken) {
+              seenPasswordToken = true;
+              continue;
+            }
+            var encodedCodePoints = percentEncode(codePoint, userinfoPercentEncodeSet);
+            if (seenPasswordToken) url.password += encodedCodePoints;
+            else url.username += encodedCodePoints;
+          }
+          buffer = '';
+        } else if (
+          char == EOF || char == '/' || char == '?' || char == '#' ||
+          (char == '\\' && isSpecial(url))
+        ) {
+          if (seenAt && buffer == '') return INVALID_AUTHORITY;
+          pointer -= arrayFrom(buffer).length + 1;
+          buffer = '';
+          state = HOST;
+        } else buffer += char;
+        break;
+
+      case HOST:
+      case HOSTNAME:
+        if (stateOverride && url.scheme == 'file') {
+          state = FILE_HOST;
+          continue;
+        } else if (char == ':' && !seenBracket) {
+          if (buffer == '') return INVALID_HOST;
+          failure = parseHost(url, buffer);
+          if (failure) return failure;
+          buffer = '';
+          state = PORT;
+          if (stateOverride == HOSTNAME) return;
+        } else if (
+          char == EOF || char == '/' || char == '?' || char == '#' ||
+          (char == '\\' && isSpecial(url))
+        ) {
+          if (isSpecial(url) && buffer == '') return INVALID_HOST;
+          if (stateOverride && buffer == '' && (includesCredentials(url) || url.port !== null)) return;
+          failure = parseHost(url, buffer);
+          if (failure) return failure;
+          buffer = '';
+          state = PATH_START;
+          if (stateOverride) return;
+          continue;
+        } else {
+          if (char == '[') seenBracket = true;
+          else if (char == ']') seenBracket = false;
+          buffer += char;
+        } break;
+
+      case PORT:
+        if (DIGIT.test(char)) {
+          buffer += char;
+        } else if (
+          char == EOF || char == '/' || char == '?' || char == '#' ||
+          (char == '\\' && isSpecial(url)) ||
+          stateOverride
+        ) {
+          if (buffer != '') {
+            var port = parseInt(buffer, 10);
+            if (port > 0xFFFF) return INVALID_PORT;
+            url.port = (isSpecial(url) && port === specialSchemes[url.scheme]) ? null : port;
+            buffer = '';
+          }
+          if (stateOverride) return;
+          state = PATH_START;
+          continue;
+        } else return INVALID_PORT;
+        break;
+
+      case FILE:
+        url.scheme = 'file';
+        if (char == '/' || char == '\\') state = FILE_SLASH;
+        else if (base && base.scheme == 'file') {
+          if (char == EOF) {
+            url.host = base.host;
+            url.path = base.path.slice();
+            url.query = base.query;
+          } else if (char == '?') {
+            url.host = base.host;
+            url.path = base.path.slice();
+            url.query = '';
+            state = QUERY;
+          } else if (char == '#') {
+            url.host = base.host;
+            url.path = base.path.slice();
+            url.query = base.query;
+            url.fragment = '';
+            state = FRAGMENT;
+          } else {
+            if (!startsWithWindowsDriveLetter(codePoints.slice(pointer).join(''))) {
+              url.host = base.host;
+              url.path = base.path.slice();
+              shortenURLsPath(url);
+            }
+            state = PATH;
+            continue;
+          }
+        } else {
+          state = PATH;
+          continue;
+        } break;
+
+      case FILE_SLASH:
+        if (char == '/' || char == '\\') {
+          state = FILE_HOST;
+          break;
+        }
+        if (base && base.scheme == 'file' && !startsWithWindowsDriveLetter(codePoints.slice(pointer).join(''))) {
+          if (isWindowsDriveLetter(base.path[0], true)) url.path.push(base.path[0]);
+          else url.host = base.host;
+        }
+        state = PATH;
+        continue;
+
+      case FILE_HOST:
+        if (char == EOF || char == '/' || char == '\\' || char == '?' || char == '#') {
+          if (!stateOverride && isWindowsDriveLetter(buffer)) {
+            state = PATH;
+          } else if (buffer == '') {
+            url.host = '';
+            if (stateOverride) return;
+            state = PATH_START;
+          } else {
+            failure = parseHost(url, buffer);
+            if (failure) return failure;
+            if (url.host == 'localhost') url.host = '';
+            if (stateOverride) return;
+            buffer = '';
+            state = PATH_START;
+          } continue;
+        } else buffer += char;
+        break;
+
+      case PATH_START:
+        if (isSpecial(url)) {
+          state = PATH;
+          if (char != '/' && char != '\\') continue;
+        } else if (!stateOverride && char == '?') {
+          url.query = '';
+          state = QUERY;
+        } else if (!stateOverride && char == '#') {
+          url.fragment = '';
+          state = FRAGMENT;
+        } else if (char != EOF) {
+          state = PATH;
+          if (char != '/') continue;
+        } break;
+
+      case PATH:
+        if (
+          char == EOF || char == '/' ||
+          (char == '\\' && isSpecial(url)) ||
+          (!stateOverride && (char == '?' || char == '#'))
+        ) {
+          if (isDoubleDot(buffer)) {
+            shortenURLsPath(url);
+            if (char != '/' && !(char == '\\' && isSpecial(url))) {
+              url.path.push('');
+            }
+          } else if (isSingleDot(buffer)) {
+            if (char != '/' && !(char == '\\' && isSpecial(url))) {
+              url.path.push('');
+            }
+          } else {
+            if (url.scheme == 'file' && !url.path.length && isWindowsDriveLetter(buffer)) {
+              if (url.host) url.host = '';
+              buffer = buffer.charAt(0) + ':'; // normalize windows drive letter
+            }
+            url.path.push(buffer);
+          }
+          buffer = '';
+          if (url.scheme == 'file' && (char == EOF || char == '?' || char == '#')) {
+            while (url.path.length > 1 && url.path[0] === '') {
+              url.path.shift();
+            }
+          }
+          if (char == '?') {
+            url.query = '';
+            state = QUERY;
+          } else if (char == '#') {
+            url.fragment = '';
+            state = FRAGMENT;
+          }
+        } else {
+          buffer += percentEncode(char, pathPercentEncodeSet);
+        } break;
+
+      case CANNOT_BE_A_BASE_URL_PATH:
+        if (char == '?') {
+          url.query = '';
+          state = QUERY;
+        } else if (char == '#') {
+          url.fragment = '';
+          state = FRAGMENT;
+        } else if (char != EOF) {
+          url.path[0] += percentEncode(char, C0ControlPercentEncodeSet);
+        } break;
+
+      case QUERY:
+        if (!stateOverride && char == '#') {
+          url.fragment = '';
+          state = FRAGMENT;
+        } else if (char != EOF) {
+          if (char == "'" && isSpecial(url)) url.query += '%27';
+          else if (char == '#') url.query += '%23';
+          else url.query += percentEncode(char, C0ControlPercentEncodeSet);
+        } break;
+
+      case FRAGMENT:
+        if (char != EOF) url.fragment += percentEncode(char, fragmentPercentEncodeSet);
+        break;
+    }
+
+    pointer++;
+  }
+};
+
+// `URL` constructor
+// https://url.spec.whatwg.org/#url-class
+var URLConstructor = function URL(url /* , base */) {
+  var that = anInstance(this, URLConstructor, 'URL');
+  var base = arguments.length > 1 ? arguments[1] : undefined;
+  var urlString = String(url);
+  var state = setInternalState(that, { type: 'URL' });
+  var baseState, failure;
+  if (base !== undefined) {
+    if (base instanceof URLConstructor) baseState = getInternalURLState(base);
+    else {
+      failure = parseURL(baseState = {}, String(base));
+      if (failure) throw TypeError(failure);
+    }
+  }
+  failure = parseURL(state, urlString, null, baseState);
+  if (failure) throw TypeError(failure);
+  var searchParams = state.searchParams = new URLSearchParams();
+  var searchParamsState = getInternalSearchParamsState(searchParams);
+  searchParamsState.updateSearchParams(state.query);
+  searchParamsState.updateURL = function () {
+    state.query = String(searchParams) || null;
+  };
+  if (!DESCRIPTORS) {
+    that.href = serializeURL.call(that);
+    that.origin = getOrigin.call(that);
+    that.protocol = getProtocol.call(that);
+    that.username = getUsername.call(that);
+    that.password = getPassword.call(that);
+    that.host = getHost.call(that);
+    that.hostname = getHostname.call(that);
+    that.port = getPort.call(that);
+    that.pathname = getPathname.call(that);
+    that.search = getSearch.call(that);
+    that.searchParams = getSearchParams.call(that);
+    that.hash = getHash.call(that);
+  }
+};
+
+var URLPrototype = URLConstructor.prototype;
+
+var serializeURL = function () {
+  var url = getInternalURLState(this);
+  var scheme = url.scheme;
+  var username = url.username;
+  var password = url.password;
+  var host = url.host;
+  var port = url.port;
+  var path = url.path;
+  var query = url.query;
+  var fragment = url.fragment;
+  var output = scheme + ':';
+  if (host !== null) {
+    output += '//';
+    if (includesCredentials(url)) {
+      output += username + (password ? ':' + password : '') + '@';
+    }
+    output += serializeHost(host);
+    if (port !== null) output += ':' + port;
+  } else if (scheme == 'file') output += '//';
+  output += url.cannotBeABaseURL ? path[0] : path.length ? '/' + path.join('/') : '';
+  if (query !== null) output += '?' + query;
+  if (fragment !== null) output += '#' + fragment;
+  return output;
+};
+
+var getOrigin = function () {
+  var url = getInternalURLState(this);
+  var scheme = url.scheme;
+  var port = url.port;
+  if (scheme == 'blob') try {
+    return new URL(scheme.path[0]).origin;
+  } catch (error) {
+    return 'null';
+  }
+  if (scheme == 'file' || !isSpecial(url)) return 'null';
+  return scheme + '://' + serializeHost(url.host) + (port !== null ? ':' + port : '');
+};
+
+var getProtocol = function () {
+  return getInternalURLState(this).scheme + ':';
+};
+
+var getUsername = function () {
+  return getInternalURLState(this).username;
+};
+
+var getPassword = function () {
+  return getInternalURLState(this).password;
+};
+
+var getHost = function () {
+  var url = getInternalURLState(this);
+  var host = url.host;
+  var port = url.port;
+  return host === null ? ''
+    : port === null ? serializeHost(host)
+    : serializeHost(host) + ':' + port;
+};
+
+var getHostname = function () {
+  var host = getInternalURLState(this).host;
+  return host === null ? '' : serializeHost(host);
+};
+
+var getPort = function () {
+  var port = getInternalURLState(this).port;
+  return port === null ? '' : String(port);
+};
+
+var getPathname = function () {
+  var url = getInternalURLState(this);
+  var path = url.path;
+  return url.cannotBeABaseURL ? path[0] : path.length ? '/' + path.join('/') : '';
+};
+
+var getSearch = function () {
+  var query = getInternalURLState(this).query;
+  return query ? '?' + query : '';
+};
+
+var getSearchParams = function () {
+  return getInternalURLState(this).searchParams;
+};
+
+var getHash = function () {
+  var fragment = getInternalURLState(this).fragment;
+  return fragment ? '#' + fragment : '';
+};
+
+var accessorDescriptor = function (getter, setter) {
+  return { get: getter, set: setter, configurable: true, enumerable: true };
+};
+
+if (DESCRIPTORS) {
+  defineProperties(URLPrototype, {
+    // `URL.prototype.href` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-href
+    href: accessorDescriptor(serializeURL, function (href) {
+      var url = getInternalURLState(this);
+      var urlString = String(href);
+      var failure = parseURL(url, urlString);
+      if (failure) throw TypeError(failure);
+      getInternalSearchParamsState(url.searchParams).updateSearchParams(url.query);
+    }),
+    // `URL.prototype.origin` getter
+    // https://url.spec.whatwg.org/#dom-url-origin
+    origin: accessorDescriptor(getOrigin),
+    // `URL.prototype.protocol` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-protocol
+    protocol: accessorDescriptor(getProtocol, function (protocol) {
+      var url = getInternalURLState(this);
+      parseURL(url, String(protocol) + ':', SCHEME_START);
+    }),
+    // `URL.prototype.username` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-username
+    username: accessorDescriptor(getUsername, function (username) {
+      var url = getInternalURLState(this);
+      var codePoints = arrayFrom(String(username));
+      if (cannotHaveUsernamePasswordPort(url)) return;
+      url.username = '';
+      for (var i = 0; i < codePoints.length; i++) {
+        url.username += percentEncode(codePoints[i], userinfoPercentEncodeSet);
+      }
+    }),
+    // `URL.prototype.password` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-password
+    password: accessorDescriptor(getPassword, function (password) {
+      var url = getInternalURLState(this);
+      var codePoints = arrayFrom(String(password));
+      if (cannotHaveUsernamePasswordPort(url)) return;
+      url.password = '';
+      for (var i = 0; i < codePoints.length; i++) {
+        url.password += percentEncode(codePoints[i], userinfoPercentEncodeSet);
+      }
+    }),
+    // `URL.prototype.host` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-host
+    host: accessorDescriptor(getHost, function (host) {
+      var url = getInternalURLState(this);
+      if (url.cannotBeABaseURL) return;
+      parseURL(url, String(host), HOST);
+    }),
+    // `URL.prototype.hostname` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-hostname
+    hostname: accessorDescriptor(getHostname, function (hostname) {
+      var url = getInternalURLState(this);
+      if (url.cannotBeABaseURL) return;
+      parseURL(url, String(hostname), HOSTNAME);
+    }),
+    // `URL.prototype.port` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-port
+    port: accessorDescriptor(getPort, function (port) {
+      var url = getInternalURLState(this);
+      if (cannotHaveUsernamePasswordPort(url)) return;
+      port = String(port);
+      if (port == '') url.port = null;
+      else parseURL(url, port, PORT);
+    }),
+    // `URL.prototype.pathname` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-pathname
+    pathname: accessorDescriptor(getPathname, function (pathname) {
+      var url = getInternalURLState(this);
+      if (url.cannotBeABaseURL) return;
+      url.path = [];
+      parseURL(url, pathname + '', PATH_START);
+    }),
+    // `URL.prototype.search` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-search
+    search: accessorDescriptor(getSearch, function (search) {
+      var url = getInternalURLState(this);
+      search = String(search);
+      if (search == '') {
+        url.query = null;
+      } else {
+        if ('?' == search.charAt(0)) search = search.slice(1);
+        url.query = '';
+        parseURL(url, search, QUERY);
+      }
+      getInternalSearchParamsState(url.searchParams).updateSearchParams(url.query);
+    }),
+    // `URL.prototype.searchParams` getter
+    // https://url.spec.whatwg.org/#dom-url-searchparams
+    searchParams: accessorDescriptor(getSearchParams),
+    // `URL.prototype.hash` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-hash
+    hash: accessorDescriptor(getHash, function (hash) {
+      var url = getInternalURLState(this);
+      hash = String(hash);
+      if (hash == '') {
+        url.fragment = null;
+        return;
+      }
+      if ('#' == hash.charAt(0)) hash = hash.slice(1);
+      url.fragment = '';
+      parseURL(url, hash, FRAGMENT);
+    })
+  });
+}
+
+// `URL.prototype.toJSON` method
+// https://url.spec.whatwg.org/#dom-url-tojson
+redefine(URLPrototype, 'toJSON', function toJSON() {
+  return serializeURL.call(this);
+}, { enumerable: true });
+
+// `URL.prototype.toString` method
+// https://url.spec.whatwg.org/#URL-stringification-behavior
+redefine(URLPrototype, 'toString', function toString() {
+  return serializeURL.call(this);
+}, { enumerable: true });
+
+if (NativeURL) {
+  var nativeCreateObjectURL = NativeURL.createObjectURL;
+  var nativeRevokeObjectURL = NativeURL.revokeObjectURL;
+  // `URL.createObjectURL` method
+  // https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL
+  // eslint-disable-next-line no-unused-vars -- required for `.length`
+  if (nativeCreateObjectURL) redefine(URLConstructor, 'createObjectURL', function createObjectURL(blob) {
+    return nativeCreateObjectURL.apply(NativeURL, arguments);
+  });
+  // `URL.revokeObjectURL` method
+  // https://developer.mozilla.org/en-US/docs/Web/API/URL/revokeObjectURL
+  // eslint-disable-next-line no-unused-vars -- required for `.length`
+  if (nativeRevokeObjectURL) redefine(URLConstructor, 'revokeObjectURL', function revokeObjectURL(url) {
+    return nativeRevokeObjectURL.apply(NativeURL, arguments);
+  });
+}
+
+setToStringTag(URLConstructor, 'URL');
+
+$({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
+  URL: URLConstructor
+});
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __nested_webpack_require_210484__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_210484__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nested_webpack_require_210484__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nested_webpack_require_210484__.o(definition, key) && !__nested_webpack_require_210484__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	!function() {
+/******/ 		__nested_webpack_require_210484__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__nested_webpack_require_210484__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__nested_webpack_require_210484__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+!function() {
+"use strict";
+// ESM COMPAT FLAG
+__nested_webpack_require_210484__.r(__webpack_exports__);
+
+// EXPORTS
+__nested_webpack_require_210484__.d(__webpack_exports__, {
+  "Dropzone": function() { return /* reexport */ Dropzone; },
+  "default": function() { return /* binding */ dropzone_dist; }
+});
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
+var es_array_concat = __nested_webpack_require_210484__(2222);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
+var es_array_filter = __nested_webpack_require_210484__(7327);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
+var es_array_index_of = __nested_webpack_require_210484__(2772);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __nested_webpack_require_210484__(6992);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
+var es_array_map = __nested_webpack_require_210484__(1249);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
+var es_array_slice = __nested_webpack_require_210484__(7042);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.splice.js
+var es_array_splice = __nested_webpack_require_210484__(561);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array-buffer.constructor.js
+var es_array_buffer_constructor = __nested_webpack_require_210484__(8264);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __nested_webpack_require_210484__(8309);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-prototype-of.js
+var es_object_get_prototype_of = __nested_webpack_require_210484__(489);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
+var es_object_to_string = __nested_webpack_require_210484__(1539);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
+var es_regexp_exec = __nested_webpack_require_210484__(4916);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
+var es_regexp_to_string = __nested_webpack_require_210484__(9714);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
+var es_string_iterator = __nested_webpack_require_210484__(8783);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
+var es_string_match = __nested_webpack_require_210484__(4723);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
+var es_string_replace = __nested_webpack_require_210484__(5306);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
+var es_string_split = __nested_webpack_require_210484__(3123);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.trim.js
+var es_string_trim = __nested_webpack_require_210484__(3210);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.uint8-array.js
+var es_typed_array_uint8_array = __nested_webpack_require_210484__(2472);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.copy-within.js
+var es_typed_array_copy_within = __nested_webpack_require_210484__(2990);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.every.js
+var es_typed_array_every = __nested_webpack_require_210484__(8927);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.fill.js
+var es_typed_array_fill = __nested_webpack_require_210484__(3105);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.filter.js
+var es_typed_array_filter = __nested_webpack_require_210484__(5035);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.find.js
+var es_typed_array_find = __nested_webpack_require_210484__(4345);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.find-index.js
+var es_typed_array_find_index = __nested_webpack_require_210484__(7174);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.for-each.js
+var es_typed_array_for_each = __nested_webpack_require_210484__(2846);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.includes.js
+var es_typed_array_includes = __nested_webpack_require_210484__(4731);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.index-of.js
+var es_typed_array_index_of = __nested_webpack_require_210484__(7209);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.iterator.js
+var es_typed_array_iterator = __nested_webpack_require_210484__(6319);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.join.js
+var es_typed_array_join = __nested_webpack_require_210484__(8867);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.last-index-of.js
+var es_typed_array_last_index_of = __nested_webpack_require_210484__(7789);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.map.js
+var es_typed_array_map = __nested_webpack_require_210484__(3739);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.reduce.js
+var es_typed_array_reduce = __nested_webpack_require_210484__(9368);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.reduce-right.js
+var es_typed_array_reduce_right = __nested_webpack_require_210484__(4483);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.reverse.js
+var es_typed_array_reverse = __nested_webpack_require_210484__(2056);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.set.js
+var es_typed_array_set = __nested_webpack_require_210484__(3462);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.slice.js
+var es_typed_array_slice = __nested_webpack_require_210484__(678);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.some.js
+var es_typed_array_some = __nested_webpack_require_210484__(7462);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.sort.js
+var es_typed_array_sort = __nested_webpack_require_210484__(3824);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.subarray.js
+var es_typed_array_subarray = __nested_webpack_require_210484__(5021);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.to-locale-string.js
+var es_typed_array_to_locale_string = __nested_webpack_require_210484__(2974);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.to-string.js
+var es_typed_array_to_string = __nested_webpack_require_210484__(5016);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
+var web_dom_collections_for_each = __nested_webpack_require_210484__(4747);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
+var web_dom_collections_iterator = __nested_webpack_require_210484__(3948);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.url.js
+var web_url = __nested_webpack_require_210484__(285);
+;// CONCATENATED MODULE: ./src/emitter.js
+
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+// The Emitter class provides the ability to call `.on()` on Dropzone to listen
+// to events.
+// It is strongly based on component's emitter class, and I removed the
+// functionality because of the dependency hell with different frameworks.
+var Emitter = /*#__PURE__*/function () {
+  function Emitter() {
+    _classCallCheck(this, Emitter);
+  }
+
+  _createClass(Emitter, [{
+    key: "on",
+    value: // Add an event listener for given event
+    function on(event, fn) {
+      this._callbacks = this._callbacks || {}; // Create namespace for this event
+
+      if (!this._callbacks[event]) {
+        this._callbacks[event] = [];
+      }
+
+      this._callbacks[event].push(fn);
+
+      return this;
+    }
+  }, {
+    key: "emit",
+    value: function emit(event) {
+      this._callbacks = this._callbacks || {};
+      var callbacks = this._callbacks[event];
+
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      if (callbacks) {
+        var _iterator = _createForOfIteratorHelper(callbacks, true),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var callback = _step.value;
+            callback.apply(this, args);
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      } // trigger a corresponding DOM event
+
+
+      if (this.element) {
+        this.element.dispatchEvent(this.makeEvent("dropzone:" + event, {
+          args: args
+        }));
+      }
+
+      return this;
+    }
+  }, {
+    key: "makeEvent",
+    value: function makeEvent(eventName, detail) {
+      var params = {
+        bubbles: true,
+        cancelable: true,
+        detail: detail
+      };
+
+      if (typeof window.CustomEvent === "function") {
+        return new CustomEvent(eventName, params);
+      } else {
+        // IE 11 support
+        // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+        var evt = document.createEvent("CustomEvent");
+        evt.initCustomEvent(eventName, params.bubbles, params.cancelable, params.detail);
+        return evt;
+      }
+    } // Remove event listener for given event. If fn is not provided, all event
+    // listeners for that event will be removed. If neither is provided, all
+    // event listeners will be removed.
+
+  }, {
+    key: "off",
+    value: function off(event, fn) {
+      if (!this._callbacks || arguments.length === 0) {
+        this._callbacks = {};
+        return this;
+      } // specific event
+
+
+      var callbacks = this._callbacks[event];
+
+      if (!callbacks) {
+        return this;
+      } // remove all handlers
+
+
+      if (arguments.length === 1) {
+        delete this._callbacks[event];
+        return this;
+      } // remove specific handler
+
+
+      for (var i = 0; i < callbacks.length; i++) {
+        var callback = callbacks[i];
+
+        if (callback === fn) {
+          callbacks.splice(i, 1);
+          break;
+        }
+      }
+
+      return this;
+    }
+  }]);
+
+  return Emitter;
+}();
+
+
+;// CONCATENATED MODULE: ./src/preview-template.html
+// Module
+var code = "<div class=\"dz-preview dz-file-preview\"> <div class=\"dz-image\"><img data-dz-thumbnail/></div> <div class=\"dz-details\"> <div class=\"dz-size\"><span data-dz-size></span></div> <div class=\"dz-filename\"><span data-dz-name></span></div> </div> <div class=\"dz-progress\"> <span class=\"dz-upload\" data-dz-uploadprogress></span> </div> <div class=\"dz-error-message\"><span data-dz-errormessage></span></div> <div class=\"dz-success-mark\"> <svg width=\"54px\" height=\"54px\" viewBox=\"0 0 54 54\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"> <title>Check</title> <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\"> <path d=\"M23.5,31.8431458 L17.5852419,25.9283877 C16.0248253,24.3679711 13.4910294,24.366835 11.9289322,25.9289322 C10.3700136,27.4878508 10.3665912,30.0234455 11.9283877,31.5852419 L20.4147581,40.0716123 C20.5133999,40.1702541 20.6159315,40.2626649 20.7218615,40.3488435 C22.2835669,41.8725651 24.794234,41.8626202 26.3461564,40.3106978 L43.3106978,23.3461564 C44.8771021,21.7797521 44.8758057,19.2483887 43.3137085,17.6862915 C41.7547899,16.1273729 39.2176035,16.1255422 37.6538436,17.6893022 L23.5,31.8431458 Z M27,53 C41.3594035,53 53,41.3594035 53,27 C53,12.6405965 41.3594035,1 27,1 C12.6405965,1 1,12.6405965 1,27 C1,41.3594035 12.6405965,53 27,53 Z\" stroke-opacity=\"0.198794158\" stroke=\"#747474\" fill-opacity=\"0.816519475\" fill=\"#FFFFFF\"></path> </g> </svg> </div> <div class=\"dz-error-mark\"> <svg width=\"54px\" height=\"54px\" viewBox=\"0 0 54 54\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"> <title>Error</title> <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\"> <g stroke=\"#747474\" stroke-opacity=\"0.198794158\" fill=\"#FFFFFF\" fill-opacity=\"0.816519475\"> <path d=\"M32.6568542,29 L38.3106978,23.3461564 C39.8771021,21.7797521 39.8758057,19.2483887 38.3137085,17.6862915 C36.7547899,16.1273729 34.2176035,16.1255422 32.6538436,17.6893022 L27,23.3431458 L21.3461564,17.6893022 C19.7823965,16.1255422 17.2452101,16.1273729 15.6862915,17.6862915 C14.1241943,19.2483887 14.1228979,21.7797521 15.6893022,23.3461564 L21.3431458,29 L15.6893022,34.6538436 C14.1228979,36.2202479 14.1241943,38.7516113 15.6862915,40.3137085 C17.2452101,41.8726271 19.7823965,41.8744578 21.3461564,40.3106978 L27,34.6568542 L32.6538436,40.3106978 C34.2176035,41.8744578 36.7547899,41.8726271 38.3137085,40.3137085 C39.8758057,38.7516113 39.8771021,36.2202479 38.3106978,34.6538436 L32.6568542,29 Z M27,53 C41.3594035,53 53,41.3594035 53,27 C53,12.6405965 41.3594035,1 27,1 C12.6405965,1 1,12.6405965 1,27 C1,41.3594035 12.6405965,53 27,53 Z\"></path> </g> </g> </svg> </div> </div> ";
+// Exports
+/* harmony default export */ var preview_template = (code);
+;// CONCATENATED MODULE: ./src/options.js
+
+
+
+
+
+function options_createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = options_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function options_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return options_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return options_arrayLikeToArray(o, minLen); }
+
+function options_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+var defaultOptions = {
+  /**
+   * Has to be specified on elements other than form (or when the form
+   * doesn't have an `action` attribute). You can also
+   * provide a function that will be called with `files` and
+   * must return the url (since `v3.12.0`)
+   */
+  url: null,
+
+  /**
+   * Can be changed to `"put"` if necessary. You can also provide a function
+   * that will be called with `files` and must return the method (since `v3.12.0`).
+   */
+  method: "post",
+
+  /**
+   * Will be set on the XHRequest.
+   */
+  withCredentials: false,
+
+  /**
+   * The timeout for the XHR requests in milliseconds (since `v4.4.0`).
+   * If set to null or 0, no timeout is going to be set.
+   */
+  timeout: null,
+
+  /**
+   * How many file uploads to process in parallel (See the
+   * Enqueuing file uploads documentation section for more info)
+   */
+  parallelUploads: 2,
+
+  /**
+   * Whether to send multiple files in one request. If
+   * this it set to true, then the fallback file input element will
+   * have the `multiple` attribute as well. This option will
+   * also trigger additional events (like `processingmultiple`). See the events
+   * documentation section for more information.
+   */
+  uploadMultiple: false,
+
+  /**
+   * Whether you want files to be uploaded in chunks to your server. This can't be
+   * used in combination with `uploadMultiple`.
+   *
+   * See [chunksUploaded](#config-chunksUploaded) for the callback to finalise an upload.
+   */
+  chunking: false,
+
+  /**
+   * If `chunking` is enabled, this defines whether **every** file should be chunked,
+   * even if the file size is below chunkSize. This means, that the additional chunk
+   * form data will be submitted and the `chunksUploaded` callback will be invoked.
+   */
+  forceChunking: false,
+
+  /**
+   * If `chunking` is `true`, then this defines the chunk size in bytes.
+   */
+  chunkSize: 2000000,
+
+  /**
+   * If `true`, the individual chunks of a file are being uploaded simultaneously.
+   */
+  parallelChunkUploads: false,
+
+  /**
+   * Whether a chunk should be retried if it fails.
+   */
+  retryChunks: false,
+
+  /**
+   * If `retryChunks` is true, how many times should it be retried.
+   */
+  retryChunksLimit: 3,
+
+  /**
+   * The maximum filesize (in bytes) that is allowed to be uploaded.
+   */
+  maxFilesize: 256,
+
+  /**
+   * The name of the file param that gets transferred.
+   * **NOTE**: If you have the option  `uploadMultiple` set to `true`, then
+   * Dropzone will append `[]` to the name.
+   */
+  paramName: "file",
+
+  /**
+   * Whether thumbnails for images should be generated
+   */
+  createImageThumbnails: true,
+
+  /**
+   * In MB. When the filename exceeds this limit, the thumbnail will not be generated.
+   */
+  maxThumbnailFilesize: 10,
+
+  /**
+   * If `null`, the ratio of the image will be used to calculate it.
+   */
+  thumbnailWidth: 120,
+
+  /**
+   * The same as `thumbnailWidth`. If both are null, images will not be resized.
+   */
+  thumbnailHeight: 120,
+
+  /**
+   * How the images should be scaled down in case both, `thumbnailWidth` and `thumbnailHeight` are provided.
+   * Can be either `contain` or `crop`.
+   */
+  thumbnailMethod: "crop",
+
+  /**
+   * If set, images will be resized to these dimensions before being **uploaded**.
+   * If only one, `resizeWidth` **or** `resizeHeight` is provided, the original aspect
+   * ratio of the file will be preserved.
+   *
+   * The `options.transformFile` function uses these options, so if the `transformFile` function
+   * is overridden, these options don't do anything.
+   */
+  resizeWidth: null,
+
+  /**
+   * See `resizeWidth`.
+   */
+  resizeHeight: null,
+
+  /**
+   * The mime type of the resized image (before it gets uploaded to the server).
+   * If `null` the original mime type will be used. To force jpeg, for example, use `image/jpeg`.
+   * See `resizeWidth` for more information.
+   */
+  resizeMimeType: null,
+
+  /**
+   * The quality of the resized images. See `resizeWidth`.
+   */
+  resizeQuality: 0.8,
+
+  /**
+   * How the images should be scaled down in case both, `resizeWidth` and `resizeHeight` are provided.
+   * Can be either `contain` or `crop`.
+   */
+  resizeMethod: "contain",
+
+  /**
+   * The base that is used to calculate the **displayed** filesize. You can
+   * change this to 1024 if you would rather display kibibytes, mebibytes,
+   * etc... 1024 is technically incorrect, because `1024 bytes` are `1 kibibyte`
+   * not `1 kilobyte`. You can change this to `1024` if you don't care about
+   * validity.
+   */
+  filesizeBase: 1000,
+
+  /**
+   * If not `null` defines how many files this Dropzone handles. If it exceeds,
+   * the event `maxfilesexceeded` will be called. The dropzone element gets the
+   * class `dz-max-files-reached` accordingly so you can provide visual
+   * feedback.
+   */
+  maxFiles: null,
+
+  /**
+   * An optional object to send additional headers to the server. Eg:
+   * `{ "My-Awesome-Header": "header value" }`
+   */
+  headers: null,
+
+  /**
+   * If `true`, the dropzone element itself will be clickable, if `false`
+   * nothing will be clickable.
+   *
+   * You can also pass an HTML element, a CSS selector (for multiple elements)
+   * or an array of those. In that case, all of those elements will trigger an
+   * upload when clicked.
+   */
+  clickable: true,
+
+  /**
+   * Whether hidden files in directories should be ignored.
+   */
+  ignoreHiddenFiles: true,
+
+  /**
+   * The default implementation of `accept` checks the file's mime type or
+   * extension against this list. This is a comma separated list of mime
+   * types or file extensions.
+   *
+   * Eg.: `image/*,application/pdf,.psd`
+   *
+   * If the Dropzone is `clickable` this option will also be used as
+   * [`accept`](https://developer.mozilla.org/en-US/docs/HTML/Element/input#attr-accept)
+   * parameter on the hidden file input as well.
+   */
+  acceptedFiles: null,
+
+  /**
+   * **Deprecated!**
+   * Use acceptedFiles instead.
+   */
+  acceptedMimeTypes: null,
+
+  /**
+   * If false, files will be added to the queue but the queue will not be
+   * processed automatically.
+   * This can be useful if you need some additional user input before sending
+   * files (or if you want want all files sent at once).
+   * If you're ready to send the file simply call `myDropzone.processQueue()`.
+   *
+   * See the [enqueuing file uploads](#enqueuing-file-uploads) documentation
+   * section for more information.
+   */
+  autoProcessQueue: true,
+
+  /**
+   * If false, files added to the dropzone will not be queued by default.
+   * You'll have to call `enqueueFile(file)` manually.
+   */
+  autoQueue: true,
+
+  /**
+   * If `true`, this will add a link to every file preview to remove or cancel (if
+   * already uploading) the file. The `dictCancelUpload`, `dictCancelUploadConfirmation`
+   * and `dictRemoveFile` options are used for the wording.
+   */
+  addRemoveLinks: false,
+
+  /**
+   * Defines where to display the file previews – if `null` the
+   * Dropzone element itself is used. Can be a plain `HTMLElement` or a CSS
+   * selector. The element should have the `dropzone-previews` class so
+   * the previews are displayed properly.
+   */
+  previewsContainer: null,
+
+  /**
+   * Set this to `true` if you don't want previews to be shown.
+   */
+  disablePreviews: false,
+
+  /**
+   * This is the element the hidden input field (which is used when clicking on the
+   * dropzone to trigger file selection) will be appended to. This might
+   * be important in case you use frameworks to switch the content of your page.
+   *
+   * Can be a selector string, or an element directly.
+   */
+  hiddenInputContainer: "body",
+
+  /**
+   * If null, no capture type will be specified
+   * If camera, mobile devices will skip the file selection and choose camera
+   * If microphone, mobile devices will skip the file selection and choose the microphone
+   * If camcorder, mobile devices will skip the file selection and choose the camera in video mode
+   * On apple devices multiple must be set to false.  AcceptedFiles may need to
+   * be set to an appropriate mime type (e.g. "image/*", "audio/*", or "video/*").
+   */
+  capture: null,
+
+  /**
+   * **Deprecated**. Use `renameFile` instead.
+   */
+  renameFilename: null,
+
+  /**
+   * A function that is invoked before the file is uploaded to the server and renames the file.
+   * This function gets the `File` as argument and can use the `file.name`. The actual name of the
+   * file that gets used during the upload can be accessed through `file.upload.filename`.
+   */
+  renameFile: null,
+
+  /**
+   * If `true` the fallback will be forced. This is very useful to test your server
+   * implementations first and make sure that everything works as
+   * expected without dropzone if you experience problems, and to test
+   * how your fallbacks will look.
+   */
+  forceFallback: false,
+
+  /**
+   * The text used before any files are dropped.
+   */
+  dictDefaultMessage: "Drop files here to upload",
+
+  /**
+   * The text that replaces the default message text it the browser is not supported.
+   */
+  dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+
+  /**
+   * The text that will be added before the fallback form.
+   * If you provide a  fallback element yourself, or if this option is `null` this will
+   * be ignored.
+   */
+  dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+
+  /**
+   * If the filesize is too big.
+   * `{{filesize}}` and `{{maxFilesize}}` will be replaced with the respective configuration values.
+   */
+  dictFileTooBig: "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.",
+
+  /**
+   * If the file doesn't match the file type.
+   */
+  dictInvalidFileType: "You can't upload files of this type.",
+
+  /**
+   * If the server response was invalid.
+   * `{{statusCode}}` will be replaced with the servers status code.
+   */
+  dictResponseError: "Server responded with {{statusCode}} code.",
+
+  /**
+   * If `addRemoveLinks` is true, the text to be used for the cancel upload link.
+   */
+  dictCancelUpload: "Cancel upload",
+
+  /**
+   * The text that is displayed if an upload was manually canceled
+   */
+  dictUploadCanceled: "Upload canceled.",
+
+  /**
+   * If `addRemoveLinks` is true, the text to be used for confirmation when cancelling upload.
+   */
+  dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+
+  /**
+   * If `addRemoveLinks` is true, the text to be used to remove a file.
+   */
+  dictRemoveFile: "Remove file",
+
+  /**
+   * If this is not null, then the user will be prompted before removing a file.
+   */
+  dictRemoveFileConfirmation: null,
+
+  /**
+   * Displayed if `maxFiles` is st and exceeded.
+   * The string `{{maxFiles}}` will be replaced by the configuration value.
+   */
+  dictMaxFilesExceeded: "You can not upload any more files.",
+
+  /**
+   * Allows you to translate the different units. Starting with `tb` for terabytes and going down to
+   * `b` for bytes.
+   */
+  dictFileSizeUnits: {
+    tb: "TB",
+    gb: "GB",
+    mb: "MB",
+    kb: "KB",
+    b: "b"
+  },
+
+  /**
+   * Called when dropzone initialized
+   * You can add event listeners here
+   */
+  init: function init() {},
+
+  /**
+   * Can be an **object** of additional parameters to transfer to the server, **or** a `Function`
+   * that gets invoked with the `files`, `xhr` and, if it's a chunked upload, `chunk` arguments. In case
+   * of a function, this needs to return a map.
+   *
+   * The default implementation does nothing for normal uploads, but adds relevant information for
+   * chunked uploads.
+   *
+   * This is the same as adding hidden input fields in the form element.
+   */
+  params: function params(files, xhr, chunk) {
+    if (chunk) {
+      return {
+        dzuuid: chunk.file.upload.uuid,
+        dzchunkindex: chunk.index,
+        dztotalfilesize: chunk.file.size,
+        dzchunksize: this.options.chunkSize,
+        dztotalchunkcount: chunk.file.upload.totalChunkCount,
+        dzchunkbyteoffset: chunk.index * this.options.chunkSize
+      };
+    }
+  },
+
+  /**
+   * A function that gets a [file](https://developer.mozilla.org/en-US/docs/DOM/File)
+   * and a `done` function as parameters.
+   *
+   * If the done function is invoked without arguments, the file is "accepted" and will
+   * be processed. If you pass an error message, the file is rejected, and the error
+   * message will be displayed.
+   * This function will not be called if the file is too big or doesn't match the mime types.
+   */
+  accept: function accept(file, done) {
+    return done();
+  },
+
+  /**
+   * The callback that will be invoked when all chunks have been uploaded for a file.
+   * It gets the file for which the chunks have been uploaded as the first parameter,
+   * and the `done` function as second. `done()` needs to be invoked when everything
+   * needed to finish the upload process is done.
+   */
+  chunksUploaded: function chunksUploaded(file, done) {
+    done();
+  },
+
+  /**
+   * Gets called when the browser is not supported.
+   * The default implementation shows the fallback input field and adds
+   * a text.
+   */
+  fallback: function fallback() {
+    // This code should pass in IE7... :(
+    var messageElement;
+    this.element.className = "".concat(this.element.className, " dz-browser-not-supported");
+
+    var _iterator = options_createForOfIteratorHelper(this.element.getElementsByTagName("div"), true),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var child = _step.value;
+
+        if (/(^| )dz-message($| )/.test(child.className)) {
+          messageElement = child;
+          child.className = "dz-message"; // Removes the 'dz-default' class
+
+          break;
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    if (!messageElement) {
+      messageElement = Dropzone.createElement('<div class="dz-message"><span></span></div>');
+      this.element.appendChild(messageElement);
+    }
+
+    var span = messageElement.getElementsByTagName("span")[0];
+
+    if (span) {
+      if (span.textContent != null) {
+        span.textContent = this.options.dictFallbackMessage;
+      } else if (span.innerText != null) {
+        span.innerText = this.options.dictFallbackMessage;
+      }
+    }
+
+    return this.element.appendChild(this.getFallbackForm());
+  },
+
+  /**
+   * Gets called to calculate the thumbnail dimensions.
+   *
+   * It gets `file`, `width` and `height` (both may be `null`) as parameters and must return an object containing:
+   *
+   *  - `srcWidth` & `srcHeight` (required)
+   *  - `trgWidth` & `trgHeight` (required)
+   *  - `srcX` & `srcY` (optional, default `0`)
+   *  - `trgX` & `trgY` (optional, default `0`)
+   *
+   * Those values are going to be used by `ctx.drawImage()`.
+   */
+  resize: function resize(file, width, height, resizeMethod) {
+    var info = {
+      srcX: 0,
+      srcY: 0,
+      srcWidth: file.width,
+      srcHeight: file.height
+    };
+    var srcRatio = file.width / file.height; // Automatically calculate dimensions if not specified
+
+    if (width == null && height == null) {
+      width = info.srcWidth;
+      height = info.srcHeight;
+    } else if (width == null) {
+      width = height * srcRatio;
+    } else if (height == null) {
+      height = width / srcRatio;
+    } // Make sure images aren't upscaled
+
+
+    width = Math.min(width, info.srcWidth);
+    height = Math.min(height, info.srcHeight);
+    var trgRatio = width / height;
+
+    if (info.srcWidth > width || info.srcHeight > height) {
+      // Image is bigger and needs rescaling
+      if (resizeMethod === "crop") {
+        if (srcRatio > trgRatio) {
+          info.srcHeight = file.height;
+          info.srcWidth = info.srcHeight * trgRatio;
+        } else {
+          info.srcWidth = file.width;
+          info.srcHeight = info.srcWidth / trgRatio;
+        }
+      } else if (resizeMethod === "contain") {
+        // Method 'contain'
+        if (srcRatio > trgRatio) {
+          height = width / srcRatio;
+        } else {
+          width = height * srcRatio;
+        }
+      } else {
+        throw new Error("Unknown resizeMethod '".concat(resizeMethod, "'"));
+      }
+    }
+
+    info.srcX = (file.width - info.srcWidth) / 2;
+    info.srcY = (file.height - info.srcHeight) / 2;
+    info.trgWidth = width;
+    info.trgHeight = height;
+    return info;
+  },
+
+  /**
+   * Can be used to transform the file (for example, resize an image if necessary).
+   *
+   * The default implementation uses `resizeWidth` and `resizeHeight` (if provided) and resizes
+   * images according to those dimensions.
+   *
+   * Gets the `file` as the first parameter, and a `done()` function as the second, that needs
+   * to be invoked with the file when the transformation is done.
+   */
+  transformFile: function transformFile(file, done) {
+    if ((this.options.resizeWidth || this.options.resizeHeight) && file.type.match(/image.*/)) {
+      return this.resizeImage(file, this.options.resizeWidth, this.options.resizeHeight, this.options.resizeMethod, done);
+    } else {
+      return done(file);
+    }
+  },
+
+  /**
+   * A string that contains the template used for each dropped
+   * file. Change it to fulfill your needs but make sure to properly
+   * provide all elements.
+   *
+   * If you want to use an actual HTML element instead of providing a String
+   * as a config option, you could create a div with the id `tpl`,
+   * put the template inside it and provide the element like this:
+   *
+   *     document
+   *       .querySelector('#tpl')
+   *       .innerHTML
+   *
+   */
+  previewTemplate: preview_template,
+
+  /*
+   Those functions register themselves to the events on init and handle all
+   the user interface specific stuff. Overwriting them won't break the upload
+   but can break the way it's displayed.
+   You can overwrite them if you don't like the default behavior. If you just
+   want to add an additional event handler, register it on the dropzone object
+   and don't overwrite those options.
+   */
+  // Those are self explanatory and simply concern the DragnDrop.
+  drop: function drop(e) {
+    return this.element.classList.remove("dz-drag-hover");
+  },
+  dragstart: function dragstart(e) {},
+  dragend: function dragend(e) {
+    return this.element.classList.remove("dz-drag-hover");
+  },
+  dragenter: function dragenter(e) {
+    return this.element.classList.add("dz-drag-hover");
+  },
+  dragover: function dragover(e) {
+    return this.element.classList.add("dz-drag-hover");
+  },
+  dragleave: function dragleave(e) {
+    return this.element.classList.remove("dz-drag-hover");
+  },
+  paste: function paste(e) {},
+  // Called whenever there are no files left in the dropzone anymore, and the
+  // dropzone should be displayed as if in the initial state.
+  reset: function reset() {
+    return this.element.classList.remove("dz-started");
+  },
+  // Called when a file is added to the queue
+  // Receives `file`
+  addedfile: function addedfile(file) {
+    var _this = this;
+
+    if (this.element === this.previewsContainer) {
+      this.element.classList.add("dz-started");
+    }
+
+    if (this.previewsContainer && !this.options.disablePreviews) {
+      file.previewElement = Dropzone.createElement(this.options.previewTemplate.trim());
+      file.previewTemplate = file.previewElement; // Backwards compatibility
+
+      this.previewsContainer.appendChild(file.previewElement);
+
+      var _iterator2 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-name]"), true),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var node = _step2.value;
+          node.textContent = file.name;
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      var _iterator3 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-size]"), true),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          node = _step3.value;
+          node.innerHTML = this.filesize(file.size);
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      if (this.options.addRemoveLinks) {
+        file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>".concat(this.options.dictRemoveFile, "</a>"));
+        file.previewElement.appendChild(file._removeLink);
+      }
+
+      var removeFileEvent = function removeFileEvent(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (file.status === Dropzone.UPLOADING) {
+          return Dropzone.confirm(_this.options.dictCancelUploadConfirmation, function () {
+            return _this.removeFile(file);
+          });
+        } else {
+          if (_this.options.dictRemoveFileConfirmation) {
+            return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function () {
+              return _this.removeFile(file);
+            });
+          } else {
+            return _this.removeFile(file);
+          }
+        }
+      };
+
+      var _iterator4 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-remove]"), true),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var removeLink = _step4.value;
+          removeLink.addEventListener("click", removeFileEvent);
+        }
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+    }
+  },
+  // Called whenever a file is removed.
+  removedfile: function removedfile(file) {
+    if (file.previewElement != null && file.previewElement.parentNode != null) {
+      file.previewElement.parentNode.removeChild(file.previewElement);
+    }
+
+    return this._updateMaxFilesReachedClass();
+  },
+  // Called when a thumbnail has been generated
+  // Receives `file` and `dataUrl`
+  thumbnail: function thumbnail(file, dataUrl) {
+    if (file.previewElement) {
+      file.previewElement.classList.remove("dz-file-preview");
+
+      var _iterator5 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-thumbnail]"), true),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var thumbnailElement = _step5.value;
+          thumbnailElement.alt = file.name;
+          thumbnailElement.src = dataUrl;
+        }
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+
+      return setTimeout(function () {
+        return file.previewElement.classList.add("dz-image-preview");
+      }, 1);
+    }
+  },
+  // Called whenever an error occurs
+  // Receives `file` and `message`
+  error: function error(file, message) {
+    if (file.previewElement) {
+      file.previewElement.classList.add("dz-error");
+
+      if (typeof message !== "string" && message.error) {
+        message = message.error;
+      }
+
+      var _iterator6 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-errormessage]"), true),
+          _step6;
+
+      try {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var node = _step6.value;
+          node.textContent = message;
+        }
+      } catch (err) {
+        _iterator6.e(err);
+      } finally {
+        _iterator6.f();
+      }
+    }
+  },
+  errormultiple: function errormultiple() {},
+  // Called when a file gets processed. Since there is a cue, not all added
+  // files are processed immediately.
+  // Receives `file`
+  processing: function processing(file) {
+    if (file.previewElement) {
+      file.previewElement.classList.add("dz-processing");
+
+      if (file._removeLink) {
+        return file._removeLink.innerHTML = this.options.dictCancelUpload;
+      }
+    }
+  },
+  processingmultiple: function processingmultiple() {},
+  // Called whenever the upload progress gets updated.
+  // Receives `file`, `progress` (percentage 0-100) and `bytesSent`.
+  // To get the total number of bytes of the file, use `file.size`
+  uploadprogress: function uploadprogress(file, progress, bytesSent) {
+    if (file.previewElement) {
+      var _iterator7 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-uploadprogress]"), true),
+          _step7;
+
+      try {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+          var node = _step7.value;
+          node.nodeName === "PROGRESS" ? node.value = progress : node.style.width = "".concat(progress, "%");
+        }
+      } catch (err) {
+        _iterator7.e(err);
+      } finally {
+        _iterator7.f();
+      }
+    }
+  },
+  // Called whenever the total upload progress gets updated.
+  // Called with totalUploadProgress (0-100), totalBytes and totalBytesSent
+  totaluploadprogress: function totaluploadprogress() {},
+  // Called just before the file is sent. Gets the `xhr` object as second
+  // parameter, so you can modify it (for example to add a CSRF token) and a
+  // `formData` object to add additional information.
+  sending: function sending() {},
+  sendingmultiple: function sendingmultiple() {},
+  // When the complete upload is finished and successful
+  // Receives `file`
+  success: function success(file) {
+    if (file.previewElement) {
+      return file.previewElement.classList.add("dz-success");
+    }
+  },
+  successmultiple: function successmultiple() {},
+  // When the upload is canceled.
+  canceled: function canceled(file) {
+    return this.emit("error", file, this.options.dictUploadCanceled);
+  },
+  canceledmultiple: function canceledmultiple() {},
+  // When the upload is finished, either with success or an error.
+  // Receives `file`
+  complete: function complete(file) {
+    if (file._removeLink) {
+      file._removeLink.innerHTML = this.options.dictRemoveFile;
+    }
+
+    if (file.previewElement) {
+      return file.previewElement.classList.add("dz-complete");
+    }
+  },
+  completemultiple: function completemultiple() {},
+  maxfilesexceeded: function maxfilesexceeded() {},
+  maxfilesreached: function maxfilesreached() {},
+  queuecomplete: function queuecomplete() {},
+  addedfiles: function addedfiles() {}
+};
+/* harmony default export */ var src_options = (defaultOptions);
+;// CONCATENATED MODULE: ./src/dropzone.js
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function dropzone_createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = dropzone_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function dropzone_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return dropzone_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return dropzone_arrayLikeToArray(o, minLen); }
+
+function dropzone_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function dropzone_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function dropzone_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function dropzone_createClass(Constructor, protoProps, staticProps) { if (protoProps) dropzone_defineProperties(Constructor.prototype, protoProps); if (staticProps) dropzone_defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var Dropzone = /*#__PURE__*/function (_Emitter) {
+  _inherits(Dropzone, _Emitter);
+
+  var _super = _createSuper(Dropzone);
+
+  function Dropzone(el, options) {
+    var _this;
+
+    dropzone_classCallCheck(this, Dropzone);
+
+    _this = _super.call(this);
+    var fallback, left;
+    _this.element = el; // For backwards compatibility since the version was in the prototype previously
+
+    _this.version = Dropzone.version;
+    _this.clickableElements = [];
+    _this.listeners = [];
+    _this.files = []; // All files
+
+    if (typeof _this.element === "string") {
+      _this.element = document.querySelector(_this.element);
+    } // Not checking if instance of HTMLElement or Element since IE9 is extremely weird.
+
+
+    if (!_this.element || _this.element.nodeType == null) {
+      throw new Error("Invalid dropzone element.");
+    }
+
+    if (_this.element.dropzone) {
+      throw new Error("Dropzone already attached.");
+    } // Now add this dropzone to the instances.
+
+
+    Dropzone.instances.push(_assertThisInitialized(_this)); // Put the dropzone inside the element itself.
+
+    _this.element.dropzone = _assertThisInitialized(_this);
+    var elementOptions = (left = Dropzone.optionsForElement(_this.element)) != null ? left : {};
+    _this.options = Dropzone.extend({}, src_options, elementOptions, options != null ? options : {});
+    _this.options.previewTemplate = _this.options.previewTemplate.replace(/\n*/g, ""); // If the browser failed, just call the fallback and leave
+
+    if (_this.options.forceFallback || !Dropzone.isBrowserSupported()) {
+      return _possibleConstructorReturn(_this, _this.options.fallback.call(_assertThisInitialized(_this)));
+    } // @options.url = @element.getAttribute "action" unless @options.url?
+
+
+    if (_this.options.url == null) {
+      _this.options.url = _this.element.getAttribute("action");
+    }
+
+    if (!_this.options.url) {
+      throw new Error("No URL provided.");
+    }
+
+    if (_this.options.acceptedFiles && _this.options.acceptedMimeTypes) {
+      throw new Error("You can't provide both 'acceptedFiles' and 'acceptedMimeTypes'. 'acceptedMimeTypes' is deprecated.");
+    }
+
+    if (_this.options.uploadMultiple && _this.options.chunking) {
+      throw new Error("You cannot set both: uploadMultiple and chunking.");
+    } // Backwards compatibility
+
+
+    if (_this.options.acceptedMimeTypes) {
+      _this.options.acceptedFiles = _this.options.acceptedMimeTypes;
+      delete _this.options.acceptedMimeTypes;
+    } // Backwards compatibility
+
+
+    if (_this.options.renameFilename != null) {
+      _this.options.renameFile = function (file) {
+        return _this.options.renameFilename.call(_assertThisInitialized(_this), file.name, file);
+      };
+    }
+
+    if (typeof _this.options.method === "string") {
+      _this.options.method = _this.options.method.toUpperCase();
+    }
+
+    if ((fallback = _this.getExistingFallback()) && fallback.parentNode) {
+      // Remove the fallback
+      fallback.parentNode.removeChild(fallback);
+    } // Display previews in the previewsContainer element or the Dropzone element unless explicitly set to false
+
+
+    if (_this.options.previewsContainer !== false) {
+      if (_this.options.previewsContainer) {
+        _this.previewsContainer = Dropzone.getElement(_this.options.previewsContainer, "previewsContainer");
+      } else {
+        _this.previewsContainer = _this.element;
+      }
+    }
+
+    if (_this.options.clickable) {
+      if (_this.options.clickable === true) {
+        _this.clickableElements = [_this.element];
+      } else {
+        _this.clickableElements = Dropzone.getElements(_this.options.clickable, "clickable");
+      }
+    }
+
+    _this.init();
+
+    return _this;
+  } // Returns all files that have been accepted
+
+
+  dropzone_createClass(Dropzone, [{
+    key: "getAcceptedFiles",
+    value: function getAcceptedFiles() {
+      return this.files.filter(function (file) {
+        return file.accepted;
+      }).map(function (file) {
+        return file;
+      });
+    } // Returns all files that have been rejected
+    // Not sure when that's going to be useful, but added for completeness.
+
+  }, {
+    key: "getRejectedFiles",
+    value: function getRejectedFiles() {
+      return this.files.filter(function (file) {
+        return !file.accepted;
+      }).map(function (file) {
+        return file;
+      });
+    }
+  }, {
+    key: "getFilesWithStatus",
+    value: function getFilesWithStatus(status) {
+      return this.files.filter(function (file) {
+        return file.status === status;
+      }).map(function (file) {
+        return file;
+      });
+    } // Returns all files that are in the queue
+
+  }, {
+    key: "getQueuedFiles",
+    value: function getQueuedFiles() {
+      return this.getFilesWithStatus(Dropzone.QUEUED);
+    }
+  }, {
+    key: "getUploadingFiles",
+    value: function getUploadingFiles() {
+      return this.getFilesWithStatus(Dropzone.UPLOADING);
+    }
+  }, {
+    key: "getAddedFiles",
+    value: function getAddedFiles() {
+      return this.getFilesWithStatus(Dropzone.ADDED);
+    } // Files that are either queued or uploading
+
+  }, {
+    key: "getActiveFiles",
+    value: function getActiveFiles() {
+      return this.files.filter(function (file) {
+        return file.status === Dropzone.UPLOADING || file.status === Dropzone.QUEUED;
+      }).map(function (file) {
+        return file;
+      });
+    } // The function that gets called when Dropzone is initialized. You
+    // can (and should) setup event listeners inside this function.
+
+  }, {
+    key: "init",
+    value: function init() {
+      var _this2 = this;
+
+      // In case it isn't set already
+      if (this.element.tagName === "form") {
+        this.element.setAttribute("enctype", "multipart/form-data");
+      }
+
+      if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
+        this.element.appendChild(Dropzone.createElement("<div class=\"dz-default dz-message\"><button class=\"dz-button\" type=\"button\">".concat(this.options.dictDefaultMessage, "</button></div>")));
+      }
+
+      if (this.clickableElements.length) {
+        var setupHiddenFileInput = function setupHiddenFileInput() {
+          if (_this2.hiddenFileInput) {
+            _this2.hiddenFileInput.parentNode.removeChild(_this2.hiddenFileInput);
+          }
+
+          _this2.hiddenFileInput = document.createElement("input");
+
+          _this2.hiddenFileInput.setAttribute("type", "file");
+
+          if (_this2.options.maxFiles === null || _this2.options.maxFiles > 1) {
+            _this2.hiddenFileInput.setAttribute("multiple", "multiple");
+          }
+
+          _this2.hiddenFileInput.className = "dz-hidden-input";
+
+          if (_this2.options.acceptedFiles !== null) {
+            _this2.hiddenFileInput.setAttribute("accept", _this2.options.acceptedFiles);
+          }
+
+          if (_this2.options.capture !== null) {
+            _this2.hiddenFileInput.setAttribute("capture", _this2.options.capture);
+          } // Making sure that no one can "tab" into this field.
+
+
+          _this2.hiddenFileInput.setAttribute("tabindex", "-1"); // Not setting `display="none"` because some browsers don't accept clicks
+          // on elements that aren't displayed.
+
+
+          _this2.hiddenFileInput.style.visibility = "hidden";
+          _this2.hiddenFileInput.style.position = "absolute";
+          _this2.hiddenFileInput.style.top = "0";
+          _this2.hiddenFileInput.style.left = "0";
+          _this2.hiddenFileInput.style.height = "0";
+          _this2.hiddenFileInput.style.width = "0";
+          Dropzone.getElement(_this2.options.hiddenInputContainer, "hiddenInputContainer").appendChild(_this2.hiddenFileInput);
+
+          _this2.hiddenFileInput.addEventListener("change", function () {
+            var files = _this2.hiddenFileInput.files;
+
+            if (files.length) {
+              var _iterator = dropzone_createForOfIteratorHelper(files, true),
+                  _step;
+
+              try {
+                for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                  var file = _step.value;
+
+                  _this2.addFile(file);
+                }
+              } catch (err) {
+                _iterator.e(err);
+              } finally {
+                _iterator.f();
+              }
+            }
+
+            _this2.emit("addedfiles", files);
+
+            setupHiddenFileInput();
+          });
+        };
+
+        setupHiddenFileInput();
+      }
+
+      this.URL = window.URL !== null ? window.URL : window.webkitURL; // Setup all event listeners on the Dropzone object itself.
+      // They're not in @setupEventListeners() because they shouldn't be removed
+      // again when the dropzone gets disabled.
+
+      var _iterator2 = dropzone_createForOfIteratorHelper(this.events, true),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var eventName = _step2.value;
+          this.on(eventName, this.options[eventName]);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      this.on("uploadprogress", function () {
+        return _this2.updateTotalUploadProgress();
+      });
+      this.on("removedfile", function () {
+        return _this2.updateTotalUploadProgress();
+      });
+      this.on("canceled", function (file) {
+        return _this2.emit("complete", file);
+      }); // Emit a `queuecomplete` event if all files finished uploading.
+
+      this.on("complete", function (file) {
+        if (_this2.getAddedFiles().length === 0 && _this2.getUploadingFiles().length === 0 && _this2.getQueuedFiles().length === 0) {
+          // This needs to be deferred so that `queuecomplete` really triggers after `complete`
+          return setTimeout(function () {
+            return _this2.emit("queuecomplete");
+          }, 0);
+        }
+      });
+
+      var containsFiles = function containsFiles(e) {
+        if (e.dataTransfer.types) {
+          // Because e.dataTransfer.types is an Object in
+          // IE, we need to iterate like this instead of
+          // using e.dataTransfer.types.some()
+          for (var i = 0; i < e.dataTransfer.types.length; i++) {
+            if (e.dataTransfer.types[i] === "Files") return true;
+          }
+        }
+
+        return false;
+      };
+
+      var noPropagation = function noPropagation(e) {
+        // If there are no files, we don't want to stop
+        // propagation so we don't interfere with other
+        // drag and drop behaviour.
+        if (!containsFiles(e)) return;
+        e.stopPropagation();
+
+        if (e.preventDefault) {
+          return e.preventDefault();
+        } else {
+          return e.returnValue = false;
+        }
+      }; // Create the listeners
+
+
+      this.listeners = [{
+        element: this.element,
+        events: {
+          dragstart: function dragstart(e) {
+            return _this2.emit("dragstart", e);
+          },
+          dragenter: function dragenter(e) {
+            noPropagation(e);
+            return _this2.emit("dragenter", e);
+          },
+          dragover: function dragover(e) {
+            // Makes it possible to drag files from chrome's download bar
+            // http://stackoverflow.com/questions/19526430/drag-and-drop-file-uploads-from-chrome-downloads-bar
+            // Try is required to prevent bug in Internet Explorer 11 (SCRIPT65535 exception)
+            var efct;
+
+            try {
+              efct = e.dataTransfer.effectAllowed;
+            } catch (error) {}
+
+            e.dataTransfer.dropEffect = "move" === efct || "linkMove" === efct ? "move" : "copy";
+            noPropagation(e);
+            return _this2.emit("dragover", e);
+          },
+          dragleave: function dragleave(e) {
+            return _this2.emit("dragleave", e);
+          },
+          drop: function drop(e) {
+            noPropagation(e);
+            return _this2.drop(e);
+          },
+          dragend: function dragend(e) {
+            return _this2.emit("dragend", e);
+          }
+        } // This is disabled right now, because the browsers don't implement it properly.
+        // "paste": (e) =>
+        //   noPropagation e
+        //   @paste e
+
+      }];
+      this.clickableElements.forEach(function (clickableElement) {
+        return _this2.listeners.push({
+          element: clickableElement,
+          events: {
+            click: function click(evt) {
+              // Only the actual dropzone or the message element should trigger file selection
+              if (clickableElement !== _this2.element || evt.target === _this2.element || Dropzone.elementInside(evt.target, _this2.element.querySelector(".dz-message"))) {
+                _this2.hiddenFileInput.click(); // Forward the click
+
+              }
+
+              return true;
+            }
+          }
+        });
+      });
+      this.enable();
+      return this.options.init.call(this);
+    } // Not fully tested yet
+
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      this.disable();
+      this.removeAllFiles(true);
+
+      if (this.hiddenFileInput != null ? this.hiddenFileInput.parentNode : undefined) {
+        this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);
+        this.hiddenFileInput = null;
+      }
+
+      delete this.element.dropzone;
+      return Dropzone.instances.splice(Dropzone.instances.indexOf(this), 1);
+    }
+  }, {
+    key: "updateTotalUploadProgress",
+    value: function updateTotalUploadProgress() {
+      var totalUploadProgress;
+      var totalBytesSent = 0;
+      var totalBytes = 0;
+      var activeFiles = this.getActiveFiles();
+
+      if (activeFiles.length) {
+        var _iterator3 = dropzone_createForOfIteratorHelper(this.getActiveFiles(), true),
+            _step3;
+
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var file = _step3.value;
+            totalBytesSent += file.upload.bytesSent;
+            totalBytes += file.upload.total;
+          }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
+
+        totalUploadProgress = 100 * totalBytesSent / totalBytes;
+      } else {
+        totalUploadProgress = 100;
+      }
+
+      return this.emit("totaluploadprogress", totalUploadProgress, totalBytes, totalBytesSent);
+    } // @options.paramName can be a function taking one parameter rather than a string.
+    // A parameter name for a file is obtained simply by calling this with an index number.
+
+  }, {
+    key: "_getParamName",
+    value: function _getParamName(n) {
+      if (typeof this.options.paramName === "function") {
+        return this.options.paramName(n);
+      } else {
+        return "".concat(this.options.paramName).concat(this.options.uploadMultiple ? "[".concat(n, "]") : "");
+      }
+    } // If @options.renameFile is a function,
+    // the function will be used to rename the file.name before appending it to the formData
+
+  }, {
+    key: "_renameFile",
+    value: function _renameFile(file) {
+      if (typeof this.options.renameFile !== "function") {
+        return file.name;
+      }
+
+      return this.options.renameFile(file);
+    } // Returns a form that can be used as fallback if the browser does not support DragnDrop
+    //
+    // If the dropzone is already a form, only the input field and button are returned. Otherwise a complete form element is provided.
+    // This code has to pass in IE7 :(
+
+  }, {
+    key: "getFallbackForm",
+    value: function getFallbackForm() {
+      var existingFallback, form;
+
+      if (existingFallback = this.getExistingFallback()) {
+        return existingFallback;
+      }
+
+      var fieldsString = '<div class="dz-fallback">';
+
+      if (this.options.dictFallbackText) {
+        fieldsString += "<p>".concat(this.options.dictFallbackText, "</p>");
+      }
+
+      fieldsString += "<input type=\"file\" name=\"".concat(this._getParamName(0), "\" ").concat(this.options.uploadMultiple ? 'multiple="multiple"' : undefined, " /><input type=\"submit\" value=\"Upload!\"></div>");
+      var fields = Dropzone.createElement(fieldsString);
+
+      if (this.element.tagName !== "FORM") {
+        form = Dropzone.createElement("<form action=\"".concat(this.options.url, "\" enctype=\"multipart/form-data\" method=\"").concat(this.options.method, "\"></form>"));
+        form.appendChild(fields);
+      } else {
+        // Make sure that the enctype and method attributes are set properly
+        this.element.setAttribute("enctype", "multipart/form-data");
+        this.element.setAttribute("method", this.options.method);
+      }
+
+      return form != null ? form : fields;
+    } // Returns the fallback elements if they exist already
+    //
+    // This code has to pass in IE7 :(
+
+  }, {
+    key: "getExistingFallback",
+    value: function getExistingFallback() {
+      var getFallback = function getFallback(elements) {
+        var _iterator4 = dropzone_createForOfIteratorHelper(elements, true),
+            _step4;
+
+        try {
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var el = _step4.value;
+
+            if (/(^| )fallback($| )/.test(el.className)) {
+              return el;
+            }
+          }
+        } catch (err) {
+          _iterator4.e(err);
+        } finally {
+          _iterator4.f();
+        }
+      };
+
+      for (var _i = 0, _arr = ["div", "form"]; _i < _arr.length; _i++) {
+        var tagName = _arr[_i];
+        var fallback;
+
+        if (fallback = getFallback(this.element.getElementsByTagName(tagName))) {
+          return fallback;
+        }
+      }
+    } // Activates all listeners stored in @listeners
+
+  }, {
+    key: "setupEventListeners",
+    value: function setupEventListeners() {
+      return this.listeners.map(function (elementListeners) {
+        return function () {
+          var result = [];
+
+          for (var event in elementListeners.events) {
+            var listener = elementListeners.events[event];
+            result.push(elementListeners.element.addEventListener(event, listener, false));
+          }
+
+          return result;
+        }();
+      });
+    } // Deactivates all listeners stored in @listeners
+
+  }, {
+    key: "removeEventListeners",
+    value: function removeEventListeners() {
+      return this.listeners.map(function (elementListeners) {
+        return function () {
+          var result = [];
+
+          for (var event in elementListeners.events) {
+            var listener = elementListeners.events[event];
+            result.push(elementListeners.element.removeEventListener(event, listener, false));
+          }
+
+          return result;
+        }();
+      });
+    } // Removes all event listeners and cancels all files in the queue or being processed.
+
+  }, {
+    key: "disable",
+    value: function disable() {
+      var _this3 = this;
+
+      this.clickableElements.forEach(function (element) {
+        return element.classList.remove("dz-clickable");
+      });
+      this.removeEventListeners();
+      this.disabled = true;
+      return this.files.map(function (file) {
+        return _this3.cancelUpload(file);
+      });
+    }
+  }, {
+    key: "enable",
+    value: function enable() {
+      delete this.disabled;
+      this.clickableElements.forEach(function (element) {
+        return element.classList.add("dz-clickable");
+      });
+      return this.setupEventListeners();
+    } // Returns a nicely formatted filesize
+
+  }, {
+    key: "filesize",
+    value: function filesize(size) {
+      var selectedSize = 0;
+      var selectedUnit = "b";
+
+      if (size > 0) {
+        var units = ["tb", "gb", "mb", "kb", "b"];
+
+        for (var i = 0; i < units.length; i++) {
+          var unit = units[i];
+          var cutoff = Math.pow(this.options.filesizeBase, 4 - i) / 10;
+
+          if (size >= cutoff) {
+            selectedSize = size / Math.pow(this.options.filesizeBase, 4 - i);
+            selectedUnit = unit;
+            break;
+          }
+        }
+
+        selectedSize = Math.round(10 * selectedSize) / 10; // Cutting of digits
+      }
+
+      return "<strong>".concat(selectedSize, "</strong> ").concat(this.options.dictFileSizeUnits[selectedUnit]);
+    } // Adds or removes the `dz-max-files-reached` class from the form.
+
+  }, {
+    key: "_updateMaxFilesReachedClass",
+    value: function _updateMaxFilesReachedClass() {
+      if (this.options.maxFiles != null && this.getAcceptedFiles().length >= this.options.maxFiles) {
+        if (this.getAcceptedFiles().length === this.options.maxFiles) {
+          this.emit("maxfilesreached", this.files);
+        }
+
+        return this.element.classList.add("dz-max-files-reached");
+      } else {
+        return this.element.classList.remove("dz-max-files-reached");
+      }
+    }
+  }, {
+    key: "drop",
+    value: function drop(e) {
+      if (!e.dataTransfer) {
+        return;
+      }
+
+      this.emit("drop", e); // Convert the FileList to an Array
+      // This is necessary for IE11
+
+      var files = [];
+
+      for (var i = 0; i < e.dataTransfer.files.length; i++) {
+        files[i] = e.dataTransfer.files[i];
+      } // Even if it's a folder, files.length will contain the folders.
+
+
+      if (files.length) {
+        var items = e.dataTransfer.items;
+
+        if (items && items.length && items[0].webkitGetAsEntry != null) {
+          // The browser supports dropping of folders, so handle items instead of files
+          this._addFilesFromItems(items);
+        } else {
+          this.handleFiles(files);
+        }
+      }
+
+      this.emit("addedfiles", files);
+    }
+  }, {
+    key: "paste",
+    value: function paste(e) {
+      if (__guard__(e != null ? e.clipboardData : undefined, function (x) {
+        return x.items;
+      }) == null) {
+        return;
+      }
+
+      this.emit("paste", e);
+      var items = e.clipboardData.items;
+
+      if (items.length) {
+        return this._addFilesFromItems(items);
+      }
+    }
+  }, {
+    key: "handleFiles",
+    value: function handleFiles(files) {
+      var _iterator5 = dropzone_createForOfIteratorHelper(files, true),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var file = _step5.value;
+          this.addFile(file);
+        }
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+    } // When a folder is dropped (or files are pasted), items must be handled
+    // instead of files.
+
+  }, {
+    key: "_addFilesFromItems",
+    value: function _addFilesFromItems(items) {
+      var _this4 = this;
+
+      return function () {
+        var result = [];
+
+        var _iterator6 = dropzone_createForOfIteratorHelper(items, true),
+            _step6;
+
+        try {
+          for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+            var item = _step6.value;
+            var entry;
+
+            if (item.webkitGetAsEntry != null && (entry = item.webkitGetAsEntry())) {
+              if (entry.isFile) {
+                result.push(_this4.addFile(item.getAsFile()));
+              } else if (entry.isDirectory) {
+                // Append all files from that directory to files
+                result.push(_this4._addFilesFromDirectory(entry, entry.name));
+              } else {
+                result.push(undefined);
+              }
+            } else if (item.getAsFile != null) {
+              if (item.kind == null || item.kind === "file") {
+                result.push(_this4.addFile(item.getAsFile()));
+              } else {
+                result.push(undefined);
+              }
+            } else {
+              result.push(undefined);
+            }
+          }
+        } catch (err) {
+          _iterator6.e(err);
+        } finally {
+          _iterator6.f();
+        }
+
+        return result;
+      }();
+    } // Goes through the directory, and adds each file it finds recursively
+
+  }, {
+    key: "_addFilesFromDirectory",
+    value: function _addFilesFromDirectory(directory, path) {
+      var _this5 = this;
+
+      var dirReader = directory.createReader();
+
+      var errorHandler = function errorHandler(error) {
+        return __guardMethod__(console, "log", function (o) {
+          return o.log(error);
+        });
+      };
+
+      var readEntries = function readEntries() {
+        return dirReader.readEntries(function (entries) {
+          if (entries.length > 0) {
+            var _iterator7 = dropzone_createForOfIteratorHelper(entries, true),
+                _step7;
+
+            try {
+              for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+                var entry = _step7.value;
+
+                if (entry.isFile) {
+                  entry.file(function (file) {
+                    if (_this5.options.ignoreHiddenFiles && file.name.substring(0, 1) === ".") {
+                      return;
+                    }
+
+                    file.fullPath = "".concat(path, "/").concat(file.name);
+                    return _this5.addFile(file);
+                  });
+                } else if (entry.isDirectory) {
+                  _this5._addFilesFromDirectory(entry, "".concat(path, "/").concat(entry.name));
+                }
+              } // Recursively call readEntries() again, since browser only handle
+              // the first 100 entries.
+              // See: https://developer.mozilla.org/en-US/docs/Web/API/DirectoryReader#readEntries
+
+            } catch (err) {
+              _iterator7.e(err);
+            } finally {
+              _iterator7.f();
+            }
+
+            readEntries();
+          }
+
+          return null;
+        }, errorHandler);
+      };
+
+      return readEntries();
+    } // If `done()` is called without argument the file is accepted
+    // If you call it with an error message, the file is rejected
+    // (This allows for asynchronous validation)
+    //
+    // This function checks the filesize, and if the file.type passes the
+    // `acceptedFiles` check.
+
+  }, {
+    key: "accept",
+    value: function accept(file, done) {
+      if (this.options.maxFilesize && file.size > this.options.maxFilesize * 1024 * 1024) {
+        done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
+      } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
+        done(this.options.dictInvalidFileType);
+      } else if (this.options.maxFiles != null && this.getAcceptedFiles().length >= this.options.maxFiles) {
+        done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
+        this.emit("maxfilesexceeded", file);
+      } else {
+        this.options.accept.call(this, file, done);
+      }
+    }
+  }, {
+    key: "addFile",
+    value: function addFile(file) {
+      var _this6 = this;
+
+      file.upload = {
+        uuid: Dropzone.uuidv4(),
+        progress: 0,
+        // Setting the total upload size to file.size for the beginning
+        // It's actual different than the size to be transmitted.
+        total: file.size,
+        bytesSent: 0,
+        filename: this._renameFile(file) // Not setting chunking information here, because the acutal data — and
+        // thus the chunks — might change if `options.transformFile` is set
+        // and does something to the data.
+
+      };
+      this.files.push(file);
+      file.status = Dropzone.ADDED;
+      this.emit("addedfile", file);
+
+      this._enqueueThumbnail(file);
+
+      this.accept(file, function (error) {
+        if (error) {
+          file.accepted = false;
+
+          _this6._errorProcessing([file], error); // Will set the file.status
+
+        } else {
+          file.accepted = true;
+
+          if (_this6.options.autoQueue) {
+            _this6.enqueueFile(file);
+          } // Will set .accepted = true
+
+        }
+
+        _this6._updateMaxFilesReachedClass();
+      });
+    } // Wrapper for enqueueFile
+
+  }, {
+    key: "enqueueFiles",
+    value: function enqueueFiles(files) {
+      var _iterator8 = dropzone_createForOfIteratorHelper(files, true),
+          _step8;
+
+      try {
+        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+          var file = _step8.value;
+          this.enqueueFile(file);
+        }
+      } catch (err) {
+        _iterator8.e(err);
+      } finally {
+        _iterator8.f();
+      }
+
+      return null;
+    }
+  }, {
+    key: "enqueueFile",
+    value: function enqueueFile(file) {
+      var _this7 = this;
+
+      if (file.status === Dropzone.ADDED && file.accepted === true) {
+        file.status = Dropzone.QUEUED;
+
+        if (this.options.autoProcessQueue) {
+          return setTimeout(function () {
+            return _this7.processQueue();
+          }, 0); // Deferring the call
+        }
+      } else {
+        throw new Error("This file can't be queued because it has already been processed or was rejected.");
+      }
+    }
+  }, {
+    key: "_enqueueThumbnail",
+    value: function _enqueueThumbnail(file) {
+      var _this8 = this;
+
+      if (this.options.createImageThumbnails && file.type.match(/image.*/) && file.size <= this.options.maxThumbnailFilesize * 1024 * 1024) {
+        this._thumbnailQueue.push(file);
+
+        return setTimeout(function () {
+          return _this8._processThumbnailQueue();
+        }, 0); // Deferring the call
+      }
+    }
+  }, {
+    key: "_processThumbnailQueue",
+    value: function _processThumbnailQueue() {
+      var _this9 = this;
+
+      if (this._processingThumbnail || this._thumbnailQueue.length === 0) {
+        return;
+      }
+
+      this._processingThumbnail = true;
+
+      var file = this._thumbnailQueue.shift();
+
+      return this.createThumbnail(file, this.options.thumbnailWidth, this.options.thumbnailHeight, this.options.thumbnailMethod, true, function (dataUrl) {
+        _this9.emit("thumbnail", file, dataUrl);
+
+        _this9._processingThumbnail = false;
+        return _this9._processThumbnailQueue();
+      });
+    } // Can be called by the user to remove a file
+
+  }, {
+    key: "removeFile",
+    value: function removeFile(file) {
+      if (file.status === Dropzone.UPLOADING) {
+        this.cancelUpload(file);
+      }
+
+      this.files = without(this.files, file);
+      this.emit("removedfile", file);
+
+      if (this.files.length === 0) {
+        return this.emit("reset");
+      }
+    } // Removes all files that aren't currently processed from the list
+
+  }, {
+    key: "removeAllFiles",
+    value: function removeAllFiles(cancelIfNecessary) {
+      // Create a copy of files since removeFile() changes the @files array.
+      if (cancelIfNecessary == null) {
+        cancelIfNecessary = false;
+      }
+
+      var _iterator9 = dropzone_createForOfIteratorHelper(this.files.slice(), true),
+          _step9;
+
+      try {
+        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+          var file = _step9.value;
+
+          if (file.status !== Dropzone.UPLOADING || cancelIfNecessary) {
+            this.removeFile(file);
+          }
+        }
+      } catch (err) {
+        _iterator9.e(err);
+      } finally {
+        _iterator9.f();
+      }
+
+      return null;
+    } // Resizes an image before it gets sent to the server. This function is the default behavior of
+    // `options.transformFile` if `resizeWidth` or `resizeHeight` are set. The callback is invoked with
+    // the resized blob.
+
+  }, {
+    key: "resizeImage",
+    value: function resizeImage(file, width, height, resizeMethod, callback) {
+      var _this10 = this;
+
+      return this.createThumbnail(file, width, height, resizeMethod, true, function (dataUrl, canvas) {
+        if (canvas == null) {
+          // The image has not been resized
+          return callback(file);
+        } else {
+          var resizeMimeType = _this10.options.resizeMimeType;
+
+          if (resizeMimeType == null) {
+            resizeMimeType = file.type;
+          }
+
+          var resizedDataURL = canvas.toDataURL(resizeMimeType, _this10.options.resizeQuality);
+
+          if (resizeMimeType === "image/jpeg" || resizeMimeType === "image/jpg") {
+            // Now add the original EXIF information
+            resizedDataURL = ExifRestore.restore(file.dataURL, resizedDataURL);
+          }
+
+          return callback(Dropzone.dataURItoBlob(resizedDataURL));
+        }
+      });
+    }
+  }, {
+    key: "createThumbnail",
+    value: function createThumbnail(file, width, height, resizeMethod, fixOrientation, callback) {
+      var _this11 = this;
+
+      var fileReader = new FileReader();
+
+      fileReader.onload = function () {
+        file.dataURL = fileReader.result; // Don't bother creating a thumbnail for SVG images since they're vector
+
+        if (file.type === "image/svg+xml") {
+          if (callback != null) {
+            callback(fileReader.result);
+          }
+
+          return;
+        }
+
+        _this11.createThumbnailFromUrl(file, width, height, resizeMethod, fixOrientation, callback);
+      };
+
+      fileReader.readAsDataURL(file);
+    } // `mockFile` needs to have these attributes:
+    //
+    //     { name: 'name', size: 12345, imageUrl: '' }
+    //
+    // `callback` will be invoked when the image has been downloaded and displayed.
+    // `crossOrigin` will be added to the `img` tag when accessing the file.
+
+  }, {
+    key: "displayExistingFile",
+    value: function displayExistingFile(mockFile, imageUrl, callback, crossOrigin) {
+      var _this12 = this;
+
+      var resizeThumbnail = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+      this.emit("addedfile", mockFile);
+      this.emit("complete", mockFile);
+
+      if (!resizeThumbnail) {
+        this.emit("thumbnail", mockFile, imageUrl);
+        if (callback) callback();
+      } else {
+        var onDone = function onDone(thumbnail) {
+          _this12.emit("thumbnail", mockFile, thumbnail);
+
+          if (callback) callback();
+        };
+
+        mockFile.dataURL = imageUrl;
+        this.createThumbnailFromUrl(mockFile, this.options.thumbnailWidth, this.options.thumbnailHeight, this.options.thumbnailMethod, this.options.fixOrientation, onDone, crossOrigin);
+      }
+    }
+  }, {
+    key: "createThumbnailFromUrl",
+    value: function createThumbnailFromUrl(file, width, height, resizeMethod, fixOrientation, callback, crossOrigin) {
+      var _this13 = this;
+
+      // Not using `new Image` here because of a bug in latest Chrome versions.
+      // See https://github.com/enyo/dropzone/pull/226
+      var img = document.createElement("img");
+
+      if (crossOrigin) {
+        img.crossOrigin = crossOrigin;
+      } // fixOrientation is not needed anymore with browsers handling imageOrientation
+
+
+      fixOrientation = getComputedStyle(document.body)["imageOrientation"] == "from-image" ? false : fixOrientation;
+
+      img.onload = function () {
+        var loadExif = function loadExif(callback) {
+          return callback(1);
+        };
+
+        if (typeof EXIF !== "undefined" && EXIF !== null && fixOrientation) {
+          loadExif = function loadExif(callback) {
+            return EXIF.getData(img, function () {
+              return callback(EXIF.getTag(this, "Orientation"));
+            });
+          };
+        }
+
+        return loadExif(function (orientation) {
+          file.width = img.width;
+          file.height = img.height;
+
+          var resizeInfo = _this13.options.resize.call(_this13, file, width, height, resizeMethod);
+
+          var canvas = document.createElement("canvas");
+          var ctx = canvas.getContext("2d");
+          canvas.width = resizeInfo.trgWidth;
+          canvas.height = resizeInfo.trgHeight;
+
+          if (orientation > 4) {
+            canvas.width = resizeInfo.trgHeight;
+            canvas.height = resizeInfo.trgWidth;
+          }
+
+          switch (orientation) {
+            case 2:
+              // horizontal flip
+              ctx.translate(canvas.width, 0);
+              ctx.scale(-1, 1);
+              break;
+
+            case 3:
+              // 180° rotate left
+              ctx.translate(canvas.width, canvas.height);
+              ctx.rotate(Math.PI);
+              break;
+
+            case 4:
+              // vertical flip
+              ctx.translate(0, canvas.height);
+              ctx.scale(1, -1);
+              break;
+
+            case 5:
+              // vertical flip + 90 rotate right
+              ctx.rotate(0.5 * Math.PI);
+              ctx.scale(1, -1);
+              break;
+
+            case 6:
+              // 90° rotate right
+              ctx.rotate(0.5 * Math.PI);
+              ctx.translate(0, -canvas.width);
+              break;
+
+            case 7:
+              // horizontal flip + 90 rotate right
+              ctx.rotate(0.5 * Math.PI);
+              ctx.translate(canvas.height, -canvas.width);
+              ctx.scale(-1, 1);
+              break;
+
+            case 8:
+              // 90° rotate left
+              ctx.rotate(-0.5 * Math.PI);
+              ctx.translate(-canvas.height, 0);
+              break;
+          } // This is a bugfix for iOS' scaling bug.
+
+
+          drawImageIOSFix(ctx, img, resizeInfo.srcX != null ? resizeInfo.srcX : 0, resizeInfo.srcY != null ? resizeInfo.srcY : 0, resizeInfo.srcWidth, resizeInfo.srcHeight, resizeInfo.trgX != null ? resizeInfo.trgX : 0, resizeInfo.trgY != null ? resizeInfo.trgY : 0, resizeInfo.trgWidth, resizeInfo.trgHeight);
+          var thumbnail = canvas.toDataURL("image/png");
+
+          if (callback != null) {
+            return callback(thumbnail, canvas);
+          }
+        });
+      };
+
+      if (callback != null) {
+        img.onerror = callback;
+      }
+
+      return img.src = file.dataURL;
+    } // Goes through the queue and processes files if there aren't too many already.
+
+  }, {
+    key: "processQueue",
+    value: function processQueue() {
+      var parallelUploads = this.options.parallelUploads;
+      var processingLength = this.getUploadingFiles().length;
+      var i = processingLength; // There are already at least as many files uploading than should be
+
+      if (processingLength >= parallelUploads) {
+        return;
+      }
+
+      var queuedFiles = this.getQueuedFiles();
+
+      if (!(queuedFiles.length > 0)) {
+        return;
+      }
+
+      if (this.options.uploadMultiple) {
+        // The files should be uploaded in one request
+        return this.processFiles(queuedFiles.slice(0, parallelUploads - processingLength));
+      } else {
+        while (i < parallelUploads) {
+          if (!queuedFiles.length) {
+            return;
+          } // Nothing left to process
+
+
+          this.processFile(queuedFiles.shift());
+          i++;
+        }
+      }
+    } // Wrapper for `processFiles`
+
+  }, {
+    key: "processFile",
+    value: function processFile(file) {
+      return this.processFiles([file]);
+    } // Loads the file, then calls finishedLoading()
+
+  }, {
+    key: "processFiles",
+    value: function processFiles(files) {
+      var _iterator10 = dropzone_createForOfIteratorHelper(files, true),
+          _step10;
+
+      try {
+        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+          var file = _step10.value;
+          file.processing = true; // Backwards compatibility
+
+          file.status = Dropzone.UPLOADING;
+          this.emit("processing", file);
+        }
+      } catch (err) {
+        _iterator10.e(err);
+      } finally {
+        _iterator10.f();
+      }
+
+      if (this.options.uploadMultiple) {
+        this.emit("processingmultiple", files);
+      }
+
+      return this.uploadFiles(files);
+    }
+  }, {
+    key: "_getFilesWithXhr",
+    value: function _getFilesWithXhr(xhr) {
+      var files;
+      return files = this.files.filter(function (file) {
+        return file.xhr === xhr;
+      }).map(function (file) {
+        return file;
+      });
+    } // Cancels the file upload and sets the status to CANCELED
+    // **if** the file is actually being uploaded.
+    // If it's still in the queue, the file is being removed from it and the status
+    // set to CANCELED.
+
+  }, {
+    key: "cancelUpload",
+    value: function cancelUpload(file) {
+      if (file.status === Dropzone.UPLOADING) {
+        var groupedFiles = this._getFilesWithXhr(file.xhr);
+
+        var _iterator11 = dropzone_createForOfIteratorHelper(groupedFiles, true),
+            _step11;
+
+        try {
+          for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+            var groupedFile = _step11.value;
+            groupedFile.status = Dropzone.CANCELED;
+          }
+        } catch (err) {
+          _iterator11.e(err);
+        } finally {
+          _iterator11.f();
+        }
+
+        if (typeof file.xhr !== "undefined") {
+          file.xhr.abort();
+        }
+
+        var _iterator12 = dropzone_createForOfIteratorHelper(groupedFiles, true),
+            _step12;
+
+        try {
+          for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+            var _groupedFile = _step12.value;
+            this.emit("canceled", _groupedFile);
+          }
+        } catch (err) {
+          _iterator12.e(err);
+        } finally {
+          _iterator12.f();
+        }
+
+        if (this.options.uploadMultiple) {
+          this.emit("canceledmultiple", groupedFiles);
+        }
+      } else if (file.status === Dropzone.ADDED || file.status === Dropzone.QUEUED) {
+        file.status = Dropzone.CANCELED;
+        this.emit("canceled", file);
+
+        if (this.options.uploadMultiple) {
+          this.emit("canceledmultiple", [file]);
+        }
+      }
+
+      if (this.options.autoProcessQueue) {
+        return this.processQueue();
+      }
+    }
+  }, {
+    key: "resolveOption",
+    value: function resolveOption(option) {
+      if (typeof option === "function") {
+        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+
+        return option.apply(this, args);
+      }
+
+      return option;
+    }
+  }, {
+    key: "uploadFile",
+    value: function uploadFile(file) {
+      return this.uploadFiles([file]);
+    }
+  }, {
+    key: "uploadFiles",
+    value: function uploadFiles(files) {
+      var _this14 = this;
+
+      this._transformFiles(files, function (transformedFiles) {
+        if (_this14.options.chunking) {
+          // Chunking is not allowed to be used with `uploadMultiple` so we know
+          // that there is only __one__file.
+          var transformedFile = transformedFiles[0];
+          files[0].upload.chunked = _this14.options.chunking && (_this14.options.forceChunking || transformedFile.size > _this14.options.chunkSize);
+          files[0].upload.totalChunkCount = Math.ceil(transformedFile.size / _this14.options.chunkSize);
+        }
+
+        if (files[0].upload.chunked) {
+          // This file should be sent in chunks!
+          // If the chunking option is set, we **know** that there can only be **one** file, since
+          // uploadMultiple is not allowed with this option.
+          var file = files[0];
+          var _transformedFile = transformedFiles[0];
+          var startedChunkCount = 0;
+          file.upload.chunks = [];
+
+          var handleNextChunk = function handleNextChunk() {
+            var chunkIndex = 0; // Find the next item in file.upload.chunks that is not defined yet.
+
+            while (file.upload.chunks[chunkIndex] !== undefined) {
+              chunkIndex++;
+            } // This means, that all chunks have already been started.
+
+
+            if (chunkIndex >= file.upload.totalChunkCount) return;
+            startedChunkCount++;
+            var start = chunkIndex * _this14.options.chunkSize;
+            var end = Math.min(start + _this14.options.chunkSize, _transformedFile.size);
+            var dataBlock = {
+              name: _this14._getParamName(0),
+              data: _transformedFile.webkitSlice ? _transformedFile.webkitSlice(start, end) : _transformedFile.slice(start, end),
+              filename: file.upload.filename,
+              chunkIndex: chunkIndex
+            };
+            file.upload.chunks[chunkIndex] = {
+              file: file,
+              index: chunkIndex,
+              dataBlock: dataBlock,
+              // In case we want to retry.
+              status: Dropzone.UPLOADING,
+              progress: 0,
+              retries: 0 // The number of times this block has been retried.
+
+            };
+
+            _this14._uploadData(files, [dataBlock]);
+          };
+
+          file.upload.finishedChunkUpload = function (chunk, response) {
+            var allFinished = true;
+            chunk.status = Dropzone.SUCCESS; // Clear the data from the chunk
+
+            chunk.dataBlock = null; // Leaving this reference to xhr intact here will cause memory leaks in some browsers
+
+            chunk.xhr = null;
+
+            for (var i = 0; i < file.upload.totalChunkCount; i++) {
+              if (file.upload.chunks[i] === undefined) {
+                return handleNextChunk();
+              }
+
+              if (file.upload.chunks[i].status !== Dropzone.SUCCESS) {
+                allFinished = false;
+              }
+            }
+
+            if (allFinished) {
+              _this14.options.chunksUploaded(file, function () {
+                _this14._finished(files, response, null);
+              });
+            }
+          };
+
+          if (_this14.options.parallelChunkUploads) {
+            for (var i = 0; i < file.upload.totalChunkCount; i++) {
+              handleNextChunk();
+            }
+          } else {
+            handleNextChunk();
+          }
+        } else {
+          var dataBlocks = [];
+
+          for (var _i2 = 0; _i2 < files.length; _i2++) {
+            dataBlocks[_i2] = {
+              name: _this14._getParamName(_i2),
+              data: transformedFiles[_i2],
+              filename: files[_i2].upload.filename
+            };
+          }
+
+          _this14._uploadData(files, dataBlocks);
+        }
+      });
+    } /// Returns the right chunk for given file and xhr
+
+  }, {
+    key: "_getChunk",
+    value: function _getChunk(file, xhr) {
+      for (var i = 0; i < file.upload.totalChunkCount; i++) {
+        if (file.upload.chunks[i] !== undefined && file.upload.chunks[i].xhr === xhr) {
+          return file.upload.chunks[i];
+        }
+      }
+    } // This function actually uploads the file(s) to the server.
+    // If dataBlocks contains the actual data to upload (meaning, that this could either be transformed
+    // files, or individual chunks for chunked upload).
+
+  }, {
+    key: "_uploadData",
+    value: function _uploadData(files, dataBlocks) {
+      var _this15 = this;
+
+      var xhr = new XMLHttpRequest(); // Put the xhr object in the file objects to be able to reference it later.
+
+      var _iterator13 = dropzone_createForOfIteratorHelper(files, true),
+          _step13;
+
+      try {
+        for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+          var file = _step13.value;
+          file.xhr = xhr;
+        }
+      } catch (err) {
+        _iterator13.e(err);
+      } finally {
+        _iterator13.f();
+      }
+
+      if (files[0].upload.chunked) {
+        // Put the xhr object in the right chunk object, so it can be associated later, and found with _getChunk
+        files[0].upload.chunks[dataBlocks[0].chunkIndex].xhr = xhr;
+      }
+
+      var method = this.resolveOption(this.options.method, files);
+      var url = this.resolveOption(this.options.url, files);
+      xhr.open(method, url, true); // Setting the timeout after open because of IE11 issue: https://gitlab.com/meno/dropzone/issues/8
+
+      var timeout = this.resolveOption(this.options.timeout, files);
+      if (timeout) xhr.timeout = this.resolveOption(this.options.timeout, files); // Has to be after `.open()`. See https://github.com/enyo/dropzone/issues/179
+
+      xhr.withCredentials = !!this.options.withCredentials;
+
+      xhr.onload = function (e) {
+        _this15._finishedUploading(files, xhr, e);
+      };
+
+      xhr.ontimeout = function () {
+        _this15._handleUploadError(files, xhr, "Request timedout after ".concat(_this15.options.timeout / 1000, " seconds"));
+      };
+
+      xhr.onerror = function () {
+        _this15._handleUploadError(files, xhr);
+      }; // Some browsers do not have the .upload property
+
+
+      var progressObj = xhr.upload != null ? xhr.upload : xhr;
+
+      progressObj.onprogress = function (e) {
+        return _this15._updateFilesUploadProgress(files, xhr, e);
+      };
+
+      var headers = {
+        Accept: "application/json",
+        "Cache-Control": "no-cache",
+        "X-Requested-With": "XMLHttpRequest"
+      };
+
+      if (this.options.headers) {
+        Dropzone.extend(headers, this.options.headers);
+      }
+
+      for (var headerName in headers) {
+        var headerValue = headers[headerName];
+
+        if (headerValue) {
+          xhr.setRequestHeader(headerName, headerValue);
+        }
+      }
+
+      var formData = new FormData(); // Adding all @options parameters
+
+      if (this.options.params) {
+        var additionalParams = this.options.params;
+
+        if (typeof additionalParams === "function") {
+          additionalParams = additionalParams.call(this, files, xhr, files[0].upload.chunked ? this._getChunk(files[0], xhr) : null);
+        }
+
+        for (var key in additionalParams) {
+          var value = additionalParams[key];
+
+          if (Array.isArray(value)) {
+            // The additional parameter contains an array,
+            // so lets iterate over it to attach each value
+            // individually.
+            for (var i = 0; i < value.length; i++) {
+              formData.append(key, value[i]);
+            }
+          } else {
+            formData.append(key, value);
+          }
+        }
+      } // Let the user add additional data if necessary
+
+
+      var _iterator14 = dropzone_createForOfIteratorHelper(files, true),
+          _step14;
+
+      try {
+        for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+          var _file = _step14.value;
+          this.emit("sending", _file, xhr, formData);
+        }
+      } catch (err) {
+        _iterator14.e(err);
+      } finally {
+        _iterator14.f();
+      }
+
+      if (this.options.uploadMultiple) {
+        this.emit("sendingmultiple", files, xhr, formData);
+      }
+
+      this._addFormElementData(formData); // Finally add the files
+      // Has to be last because some servers (eg: S3) expect the file to be the last parameter
+
+
+      for (var _i3 = 0; _i3 < dataBlocks.length; _i3++) {
+        var dataBlock = dataBlocks[_i3];
+        formData.append(dataBlock.name, dataBlock.data, dataBlock.filename);
+      }
+
+      this.submitRequest(xhr, formData, files);
+    } // Transforms all files with this.options.transformFile and invokes done with the transformed files when done.
+
+  }, {
+    key: "_transformFiles",
+    value: function _transformFiles(files, done) {
+      var _this16 = this;
+
+      var transformedFiles = []; // Clumsy way of handling asynchronous calls, until I get to add a proper Future library.
+
+      var doneCounter = 0;
+
+      var _loop = function _loop(i) {
+        _this16.options.transformFile.call(_this16, files[i], function (transformedFile) {
+          transformedFiles[i] = transformedFile;
+
+          if (++doneCounter === files.length) {
+            done(transformedFiles);
+          }
+        });
+      };
+
+      for (var i = 0; i < files.length; i++) {
+        _loop(i);
+      }
+    } // Takes care of adding other input elements of the form to the AJAX request
+
+  }, {
+    key: "_addFormElementData",
+    value: function _addFormElementData(formData) {
+      // Take care of other input elements
+      if (this.element.tagName === "FORM") {
+        var _iterator15 = dropzone_createForOfIteratorHelper(this.element.querySelectorAll("input, textarea, select, button"), true),
+            _step15;
+
+        try {
+          for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+            var input = _step15.value;
+            var inputName = input.getAttribute("name");
+            var inputType = input.getAttribute("type");
+            if (inputType) inputType = inputType.toLowerCase(); // If the input doesn't have a name, we can't use it.
+
+            if (typeof inputName === "undefined" || inputName === null) continue;
+
+            if (input.tagName === "SELECT" && input.hasAttribute("multiple")) {
+              // Possibly multiple values
+              var _iterator16 = dropzone_createForOfIteratorHelper(input.options, true),
+                  _step16;
+
+              try {
+                for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
+                  var option = _step16.value;
+
+                  if (option.selected) {
+                    formData.append(inputName, option.value);
+                  }
+                }
+              } catch (err) {
+                _iterator16.e(err);
+              } finally {
+                _iterator16.f();
+              }
+            } else if (!inputType || inputType !== "checkbox" && inputType !== "radio" || input.checked) {
+              formData.append(inputName, input.value);
+            }
+          }
+        } catch (err) {
+          _iterator15.e(err);
+        } finally {
+          _iterator15.f();
+        }
+      }
+    } // Invoked when there is new progress information about given files.
+    // If e is not provided, it is assumed that the upload is finished.
+
+  }, {
+    key: "_updateFilesUploadProgress",
+    value: function _updateFilesUploadProgress(files, xhr, e) {
+      if (!files[0].upload.chunked) {
+        // Handle file uploads without chunking
+        var _iterator17 = dropzone_createForOfIteratorHelper(files, true),
+            _step17;
+
+        try {
+          for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
+            var file = _step17.value;
+
+            if (file.upload.total && file.upload.bytesSent && file.upload.bytesSent == file.upload.total) {
+              // If both, the `total` and `bytesSent` have already been set, and
+              // they are equal (meaning progress is at 100%), we can skip this
+              // file, since an upload progress shouldn't go down.
+              continue;
+            }
+
+            if (e) {
+              file.upload.progress = 100 * e.loaded / e.total;
+              file.upload.total = e.total;
+              file.upload.bytesSent = e.loaded;
+            } else {
+              // No event, so we're at 100%
+              file.upload.progress = 100;
+              file.upload.bytesSent = file.upload.total;
+            }
+
+            this.emit("uploadprogress", file, file.upload.progress, file.upload.bytesSent);
+          }
+        } catch (err) {
+          _iterator17.e(err);
+        } finally {
+          _iterator17.f();
+        }
+      } else {
+        // Handle chunked file uploads
+        // Chunked upload is not compatible with uploading multiple files in one
+        // request, so we know there's only one file.
+        var _file2 = files[0]; // Since this is a chunked upload, we need to update the appropriate chunk
+        // progress.
+
+        var chunk = this._getChunk(_file2, xhr);
+
+        if (e) {
+          chunk.progress = 100 * e.loaded / e.total;
+          chunk.total = e.total;
+          chunk.bytesSent = e.loaded;
+        } else {
+          // No event, so we're at 100%
+          chunk.progress = 100;
+          chunk.bytesSent = chunk.total;
+        } // Now tally the *file* upload progress from its individual chunks
+
+
+        _file2.upload.progress = 0;
+        _file2.upload.total = 0;
+        _file2.upload.bytesSent = 0;
+
+        for (var i = 0; i < _file2.upload.totalChunkCount; i++) {
+          if (_file2.upload.chunks[i] && typeof _file2.upload.chunks[i].progress !== "undefined") {
+            _file2.upload.progress += _file2.upload.chunks[i].progress;
+            _file2.upload.total += _file2.upload.chunks[i].total;
+            _file2.upload.bytesSent += _file2.upload.chunks[i].bytesSent;
+          }
+        } // Since the process is a percentage, we need to divide by the amount of
+        // chunks we've used.
+
+
+        _file2.upload.progress = _file2.upload.progress / _file2.upload.totalChunkCount;
+        this.emit("uploadprogress", _file2, _file2.upload.progress, _file2.upload.bytesSent);
+      }
+    }
+  }, {
+    key: "_finishedUploading",
+    value: function _finishedUploading(files, xhr, e) {
+      var response;
+
+      if (files[0].status === Dropzone.CANCELED) {
+        return;
+      }
+
+      if (xhr.readyState !== 4) {
+        return;
+      }
+
+      if (xhr.responseType !== "arraybuffer" && xhr.responseType !== "blob") {
+        response = xhr.responseText;
+
+        if (xhr.getResponseHeader("content-type") && ~xhr.getResponseHeader("content-type").indexOf("application/json")) {
+          try {
+            response = JSON.parse(response);
+          } catch (error) {
+            e = error;
+            response = "Invalid JSON response from server.";
+          }
+        }
+      }
+
+      this._updateFilesUploadProgress(files, xhr);
+
+      if (!(200 <= xhr.status && xhr.status < 300)) {
+        this._handleUploadError(files, xhr, response);
+      } else {
+        if (files[0].upload.chunked) {
+          files[0].upload.finishedChunkUpload(this._getChunk(files[0], xhr), response);
+        } else {
+          this._finished(files, response, e);
+        }
+      }
+    }
+  }, {
+    key: "_handleUploadError",
+    value: function _handleUploadError(files, xhr, response) {
+      if (files[0].status === Dropzone.CANCELED) {
+        return;
+      }
+
+      if (files[0].upload.chunked && this.options.retryChunks) {
+        var chunk = this._getChunk(files[0], xhr);
+
+        if (chunk.retries++ < this.options.retryChunksLimit) {
+          this._uploadData(files, [chunk.dataBlock]);
+
+          return;
+        } else {
+          console.warn("Retried this chunk too often. Giving up.");
+        }
+      }
+
+      this._errorProcessing(files, response || this.options.dictResponseError.replace("{{statusCode}}", xhr.status), xhr);
+    }
+  }, {
+    key: "submitRequest",
+    value: function submitRequest(xhr, formData, files) {
+      if (xhr.readyState != 1) {
+        console.warn("Cannot send this request because the XMLHttpRequest.readyState is not OPENED.");
+        return;
+      }
+
+      xhr.send(formData);
+    } // Called internally when processing is finished.
+    // Individual callbacks have to be called in the appropriate sections.
+
+  }, {
+    key: "_finished",
+    value: function _finished(files, responseText, e) {
+      var _iterator18 = dropzone_createForOfIteratorHelper(files, true),
+          _step18;
+
+      try {
+        for (_iterator18.s(); !(_step18 = _iterator18.n()).done;) {
+          var file = _step18.value;
+          file.status = Dropzone.SUCCESS;
+          this.emit("success", file, responseText, e);
+          this.emit("complete", file);
+        }
+      } catch (err) {
+        _iterator18.e(err);
+      } finally {
+        _iterator18.f();
+      }
+
+      if (this.options.uploadMultiple) {
+        this.emit("successmultiple", files, responseText, e);
+        this.emit("completemultiple", files);
+      }
+
+      if (this.options.autoProcessQueue) {
+        return this.processQueue();
+      }
+    } // Called internally when processing is finished.
+    // Individual callbacks have to be called in the appropriate sections.
+
+  }, {
+    key: "_errorProcessing",
+    value: function _errorProcessing(files, message, xhr) {
+      var _iterator19 = dropzone_createForOfIteratorHelper(files, true),
+          _step19;
+
+      try {
+        for (_iterator19.s(); !(_step19 = _iterator19.n()).done;) {
+          var file = _step19.value;
+          file.status = Dropzone.ERROR;
+          this.emit("error", file, message, xhr);
+          this.emit("complete", file);
+        }
+      } catch (err) {
+        _iterator19.e(err);
+      } finally {
+        _iterator19.f();
+      }
+
+      if (this.options.uploadMultiple) {
+        this.emit("errormultiple", files, message, xhr);
+        this.emit("completemultiple", files);
+      }
+
+      if (this.options.autoProcessQueue) {
+        return this.processQueue();
+      }
+    }
+  }], [{
+    key: "initClass",
+    value: function initClass() {
+      // Exposing the emitter class, mainly for tests
+      this.prototype.Emitter = Emitter;
+      /*
+       This is a list of all available events you can register on a dropzone object.
+        You can register an event handler like this:
+        dropzone.on("dragEnter", function() { });
+        */
+
+      this.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "addedfile", "addedfiles", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded", "maxfilesreached", "queuecomplete"];
+      this.prototype._thumbnailQueue = [];
+      this.prototype._processingThumbnail = false;
+    } // global utility
+
+  }, {
+    key: "extend",
+    value: function extend(target) {
+      for (var _len2 = arguments.length, objects = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        objects[_key2 - 1] = arguments[_key2];
+      }
+
+      for (var _i4 = 0, _objects = objects; _i4 < _objects.length; _i4++) {
+        var object = _objects[_i4];
+
+        for (var key in object) {
+          var val = object[key];
+          target[key] = val;
+        }
+      }
+
+      return target;
+    }
+  }, {
+    key: "uuidv4",
+    value: function uuidv4() {
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c === "x" ? r : r & 0x3 | 0x8;
+        return v.toString(16);
+      });
+    }
+  }]);
+
+  return Dropzone;
+}(Emitter);
+
+
+Dropzone.initClass();
+Dropzone.version = "5.9.3"; // This is a map of options for your different dropzones. Add configurations
+// to this object for your different dropzone elemens.
+//
+// Example:
+//
+//     Dropzone.options.myDropzoneElementId = { maxFilesize: 1 };
+//
+// To disable autoDiscover for a specific element, you can set `false` as an option:
+//
+//     Dropzone.options.myDisabledElementId = false;
+//
+// And in html:
+//
+//     <form action="/upload" id="my-dropzone-element-id" class="dropzone"></form>
+
+Dropzone.options = {}; // Returns the options for an element or undefined if none available.
+
+Dropzone.optionsForElement = function (element) {
+  // Get the `Dropzone.options.elementId` for this element if it exists
+  if (element.getAttribute("id")) {
+    return Dropzone.options[camelize(element.getAttribute("id"))];
+  } else {
+    return undefined;
+  }
+}; // Holds a list of all dropzone instances
+
+
+Dropzone.instances = []; // Returns the dropzone for given element if any
+
+Dropzone.forElement = function (element) {
+  if (typeof element === "string") {
+    element = document.querySelector(element);
+  }
+
+  if ((element != null ? element.dropzone : undefined) == null) {
+    throw new Error("No Dropzone found for given element. This is probably because you're trying to access it before Dropzone had the time to initialize. Use the `init` option to setup any additional observers on your Dropzone.");
+  }
+
+  return element.dropzone;
+}; // Set to false if you don't want Dropzone to automatically find and attach to .dropzone elements.
+
+
+Dropzone.autoDiscover = true; // Looks for all .dropzone elements and creates a dropzone for them
+
+Dropzone.discover = function () {
+  var dropzones;
+
+  if (document.querySelectorAll) {
+    dropzones = document.querySelectorAll(".dropzone");
+  } else {
+    dropzones = []; // IE :(
+
+    var checkElements = function checkElements(elements) {
+      return function () {
+        var result = [];
+
+        var _iterator20 = dropzone_createForOfIteratorHelper(elements, true),
+            _step20;
+
+        try {
+          for (_iterator20.s(); !(_step20 = _iterator20.n()).done;) {
+            var el = _step20.value;
+
+            if (/(^| )dropzone($| )/.test(el.className)) {
+              result.push(dropzones.push(el));
+            } else {
+              result.push(undefined);
+            }
+          }
+        } catch (err) {
+          _iterator20.e(err);
+        } finally {
+          _iterator20.f();
+        }
+
+        return result;
+      }();
+    };
+
+    checkElements(document.getElementsByTagName("div"));
+    checkElements(document.getElementsByTagName("form"));
+  }
+
+  return function () {
+    var result = [];
+
+    var _iterator21 = dropzone_createForOfIteratorHelper(dropzones, true),
+        _step21;
+
+    try {
+      for (_iterator21.s(); !(_step21 = _iterator21.n()).done;) {
+        var dropzone = _step21.value;
+
+        // Create a dropzone unless auto discover has been disabled for specific element
+        if (Dropzone.optionsForElement(dropzone) !== false) {
+          result.push(new Dropzone(dropzone));
+        } else {
+          result.push(undefined);
+        }
+      }
+    } catch (err) {
+      _iterator21.e(err);
+    } finally {
+      _iterator21.f();
+    }
+
+    return result;
+  }();
+}; // Some browsers support drag and drog functionality, but not correctly.
+//
+// So I created a blocklist of userAgents. Yes, yes. Browser sniffing, I know.
+// But what to do when browsers *theoretically* support an API, but crash
+// when using it.
+//
+// This is a list of regular expressions tested against navigator.userAgent
+//
+// ** It should only be used on browser that *do* support the API, but
+// incorrectly **
+
+
+Dropzone.blockedBrowsers = [// The mac os and windows phone version of opera 12 seems to have a problem with the File drag'n'drop API.
+/opera.*(Macintosh|Windows Phone).*version\/12/i]; // Checks if the browser is supported
+
+Dropzone.isBrowserSupported = function () {
+  var capableBrowser = true;
+
+  if (window.File && window.FileReader && window.FileList && window.Blob && window.FormData && document.querySelector) {
+    if (!("classList" in document.createElement("a"))) {
+      capableBrowser = false;
+    } else {
+      if (Dropzone.blacklistedBrowsers !== undefined) {
+        // Since this has been renamed, this makes sure we don't break older
+        // configuration.
+        Dropzone.blockedBrowsers = Dropzone.blacklistedBrowsers;
+      } // The browser supports the API, but may be blocked.
+
+
+      var _iterator22 = dropzone_createForOfIteratorHelper(Dropzone.blockedBrowsers, true),
+          _step22;
+
+      try {
+        for (_iterator22.s(); !(_step22 = _iterator22.n()).done;) {
+          var regex = _step22.value;
+
+          if (regex.test(navigator.userAgent)) {
+            capableBrowser = false;
+            continue;
+          }
+        }
+      } catch (err) {
+        _iterator22.e(err);
+      } finally {
+        _iterator22.f();
+      }
+    }
+  } else {
+    capableBrowser = false;
+  }
+
+  return capableBrowser;
+};
+
+Dropzone.dataURItoBlob = function (dataURI) {
+  // convert base64 to raw binary data held in a string
+  // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+  var byteString = atob(dataURI.split(",")[1]); // separate out the mime component
+
+  var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0]; // write the bytes of the string to an ArrayBuffer
+
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
+
+  for (var i = 0, end = byteString.length, asc = 0 <= end; asc ? i <= end : i >= end; asc ? i++ : i--) {
+    ia[i] = byteString.charCodeAt(i);
+  } // write the ArrayBuffer to a blob
+
+
+  return new Blob([ab], {
+    type: mimeString
+  });
+}; // Returns an array without the rejected item
+
+
+var without = function without(list, rejectedItem) {
+  return list.filter(function (item) {
+    return item !== rejectedItem;
+  }).map(function (item) {
+    return item;
+  });
+}; // abc-def_ghi -> abcDefGhi
+
+
+var camelize = function camelize(str) {
+  return str.replace(/[\-_](\w)/g, function (match) {
+    return match.charAt(1).toUpperCase();
+  });
+}; // Creates an element from string
+
+
+Dropzone.createElement = function (string) {
+  var div = document.createElement("div");
+  div.innerHTML = string;
+  return div.childNodes[0];
+}; // Tests if given element is inside (or simply is) the container
+
+
+Dropzone.elementInside = function (element, container) {
+  if (element === container) {
+    return true;
+  } // Coffeescript doesn't support do/while loops
+
+
+  while (element = element.parentNode) {
+    if (element === container) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+Dropzone.getElement = function (el, name) {
+  var element;
+
+  if (typeof el === "string") {
+    element = document.querySelector(el);
+  } else if (el.nodeType != null) {
+    element = el;
+  }
+
+  if (element == null) {
+    throw new Error("Invalid `".concat(name, "` option provided. Please provide a CSS selector or a plain HTML element."));
+  }
+
+  return element;
+};
+
+Dropzone.getElements = function (els, name) {
+  var el, elements;
+
+  if (els instanceof Array) {
+    elements = [];
+
+    try {
+      var _iterator23 = dropzone_createForOfIteratorHelper(els, true),
+          _step23;
+
+      try {
+        for (_iterator23.s(); !(_step23 = _iterator23.n()).done;) {
+          el = _step23.value;
+          elements.push(this.getElement(el, name));
+        }
+      } catch (err) {
+        _iterator23.e(err);
+      } finally {
+        _iterator23.f();
+      }
+    } catch (e) {
+      elements = null;
+    }
+  } else if (typeof els === "string") {
+    elements = [];
+
+    var _iterator24 = dropzone_createForOfIteratorHelper(document.querySelectorAll(els), true),
+        _step24;
+
+    try {
+      for (_iterator24.s(); !(_step24 = _iterator24.n()).done;) {
+        el = _step24.value;
+        elements.push(el);
+      }
+    } catch (err) {
+      _iterator24.e(err);
+    } finally {
+      _iterator24.f();
+    }
+  } else if (els.nodeType != null) {
+    elements = [els];
+  }
+
+  if (elements == null || !elements.length) {
+    throw new Error("Invalid `".concat(name, "` option provided. Please provide a CSS selector, a plain HTML element or a list of those."));
+  }
+
+  return elements;
+}; // Asks the user the question and calls accepted or rejected accordingly
+//
+// The default implementation just uses `window.confirm` and then calls the
+// appropriate callback.
+
+
+Dropzone.confirm = function (question, accepted, rejected) {
+  if (window.confirm(question)) {
+    return accepted();
+  } else if (rejected != null) {
+    return rejected();
+  }
+}; // Validates the mime type like this:
+//
+// https://developer.mozilla.org/en-US/docs/HTML/Element/input#attr-accept
+
+
+Dropzone.isValidFile = function (file, acceptedFiles) {
+  if (!acceptedFiles) {
+    return true;
+  } // If there are no accepted mime types, it's OK
+
+
+  acceptedFiles = acceptedFiles.split(",");
+  var mimeType = file.type;
+  var baseMimeType = mimeType.replace(/\/.*$/, "");
+
+  var _iterator25 = dropzone_createForOfIteratorHelper(acceptedFiles, true),
+      _step25;
+
+  try {
+    for (_iterator25.s(); !(_step25 = _iterator25.n()).done;) {
+      var validType = _step25.value;
+      validType = validType.trim();
+
+      if (validType.charAt(0) === ".") {
+        if (file.name.toLowerCase().indexOf(validType.toLowerCase(), file.name.length - validType.length) !== -1) {
+          return true;
+        }
+      } else if (/\/\*$/.test(validType)) {
+        // This is something like a image/* mime type
+        if (baseMimeType === validType.replace(/\/.*$/, "")) {
+          return true;
+        }
+      } else {
+        if (mimeType === validType) {
+          return true;
+        }
+      }
+    }
+  } catch (err) {
+    _iterator25.e(err);
+  } finally {
+    _iterator25.f();
+  }
+
+  return false;
+}; // Augment jQuery
+
+
+if (typeof jQuery !== "undefined" && jQuery !== null) {
+  jQuery.fn.dropzone = function (options) {
+    return this.each(function () {
+      return new Dropzone(this, options);
     });
+  };
+} // Dropzone file status codes
 
-    // Redirect setDefaults to setOptions
-    $.fn.filepond.setDefaults = FilePond.setOptions;
 
-}(jQuery, FilePond));
+Dropzone.ADDED = "added";
+Dropzone.QUEUED = "queued"; // For backwards compatibility. Now, if a file is accepted, it's either queued
+// or uploading.
 
+Dropzone.ACCEPTED = Dropzone.QUEUED;
+Dropzone.UPLOADING = "uploading";
+Dropzone.PROCESSING = Dropzone.UPLOADING; // alias
+
+Dropzone.CANCELED = "canceled";
+Dropzone.ERROR = "error";
+Dropzone.SUCCESS = "success";
+/*
+
+ Bugfix for iOS 6 and 7
+ Source: http://stackoverflow.com/questions/11929099/html5-canvas-drawimage-ratio-bug-ios
+ based on the work of https://github.com/stomita/ios-imagefile-megapixel
+
+ */
+// Detecting vertical squash in loaded image.
+// Fixes a bug which squash image vertically while drawing into canvas for some images.
+// This is a bug in iOS6 devices. This function from https://github.com/stomita/ios-imagefile-megapixel
+
+var detectVerticalSquash = function detectVerticalSquash(img) {
+  var iw = img.naturalWidth;
+  var ih = img.naturalHeight;
+  var canvas = document.createElement("canvas");
+  canvas.width = 1;
+  canvas.height = ih;
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+
+  var _ctx$getImageData = ctx.getImageData(1, 0, 1, ih),
+      data = _ctx$getImageData.data; // search image edge pixel position in case it is squashed vertically.
+
+
+  var sy = 0;
+  var ey = ih;
+  var py = ih;
+
+  while (py > sy) {
+    var alpha = data[(py - 1) * 4 + 3];
+
+    if (alpha === 0) {
+      ey = py;
+    } else {
+      sy = py;
+    }
+
+    py = ey + sy >> 1;
+  }
+
+  var ratio = py / ih;
+
+  if (ratio === 0) {
+    return 1;
+  } else {
+    return ratio;
+  }
+}; // A replacement for context.drawImage
+// (args are for source and destination).
+
+
+var drawImageIOSFix = function drawImageIOSFix(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
+  var vertSquashRatio = detectVerticalSquash(img);
+  return ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh / vertSquashRatio);
+}; // Based on MinifyJpeg
+// Source: http://www.perry.cz/files/ExifRestorer.js
+// http://elicon.blog57.fc2.com/blog-entry-206.html
+
+
+var ExifRestore = /*#__PURE__*/function () {
+  function ExifRestore() {
+    dropzone_classCallCheck(this, ExifRestore);
+  }
+
+  dropzone_createClass(ExifRestore, null, [{
+    key: "initClass",
+    value: function initClass() {
+      this.KEY_STR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    }
+  }, {
+    key: "encode64",
+    value: function encode64(input) {
+      var output = "";
+      var chr1 = undefined;
+      var chr2 = undefined;
+      var chr3 = "";
+      var enc1 = undefined;
+      var enc2 = undefined;
+      var enc3 = undefined;
+      var enc4 = "";
+      var i = 0;
+
+      while (true) {
+        chr1 = input[i++];
+        chr2 = input[i++];
+        chr3 = input[i++];
+        enc1 = chr1 >> 2;
+        enc2 = (chr1 & 3) << 4 | chr2 >> 4;
+        enc3 = (chr2 & 15) << 2 | chr3 >> 6;
+        enc4 = chr3 & 63;
+
+        if (isNaN(chr2)) {
+          enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+          enc4 = 64;
+        }
+
+        output = output + this.KEY_STR.charAt(enc1) + this.KEY_STR.charAt(enc2) + this.KEY_STR.charAt(enc3) + this.KEY_STR.charAt(enc4);
+        chr1 = chr2 = chr3 = "";
+        enc1 = enc2 = enc3 = enc4 = "";
+
+        if (!(i < input.length)) {
+          break;
+        }
+      }
+
+      return output;
+    }
+  }, {
+    key: "restore",
+    value: function restore(origFileBase64, resizedFileBase64) {
+      if (!origFileBase64.match("data:image/jpeg;base64,")) {
+        return resizedFileBase64;
+      }
+
+      var rawImage = this.decode64(origFileBase64.replace("data:image/jpeg;base64,", ""));
+      var segments = this.slice2Segments(rawImage);
+      var image = this.exifManipulation(resizedFileBase64, segments);
+      return "data:image/jpeg;base64,".concat(this.encode64(image));
+    }
+  }, {
+    key: "exifManipulation",
+    value: function exifManipulation(resizedFileBase64, segments) {
+      var exifArray = this.getExifArray(segments);
+      var newImageArray = this.insertExif(resizedFileBase64, exifArray);
+      var aBuffer = new Uint8Array(newImageArray);
+      return aBuffer;
+    }
+  }, {
+    key: "getExifArray",
+    value: function getExifArray(segments) {
+      var seg = undefined;
+      var x = 0;
+
+      while (x < segments.length) {
+        seg = segments[x];
+
+        if (seg[0] === 255 & seg[1] === 225) {
+          return seg;
+        }
+
+        x++;
+      }
+
+      return [];
+    }
+  }, {
+    key: "insertExif",
+    value: function insertExif(resizedFileBase64, exifArray) {
+      var imageData = resizedFileBase64.replace("data:image/jpeg;base64,", "");
+      var buf = this.decode64(imageData);
+      var separatePoint = buf.indexOf(255, 3);
+      var mae = buf.slice(0, separatePoint);
+      var ato = buf.slice(separatePoint);
+      var array = mae;
+      array = array.concat(exifArray);
+      array = array.concat(ato);
+      return array;
+    }
+  }, {
+    key: "slice2Segments",
+    value: function slice2Segments(rawImageArray) {
+      var head = 0;
+      var segments = [];
+
+      while (true) {
+        var length;
+
+        if (rawImageArray[head] === 255 & rawImageArray[head + 1] === 218) {
+          break;
+        }
+
+        if (rawImageArray[head] === 255 & rawImageArray[head + 1] === 216) {
+          head += 2;
+        } else {
+          length = rawImageArray[head + 2] * 256 + rawImageArray[head + 3];
+          var endPoint = head + length + 2;
+          var seg = rawImageArray.slice(head, endPoint);
+          segments.push(seg);
+          head = endPoint;
+        }
+
+        if (head > rawImageArray.length) {
+          break;
+        }
+      }
+
+      return segments;
+    }
+  }, {
+    key: "decode64",
+    value: function decode64(input) {
+      var output = "";
+      var chr1 = undefined;
+      var chr2 = undefined;
+      var chr3 = "";
+      var enc1 = undefined;
+      var enc2 = undefined;
+      var enc3 = undefined;
+      var enc4 = "";
+      var i = 0;
+      var buf = []; // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
+
+      var base64test = /[^A-Za-z0-9\+\/\=]/g;
+
+      if (base64test.exec(input)) {
+        console.warn("There were invalid base64 characters in the input text.\nValid base64 characters are A-Z, a-z, 0-9, '+', '/',and '='\nExpect errors in decoding.");
+      }
+
+      input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+      while (true) {
+        enc1 = this.KEY_STR.indexOf(input.charAt(i++));
+        enc2 = this.KEY_STR.indexOf(input.charAt(i++));
+        enc3 = this.KEY_STR.indexOf(input.charAt(i++));
+        enc4 = this.KEY_STR.indexOf(input.charAt(i++));
+        chr1 = enc1 << 2 | enc2 >> 4;
+        chr2 = (enc2 & 15) << 4 | enc3 >> 2;
+        chr3 = (enc3 & 3) << 6 | enc4;
+        buf.push(chr1);
+
+        if (enc3 !== 64) {
+          buf.push(chr2);
+        }
+
+        if (enc4 !== 64) {
+          buf.push(chr3);
+        }
+
+        chr1 = chr2 = chr3 = "";
+        enc1 = enc2 = enc3 = enc4 = "";
+
+        if (!(i < input.length)) {
+          break;
+        }
+      }
+
+      return buf;
+    }
+  }]);
+
+  return ExifRestore;
+}();
+
+ExifRestore.initClass();
+/*
+ * contentloaded.js
+ *
+ * Author: Diego Perini (diego.perini at gmail.com)
+ * Summary: cross-browser wrapper for DOMContentLoaded
+ * Updated: 20101020
+ * License: MIT
+ * Version: 1.2
+ *
+ * URL:
+ * http://javascript.nwbox.com/ContentLoaded/
+ * http://javascript.nwbox.com/ContentLoaded/MIT-LICENSE
+ */
+// @win window reference
+// @fn function reference
+
+var contentLoaded = function contentLoaded(win, fn) {
+  var done = false;
+  var top = true;
+  var doc = win.document;
+  var root = doc.documentElement;
+  var add = doc.addEventListener ? "addEventListener" : "attachEvent";
+  var rem = doc.addEventListener ? "removeEventListener" : "detachEvent";
+  var pre = doc.addEventListener ? "" : "on";
+
+  var init = function init(e) {
+    if (e.type === "readystatechange" && doc.readyState !== "complete") {
+      return;
+    }
+
+    (e.type === "load" ? win : doc)[rem](pre + e.type, init, false);
+
+    if (!done && (done = true)) {
+      return fn.call(win, e.type || e);
+    }
+  };
+
+  var poll = function poll() {
+    try {
+      root.doScroll("left");
+    } catch (e) {
+      setTimeout(poll, 50);
+      return;
+    }
+
+    return init("poll");
+  };
+
+  if (doc.readyState !== "complete") {
+    if (doc.createEventObject && root.doScroll) {
+      try {
+        top = !win.frameElement;
+      } catch (error) {}
+
+      if (top) {
+        poll();
+      }
+    }
+
+    doc[add](pre + "DOMContentLoaded", init, false);
+    doc[add](pre + "readystatechange", init, false);
+    return win[add](pre + "load", init, false);
+  }
+}; // As a single function to be able to write tests.
+
+
+Dropzone._autoDiscoverFunction = function () {
+  if (Dropzone.autoDiscover) {
+    return Dropzone.discover();
+  }
+};
+
+contentLoaded(window, Dropzone._autoDiscoverFunction);
+
+function __guard__(value, transform) {
+  return typeof value !== "undefined" && value !== null ? transform(value) : undefined;
+}
+
+function __guardMethod__(obj, methodName, transform) {
+  if (typeof obj !== "undefined" && obj !== null && typeof obj[methodName] === "function") {
+    return transform(obj, methodName);
+  } else {
+    return undefined;
+  }
+}
+
+
+;// CONCATENATED MODULE: ./tool/dropzone.dist.js
+ /// Make Dropzone a global variable.
+
+window.Dropzone = Dropzone;
+/* harmony default export */ var dropzone_dist = (Dropzone);
+
+}();
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
 
 /***/ }),
 
@@ -32334,770 +29555,6 @@ return jQuery;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./node_modules/regenerator-runtime/runtime.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/regenerator-runtime/runtime.js ***!
-  \*****************************************************/
-/***/ ((module) => {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-var runtime = (function (exports) {
-  "use strict";
-
-  var Op = Object.prototype;
-  var hasOwn = Op.hasOwnProperty;
-  var undefined; // More compressible than void 0.
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  function define(obj, key, value) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-    return obj[key];
-  }
-  try {
-    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
-    define({}, "");
-  } catch (err) {
-    define = function(obj, key, value) {
-      return obj[key] = value;
-    };
-  }
-
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-    var generator = Object.create(protoGenerator.prototype);
-    var context = new Context(tryLocsList || []);
-
-    // The ._invoke method unifies the implementations of the .next,
-    // .throw, and .return methods.
-    generator._invoke = makeInvokeMethod(innerFn, self, context);
-
-    return generator;
-  }
-  exports.wrap = wrap;
-
-  // Try/catch helper to minimize deoptimizations. Returns a completion
-  // record like context.tryEntries[i].completion. This interface could
-  // have been (and was previously) designed to take a closure to be
-  // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
-  // to create a new function object. We can even get away with assuming
-  // the method takes exactly one argument, since that happens to be true
-  // in every case, so we don't have to touch the arguments object. The
-  // only additional allocation required is the completion record, which
-  // has a stable shape and so hopefully should be cheap to allocate.
-  function tryCatch(fn, obj, arg) {
-    try {
-      return { type: "normal", arg: fn.call(obj, arg) };
-    } catch (err) {
-      return { type: "throw", arg: err };
-    }
-  }
-
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-
-  // Returning this object from the innerFn has the same effect as
-  // breaking out of the dispatch switch statement.
-  var ContinueSentinel = {};
-
-  // Dummy constructor functions that we use as the .constructor and
-  // .constructor.prototype properties for functions that return Generator
-  // objects. For full spec compliance, you may wish to configure your
-  // minifier not to mangle the names of these two functions.
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-
-  // This is a polyfill for %IteratorPrototype% for environments that
-  // don't natively support it.
-  var IteratorPrototype = {};
-  define(IteratorPrototype, iteratorSymbol, function () {
-    return this;
-  });
-
-  var getProto = Object.getPrototypeOf;
-  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  if (NativeIteratorPrototype &&
-      NativeIteratorPrototype !== Op &&
-      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-    // This environment has a native %IteratorPrototype%; use it instead
-    // of the polyfill.
-    IteratorPrototype = NativeIteratorPrototype;
-  }
-
-  var Gp = GeneratorFunctionPrototype.prototype =
-    Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = GeneratorFunctionPrototype;
-  define(Gp, "constructor", GeneratorFunctionPrototype);
-  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
-  GeneratorFunction.displayName = define(
-    GeneratorFunctionPrototype,
-    toStringTagSymbol,
-    "GeneratorFunction"
-  );
-
-  // Helper for defining the .next, .throw, and .return methods of the
-  // Iterator interface in terms of a single ._invoke method.
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
-      define(prototype, method, function(arg) {
-        return this._invoke(method, arg);
-      });
-    });
-  }
-
-  exports.isGeneratorFunction = function(genFun) {
-    var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor
-      ? ctor === GeneratorFunction ||
-        // For the native GeneratorFunction constructor, the best we can
-        // do is to check its .name property.
-        (ctor.displayName || ctor.name) === "GeneratorFunction"
-      : false;
-  };
-
-  exports.mark = function(genFun) {
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-    } else {
-      genFun.__proto__ = GeneratorFunctionPrototype;
-      define(genFun, toStringTagSymbol, "GeneratorFunction");
-    }
-    genFun.prototype = Object.create(Gp);
-    return genFun;
-  };
-
-  // Within the body of any async function, `await x` is transformed to
-  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
-  // `hasOwn.call(value, "__await")` to determine if the yielded value is
-  // meant to be awaited.
-  exports.awrap = function(arg) {
-    return { __await: arg };
-  };
-
-  function AsyncIterator(generator, PromiseImpl) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if (record.type === "throw") {
-        reject(record.arg);
-      } else {
-        var result = record.arg;
-        var value = result.value;
-        if (value &&
-            typeof value === "object" &&
-            hasOwn.call(value, "__await")) {
-          return PromiseImpl.resolve(value.__await).then(function(value) {
-            invoke("next", value, resolve, reject);
-          }, function(err) {
-            invoke("throw", err, resolve, reject);
-          });
-        }
-
-        return PromiseImpl.resolve(value).then(function(unwrapped) {
-          // When a yielded Promise is resolved, its final value becomes
-          // the .value of the Promise<{value,done}> result for the
-          // current iteration.
-          result.value = unwrapped;
-          resolve(result);
-        }, function(error) {
-          // If a rejected Promise was yielded, throw the rejection back
-          // into the async generator function so it can be handled there.
-          return invoke("throw", error, resolve, reject);
-        });
-      }
-    }
-
-    var previousPromise;
-
-    function enqueue(method, arg) {
-      function callInvokeWithMethodAndArg() {
-        return new PromiseImpl(function(resolve, reject) {
-          invoke(method, arg, resolve, reject);
-        });
-      }
-
-      return previousPromise =
-        // If enqueue has been called before, then we want to wait until
-        // all previous Promises have been resolved before calling invoke,
-        // so that results are always delivered in the correct order. If
-        // enqueue has not been called before, then it is important to
-        // call invoke immediately, without waiting on a callback to fire,
-        // so that the async generator function has the opportunity to do
-        // any necessary setup in a predictable way. This predictability
-        // is why the Promise constructor synchronously invokes its
-        // executor callback, and why async functions synchronously
-        // execute code before the first await. Since we implement simple
-        // async functions in terms of async generators, it is especially
-        // important to get this right, even though it requires care.
-        previousPromise ? previousPromise.then(
-          callInvokeWithMethodAndArg,
-          // Avoid propagating failures to Promises returned by later
-          // invocations of the iterator.
-          callInvokeWithMethodAndArg
-        ) : callInvokeWithMethodAndArg();
-    }
-
-    // Define the unified helper method that is used to implement .next,
-    // .throw, and .return (see defineIteratorMethods).
-    this._invoke = enqueue;
-  }
-
-  defineIteratorMethods(AsyncIterator.prototype);
-  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
-    return this;
-  });
-  exports.AsyncIterator = AsyncIterator;
-
-  // Note that simple async functions are implemented on top of
-  // AsyncIterator objects; they just return a Promise for the value of
-  // the final result produced by the iterator.
-  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-    if (PromiseImpl === void 0) PromiseImpl = Promise;
-
-    var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList),
-      PromiseImpl
-    );
-
-    return exports.isGeneratorFunction(outerFn)
-      ? iter // If outerFn is a generator, return the full iterator.
-      : iter.next().then(function(result) {
-          return result.done ? result.value : iter.next();
-        });
-  };
-
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = GenStateSuspendedStart;
-
-    return function invoke(method, arg) {
-      if (state === GenStateExecuting) {
-        throw new Error("Generator is already running");
-      }
-
-      if (state === GenStateCompleted) {
-        if (method === "throw") {
-          throw arg;
-        }
-
-        // Be forgiving, per 25.3.3.3.3 of the spec:
-        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-        return doneResult();
-      }
-
-      context.method = method;
-      context.arg = arg;
-
-      while (true) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-
-        if (context.method === "next") {
-          // Setting context._sent for legacy support of Babel's
-          // function.sent implementation.
-          context.sent = context._sent = context.arg;
-
-        } else if (context.method === "throw") {
-          if (state === GenStateSuspendedStart) {
-            state = GenStateCompleted;
-            throw context.arg;
-          }
-
-          context.dispatchException(context.arg);
-
-        } else if (context.method === "return") {
-          context.abrupt("return", context.arg);
-        }
-
-        state = GenStateExecuting;
-
-        var record = tryCatch(innerFn, self, context);
-        if (record.type === "normal") {
-          // If an exception is thrown from innerFn, we leave state ===
-          // GenStateExecuting and loop back for another invocation.
-          state = context.done
-            ? GenStateCompleted
-            : GenStateSuspendedYield;
-
-          if (record.arg === ContinueSentinel) {
-            continue;
-          }
-
-          return {
-            value: record.arg,
-            done: context.done
-          };
-
-        } else if (record.type === "throw") {
-          state = GenStateCompleted;
-          // Dispatch the exception by looping back around to the
-          // context.dispatchException(context.arg) call above.
-          context.method = "throw";
-          context.arg = record.arg;
-        }
-      }
-    };
-  }
-
-  // Call delegate.iterator[context.method](context.arg) and handle the
-  // result, either by returning a { value, done } result from the
-  // delegate iterator, or by modifying context.method and context.arg,
-  // setting context.delegate to null, and returning the ContinueSentinel.
-  function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (method === undefined) {
-      // A .throw or .return when the delegate iterator has no .throw
-      // method always terminates the yield* loop.
-      context.delegate = null;
-
-      if (context.method === "throw") {
-        // Note: ["return"] must be used for ES3 parsing compatibility.
-        if (delegate.iterator["return"]) {
-          // If the delegate iterator has a return method, give it a
-          // chance to clean up.
-          context.method = "return";
-          context.arg = undefined;
-          maybeInvokeDelegate(delegate, context);
-
-          if (context.method === "throw") {
-            // If maybeInvokeDelegate(context) changed context.method from
-            // "return" to "throw", let that override the TypeError below.
-            return ContinueSentinel;
-          }
-        }
-
-        context.method = "throw";
-        context.arg = new TypeError(
-          "The iterator does not provide a 'throw' method");
-      }
-
-      return ContinueSentinel;
-    }
-
-    var record = tryCatch(method, delegate.iterator, context.arg);
-
-    if (record.type === "throw") {
-      context.method = "throw";
-      context.arg = record.arg;
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    var info = record.arg;
-
-    if (! info) {
-      context.method = "throw";
-      context.arg = new TypeError("iterator result is not an object");
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    if (info.done) {
-      // Assign the result of the finished delegate to the temporary
-      // variable specified by delegate.resultName (see delegateYield).
-      context[delegate.resultName] = info.value;
-
-      // Resume execution at the desired location (see delegateYield).
-      context.next = delegate.nextLoc;
-
-      // If context.method was "throw" but the delegate handled the
-      // exception, let the outer generator proceed normally. If
-      // context.method was "next", forget context.arg since it has been
-      // "consumed" by the delegate iterator. If context.method was
-      // "return", allow the original .return call to continue in the
-      // outer generator.
-      if (context.method !== "return") {
-        context.method = "next";
-        context.arg = undefined;
-      }
-
-    } else {
-      // Re-yield the result returned by the delegate method.
-      return info;
-    }
-
-    // The delegate iterator is finished, so forget it and continue with
-    // the outer generator.
-    context.delegate = null;
-    return ContinueSentinel;
-  }
-
-  // Define Generator.prototype.{next,throw,return} in terms of the
-  // unified ._invoke helper method.
-  defineIteratorMethods(Gp);
-
-  define(Gp, toStringTagSymbol, "Generator");
-
-  // A Generator should always return itself as the iterator object when the
-  // @@iterator function is called on it. Some browsers' implementations of the
-  // iterator prototype chain incorrectly implement this, causing the Generator
-  // object to not be returned from this call. This ensures that doesn't happen.
-  // See https://github.com/facebook/regenerator/issues/274 for more details.
-  define(Gp, iteratorSymbol, function() {
-    return this;
-  });
-
-  define(Gp, "toString", function() {
-    return "[object Generator]";
-  });
-
-  function pushTryEntry(locs) {
-    var entry = { tryLoc: locs[0] };
-
-    if (1 in locs) {
-      entry.catchLoc = locs[1];
-    }
-
-    if (2 in locs) {
-      entry.finallyLoc = locs[2];
-      entry.afterLoc = locs[3];
-    }
-
-    this.tryEntries.push(entry);
-  }
-
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal";
-    delete record.arg;
-    entry.completion = record;
-  }
-
-  function Context(tryLocsList) {
-    // The root entry object (effectively a try statement without a catch
-    // or a finally block) gives us a place to store values thrown from
-    // locations where there is no enclosing try statement.
-    this.tryEntries = [{ tryLoc: "root" }];
-    tryLocsList.forEach(pushTryEntry, this);
-    this.reset(true);
-  }
-
-  exports.keys = function(object) {
-    var keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    keys.reverse();
-
-    // Rather than returning an object with a next method, we keep
-    // things simple and return the next function itself.
-    return function next() {
-      while (keys.length) {
-        var key = keys.pop();
-        if (key in object) {
-          next.value = key;
-          next.done = false;
-          return next;
-        }
-      }
-
-      // To avoid creating an additional object, we just hang the .value
-      // and .done properties off the next function object itself. This
-      // also ensures that the minifier will not anonymize the function.
-      next.done = true;
-      return next;
-    };
-  };
-
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) {
-        return iteratorMethod.call(iterable);
-      }
-
-      if (typeof iterable.next === "function") {
-        return iterable;
-      }
-
-      if (!isNaN(iterable.length)) {
-        var i = -1, next = function next() {
-          while (++i < iterable.length) {
-            if (hasOwn.call(iterable, i)) {
-              next.value = iterable[i];
-              next.done = false;
-              return next;
-            }
-          }
-
-          next.value = undefined;
-          next.done = true;
-
-          return next;
-        };
-
-        return next.next = next;
-      }
-    }
-
-    // Return an iterator with no values.
-    return { next: doneResult };
-  }
-  exports.values = values;
-
-  function doneResult() {
-    return { value: undefined, done: true };
-  }
-
-  Context.prototype = {
-    constructor: Context,
-
-    reset: function(skipTempReset) {
-      this.prev = 0;
-      this.next = 0;
-      // Resetting context._sent for legacy support of Babel's
-      // function.sent implementation.
-      this.sent = this._sent = undefined;
-      this.done = false;
-      this.delegate = null;
-
-      this.method = "next";
-      this.arg = undefined;
-
-      this.tryEntries.forEach(resetTryEntry);
-
-      if (!skipTempReset) {
-        for (var name in this) {
-          // Not sure about the optimal order of these conditions:
-          if (name.charAt(0) === "t" &&
-              hasOwn.call(this, name) &&
-              !isNaN(+name.slice(1))) {
-            this[name] = undefined;
-          }
-        }
-      }
-    },
-
-    stop: function() {
-      this.done = true;
-
-      var rootEntry = this.tryEntries[0];
-      var rootRecord = rootEntry.completion;
-      if (rootRecord.type === "throw") {
-        throw rootRecord.arg;
-      }
-
-      return this.rval;
-    },
-
-    dispatchException: function(exception) {
-      if (this.done) {
-        throw exception;
-      }
-
-      var context = this;
-      function handle(loc, caught) {
-        record.type = "throw";
-        record.arg = exception;
-        context.next = loc;
-
-        if (caught) {
-          // If the dispatched exception was caught by a catch block,
-          // then let that catch block handle the exception normally.
-          context.method = "next";
-          context.arg = undefined;
-        }
-
-        return !! caught;
-      }
-
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        var record = entry.completion;
-
-        if (entry.tryLoc === "root") {
-          // Exception thrown outside of any try block that could handle
-          // it, so set the completion value of the entire function to
-          // throw the exception.
-          return handle("end");
-        }
-
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc");
-          var hasFinally = hasOwn.call(entry, "finallyLoc");
-
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            } else if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            }
-
-          } else if (hasFinally) {
-            if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else {
-            throw new Error("try statement without catch or finally");
-          }
-        }
-      }
-    },
-
-    abrupt: function(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev &&
-            hasOwn.call(entry, "finallyLoc") &&
-            this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-
-      if (finallyEntry &&
-          (type === "break" ||
-           type === "continue") &&
-          finallyEntry.tryLoc <= arg &&
-          arg <= finallyEntry.finallyLoc) {
-        // Ignore the finally entry if control is not jumping to a
-        // location outside the try/catch block.
-        finallyEntry = null;
-      }
-
-      var record = finallyEntry ? finallyEntry.completion : {};
-      record.type = type;
-      record.arg = arg;
-
-      if (finallyEntry) {
-        this.method = "next";
-        this.next = finallyEntry.finallyLoc;
-        return ContinueSentinel;
-      }
-
-      return this.complete(record);
-    },
-
-    complete: function(record, afterLoc) {
-      if (record.type === "throw") {
-        throw record.arg;
-      }
-
-      if (record.type === "break" ||
-          record.type === "continue") {
-        this.next = record.arg;
-      } else if (record.type === "return") {
-        this.rval = this.arg = record.arg;
-        this.method = "return";
-        this.next = "end";
-      } else if (record.type === "normal" && afterLoc) {
-        this.next = afterLoc;
-      }
-
-      return ContinueSentinel;
-    },
-
-    finish: function(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) {
-          this.complete(entry.completion, entry.afterLoc);
-          resetTryEntry(entry);
-          return ContinueSentinel;
-        }
-      }
-    },
-
-    "catch": function(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if (record.type === "throw") {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-
-      // The context.catch method must only be called with a location
-      // argument that corresponds to a known catch block.
-      throw new Error("illegal catch attempt");
-    },
-
-    delegateYield: function(iterable, resultName, nextLoc) {
-      this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      };
-
-      if (this.method === "next") {
-        // Deliberately forget the last sent value so that we don't
-        // accidentally pass it on to the delegate.
-        this.arg = undefined;
-      }
-
-      return ContinueSentinel;
-    }
-  };
-
-  // Regardless of whether this script is executing as a CommonJS module
-  // or not, return the runtime object so that we can declare the variable
-  // regeneratorRuntime in the outer scope, which allows this module to be
-  // injected easily by `bin/regenerator --include-runtime script.js`.
-  return exports;
-
-}(
-  // If this script is executing as a CommonJS module, use module.exports
-  // as the regeneratorRuntime namespace. Otherwise create a new empty
-  // object. Either way, the resulting object will be used to initialize
-  // the regeneratorRuntime variable at the top of this file.
-   true ? module.exports : 0
-));
-
-try {
-  regeneratorRuntime = runtime;
-} catch (accidentalStrictMode) {
-  // This module should not be running in strict mode, so the above
-  // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, in modern engines
-  // we can explicitly access globalThis. In older engines we can escape
-  // strict mode using a global Function call. This could conceivably fail
-  // if a Content Security Policy forbids using Function, but in that case
-  // the proper solution is to fix the accidental strict mode problem. If
-  // you've misconfigured your bundler to force strict mode and applied a
-  // CSP to forbid Function, and you're not willing to fix either of those
-  // problems, please detail your unique predicament in a GitHub issue.
-  if (typeof globalThis === "object") {
-    globalThis.regeneratorRuntime = runtime;
-  } else {
-    Function("r", "regeneratorRuntime = r")(runtime);
-  }
-}
 
 
 /***/ })

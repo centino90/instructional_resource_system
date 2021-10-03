@@ -10,10 +10,6 @@ try {
     window.Popper = require('@popperjs/core').default;
     window.$ = window.jQuery = require('jquery');
     window.bs = window.Bootstrap = require('bootstrap');
-
-    window.FilePond = require('filepond');
-    require('jquery-filepond/filepond.jquery');
-    window.FilePondPluginFileValidateSize = require('filepond-plugin-file-validate-size');
 } catch (e) { }
 
 /**

@@ -28,6 +28,7 @@ class ResourceFactory extends Factory
             'course_id' => Course::where('program_id', $randomUser->program_id)->get()->random(),
             'user_id' => $randomUser,
             'batch_id' => $this->faker->uuid(),
+            'title' => $this->faker->word(),
             'description' => $this->faker->text(50),
             // 'approved_at' => [now(), null][rand(0, 1)],
             // 'archived_at' => [now(), null][rand(0, 1)],

@@ -93,6 +93,7 @@ class ResourceController extends Controller
 
         try {
             $batchId = Str::uuid();
+            $index = 0;
             foreach ($request->file as $file) {
                 $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
 
@@ -101,7 +102,8 @@ class ResourceController extends Controller
                         'course_id' => $request->course_id,
                         'user_id' => auth()->id(),
                         'batch_id' => $batchId,
-                        'description' => $request->description
+                        'description' => $request->description[$index],
+                        'title' => $request->title[$index]
                     ]);
 
                     $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
@@ -110,10 +112,30 @@ class ResourceController extends Controller
                         ->toMediaCollection();
                     rmdir(storage_path('app/public/resource/tmp/' . $file));
 
-                    // event(new ResourceCreated($r));
+                    event(new ResourceCreated($r));
 
                     $temporaryFile->delete();
+
+                    $index++;
                 }
+                // $r = Resource::create([
+                //     'course_id' => $request->course_id,
+                //     'user_id' => auth()->id(),
+                //     'batch_id' => $batchId,
+                //     'description' => $request->description[$index],
+                //     'title' => $request->title[$index]
+                // ]);
+
+                // $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
+
+                // // dd($r);
+                // $r->addMediaFromStream($file)
+                //     ->usingFileName($file)
+                //     ->toMediaCollection();
+
+                // event(new ResourceCreated($r));
+
+                // $index++;
             }
 
             if ($request->check_stay) {
