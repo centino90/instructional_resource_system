@@ -43,11 +43,13 @@
                             {{ $notification->data['user'] }} created a
 
                             @if (isset($notification->data['resource_id']))
+                                {{-- \App\Models\Resource::whereNull(['approved_at'])->find($notification->data['resource_id']) --}}
                                 <a class="notification-show-link text-decoration-none"
-                                    href="{{ route('syllabi.show', $notification->data['resource_id']) }}"
+                                    href="{{ route('pending-resources.show', $notification->data['resource_id']) }}"
                                     data-passover="{{ $notification->id }}">
                                     <b> syllabus [{{ $notification->data['file_name'] }}]</b>
                                 </a>
+
                                 on {{ $notification->data['course_code'] }}
                             @else
                                 {{ $notification->data['file_name'] }}

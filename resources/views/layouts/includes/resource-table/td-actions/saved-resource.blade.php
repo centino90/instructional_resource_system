@@ -8,6 +8,9 @@
         @if (!$resource->pivot->is_important)
             <x-submit.update-importantresource-hidden :passover="$resource->id">
             </x-submit.update-importantresource-hidden>
+        @else
+            <x-submit.update-remove-importantresource-hidden :passover="$resource->id">
+            </x-submit.update-remove-importantresource-hidden>
         @endif
 
         @if ($resource->user_id != auth()->id())

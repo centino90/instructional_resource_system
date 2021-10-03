@@ -10,6 +10,23 @@
         <div class="d-flex my-4">
             <small class="h4 font-weight-bold">
                 {{ __('Show course') }}
+                <!--calo start-->
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-warning">Pending</button><p>Mackenzie Christiansen</p>
+                        <p>Submitted on LA - Rhode Island</p>
+                        <h6 class="card-subtitle mb-2 text-muted"></h6>
+                        <button type="button" class="btn btn-success btn-sm">latest</button>
+                        <a href="#" class="card-link">Download</a>
+                        <a href="#" class="card-link">View all version</a>
+                        <button type="button" class="btn btn-secondary btn-sm">Regular</button>
+                        <p>Submitted at 2021-09-20 23:05:18</p>
+                        <br>
+                        <button type="button" class="btn btn-success">Approve</button>
+                        <button type="button" class="btn btn-danger">Reject</button>
+                    </div>
+                    <!--calo stop-->
+                </div>
             </small>
 
             {{-- HEADER ACTIONS SECTION --}}
@@ -18,11 +35,11 @@
     </x-slot>
 
     @if (session()->exists('success'))
-        <div class="my-4">
-            <x-alert-success>
-                {{ session()->get('success') }}
-            </x-alert-success>
-        </div>
+    <div class="my-4">
+        <x-alert-success>
+            {{ session()->get('success') }}
+        </x-alert-success>
+    </div>
     @endif
 
     {{-- CONTENT SECTION --}}
@@ -48,17 +65,17 @@
 
             <x-table-resource id="resources-table">
                 @foreach ($resources as $resource)
-                    <tr>
-                        @include('layouts.includes.resource-table.td-checks')
+                <tr>
+                    @include('layouts.includes.resource-table.td-checks')
 
-                        @include('layouts.includes.resource-table.td-file')
+                    @include('layouts.includes.resource-table.td-file')
 
-                        @include('layouts.includes.resource-table.td-course')
+                    @include('layouts.includes.resource-table.td-course')
 
-                        @include('layouts.includes.resource-table.td-lastupdate')
+                    @include('layouts.includes.resource-table.td-lastupdate')
 
-                        @include('layouts.includes.resource-table.td-actions.resource')
-                    </tr>
+                    @include('layouts.includes.resource-table.td-actions.resource')
+                </tr>
                 @endforeach
             </x-table-resource>
         </div>
@@ -66,17 +83,16 @@
         <div class="col-12 mb-3">
             <h5>History log</h5>
             @foreach ($activities as $activity)
-                <span>
-                    <b>{{ $activity->causer->name ?? 'unknown user' }}</b>
-                    {{ $activity->description }}
-                    {{ $activity->subject->getMedia()[0]->file_name ?? 'unknown file' }}
-                    <small class="badge rounded-pill bg-success mx-1">{{ $loop->index == 0 ? 'latest' : '' }}</small>
-                </span>
+            <span>
+                <b>{{ $activity->causer->name ?? 'unknown user' }}</b>
+                {{ $activity->description }}
+                {{ $activity->subject->getMedia()[0]->file_name ?? 'unknown file' }}
+                <small class="badge rounded-pill bg-success mx-1">{{ $loop->index == 0 ? 'latest' : '' }}</small>
+            </span>
 
-                <div class="lh-1 mb-1">
-                    <small
-                        class="text-muted">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}</small>
-                </div>
+            <div class="lh-1 mb-1">
+                <small class="text-muted">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}</small>
+            </div>
             @endforeach
         </div>
 
@@ -85,58 +101,58 @@
     </div>
 
     @section('script')
-        <script>
-            $('.storeSavedresourceHiddenSubmit').click(function() {
-                let form = $($(this).attr('data-form-target'))
-                let passoverData = $(this).attr('data-passover')
-                let input = form.find('input[name="resource_id"]')
-                input.val(passoverData)
+    <script>
+        $('.storeSavedresourceHiddenSubmit').click(function() {
+            let form = $($(this).attr('data-form-target'))
+            let passoverData = $(this).attr('data-passover')
+            let input = form.find('input[name="resource_id"]')
+            input.val(passoverData)
 
-                form.submit()
-            })
+            form.submit()
+        })
 
-            $('#download-bulk').click(function(e) {
-                e.preventDefault()
-                let downloadBtn = $(this)
-                let table = $(this.closest('table'))
-                let checkboxes = table.find('th:first-child .check, td:first-child .check')
-                console.log(checkboxes)
-                $(checkboxes).each(function() {
-                    if ($(this).is(":checked")) {
-                        $(this).closest('th, td').find(':hidden').removeAttr('disabled')
-                    } else {
-                        $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
-                    }
-                })
-
-                table.closest('form').submit();
-                checkboxes.prop('checked', false);
-                downloadBtn.removeClass('loading')
-            })
-
-            $('#check-all').change(function(e) {
-                let table = $(this.closest('table'))
-                let checkboxes = table.find('td:first-child .check')
-
-                if ($(this).is(':checked')) {
-                    checkboxes.prop('checked', true)
+        $('#download-bulk').click(function(e) {
+            e.preventDefault()
+            let downloadBtn = $(this)
+            let table = $(this.closest('table'))
+            let checkboxes = table.find('th:first-child .check, td:first-child .check')
+            console.log(checkboxes)
+            $(checkboxes).each(function() {
+                if ($(this).is(":checked")) {
+                    $(this).closest('th, td').find(':hidden').removeAttr('disabled')
                 } else {
-                    checkboxes.prop('checked', false)
+                    $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
                 }
             })
 
-            $('.check').change(function(e) {
-                let table = $(this.closest('table'))
-                let downloadBtn = table.find('#download-bulk')
-                let checkboxes = table.find('td:first-child .check')
-                let currentCheckbox = $(this)
+            table.closest('form').submit();
+            checkboxes.prop('checked', false);
+            downloadBtn.removeClass('loading')
+        })
 
-                if (checkboxes.filter(':checked').length > 0) {
-                    downloadBtn.removeClass('disabled')
-                } else {
-                    downloadBtn.addClass('disabled')
-                }
-            })
-        </script>
+        $('#check-all').change(function(e) {
+            let table = $(this.closest('table'))
+            let checkboxes = table.find('td:first-child .check')
+
+            if ($(this).is(':checked')) {
+                checkboxes.prop('checked', true)
+            } else {
+                checkboxes.prop('checked', false)
+            }
+        })
+
+        $('.check').change(function(e) {
+            let table = $(this.closest('table'))
+            let downloadBtn = table.find('#download-bulk')
+            let checkboxes = table.find('td:first-child .check')
+            let currentCheckbox = $(this)
+
+            if (checkboxes.filter(':checked').length > 0) {
+                downloadBtn.removeClass('disabled')
+            } else {
+                downloadBtn.addClass('disabled')
+            }
+        })
+    </script>
     @endsection
 </x-app-layout>

@@ -206,7 +206,6 @@
                                             @else
                                                 <span>{{ $comment->user_id }}</span>
                                             @endif
-
                                             <p class="card-text">
                                                 {{ $comment->comment }}
                                             </p>
