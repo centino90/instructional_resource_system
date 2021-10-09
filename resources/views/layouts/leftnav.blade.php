@@ -1,17 +1,30 @@
 <nav id="sidebarMenu" class="navbar navbar-dark bg-dark sticky-top py-0">
     <div class="sidebar-sticky sticky-top">
-        <div class="bg-primary py-2 ps-3 d-flex align-items-center">
-            <span class="text-white">ACD Instructional Resource System</span>
-            <a href="#" class="d-lg-none btn btn-primary ms-auto sidebar-menu-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
-                    <line x1="3" y1="12" x2="21" y2="12" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <line x1="3" y1="18" x2="21" y2="18" />
-                </svg>
-            </a>
+        <div class="d-flex align-items-center">
+            <div class="d-flex flex-wrap text-white">
+                <div class="d-flex bg-primary bg-gradient">
+                    <span class="ps-2 py-2">ACD Instructional Resource System</span>
+                    <a href="#" class="d-lg-none btn btn-primary ms-auto sidebar-menu-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </a>
+                </div>
+
+                <small 
+                    class="ps-2 py-1 bg-gradient w-100 @if(auth()->user()->isInstructor()) bg-primary 
+                    @elseif(auth()->user()->isProgramDean()) bg-success 
+                    @elseif(auth()->user()->isSecretary()) bg-secondary 
+                    @elseif(auth()->user()->isAdmin()) bg-danger @endif"
+                >
+                    <b>{{auth()->user()->program->title}} - [{{auth()->user()->role->name}}]</b>
+                </small>
+            </div>
         </div>
 
-        <ul class="navbar-nav flex-column pt-5 ps-3">
+        <ul class="navbar-nav flex-column pt-4 ps-3">
             <x-nav-link href="dashboard">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -83,6 +96,19 @@
         <!--Calo stop-->
 
         <ul class="navbar-nav flex-column mb-2 ps-3">
+            @if(auth()->user()->isAdmin())
+            <x-nav-link href="admin.instructors.index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Instructors
+            </x-nav-link>
+            @endif
+
             <x-nav-link href="saved-resources.index">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -137,42 +163,16 @@
         </x-sidebar-heading>
 
         <ul class="navbar-nav flex-column mb-2 ps-3">
-            {{-- <x-nav-link href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-user">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                </svg>
+            <x-nav-link href="#">
+                <x-icon.user :width="'24'" :height="'24'" :viewBox="'0 0 24 24'"></x-icon.user>
                 Profile settings
             </x-nav-link>
-
-            <x-nav-link href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-sliders">
-                    <line x1="4" y1="21" x2="4" y2="14" />
-                    <line x1="4" y1="10" x2="4" y2="3" />
-                    <line x1="12" y1="21" x2="12" y2="12" />
-                    <line x1="12" y1="8" x2="12" y2="3" />
-                    <line x1="20" y1="21" x2="20" y2="16" />
-                    <line x1="20" y1="12" x2="20" y2="3" />
-                    <line x1="1" y1="14" x2="7" y2="14" />
-                    <line x1="9" y1="8" x2="15" y2="8" />
-                    <line x1="17" y1="16" x2="23" y2="16" />
-                </svg>
-                Environment settings
-            </x-nav-link> --}}
-
 
             <x-nav-link href="#" onclick="event.preventDefault();this.querySelector('form').submit()">
                 <form action="{{ route('logout') }}" method="post" class="m-0 p-0">
                     @csrf
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
-                    </svg>
+
+                    <x-icon.signout></x-icon.signout>
                     Sign out
                 </form>
             </x-nav-link>

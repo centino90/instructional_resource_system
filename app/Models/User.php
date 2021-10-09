@@ -54,14 +54,14 @@ class User extends Authenticatable
     |
     */
 
-    public function isSuperAdmin()
-    {
-        return $this->role_id == Role::SUPER_ADMIN;
-    }
-
     public function isAdmin()
     {
         return $this->role_id == Role::ADMIN;
+    }
+
+    public function isProgramDean()
+    {
+        return $this->role_id == Role::PROGRAM_DEAN;
     }
 
     public function isSecretary()
@@ -69,9 +69,9 @@ class User extends Authenticatable
         return $this->role_id == Role::SECRETARY;
     }
 
-    public function isTeacher()
+    public function isInstructor()
     {
-        return $this->role_id == Role::TEACHER;
+        return $this->role_id == Role::INSTRUCTOR;
     }
 
     public function belongsToProgram($programId)
@@ -119,6 +119,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
     }
 
     public function program()

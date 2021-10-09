@@ -1,28 +1,27 @@
-<header class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-0">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-            <x-application-logo width="36" />
-            <small>ACD Instructional Resource System</small>
-        </a>
+<div class="d-flex">
+    {{ $breadcrumb }}
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="ms-auto navbar-nav">
-                @auth
-                    <form action="{{ route('logout') }}" method="post">
-                        @csrf
-                        <button class="btn px-3" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="feather feather-log-out">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                                <polyline points="16 17 21 12 16 7" />
-                                <line x1="21" y1="12" x2="9" y2="12" />
-                            </svg>
-                            Signout
-                        </button>
-                    </form>
-                @endauth
-            </ul>
-        </div>
-    </div>
-</header>
+    <ul class="navbar-nav ms-auto">
+    @auth
+        <x-dropdown id="settingsDropdown">
+            <x-slot name="trigger">
+                {{ Auth::user()->name }}
+            </x-slot>
+
+            <x-slot name="content">
+                <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-dropdown-link>
+                        <x-icon.user :width="'20'" :height="'20'" :viewBox="'0 0 30 30'"></x-icon.user>{{ __('Profile Settings') }}
+                    </x-dropdown-link>
+                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        <x-icon.signout :width="'20'" :height="'20'" :viewBox="'0 0 30 30'"></x-icon.signout>{{ __('Logout') }}
+                    </x-dropdown-link>
+                </form>
+            </x-slot>
+        </x-dropdown>
+    @endauth
+    </ul>
+</div>

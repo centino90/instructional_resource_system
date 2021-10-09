@@ -94,7 +94,7 @@
                                     <x-submit.reject-pendingresource-hidden :passover="$resource->id"
                                         :isRejected="$resource->rejected_at ? true : false">
                                     </x-submit.reject-pendingresource-hidden>
-                                @elseif(auth()->user()->isTeacher())
+                                @elseif(auth()->user()->isInstructor())
                                     <a href="btn btn-secondary">Add another file</a>
                                 @endif
                             </div>

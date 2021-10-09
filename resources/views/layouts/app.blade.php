@@ -35,7 +35,8 @@
         @include('layouts.leftnav')
 
         <main class="container-fluid pb-5 pt-2 px-3">
-            {{ $breadcrumb }}
+            @include('layouts.topnav')
+            
             {{ $header }}
 
             {{ $slot }}

@@ -12,6 +12,7 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\UploadTemporaryFileController;
+use App\Http\Controllers\Admin\InstructorsController;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\CssSelector\Node\FunctionNode;
@@ -65,6 +66,27 @@ Route::middleware('auth')->group(function () {
     Route::resource('comments', CommentController::class);
 
     Route::resource('upload-temporary-file', UploadTemporaryFileController::class);
+
+    // Admin
+    Route::prefix('admin')->name('admin.')->middleware(['auth.admin'])->group(function () {
+        Route::resource('/instructors', InstructorsController::class);
+    });
+
+    // Program dean
+    Route::prefix('programdean')->name('programdean.')->middleware(['auth.programdean'])->group(function () {
+
+    });
+
+    // Secretary
+    Route::prefix('auth')->name('secretary.')->middleware(['auth.secretary'])->group(function () {
+     
+    });
+
+    // Instructor
+    Route::prefix('instructor')->name('instructor.')->middleware(['auth.instructor'])->group(function () {
+        
+    });
+
 });
 
 

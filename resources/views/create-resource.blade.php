@@ -77,37 +77,34 @@
                         </x-input-select>
                     </div>
 
-                    <div class="my-3">
-                        <div class="row mb-3" id="fileMaster">
-                            <div class="col-12">
-                                <x-label>File</x-label>
-                            </div>
-
+                    <div class="mb-3">
+                        <div class="row" id="fileMaster">
                             <div class="row-group col-12" id="file-g">
-                                <div id="actions" class="row">
-                                    <div class="col-lg-7 d-flex justify-content-between">
+                                <div id="actions" class="row g-3">
+                                    <div class="col-12 col-lg-3">
                                         <!-- The fileinput-button span is used to style the file input field as button -->
-                                        <x-button :class="'btn-success fileinput-button dz-clickable'">
+                                        <x-button :class="'btn-success fileinput-button dz-clickable w-100'">
                                             <i class="glyphicon glyphicon-plus"></i>
                                             <span>Add files...</span>
                                         </x-button>
-
-                                        <x-button :class="'btn-warning cancel'">
-                                            <i class="glyphicon glyphicon-ban-circle"></i>
-                                            <span>Cancel upload</span>
-                                        </x-button>
                                     </div>
 
-                                    <div class="col-lg-5">
+                                    <div class="col-12 col-lg-5">
                                         <!-- The global file processing state -->
-                                        <span class="fileupload-process">
-                                            <div id="total-progress" class="progress active" aria-valuemin="0"
+                                        <span class="fileupload-process w-100">
+                                            <div id="total-progress" class="progress active w-100" aria-valuemin="0"
                                                 aria-valuemax="100" aria-valuenow="0">
                                                 <div class="progress-bar progress-bar-striped progress-bar-success"
                                                     role="progressbar" style="width: 0%;" data-dz-uploadprogress="">
                                                 </div>
                                             </div>
                                         </span>
+                                    </div>
+
+                                    <div class="col-12 col-lg-4 d-flex justify-content-end">
+                                        <x-button :class="'btn-warning cancel'">
+                                            <span>Cancel upload</span>
+                                        </x-button>
                                     </div>
                                 </div>
 
@@ -206,7 +203,8 @@
                     previewTemplate: previewTemplate,
                     autoQueue: true, // Make sure the files aren't queued until manually added
                     previewsContainer: "#previews", // Define the container to display the previews
-                    clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+                    clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+                    maxFilesize: 5000
                 });
 
                 myDropzone.on("addedfile", function(file) {

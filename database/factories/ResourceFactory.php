@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Course;
 use App\Models\Resource;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ResourceFactory extends Factory
@@ -23,7 +24,7 @@ class ResourceFactory extends Factory
      */
     public function definition()
     {
-        $randomUser = User::all()->random();
+        $randomUser = User::where('role_id', Role::INSTRUCTOR)->get()->random();
         return [
             'course_id' => Course::where('program_id', $randomUser->program_id)->get()->random(),
             'user_id' => $randomUser,

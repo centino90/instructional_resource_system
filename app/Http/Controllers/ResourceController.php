@@ -30,28 +30,13 @@ class ResourceController extends Controller
     public function index()
     {
         $resources = Resource::with(['activities', 'media', 'users', 'auth', 'course'])
+            ->whereNotNull('approved_at')
             ->whereRelation('course', 'program_id', '=', auth()->user()->program_id)
             ->orderByDesc('created_at')
             ->get();
 
         $activities = Activity::with('subject', 'causer', 'subject.media')->where('subject_type', 'App\Models\Resource')->orderByDesc('created_at')->limit(5)->get();
 
-
-        // ->flatten()
-        // ->sortByDesc('created_at')
-        // ->take(5);
-
-        // dd($activities->first()->subject);
-
-        // dd(Activity::with('subject'));
-        // dd(Activity::with('resource')->first());
-
-        // $r = Resource::find(1);
-        // $r->description = 'test1';
-        // $r->save();
-
-        // $activities = Activity::all();
-        // dd($activities->last()->subject->withTrashed());
         return view('resources', compact(['resources', 'activities']));
     }
 

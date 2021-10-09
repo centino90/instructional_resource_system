@@ -38,9 +38,9 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('superadmin-view', function (User $user) {
         //     return $user->role_id == Role::SUPER_ADMIN;
         // });
-        // Gate::define('admin-view', function (User $user) {
-        //     return $user->role_id == Role::ADMIN;
-        // });
+        Gate::define('admin-view', function (User $user) {
+            return $user->role_id == Role::ADMIN;
+        });
         // Gate::define('secretary-view', function (User $user) {
         //     return $user->role_id == Role::SECRETARY;
         // });
