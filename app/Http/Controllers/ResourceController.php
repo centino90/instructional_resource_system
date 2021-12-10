@@ -18,6 +18,9 @@ use Spatie\Activitylog\Models\Activity;
 use Spatie\MediaLibrary\Support\MediaStream;
 use ZipStream\Option\Archive as ArchiveOptions;
 
+use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+
 // use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ResourceController extends Controller
@@ -51,7 +54,9 @@ class ResourceController extends Controller
             abort(403);
         }
 
-        $courses = Course::where('program_id', auth()->user()->program_id)->get();
+        // dd(auth()->user()->belongsToProgram(1));
+
+        $courses = Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->get();
 
         return view('create-resource')->with([
             'resourceLists' => $request->resourceLists ?? 1,
@@ -68,13 +73,165 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request)
     {
+        // dd($request);
         abort_if(
             $request->user()->cannot('create', Resource::class),
             403
         );
 
-        // course not found
-        Course::where('program_id', auth()->user()->program_id)->findOrFail($request->course_id);
+        $batchId = Str::uuid();
+        $index = 0;
+        foreach ($request->file as $file) {
+            $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
+
+            if ($temporaryFile) {
+                $resp = $temporaryFile->file_name;
+                $docxPath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
+
+                // load word file
+                $phpWord = IOFactory::load($docxPath);
+                $section = $phpWord->addSection();
+
+                $filename = explode('.', $resp);
+                $origname = $filename[0];
+                $source = storage_path('app/public/') . $origname . '.html';
+
+                // Saving the doc as html
+                $objWriter = IOFactory::createWriter($phpWord, 'HTML');
+                $html = $objWriter->getContent($source);
+
+                // dd($html);
+                $cognitive = ['REMEMBER', 'UNDERSTAND', 'APPLY', 'ANALYZE', 'EVALUATE', 'CREATE'];
+                $psychomotor = ['PERCEIVE', 'SET', 'RESPOND AS GUIDED', 'ACT', 'RESPOND OVERTLY', 'ADAPT', 'ORGANIZE'];
+                $affective = ['RECEIVE', 'RESPOND', 'VALUE', 'ORGANIZE', 'INTERNALIZE', 'CHARACTERIZE'];
+
+                echo '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">';
+                echo $html;
+                echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+          ';
+                echo '<script>';
+                echo 'let arr = ' . json_encode($cognitive);
+                echo '; $("body").prepend(`<div class="w-full h-full sticky-top bg-white" id="wrapper"></div>`);';
+                echo '$("#wrapper").append(`<div class="container overflow-auto h-100 py-5 my-5" id="report"></div>`);';
+                echo '$("#report").append(`<ul class="list-group" id=courseOutcomes><h1>Course outcomes verb checking</h1></ul>`);';
+                echo '$("#report").append(`<ul class="list-group mt-5" id=studentOutcomes><h1>Student learning outcomes verb checking</h1></ul>`);';
+                echo '$("#report").append(`<div class="mt-5" id="result_msg"><h5>% Result summary</h5></div>`);';
+                echo '$("#report").append(`<form action="' . route('admin.resources.store') . '" method="POST" id="form" class="my-5">
+          <input name="_token" value="' . csrf_token() . '" type="hidden" class="btn btn-lg btn-success mb-3"></input>
+          <a href="' . route('resources.create') . '" class="btn btn-lg btn-secondary mb-3">Go back</a>
+          <input type="submit" id="submit" value="Submit to proceed" disabled class="btn btn-lg btn-success mb-3"></input>
+          <p>Note: You cannot submit to proceed if the system finds inapproriate verb (colored with red) in the course outcomes and student learning outcomes.</p>
+          </form>`);';
+                echo '
+
+          $("body").addClass("overflow-hidden");
+
+          let failedCourseOutcomesCounter = 0;
+          let successCourseOutcomesCounter = 0;
+          // Course outcomes
+          $("table:eq(1)").find("td:nth-child(2) p").each(function(index, element) {
+              let txtContent = element.textContent.trim();
+              let firstWord = txtContent.split(" ")[0].trim();
+              let withoutFirstWord = txtContent.replace(firstWord, "").trim();
+
+              if(!txtContent || $(element).closest("td")[0] == $("table:eq(1)").find("td:nth-child(2)")[0]) {
+                return;
+              }
+
+              let d = "";
+              if($.inArray(firstWord.toUpperCase(), arr) == -1) {
+                  d += `<li class="list-group-item"> <b class="badge badge-success badge-pill align-middle mr-2">✓</b> ${txtContent}</li>`;
+                  successCourseOutcomesCounter++;
+              } else {
+                  d += `<li class="list-group-item bg-danger text-white"> <b><u>${firstWord}</u></b> ${withoutFirstWord} </li>`;
+                  failedCourseOutcomesCounter++;
+              }
+
+              $("#courseOutcomes").append(d);
+          })
+
+          let failedStudentOutcomesCounter = 0;
+          let successStudentOutcomesCounter = 0;
+
+          // Student learning outcomes
+          $("table:eq(3)").find("td:nth-child(1) p").each(function(index, element) {
+              let txtContent = element.textContent.trim();
+              let firstWord = txtContent.split(" ")[0].trim();
+              let withoutFirstWord = txtContent.replace(firstWord, "").trim();
+
+              console.log($(element).closest("td")[0], $("table:eq(3)").find("td:nth-child(1)")[0]);
+              if(!txtContent || $(element).closest("td")[0] == $("table:eq(3)").find("td:nth-child(1)")[0]) {
+                return;
+              }
+
+              let d = "";
+              if($.inArray(firstWord.toUpperCase(), arr) == -1) {
+                  d += `<li class="list-group-item"> <b class="badge badge-success badge-pill align-middle mr-2">✓</b> ${txtContent} </li>`;
+                  successStudentOutcomesCounter++;
+              } else {
+                  d += `<li class="list-group-item bg-danger text-white"> <b><u>${firstWord}</u></b> ${withoutFirstWord} </li>`;
+                  failedStudentOutcomesCounter++;
+              }
+              $("#studentOutcomes").append(d);
+          })
+
+          let totalFailedCounter = failedCourseOutcomesCounter + failedStudentOutcomesCounter;
+          let totalSuccessCounter = successCourseOutcomesCounter + successStudentOutcomesCounter;
+
+          $("#result_msg").append(`
+          <table class="table">
+              <tbody>
+                  <tr>
+                      <td></td>
+                      <td class="text-center"><b>Not appropriate</b></td>
+                      <td class="text-center"><b>Appropriate</b></td>
+                  </tr>
+
+                  <tr>
+                      <td>Course outcomes</td>
+                      <td class="text-center">${failedCourseOutcomesCounter}</td>
+                      <td class="text-center">${successCourseOutcomesCounter}</td>
+                  </tr>
+
+                  <tr>
+                      <td>Student learning outcomes</td>
+                      <td class="text-center">${failedStudentOutcomesCounter}</td>
+                      <td class="text-center">${successStudentOutcomesCounter}</td>
+                  </tr>
+
+
+                  <tr>
+                      <td></td>
+                      <td class="text-center"><b>Total: ${totalFailedCounter}</b></td>
+                      <td class="text-center"><b>Total: ${totalSuccessCounter}</b></td>
+                  </tr>
+              </tbody>
+          </table>
+          `);
+
+          if(totalFailedCounter <= 0) {
+              $("#submit").attr("disabled", false);
+          } else {
+              $("#submit").attr("hidden", true);
+          }
+          ';
+                echo '</script>';
+
+                $temporaryFile->delete();
+
+                $index++;
+            }
+        }
+
+        exit();
+
+        // phpword
+        //   $resp = 'testSet2.docx';
+        //   $docxPath = storage_path('app/public/') . $resp;
+
+        Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
 
         try {
             $batchId = Str::uuid();

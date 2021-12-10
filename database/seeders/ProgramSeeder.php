@@ -18,8 +18,8 @@ class ProgramSeeder extends Seeder
         Program::factory()
             ->count(2)
             ->state(new Sequence(
-                ['title' => 'BSIT'],
-                ['title' => 'BSHM']
+                ['code' => 'BSIT', 'title' => 'Bachelor of Science in Information Technology'],
+                ['code' => 'BSHM', 'title' => 'Bachelor of Science in Hospitality Management'],
             ))
             ->create();
     }

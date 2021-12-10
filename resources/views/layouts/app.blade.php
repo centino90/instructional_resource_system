@@ -14,10 +14,14 @@
     <!-- Styles -->
     <link href="https://releases.transloadit.com/uppy/v2.1.1/uppy.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <!-- datatable dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+
 </head>
 
 <body class="font-sans antialiased">
-    {{-- @include('layouts.topnav') --}}
     <button class="d-lg-none btn btn-dark position-fixed start-0 bottom-0 ms-3 mb-3 sidebar-menu-btn"
         style="z-index: 100" type="button" role="button" aria-controls="offcanvasExample">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -36,8 +40,10 @@
 
         <main class="container-fluid pb-5 pt-2 px-3">
             @include('layouts.topnav')
-            
-            {{ $header }}
+
+            <section class="mt-3">
+                {{ $header }}
+            </section>
 
             {{ $slot }}
         </main>
@@ -46,11 +52,22 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    {{-- <script src="https://releases.transloadit.com/uppy/v2.1.1/uppy.min.js"></script> --}}
-    {{-- <script src="node_modules/blueimp-file-upload/js/jquery.fileupload.js"></script> --}}
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     @yield('script')
     <script>
         $(function() {
+            let dataTable = new simpleDatatables.DataTable("table", {
+                searchable: true,
+                fixedHeight: true
+            })
+
+                dataTable.wrapper.querySelector('.dataTable-top').classList.add('p-0');
+                dataTable.wrapper.querySelector('.dataTable-top input').classList.add('form-control');
+                dataTable.wrapper.querySelector('.dataTable-top select').classList.add('form-select');
+                // dataTable.wrapper.querySelector('.dataTable-bottom .dataTable-pagination-list').classList.add('pagination');
+                // dataTable.wrapper.querySelector('.dataTable-bottom .dataTable-pagination-list li').classList.add('page-item');
+                // dataTable.wrapper.querySelector('.dataTable-bottom .dataTable-pagination-list li a').classList.add('page-link')
+            // dataTable.wrapper.querySelector('.dataTable-bottom .dataTable-pagination-list .pager a').classList.add('pagination');
 
             // $('#fileupload').fileupload();
 

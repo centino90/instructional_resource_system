@@ -3,19 +3,51 @@
         <x-breadcrumb>
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('resources.index') }}">Resources</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Create resource</li>
+            <li class="breadcrumb-item active" aria-current="page">Submit resource</li>
         </x-breadcrumb>
     </x-slot>
 
     <x-slot name="header">
-        <div class="d-flex mt-4">
-            <small class="h4 font-weight-bold">
-                {{ __('Create resource') }}
-            </small>
+        <div class="d-flex mb-3">
+            <div>
+                <small class="h3 font-weight-bold">
+                    {{ __('Resource submission form') }}
+                </small>
+                <div class="col-12 col-md-5">
+                    <small class="text-secondary">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error deleniti mollitia atque illum dolores vitae, fugit itaque iusto, aliquid ut sequi. Deserunt sit consectetur sequi? Reprehenderit eligendi saepe quaerat deleniti!
+                    </small>
+                </div>
+            </div>
 
             {{-- HEADER ACTIONS SECTION --}}
             <div class="ms-auto"></div>
         </div>
+
+        <div class="mb-1 ">
+            <small>
+                <b class="text-secondary">Select type</b>
+            </small>
+        </div>
+        <ul class="nav nav-pills gap-1" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link border active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Regular</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link border" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Syllabus</button>
+            </li>
+          </ul>
+        {{-- <x-nav-tabs class="border-bottom-0">
+            <x-nav-link href="resources.create" id="home-tab" class="syllabus-tabs
+            px-4 py-3">
+                Regular
+            </x-nav-link>
+
+            <x-nav-link href="syllabi.create" id="profile-tab" class="syllabus-tabs
+            px-4 py-3">
+                Syllabus
+            </x-nav-link>
+        </x-nav-tabs> --}}
     </x-slot>
 
     @if (session()->exists('success'))
@@ -30,7 +62,17 @@
         </div>
     @endif
 
-    <h6 class="mt-4 mb-0">
+    @if ($errors->any())
+    <x-alert-danger class="my-4">
+        <span>Look! You got an error</span>
+        {{-- <small>files and input fields should not be empty</small> --}}
+        @foreach ($errors->all() as $error)
+            {{ $error }}
+        @endforeach
+    </x-alert-danger>
+    @endif
+
+    {{-- <h6 class="mt-4 mb-0">
         <x-nav-tabs>
             <x-nav-link href="resources.create" id="home-tab" class="syllabus-tabs
             px-4 py-3">
@@ -42,23 +84,22 @@
                 Syllabus
             </x-nav-link>
         </x-nav-tabs>
-    </h6>
+    </h6> --}}
 
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-12">
             <x-card-body class="tab-content rounded-0 rounded-bottom border border-top-0 shadow-sm">
-                @if ($errors->any())
+                {{-- @if ($errors->any())
                     <x-alert-danger class="my-4">
                         <span>Look! You got an error</span>
-                        {{-- <small>files and input fields should not be empty</small> --}}
                         @foreach ($errors->all() as $error)
                             {{ $error }}
                         @endforeach
                     </x-alert-danger>
-                @endif
+                @endif --}}
 
                 <x-form-post action="{{ route('resources.store') }}" id="resourceForm">
-                    <x-slot name="title">
+                    {{-- <x-slot name="title">
                         Resource Create Form
                     </x-slot>
 
@@ -66,9 +107,10 @@
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste nam iusto aspernatur nemo
                         asperiores quam repellendus nesciunt ipsum qui culpa? Iure hic consequuntur asperiores eos
                         tempore voluptas cupiditate, dolore est.
-                    </x-slot>
+                    </x-slot> --}}
 
                     <div class="col-12 col-md-3">
+                        <x-label> Course *</x-label>
                         <x-input-select :name="'course_id'" required>
                             @foreach ($courses as $course)
                                 <option value="{{ $course->id }}">{{ $course->title }} [{{ $course->code }}]
@@ -78,9 +120,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <div class="row" id="fileMaster">
-                            <div class="row-group col-12" id="file-g">
-                                <div id="actions" class="row g-3">
+                        <div id="fileMaster">
+                            <div class="row-group" id="file-g">
+                                <div id="actions" class="row g-0">
                                     <div class="col-12 col-lg-3">
                                         <!-- The fileinput-button span is used to style the file input field as button -->
                                         <x-button :class="'btn-success fileinput-button dz-clickable w-100'">
@@ -102,59 +144,61 @@
                                     </div>
 
                                     <div class="col-12 col-lg-4 d-flex justify-content-end">
-                                        <x-button :class="'btn-warning cancel'">
+                                        {{-- <x-button :class="'btn-warning cancel'">
                                             <span>Cancel upload</span>
-                                        </x-button>
+                                        </x-button> --}}
                                     </div>
                                 </div>
 
                                 <div class="table-responsive" id="file-upload-container">
                                     <div class="table table-striped">
-                                        <div id="template" class="file-row">
-                                            <!-- This is used as the file preview template -->
-                                            <div>
-                                                <span class="preview"><img data-dz-thumbnail /></span>
-                                            </div>
-                                            <div>
-                                                <p class="name" data-dz-name></p>
-                                                <strong class="error text-danger" data-dz-errormessage></strong>
-                                            </div>
-                                            <div class="file-metadata">
-                                                <div class="row">
-                                                    <x-input name="file[]" class="file" hidden></x-input>
+                                        <div class="d-none">
+                                            <div id="template" class="file-row">
+                                                <!-- This is used as the file preview template -->
+                                                <div>
+                                                    <span class="preview"><img data-dz-thumbnail /></span>
+                                                </div>
+                                                <div>
+                                                    <p class="name" data-dz-name></p>
+                                                    <strong class="error text-danger" data-dz-errormessage></strong>
+                                                </div>
+                                                <div class="file-metadata">
+                                                    <div class="row">
+                                                        <x-input name="file[]" class="file" hidden></x-input>
 
-                                                    <div class="col-12 d-none file-group">
-                                                        <x-label>Title</x-label>
-                                                        <x-input name="title[]"></x-input>
-                                                    </div>
+                                                        <div class="col-12 d-none file-group">
+                                                            <x-label>Title</x-label>
+                                                            <x-input name="title[]"></x-input>
+                                                        </div>
 
-                                                    <div class="col-12 d-none file-group">
-                                                        <x-label>Description</x-label>
-                                                        <x-input-textarea name="description[]"></x-input-textarea>
+                                                        <div class="col-12 d-none file-group">
+                                                            <x-label>Description</x-label>
+                                                            <x-input-textarea name="description[]"></x-input-textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <p class="size" data-dz-size></p>
-                                                <div class="progress progress-striped active" role="progressbar"
-                                                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                                                    <div class="progress-bar progress-bar-success" style="width:0%;"
-                                                        data-dz-uploadprogress></div>
+                                                <div>
+                                                    <p class="size" data-dz-size></p>
+                                                    <div class="progress progress-striped active" role="progressbar"
+                                                        aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                                        <div class="progress-bar progress-bar-success" style="width:0%;"
+                                                            data-dz-uploadprogress></div>
+                                                    </div>
+                                                    <span class="badge bg-success">Uploaded successfully</span>
                                                 </div>
-                                                <span class="badge bg-success">Uploaded successfully</span>
-                                            </div>
-                                            <div class="d-flex justify-content-end ps-5">
-                                                <x-button :class="'btn-primary start'">
-                                                    <span>Start</span>
-                                                </x-button>
+                                                <div class="d-flex justify-content-end ps-5">
+                                                    <x-button :class="'btn-primary start'">
+                                                        <span>Start</span>
+                                                    </x-button>
 
-                                                <x-button data-dz-remove :class="'btn-warning cancel'">
-                                                    <span>Cancel</span>
-                                                </x-button>
+                                                    <x-button data-dz-remove :class="'btn-warning cancel'">
+                                                        <span>Cancel</span>
+                                                    </x-button>
 
-                                                <x-button data-dz-remove :class="'btn-danger delete'">
-                                                    <span>Delete</span>
-                                                </x-button>
+                                                    <x-button data-dz-remove :class="'btn-danger delete'">
+                                                        <span>Delete</span>
+                                                    </x-button>
+                                                </div>
                                             </div>
                                         </div>
 

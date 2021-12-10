@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
 use App\Models\Resource;
 use Illuminate\Http\Request;
@@ -15,7 +16,12 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::where('program_id', auth()->user()->program_id)->orderBy('title')->get();
+        $programs = collect();
+        foreach (auth()->user()->programs as $program) {
+            $programs = $programs->merge($program->id);
+        }
+
+        $courses = Course::whereIn('program_id', $programs)->orderBy('title')->get();
         return view('courses', compact('courses'));
     }
 
@@ -26,7 +32,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('create-course')
+            ->with('programs', auth()->user()->programs);
     }
 
     /**
@@ -35,9 +42,17 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCourseRequest $request)
     {
-        //
+        $course =  Course::create($request->validated());
+
+        $message = 'was created successfully!';
+        return redirect()->route('courses.index')
+            ->with([
+                'status' => 'success',
+                'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+                'course_id' => $course->id
+            ]);
     }
 
     /**
@@ -67,9 +82,11 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Course $course)
     {
-        //
+        return view('edit-course')
+            ->with('course', $course)
+            ->with('programs', auth()->user()->programs);
     }
 
     /**
@@ -79,9 +96,17 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreCourseRequest $request, $id)
     {
-        //
+        $course =  Course::find($id)->update($request->validated());
+
+        $message = 'was updated successfully!';
+        return redirect()->route('courses.index')
+            ->with([
+                'status' => 'success',
+                'message' => '[' . $request->code . '] ' . $request->title . ' ' . $message,
+                'course_id' => $id
+            ]);
     }
 
     /**
@@ -92,6 +117,15 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $course = Course::findOrFail($id);
+        $course->delete();
+
+        $message = 'was deleted successfully!';
+        return redirect()->route('courses.index')
+            ->with([
+                'status' => 'success',
+                'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+                'course_id' => $id
+            ]);
     }
 }

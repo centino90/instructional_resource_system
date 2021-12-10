@@ -18,14 +18,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // dd(auth()->user()->programs);
-        // $users = auth()->user()->whereHas('programs', function (Builder $query) {
-        //     $query->where(['program_id' => 1, 'user_id' => auth()->id()]);
-        // })->exists();
-        // dd(Program::all());
-        // dd(auth()->user()->programs);
-
-        // dd(Program::whereIn('id', auth()->user()->programs()->pluck('id'))->get());
+        if(auth()->user()->isAdmin()) {
+            return view('pages.admin.dashboard');
+        }
 
         $yearLevels = Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))
             ->with('resources')
@@ -35,9 +30,6 @@ class DashboardController extends Controller
                 return $item['semester'];
             }], $preserveKeys = false);
 
-        // dd($yearLevels);
-
-        // dd($secondYearCourses);
         return view('dashboard', compact('yearLevels'));
     }
 }

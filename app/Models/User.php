@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 use Spatie\Activitylog\Traits\CausesActivity;
 
 class User extends Authenticatable
@@ -23,7 +24,7 @@ class User extends Authenticatable
         'lname',
         'username',
         'password',
-        'program_id',
+        // 'program_id',
         'role_id'
     ];
 
@@ -76,10 +77,23 @@ class User extends Authenticatable
 
     public function belongsToProgram($programId)
     {
+        if(!is_array($programId)) {
+            $programId = Arr::add([], '0', $programId);
+        }
         return $this->whereHas('programs', function (Builder $query) use($programId) {
-            $query->where(['program_id' => $programId, 'user_id' => auth()->id()]);
+            $query->whereIn('program_id', $programId)
+                ->where('user_id', auth()->id());
         })->exists();
     }
+
+
+
+    // public function belongsToProgram($programId)
+    // {
+    //     return $this->whereHas('programs', function (Builder $query) use($programId) {
+    //         $query->where(['program_id' => $programId, 'user_id' => auth()->id()]);
+    //     })->exists();
+    // }
 
     // public function getProgramsByUser($user = auth()->user())
     // {

@@ -1,11 +1,11 @@
-<table {{ $attributes->merge(['class' => 'table align-middle']) }}>
+<table {{ $attributes->merge(['class' => 'table table-hover align-middle']) }}>
     <thead>
         <tr>
             {{ $thead }}
         </tr>
     </thead>
 
-    <tbody>
+    <tbody class="bg-white">
         {{ $slot }}
     </tbody>
 </table>

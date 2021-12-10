@@ -13,18 +13,99 @@
                     </a>
                 </div>
 
-                <small 
-                    class="ps-2 py-1 bg-gradient w-100 @if(auth()->user()->isInstructor()) bg-primary 
-                    @elseif(auth()->user()->isProgramDean()) bg-success 
-                    @elseif(auth()->user()->isSecretary()) bg-secondary 
+                <small
+                    class="ps-2 py-1 bg-gradient w-100 @if(auth()->user()->isInstructor()) bg-primary
+                    @elseif(auth()->user()->isProgramDean()) bg-success
+                    @elseif(auth()->user()->isSecretary()) bg-secondary
                     @elseif(auth()->user()->isAdmin()) bg-danger @endif"
                 >
-                    <b>{{auth()->user()->program->title}} - [{{auth()->user()->role->name}}]</b>
+                    <b>{{auth()->user()->programs()->first()->title}} - [{{auth()->user()->role->name}}]</b>
                 </small>
             </div>
         </div>
 
-        <ul class="navbar-nav flex-column pt-4 ps-3">
+        @if(auth()->user()->isAdmin())
+         {{-- Admin --}}
+         <ul class="navbar-nav flex-column pt-4 ps-3">
+            <x-nav-link href="admin.dashboard">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Dashboard</span>
+            </x-nav-link>
+
+            <x-nav-link href="admin.programs.list">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Programs
+            </x-nav-link>
+
+            {{-- <x-nav-link href="courses.index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers" aria-hidden="true">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                Courses
+            </x-nav-link>
+
+            <x-nav-link href="admin.resources.index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file" aria-hidden="true">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                    <polyline points="13 2 13 9 20 9"></polyline>
+                </svg>
+                Resources
+            </x-nav-link>
+
+            <x-nav-link href="admin.programs.index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Programs
+            </x-nav-link>
+
+            <x-nav-link href="admin.personnels.index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Personnels
+            </x-nav-link> --}}
+
+            {{-- <x-nav-link href="admin.notifications.index">
+                <div class="btn text-inherit text-reset p-0 position-relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell p-0 m-0">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+
+                    @empty($notifications->count())
+                    @else
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                        {{ $notifications->count() }}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    @endempty
+                </div>
+                Notifications
+            </x-nav-link> --}}
+        </ul>
+        @endif
+
+        {{-- <ul class="navbar-nav flex-column pt-4 ps-3">
             <x-nav-link href="dashboard">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -33,12 +114,26 @@
                 <span>Home</span>
             </x-nav-link>
 
-            <x-nav-link href="resources.index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file" aria-hidden="true">
-                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-                    <polyline points="13 2 13 9 20 9"></polyline>
+            <x-nav-link href="admin.programs.index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
                 </svg>
-                Resources
+                Programs
+            </x-nav-link>
+
+            <x-nav-link href="admin.personnels.index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Personnels
             </x-nav-link>
 
             <x-nav-link href="courses.index">
@@ -50,7 +145,15 @@
                 Courses
             </x-nav-link>
 
-            {{-- <x-nav-link href="archive.index">
+            <x-nav-link href="resources.index">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file" aria-hidden="true">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                    <polyline points="13 2 13 9 20 9"></polyline>
+                </svg>
+                Resources
+            </x-nav-link>
+
+            <x-nav-link href="archive.index">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="feather feather-archive">
@@ -59,7 +162,7 @@
                     <line x1="10" y1="12" x2="14" y2="12" />
                 </svg>
                 Archive
-            </x-nav-link> --}}
+            </x-nav-link>
 
             <x-nav-link href="notifications.index">
                 <div class="btn text-inherit text-reset p-0 position-relative">
@@ -78,9 +181,9 @@
                 </div>
                 Notifications
             </x-nav-link>
-        </ul>
+        </ul> --}}
 
-        <x-sidebar-heading>
+        {{-- <x-sidebar-heading>
             <span>My resources</span>
             <a class="link-secondary" href="{{ route('resources.create') }}" aria-label="Add a new report"
                 title="Create resource">
@@ -93,22 +196,8 @@
                 </svg>
             </a>
         </x-sidebar-heading>
-        <!--Calo stop-->
 
         <ul class="navbar-nav flex-column mb-2 ps-3">
-            @if(auth()->user()->isAdmin())
-            <x-nav-link href="admin.instructors.index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-                Instructors
-            </x-nav-link>
-            @endif
-
             <x-nav-link href="saved-resources.index">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -150,7 +239,7 @@
                 </svg>
                 Deleted resources
             </x-nav-link>
-        </ul>
+        </ul> --}}
 
         <x-sidebar-heading>
             <span>SETTINGS</span>
@@ -173,7 +262,7 @@
                     @csrf
 
                     <x-icon.signout></x-icon.signout>
-                    Sign out
+                    Logout
                 </form>
             </x-nav-link>
         </ul>

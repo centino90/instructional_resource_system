@@ -48,7 +48,7 @@ class NewResourceNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'user' => $this->resource->users->first()->name,
+            'user' => $this->resource->user->fname . ' ' . $this->resource->user->lname,
             'resource_id' => $this->resource->id,
             'file_name' => $this->resource->getMedia()[0]->file_name,
             'program_id' => $this->resource->course->program_id,

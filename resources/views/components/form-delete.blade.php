@@ -1,16 +1,13 @@
-<form {{ $attributes }} method="POST">
+@props(['action' => '', 'submitClass' => 'btn-danger'])
+
+<form method="POST" {{ $attributes->merge(['action' => $action]) }}>
     @csrf
     @method('DELETE')
 
-    @isset($title)
-        <h4 class="my-3">{{ $title ?? '' }}</h4>
-    @endisset
-
-    {{ $slot }}
-
-    @isset($actions)
-        <div class="mb-3">
-            {{ $actions ?? '' }}
-        </div>
-    @endisset
+    <div>
+        <x-button :class="'no-loading ' . $submitClass" type="submit"
+            onclick="return confirm('Are you sure you want to delete this resource?')">
+            Delete
+        </x-button>
+    </div>
 </form>

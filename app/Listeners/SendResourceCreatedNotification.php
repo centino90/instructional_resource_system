@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ResourceCreated;
+use App\Models\Role;
 use App\Models\User;
 use App\Notifications\NewResourceNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,9 +31,11 @@ class SendResourceCreatedNotification
      */
     public function handle(ResourceCreated $event)
     {
-        $admins = User::whereHas('role', function ($query) use ($event) {
-            $query->where('id', config('auth.roles.ADMIN'))->where('program_id', $event->resource->course->program_id);
-        })->first() ?? [];
+        $resourceProgramId = $event->resource->course->program_id;
+        $admins = User::where('role_id', [Role::PROGRAM_DEAN])
+            ->whereHas('programs', function (Builder $query) use ($resourceProgramId) {
+                $query->where('program_id', $resourceProgramId);
+            })->get() ?? [];
 
         Notification::send($admins, new NewResourceNotification($event->resource));
     }

@@ -11355,21 +11355,17 @@ div.table .file-row:nth-child(odd) {
 }
 @keyframes slideIn {
   0% {
-    transform: translateY(0) translateX(-5rem);
     opacity: 0;
   }
   100% {
-    transform: translateY(2.5rem) translateX(-1.75rem);
     opacity: 1;
   }
 }
 @-webkit-keyframes slideIn {
   0% {
-    -webkit-transform: translateY(0) translateX(-5rem);
     -webkit-opacity: 0;
   }
   100% {
-    -webkit-transform: translateY(2.5rem) translateX(-1.75rem);
     -webkit-opacity: 1;
   }
 }

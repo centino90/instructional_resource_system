@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CoursesController;
+use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
@@ -13,6 +15,13 @@ use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\UploadTemporaryFileController;
 use App\Http\Controllers\Admin\InstructorsController;
+use App\Http\Controllers\Admin\NotificationsController;
+use App\Http\Controllers\Admin\PersonnelsController;
+use App\Http\Controllers\Admin\ProgramsController;
+use App\Http\Controllers\Admin\ResourcesController;
+use App\Models\Course;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\CssSelector\Node\FunctionNode;
@@ -43,12 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
     Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
+    Route::post('syllabi/upload', [SyllabusController::class, 'upload'])->name('syllabi.upload');
     Route::resource('syllabi', SyllabusController::class);
 
     Route::resource('courses', CourseController::class);
     Route::resource('archive', ArchiveController::class);
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::put('notifications/{notification}',[NotificationController::class, 'update'])->name('notifications.update');
+    Route::put('notifications/{notification}', [NotificationController::class, 'update'])->name('notifications.update');
 
     // saved resources
     Route::resource('saved-resources', SavedResourceController::class);
@@ -68,25 +78,30 @@ Route::middleware('auth')->group(function () {
     Route::resource('upload-temporary-file', UploadTemporaryFileController::class);
 
     // Admin
-    Route::prefix('admin')->name('admin.')->middleware(['auth.admin'])->group(function () {
-        Route::resource('/instructors', InstructorsController::class);
-    });
+    Route::prefix('admin')->name('admin.')
+        ->middleware(['auth.admin'])->group(function () {
+            Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+            Route::get('/programs/list', [ProgramsController::class, 'list'])->name('programs.list');
+            Route::resource('/programs', ProgramsController::class);
+            Route::resource('/courses', CoursesController::class);
+            Route::resource('/resources', ResourcesController::class);
+            Route::resource('/personnels', PersonnelsController::class);
+            Route::resource('/notifications', NotificationsController::class);
+            // Route::resource('/instructors', InstructorsController::class);
+        });
 
     // Program dean
     Route::prefix('programdean')->name('programdean.')->middleware(['auth.programdean'])->group(function () {
-
     });
 
     // Secretary
     Route::prefix('auth')->name('secretary.')->middleware(['auth.secretary'])->group(function () {
-     
     });
 
     // Instructor
     Route::prefix('instructor')->name('instructor.')->middleware(['auth.instructor'])->group(function () {
-        
     });
-
 });
 
 

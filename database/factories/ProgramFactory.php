@@ -22,7 +22,8 @@ class ProgramFactory extends Factory
     public function definition()
     {
         return [
-            'title' => 'BSIT',
+            'code' => 'BSIT',
+            'title' => 'Bachelor of Science in Information Technolgoy',
         ];
     }
 }

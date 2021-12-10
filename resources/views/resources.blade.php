@@ -7,10 +7,17 @@
     </x-slot>
 
     <x-slot name="header">
-        <div class="d-flex mt-4">
-            <small class="h4 font-weight-bold">
-                {{ __('Resources') }}
-            </small>
+        <div class="d-flex align-items-end mt-3 bg-white p-3 rounded shadow-sm">
+           <div class="">
+                <small class="h3 font-weight-bold">
+                    {{ __('Resources') }}
+                </small>
+                <div class="col-12 col-md-7">
+                    <small>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia natus cumque beatae? Deleniti, pariatur officiis.
+                    </small>
+                </div>
+           </div>
 
             <div class="ms-auto">
                 <a href="{{ route('resources.create') }}" class="btn btn-success">

@@ -18,7 +18,7 @@ class ResourceSeeder extends Seeder
      */
     public function run()
     {
-   
+
         $user = User::where('role_id', Role::INSTRUCTOR)->get()->first();
         $nextUser = User::where('role_id', Role::INSTRUCTOR)->get()->last();
         $faker = \Faker\Factory::create();
@@ -31,7 +31,7 @@ class ResourceSeeder extends Seeder
             ->count(2)
             ->state(new Sequence(
                 [
-                    'course_id' => Course::where('program_id', $nextUser->program_id)->get()->random(),
+                    'course_id' => Course::where('program_id', $nextUser->programs()->first()->id)->get()->random(),
                     'user_id' => $user,
                     'batch_id' => $faker->uuid(),
                     'title' => $faker->word(),
@@ -39,7 +39,7 @@ class ResourceSeeder extends Seeder
                     'deleted_at' => now(),
                 ],
                 [
-                    'course_id' => Course::where('program_id', $nextUser->program_id)->get()->random(),
+                    'course_id' => Course::where('program_id', $nextUser->programs()->first()->id)->get()->random(),
                     'user_id' => $user,
                     'batch_id' => $faker->uuid(),
                     'title' => $faker->word(),

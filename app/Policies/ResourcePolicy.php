@@ -47,7 +47,7 @@ class ResourcePolicy
      */
     public function view(User $user, Resource $resource)
     {
-        return $user->program_id == $resource->course->program_id
+        return !$user->belongsToProgram($resource->course->program_id)
             ? Response::allow()
             : Response::deny('This resource is not within your program.');
     }
@@ -72,7 +72,7 @@ class ResourcePolicy
      */
     public function update(User $user, Resource $resource)
     {
-        if ($user->program_id != $resource->course->program_id) {
+        if (!$user->belongsToProgram($resource->course->program_id)) {
             return Response::deny('This resource cannot be updated because it does not exist in your program.');
         }
 
@@ -92,7 +92,7 @@ class ResourcePolicy
      */
     public function delete(User $user, Resource $resource)
     {
-        if ($user->program_id != $resource->course->program_id) {
+        if (!$user->belongsToProgram($resource->course->program_id)) {
             return Response::deny('This resource cannot be temporarily deleted because it does not exist in your program.');
         }
 
@@ -110,7 +110,7 @@ class ResourcePolicy
      */
     public function restore(User $user, Resource $resource)
     {
-        if ($user->program_id != $resource->course->program_id) {
+        if (!$user->belongsToProgram($resource->course->program_id)) {
             return Response::deny('This resource cannot be restored because it does not exist in your program.');
         }
 
@@ -130,6 +130,6 @@ class ResourcePolicy
     {
         return $user->isAdmin()
             ? Resource::allow()
-            : Response::deny('Only super admins can permanently delete resources.');
+            : Response::deny('Only admins can permanently delete resources.');
     }
 }
