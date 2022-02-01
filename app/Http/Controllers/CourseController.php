@@ -63,17 +63,94 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $r = Resource::withTrashed()->get();
-        $resources = $r->map(function ($resource) use ($course) {
-            return $resource->course_id == $course->id ? $resource : null;
-        })->reject(function ($resource) {
-            return empty($resource);
-        });
-        $activities = $resources->map(function ($item, $key) {
-            return $item->activities;
-        })->flatten()->sortByDesc('created_at');
+        /* ON SUBMIT GENERAL */
+        $resource = Resource::where('is_syllabus', false)->where('is_presentation', false)
+            ->where('course_id', $course->id)
+            ->whereNotNull('approved_at')
+            ->whereNull('archived_at')
+            ->first();
+        $resourcesLogs = Resource::with('media', 'user')->where('is_syllabus', false)->where('is_presentation', false)
+            ->where('course_id', $course->id)
+            ->orderByDesc('created_at')
+            ->get();
 
-        return view('show-course', compact(['course', 'resources', 'activities']));
+        /* ON SUBMIT SYLLABUS */
+        $syllabus = Resource::where('is_syllabus', true)
+            ->where('course_id', $course->id)
+            ->whereNotNull('approved_at')
+            ->whereNull('archived_at')
+            ->first();
+        $syllabiLogs = Resource::with('media', 'user')->where('is_syllabus', true)
+            ->where('course_id', $course->id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        /* ON SUBMIT PRESENTATION */
+        $presentation = Resource::where('is_presentation', true)
+            ->where('course_id', $course->id)
+            ->whereNotNull('approved_at')
+            ->whereNull('archived_at')
+            ->first();
+        $presentationLogs = Resource::with('media', 'user')->where('is_presentation', true)
+            ->where('course_id', $course->id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $newResourceLogs = collect();
+        $resourcesLogs->each(function ($item, $key) use ($newResourceLogs) {
+            $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
+            $item->status = $status;
+            $isOwner = $item->user_id == auth()->id() ? true : false;
+            $item->isOwner = $isOwner;
+            $item->mimetype = $item->getFirstMedia() ? $item->getFirstMedia()->mime_type : null;
+            $newResourceLogs->push($item);
+        });
+
+        $newSyllabiLogs = collect();
+        $syllabiLogs->each(function ($item, $key) use ($newSyllabiLogs) {
+            $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
+            $item->status = $status;
+            $isOwner = $item->user_id == auth()->id() ? true : false;
+            $item->isOwner = $isOwner;
+            $item->mimetype = $item->getFirstMedia() ? $item->getFirstMedia()->mime_type : null;
+            $newSyllabiLogs->push($item);
+        });
+
+        $newPresentationLogs = collect();
+        $presentationLogs->each(function ($item, $key) use ($newPresentationLogs) {
+            $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
+            $item->status = $status;
+            $isOwner = $item->user_id == auth()->id() ? true : false;
+            $item->isOwner = $isOwner;
+            $item->mimetype = $item->getFirstMedia() ? $item->getFirstMedia()->mime_type : null;
+            $newPresentationLogs->push($item);
+        });
+
+        $course->resourceComplied = $resource ? true : false;
+        $course->resourceSubmitter = $resource ? $resource->user->username : null;
+        $course->resourceLogs = $newResourceLogs;
+
+        $course->complied = $syllabus ? true : false;
+        $course->submitter = $syllabus ? $syllabus->user->username : null;
+        $course->logs = $newSyllabiLogs;
+
+        $course->presentationComplied = $presentation ? true : false;
+        $course->presentationSubmitter = $presentation ? $presentation->user->username : null;
+        $course->presentationLogs = $newPresentationLogs;
+
+        return $course;
+
+        // $r = Resource::withTrashed()->get();
+        // $resources = $r->map(function ($resource) use ($course) {
+        //     return $resource->course_id == $course->id ? $resource : null;
+        // })->reject(function ($resource) {
+        //     return empty($resource);
+        // });
+        // $activities = $resources->map(function ($item, $key) {
+        //     return $item->activities;
+        // })->flatten()->sortByDesc('created_at');
+
+        // return view('show-course', compact(['course', 'resources', 'activities']));
     }
 
     /**

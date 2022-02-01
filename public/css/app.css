@@ -660,8 +660,8 @@ progress {
   display: flex;
   flex-wrap: wrap;
   margin-top: calc(var(--bs-gutter-y) * -1);
-  margin-right: calc(var(--bs-gutter-x) * -.5);
-  margin-left: calc(var(--bs-gutter-x) * -.5);
+  margin-right: calc(var(--bs-gutter-x) * -0.5);
+  margin-left: calc(var(--bs-gutter-x) * -0.5);
 }
 .row > * {
   flex-shrink: 0;
@@ -6498,15 +6498,15 @@ textarea.form-control-lg {
 }
 
 .ratio-4x3 {
-  --bs-aspect-ratio: calc(3 / 4 * 100%);
+  --bs-aspect-ratio: 75%;
 }
 
 .ratio-16x9 {
-  --bs-aspect-ratio: calc(9 / 16 * 100%);
+  --bs-aspect-ratio: 56.25%;
 }
 
 .ratio-21x9 {
-  --bs-aspect-ratio: calc(9 / 21 * 100%);
+  --bs-aspect-ratio: 42.8571428571%;
 }
 
 .fixed-top {
@@ -11267,7 +11267,7 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-#actions {
+#actions, #actions-syllabus {
   margin: 2em 0;
 }
 
@@ -11296,37 +11296,38 @@ div.table .file-row:nth-child(odd) {
 }
 
 /* The total progress gets shown by event listeners */
-#total-progress {
+.fileupload-process .progress {
   opacity: 0;
   transition: opacity 0.3s linear;
 }
 
-#previews .file-row .badge.bg-success {
+.previews .file-row .badge.bg-success {
   opacity: 0;
   transition: opacity 0.3s linear;
 }
 
 /* Hide the progress bar when finished */
-#previews .file-row.dz-success .progress {
+.previews .file-row.dz-success .progress {
   display: none;
 }
 
-#previews .file-row.dz-success .badge.bg-success {
+.previews .file-row.dz-success .badge.bg-success {
   opacity: 1;
 }
 
 /* Hide the delete button initially */
-#previews .file-row .delete {
+.previews .file-row .delete {
   display: none;
 }
 
 /* Hide the start and cancel buttons and show the delete button */
-#previews .file-row.dz-success .start,
-#previews .file-row.dz-success .cancel {
+.previews .file-row.dz-success .start,
+.previews .file-row.dz-error .start,
+.previews .file-row.dz-success .cancel {
   display: none;
 }
 
-#previews .file-row.dz-success .delete {
+.previews .file-row.dz-success .delete {
   display: block;
 }
 
@@ -11416,6 +11417,17 @@ div.table .file-row:nth-child(odd) {
 
 .small {
   font-size: 0.875rem !important;
+}
+
+.nav-pills .nav-link {
+  color: #D0DED8;
+}
+.nav-pills .nav-link:hover {
+  border-bottom: 5px solid #024dbc !important;
+}
+.nav-pills .nav-link.active {
+  background-color: unset !important;
+  border-bottom: 5px solid #0d6efd !important;
 }
 
 #sidebarMenu {

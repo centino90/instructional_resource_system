@@ -47,7 +47,7 @@ class ResourcePolicy
      */
     public function view(User $user, Resource $resource)
     {
-        return !$user->belongsToProgram($resource->course->program_id)
+        return $user->belongsToProgram($resource->course->program_id)
             ? Response::allow()
             : Response::deny('This resource is not within your program.');
     }
@@ -96,9 +96,9 @@ class ResourcePolicy
             return Response::deny('This resource cannot be temporarily deleted because it does not exist in your program.');
         }
 
-        return $user->isProgramDean() || $user->isSecretary()
+        return $user->isProgramDean() || $user->isSecretary() || $user->id === $resource->user_id
             ? Response::allow()
-            : Response::deny('Teachers are not allowed to temporarily delete resources.');
+            : Response::deny('Teachers who do not own this resource are not allowed to temporarily it');
     }
 
     /**

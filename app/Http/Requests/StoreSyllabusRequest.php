@@ -24,7 +24,7 @@ class StoreSyllabusRequest extends FormRequest
     public function rules()
     {
         return [
-            'syllabus' => 'required',
+            // 'syllabus' => 'required',
         ];
     }
 }

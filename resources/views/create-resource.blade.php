@@ -339,6 +339,10 @@
                     $('#total-progress').css('opacity', 0);
                 });
 
+                document.querySelector("#actions .cancel").onclick = function() {
+                    myDropzone.removeAllFiles(true);
+                };
+
                 // Setup the buttons for all transfers
                 // The "add files" button doesn't need to be setup because the config
                 // `clickable` has already been specified.
@@ -346,9 +350,6 @@
                 //     event.preventDefault()
                 //     myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
                 // };
-                document.querySelector("#actions .cancel").onclick = function() {
-                    myDropzone.removeAllFiles(true);
-                };
             })(jQuery);
         </script>
     @endsection

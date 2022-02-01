@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\PersonnelsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\ResourcesController;
+use App\Http\Controllers\PresentationResourceController;
 use App\Models\Course;
 use App\Models\Role;
 use App\Models\User;
@@ -44,16 +45,24 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::post('dashboard/resourceDatatable', [DashboardController::class, 'resourceDatatable'])->name('dashboard.resourceDatatable');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+
     Route::resource('resources', ResourceController::class);
+    Route::get('resources/preview/{resource}', [ResourceController::class, 'preview'])->name('resources.preview');
     Route::get('resources/download/{resource}', [ResourceController::class, 'download'])->name('resources.download');
     Route::post('resources/download-all-by-course', [ResourceController::class, 'downloadAllByCourse'])->name('resources.downloadAllByCourse');
     Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
     Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
+    Route::get('syllabi/preview/{syllabus}', [SyllabusController::class, 'preview'])->name('syllabi.preview');
     Route::post('syllabi/upload', [SyllabusController::class, 'upload'])->name('syllabi.upload');
     Route::resource('syllabi', SyllabusController::class);
+
+    Route::get('presentations/preview/{presentation}', [PresentationResourceController::class, 'preview'])->name('presentations.preview');
+    Route::post('presentations/upload', [PresentationResourceController::class, 'upload'])->name('presentations.upload');
+    Route::resource('presentations', PresentationResourceController::class);
 
     Route::resource('courses', CourseController::class);
     Route::resource('archive', ArchiveController::class);

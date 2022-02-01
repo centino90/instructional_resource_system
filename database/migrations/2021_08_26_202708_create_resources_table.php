@@ -21,6 +21,7 @@ class CreateResourcesTable extends Migration
             $table->longText('title');
             $table->longText('description');
             $table->boolean('is_syllabus')->default(0);
+            $table->boolean('is_presentation')->default(0);
             $table->integer('downloads');
             $table->integer('views');
 

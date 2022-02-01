@@ -14,12 +14,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use NcJoes\OfficeConverter\OfficeConverter;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\MediaLibrary\Support\MediaStream;
 use ZipStream\Option\Archive as ArchiveOptions;
 
 use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
+
+// Reference the Dompdf namespace
+use Dompdf\Dompdf;
+// Reference the Options namespace
+use Dompdf\Options;
+
+use Elibyy\TCPDF\Facades\TCPDF;
+use setasign\Fpdi\Tcpdf\Fpdi;
+use Throwable;
 
 // use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -33,8 +43,8 @@ class ResourceController extends Controller
     public function index()
     {
         $resources = Resource::with(['activities', 'media', 'users', 'auth', 'course'])
-            ->whereNotNull('approved_at')
-            ->whereRelation('course', 'program_id', '=', auth()->user()->program_id)
+            // ->whereNotNull('approved_at')
+            // ->whereRelation('course', 'program_id', '=', auth()->user()->program_id)
             ->orderByDesc('created_at')
             ->get();
 
@@ -73,169 +83,16 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request)
     {
-        // dd($request);
         abort_if(
             $request->user()->cannot('create', Resource::class),
             403
         );
 
-        $batchId = Str::uuid();
-        $index = 0;
-        foreach ($request->file as $file) {
-            $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
-
-            if ($temporaryFile) {
-                $resp = $temporaryFile->file_name;
-                $docxPath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
-
-                // load word file
-                $phpWord = IOFactory::load($docxPath);
-                $section = $phpWord->addSection();
-
-                $filename = explode('.', $resp);
-                $origname = $filename[0];
-                $source = storage_path('app/public/') . $origname . '.html';
-
-                // Saving the doc as html
-                $objWriter = IOFactory::createWriter($phpWord, 'HTML');
-                $html = $objWriter->getContent($source);
-
-                // dd($html);
-                $cognitive = ['REMEMBER', 'UNDERSTAND', 'APPLY', 'ANALYZE', 'EVALUATE', 'CREATE'];
-                $psychomotor = ['PERCEIVE', 'SET', 'RESPOND AS GUIDED', 'ACT', 'RESPOND OVERTLY', 'ADAPT', 'ORGANIZE'];
-                $affective = ['RECEIVE', 'RESPOND', 'VALUE', 'ORGANIZE', 'INTERNALIZE', 'CHARACTERIZE'];
-
-                echo '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">';
-                echo $html;
-                echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
-          ';
-                echo '<script>';
-                echo 'let arr = ' . json_encode($cognitive);
-                echo '; $("body").prepend(`<div class="w-full h-full sticky-top bg-white" id="wrapper"></div>`);';
-                echo '$("#wrapper").append(`<div class="container overflow-auto h-100 py-5 my-5" id="report"></div>`);';
-                echo '$("#report").append(`<ul class="list-group" id=courseOutcomes><h1>Course outcomes verb checking</h1></ul>`);';
-                echo '$("#report").append(`<ul class="list-group mt-5" id=studentOutcomes><h1>Student learning outcomes verb checking</h1></ul>`);';
-                echo '$("#report").append(`<div class="mt-5" id="result_msg"><h5>% Result summary</h5></div>`);';
-                echo '$("#report").append(`<form action="' . route('admin.resources.store') . '" method="POST" id="form" class="my-5">
-          <input name="_token" value="' . csrf_token() . '" type="hidden" class="btn btn-lg btn-success mb-3"></input>
-          <a href="' . route('resources.create') . '" class="btn btn-lg btn-secondary mb-3">Go back</a>
-          <input type="submit" id="submit" value="Submit to proceed" disabled class="btn btn-lg btn-success mb-3"></input>
-          <p>Note: You cannot submit to proceed if the system finds inapproriate verb (colored with red) in the course outcomes and student learning outcomes.</p>
-          </form>`);';
-                echo '
-
-          $("body").addClass("overflow-hidden");
-
-          let failedCourseOutcomesCounter = 0;
-          let successCourseOutcomesCounter = 0;
-          // Course outcomes
-          $("table:eq(1)").find("td:nth-child(2) p").each(function(index, element) {
-              let txtContent = element.textContent.trim();
-              let firstWord = txtContent.split(" ")[0].trim();
-              let withoutFirstWord = txtContent.replace(firstWord, "").trim();
-
-              if(!txtContent || $(element).closest("td")[0] == $("table:eq(1)").find("td:nth-child(2)")[0]) {
-                return;
-              }
-
-              let d = "";
-              if($.inArray(firstWord.toUpperCase(), arr) == -1) {
-                  d += `<li class="list-group-item"> <b class="badge badge-success badge-pill align-middle mr-2">✓</b> ${txtContent}</li>`;
-                  successCourseOutcomesCounter++;
-              } else {
-                  d += `<li class="list-group-item bg-danger text-white"> <b><u>${firstWord}</u></b> ${withoutFirstWord} </li>`;
-                  failedCourseOutcomesCounter++;
-              }
-
-              $("#courseOutcomes").append(d);
-          })
-
-          let failedStudentOutcomesCounter = 0;
-          let successStudentOutcomesCounter = 0;
-
-          // Student learning outcomes
-          $("table:eq(3)").find("td:nth-child(1) p").each(function(index, element) {
-              let txtContent = element.textContent.trim();
-              let firstWord = txtContent.split(" ")[0].trim();
-              let withoutFirstWord = txtContent.replace(firstWord, "").trim();
-
-              console.log($(element).closest("td")[0], $("table:eq(3)").find("td:nth-child(1)")[0]);
-              if(!txtContent || $(element).closest("td")[0] == $("table:eq(3)").find("td:nth-child(1)")[0]) {
-                return;
-              }
-
-              let d = "";
-              if($.inArray(firstWord.toUpperCase(), arr) == -1) {
-                  d += `<li class="list-group-item"> <b class="badge badge-success badge-pill align-middle mr-2">✓</b> ${txtContent} </li>`;
-                  successStudentOutcomesCounter++;
-              } else {
-                  d += `<li class="list-group-item bg-danger text-white"> <b><u>${firstWord}</u></b> ${withoutFirstWord} </li>`;
-                  failedStudentOutcomesCounter++;
-              }
-              $("#studentOutcomes").append(d);
-          })
-
-          let totalFailedCounter = failedCourseOutcomesCounter + failedStudentOutcomesCounter;
-          let totalSuccessCounter = successCourseOutcomesCounter + successStudentOutcomesCounter;
-
-          $("#result_msg").append(`
-          <table class="table">
-              <tbody>
-                  <tr>
-                      <td></td>
-                      <td class="text-center"><b>Not appropriate</b></td>
-                      <td class="text-center"><b>Appropriate</b></td>
-                  </tr>
-
-                  <tr>
-                      <td>Course outcomes</td>
-                      <td class="text-center">${failedCourseOutcomesCounter}</td>
-                      <td class="text-center">${successCourseOutcomesCounter}</td>
-                  </tr>
-
-                  <tr>
-                      <td>Student learning outcomes</td>
-                      <td class="text-center">${failedStudentOutcomesCounter}</td>
-                      <td class="text-center">${successStudentOutcomesCounter}</td>
-                  </tr>
-
-
-                  <tr>
-                      <td></td>
-                      <td class="text-center"><b>Total: ${totalFailedCounter}</b></td>
-                      <td class="text-center"><b>Total: ${totalSuccessCounter}</b></td>
-                  </tr>
-              </tbody>
-          </table>
-          `);
-
-          if(totalFailedCounter <= 0) {
-              $("#submit").attr("disabled", false);
-          } else {
-              $("#submit").attr("hidden", true);
-          }
-          ';
-                echo '</script>';
-
-                $temporaryFile->delete();
-
-                $index++;
-            }
-        }
-
-        exit();
-
-        // phpword
-        //   $resp = 'testSet2.docx';
-        //   $docxPath = storage_path('app/public/') . $resp;
-
         Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
-
         try {
             $batchId = Str::uuid();
             $index = 0;
+            $resources = collect();
             foreach ($request->file as $file) {
                 $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
 
@@ -245,7 +102,8 @@ class ResourceController extends Controller
                         'user_id' => auth()->id(),
                         'batch_id' => $batchId,
                         'description' => $request->description[$index],
-                        'title' => $request->title[$index]
+                        'title' => $request->title[$index],
+                        'approved_at' => now()
                     ]);
 
                     $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
@@ -258,39 +116,35 @@ class ResourceController extends Controller
 
                     $temporaryFile->delete();
 
+                    $r = Resource::with('media', 'user')->findOrFail($r->id);
+                    $r->mimetype = $r->getFirstMedia() ? $r->getFirstMedia()->mime_type : null;
+
+                    $resources->push($r);
+
                     $index++;
                 }
-                // $r = Resource::create([
-                //     'course_id' => $request->course_id,
-                //     'user_id' => auth()->id(),
-                //     'batch_id' => $batchId,
-                //     'description' => $request->description[$index],
-                //     'title' => $request->title[$index]
-                // ]);
-
-                // $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
-
-                // // dd($r);
-                // $r->addMediaFromStream($file)
-                //     ->usingFileName($file)
-                //     ->toMediaCollection();
-
-                // event(new ResourceCreated($r));
-
-                // $index++;
             }
 
-            if ($request->check_stay) {
-                return redirect()
-                    ->route('resources.create')
-                    ->with('success', 'Resource was created successfully');
-            }
+            return response()->json([
+                'status' => 'ok',
+                'message' => sizeof($request->file) . ' resource(s) were successfully uploaded.',
+                'resources' => $resources
+            ]);
 
-            return redirect()
-                ->route('resources.index')
-                ->with('success', 'Resource was created successfully');
+            // if ($request->check_stay) {
+            //     return redirect()
+            //         ->route('resources.create')
+            //         ->with('success', 'Resource was created successfully');
+            // }
+
+            // return redirect()
+            //     ->route('resources.index')
+            //     ->with('success', 'Resource was created successfully');
         } catch (\Throwable $th) {
-            throw $th;
+            return response()->json([
+                'status' => 'fail',
+                'message' => $th->getMessage(),
+            ]);
         }
     }
 
@@ -302,9 +156,80 @@ class ResourceController extends Controller
      */
     public function show(Resource $resource)
     {
+        /* ON DETAILS */
+        $resource->filename = $resource->getFirstMedia()->file_name;
+        $resource->filetype = $resource->getFirstMedia()->mime_type;
+        $resource->filesize = $resource->getFirstMedia()->human_readable_size;
+        $resource->uploader = $resource->user->username;
+
         Gate::authorize('view', $resource);
 
         return $resource;
+    }
+
+    public function preview($id)
+    {
+        $resource = Resource::findOrFail($id);
+        Gate::authorize('view', $resource);
+
+        $newFilename = auth()->user()->username . '-preview-resource';
+        $newFileExt = 'pdf';
+        if (file_exists(storage_path('app/public/' . $newFilename . '.pdf'))) {
+            unlink(storage_path('app/public/' . $newFilename . '.pdf'));
+        }
+        if (file_exists(storage_path('app/public/' . $newFilename . '.txt'))) {
+            unlink(storage_path('app/public/' . $newFilename . '.txt'));
+        }
+
+        if ($resource->getFirstMedia()) {
+            if(in_array($resource->getFirstMedia()->mime_type, config('app.pdf_convertible_mimetypes'))) {
+                $newFileExt = 'pdf';
+                $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
+                $converter->convertTo($newFilename . '.' . $newFileExt);
+            } else {
+                $newFileExt = 'txt';
+                $resourcePath = $resource->getFirstMediaPath();
+
+                $a = getimagesize($resourcePath);
+
+                if($a) {
+                    $image_type = $a[2];
+                    if(in_array($image_type , config('app.php_imgtype_constants')))
+                    {
+                        // return an image preview
+                        dd('image');
+                    }
+                }
+
+                if (Storage::disk('public')->exists($newFilename . '.' . $newFileExt)) {
+                    Storage::disk('public')->put($newFilename . '.' . $newFileExt, '');
+                }
+                $outputTxtPath = storage_path('app/public/' . $newFilename . '.' . $newFileExt);
+                // $outputTxt = fopen($outputTxtPath, "w") or die("Unable to open file!");
+                $txt = nl2br(file_get_contents($resourcePath));
+                // fwrite($outputTxt, $txt);
+
+                return response()->json([
+                    'status' => 'ok',
+                    'resourceText' => $txt
+                ]);
+                // $newFileExt = 'pdf';
+                // $converter = new OfficeConverter($outputTxtPath, storage_path('app/public'));
+                // $converter->convertTo($newFilename . '.' . $newFileExt);
+            }
+
+            return response()->download(
+                storage_path('app/public/' . $newFilename . '.' . $newFileExt),
+                $newFilename . $newFileExt
+            );
+        } else {
+            return response()->json(
+                [
+                    'status' => 'fail',
+                    'message' => 'File does not exist.'
+                ]
+            );
+        }
     }
 
     /**
@@ -342,18 +267,29 @@ class ResourceController extends Controller
             Gate::authorize('delete', $resource);
 
             $resource->delete();
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException  $e) {
+            $fileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
 
-            throw abort(401);
+            return response()->json([
+                'status' => 'ok',
+                'message' => $fileName . 'was deleted sucessfully!',
+                'resource' => $resource
+            ]);
+        } catch (Throwable $th) {
+
+            return response()->json([
+                'status' => 'fail',
+                'message' => $th->getMessage()
+            ]);
         }
 
-        $fileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
-        return redirect()->back()
-            ->with([
-                'status' => 'success-destroy-resource',
-                'message' => $fileName . ' was deleted sucessfully!',
-                'resource_id' => $resource->id
-            ]);
+
+        // $fileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
+        // return redirect()->back()
+        //     ->with([
+        //         'status' => 'success-destroy-resource',
+        //         'message' => $fileName . ' was deleted sucessfully!',
+        //         'resource_id' => $resource->id
+        //     ]);
     }
 
     /**
@@ -364,23 +300,75 @@ class ResourceController extends Controller
      */
     public function download($mediaItem, Request $request)
     {
-        if ($mediaItem == 'all') {
-            $zipFileName = Course::findOrFail($request->course_id)->title . '-files-' . time() . '.zip';
-            $resources = Resource::withTrashed()->get();
+        // if ($mediaItem == 'all') {
+        //     $zipFileName = Course::findOrFail($request->course_id)->title . '-files-' . time() . '.zip';
+        //     $resources = Resource::withTrashed()->get();
 
-            $resourcesWithinCourse = $resources->map(function ($resource) use ($request) {
-                return $resource->course_id == $request->course_id ? $resource->getMedia()[0] : null;
-            })->reject(function ($resource) {
-                return empty($resource);
-            });
+        //     $resourcesWithinCourse = $resources->map(function ($resource) use ($request) {
+        //         return $resource->course_id == $request->course_id ? $resource->getMedia()[0] : null;
+        //     })->reject(function ($resource) {
+        //         return empty($resource);
+        //     });
 
-            return MediaStream::create($zipFileName)
-                ->addMedia($resourcesWithinCourse);
+        //     return MediaStream::create($zipFileName)
+        //         ->addMedia($resourcesWithinCourse);
+        // }
+        // $resource = Resource::withTrashed()->find($mediaItem);
+        // $phpWord = IOFactory::load($resource->getFirstMediaPath());
+        // $section = $phpWord->addSection();
+        // $header = $section->addHeader();
+        // $header->addWatermark(storage_path('app/public/word-watermark.jpg'), array('marginTop' => 200, 'marginLeft' => 55));
+        // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        // $t = time();
+        // $objWriter->save('helloWorld-' . $t . '-.docx');
+
+        // $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
+        // $converter->convertTo('output-file.pdf'); //generates pdf file in same directory as test-file.docx
+        // $converter->convertTo('output-file.html'); //generates html file in same directory as test-file.docx
+
+        //to specify output directory, specify it as the second argument to the constructor
+        // $converter = new OfficeConverter('test-file.docx', 'path-to-outdir');
+
+        $resource = Resource::withTrashed()->find($mediaItem);
+
+        if(in_array($resource->getFirstMedia()->mime_type, config('app.pdf_convertible_mimetypes'))) {
+            $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
+            $converter->convertTo($resource->getFirstMedia()->name . '.pdf'); //generates pdf file in same directory as test-file.docx
+
+            // Source file and watermark config
+            $file = $resource->getFirstMedia()->name . '.pdf';
+            $text_image = storage_path('app/public/word-watermark.png');
+
+            // Set source PDF file
+            $pdf = new Fpdi;
+            if (file_exists(storage_path('app/public/' . $file))) {
+                $pagecount = $pdf->setSourceFile(storage_path('app/public/' . $file));
+            } else {
+                die('Source PDF not found!');
+            }
+
+            // Add watermark image to PDF pages
+            for ($i = 1; $i <= $pagecount; $i++) {
+                $tpl = $pdf->importPage($i);
+                $size = $pdf->getTemplateSize($tpl);
+                $pdf->SetPrintHeader(false);
+                $pdf->SetPrintFooter(false);
+                $pdf->addPage($size['width'] > $size['height'] ? 'P' : 'L');
+                // $pdf->setPrintHeader(false);
+                $pdf->useTemplate($tpl, 0, 0, $size['width'], $size['height'], TRUE);
+
+                //Put the watermark
+                $pdf->Image($text_image, 5, 0, 35, 35, 'png');
+            }
+
+            // Output PDF with watermark
+            unlink(storage_path('app/public/' . $file));
+            $pdf->Output($file, 'D');
         }
 
         return response()->download(
-            Resource::withTrashed()->find($mediaItem)->getMedia()[0]->getPath(),
-            Resource::withTrashed()->find($mediaItem)->getMedia()[0]->file_name
+            $resource->getFirstMediaPath(),
+            $resource->getFirstMedia()->file_name
         );
     }
 
