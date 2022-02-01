@@ -776,146 +776,246 @@
                                     </ul>
                                     <div class="tab-content" id="generalSubmitTabcontent">
                                         <div class="tab-pane fade show active" id="generalSubmitForm" role="tabpanel">
-                                            <x-form-post onsubmit="event.preventDefault()"
-                                                action="{{ route('resources.store') }}" id="resourceForm">
-                                                <x-input type="hidden" name="course_id"></x-input>
-                                                <div id="fileMaster">
-                                                    <div class="row-group" id="file-g">
-                                                        <div id="actions" class="row g-0">
-                                                            <div class="col-12">
-                                                                <!-- The global file processing state -->
-                                                                <span class="fileupload-process w-100">
-                                                                    <div id="total-progress"
-                                                                        class="progress active w-100" aria-valuemin="0"
-                                                                        aria-valuemax="100" aria-valuenow="0">
-                                                                        <div class="progress-bar progress-bar-striped progress-bar-success"
-                                                                            role="progressbar" style="width: 0%;"
-                                                                            data-dz-uploadprogress="">
+                                            <header class="fs-5 fw-bold">
+                                                Upload
+                                            </header>
+                                            <div class="card mt-3">
+                                                <header class="card-header">
+                                                    <ul class="nav nav-pills gap-3" id="pills-tab" role="tablist">
+                                                        <li class="nav-item" role="presentation">
+                                                            <button class="nav-link text-dark fw-bold active" id="pills-profile-tab"
+                                                                data-bs-toggle="pill" data-bs-target="#pills-home"
+                                                                type="button" role="tab">New file(s)</button>
+                                                        </li>
+                                                        <li class="nav-item" role="presentation">
+                                                            <button class="nav-link text-dark fw-bold" id="fileupload-standalone"
+                                                                data-bs-toggle="pill" data-bs-target="#pills-profile"
+                                                                type="button" role="tab">
+                                                                Storage
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </header>
+                                                <div class="card-body">
+                                                    <div class="tab-content" id="pills-tabContent">
+                                                        <div class="tab-pane fade show active" id="pills-home"
+                                                            role="tabpanel">
+                                                            <x-form-post onsubmit="event.preventDefault()"
+                                                                action="{{ route('resources.store') }}"
+                                                                id="resourceForm">
+                                                                <x-input type="hidden" name="course_id"></x-input>
+                                                                <div id="fileMaster">
+                                                                    <div class="row-group align-items-start"
+                                                                        id="file-g">
+                                                                        <div id="actions" class="row g-0">
+                                                                            <div class="col-12 col-lg-8">
+                                                                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                                                                <div
+                                                                                    class="d-flex align-items-start gap-2">
+                                                                                    <div class="w-100 text-center">
+
+                                                                                        <x-button
+                                                                                            :class="'border btn-light fileinput-button dz-clickable w-100'"
+                                                                                            style="height: 100px">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="24" height="24"
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                stroke-width="2"
+                                                                                                stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                class="feather feather-upload">
+                                                                                                <path
+                                                                                                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                                                                <polyline
+                                                                                                    points="17 8 12 3 7 8" />
+                                                                                                <line x1="12" y1="3"
+                                                                                                    x2="12" y2="15" />
+                                                                                            </svg>
+                                                                                            <span
+                                                                                                class="ms-2 fs-5">Add
+                                                                                                files</span>
+                                                                                        </x-button>
+                                                                                        <small
+                                                                                            class="fw-bold form-text text-uppercase mt-2">CHOOSE
+                                                                                            OR
+                                                                                            DRAG YOUR FILE(s)</small>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-12">
+                                                                                    <!-- The global file processing state -->
+                                                                                    <span
+                                                                                        class="fileupload-process w-100">
+                                                                                        <div id="total-progress"
+                                                                                            class="progress active w-100"
+                                                                                            aria-valuemin="0"
+                                                                                            aria-valuemax="100"
+                                                                                            aria-valuenow="0">
+                                                                                            <div class="progress-bar progress-bar-striped progress-bar-success"
+                                                                                                role="progressbar"
+                                                                                                style="width: 0%;"
+                                                                                                data-dz-uploadprogress="">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div
+                                                                                class="col-12 col-lg-4 d-flex gap-3 flex-wrap align-items-start justify-content-end">
+                                                                                <button type="submit"
+                                                                                    id="submit-resource"
+                                                                                    class="btn btn-primary flex-shrink-0 d-none">Submit
+                                                                                    resources</button>
+
+                                                                                <x-button
+                                                                                    :class="'btn-danger cancel d-none'">
+                                                                                    <span>Cancel upload</span>
+                                                                                </x-button>
+                                                                            </div>
+
+                                                                            <div class="col-12 mt-3">
+                                                                                <div class="alert alert-success fade"
+                                                                                    role="alert">
+                                                                                    <strong
+                                                                                        id="submit-resource-alert"></strong>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="table-responsive overflow-auto"
+                                                                            id="file-upload-container">
+                                                                            <div class="table table-striped">
+                                                                                <div class="d-none">
+                                                                                    <div id="template"
+                                                                                        class="file-row">
+                                                                                        <!-- This is used as the file preview template -->
+                                                                                        <div>
+                                                                                            <span
+                                                                                                class="preview"><img
+                                                                                                    data-dz-thumbnail /></span>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <p class="name"
+                                                                                                data-dz-name></p>
+                                                                                            <strong
+                                                                                                class="error text-danger"
+                                                                                                data-dz-errormessage></strong>
+                                                                                        </div>
+                                                                                        <div class="file-metadata">
+                                                                                            <div
+                                                                                                class="row">
+                                                                                                <x-input name="file[]"
+                                                                                                    class="file"
+                                                                                                    hidden>
+                                                                                                </x-input>
+
+                                                                                                <div
+                                                                                                    class="col-12 d-none file-group">
+                                                                                                    <x-label>Title
+                                                                                                    </x-label>
+                                                                                                    <x-input
+                                                                                                        name="title[]">
+                                                                                                    </x-input>
+                                                                                                </div>
+
+                                                                                                <div
+                                                                                                    class="col-12 d-none file-group">
+                                                                                                    <x-label>Description
+                                                                                                    </x-label>
+                                                                                                    <x-input-textarea
+                                                                                                        name="description[]">
+                                                                                                    </x-input-textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <p class="size"
+                                                                                                data-dz-size></p>
+                                                                                            <div class="progress progress-striped active"
+                                                                                                role="progressbar"
+                                                                                                aria-valuemin="0"
+                                                                                                aria-valuemax="100"
+                                                                                                aria-valuenow="0">
+                                                                                                <div class="progress-bar progress-bar-success"
+                                                                                                    style="width:0%;"
+                                                                                                    data-dz-uploadprogress>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <span
+                                                                                                class="badge bg-success">Uploaded
+                                                                                                successfully</span>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="d-flex justify-content-end ps-5">
+                                                                                            <x-button
+                                                                                                :class="'btn-primary start'">
+                                                                                                <span>Start</span>
+                                                                                            </x-button>
+
+                                                                                            <x-button data-dz-remove
+                                                                                                :class="'btn-warning cancel'">
+                                                                                                <span>Cancel</span>
+                                                                                            </x-button>
+
+                                                                                            <x-button data-dz-remove
+                                                                                                :class="'btn-danger delete'">
+                                                                                                <span>Delete</span>
+                                                                                            </x-button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="previews"
+                                                                                    id="previews"></div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </span>
-                                                            </div>
-
-                                                            <div class="col-12 col-lg-8">
-                                                                <!-- The fileinput-button span is used to style the file input field as button -->
-                                                                <div class="d-flex align-items-start gap-2">
-                                                                    <div class="w-100 text-center" id="fm-main-block">
-                                                                        <button type="button" id="fileupload-standalone" class="btn btn-primary">Standalone btn upload</button>
-
-                                                                        <x-button
-                                                                            :class="'border btn-light fileinput-button dz-clickable w-100'"
-                                                                            style="height: 100px">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                width="24" height="24"
-                                                                                viewBox="0 0 24 24" fill="none"
-                                                                                stroke="currentColor" stroke-width="2"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="feather feather-upload">
-                                                                                <path
-                                                                                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                                                                <polyline points="17 8 12 3 7 8" />
-                                                                                <line x1="12" y1="3" x2="12" y2="15" />
-                                                                            </svg>
-                                                                            <span class="ms-2 fs-5">Add
-                                                                                files</span>
-                                                                        </x-button>
-                                                                        <small
-                                                                            class="fw-bold form-text text-uppercase mt-2">CHOOSE
-                                                                            OR
-                                                                            DRAG YOUR FILE(s)</small>
-                                                                    </div>
                                                                 </div>
-                                                            </div>
-
-                                                            <div
-                                                                class="col-12 col-lg-4 d-flex gap-3 flex-wrap align-items-start justify-content-end">
-                                                                <button type="submit" id="submit-resource"
-                                                                    class="btn btn-primary flex-shrink-0 d-none">Submit
-                                                                    resources</button>
-
-                                                                <x-button :class="'btn-danger cancel d-none'">
-                                                                    <span>Cancel upload</span>
-                                                                </x-button>
-                                                            </div>
-
-                                                            <div class="col-12 mt-3">
-                                                                <div class="alert alert-success fade" role="alert">
-                                                                    <strong id="submit-resource-alert"></strong>
-                                                                </div>
-                                                            </div>
+                                                            </x-form-post>
                                                         </div>
+                                                        <div class="tab-pane fade" id="pills-profile" role="tabpanel">
+                                                            <x-form-post action="{{ route('resources.storeByUrl') }}"
+                                                                id="storeByUrlForm" onsubmit="event.preventDefault()">
+                                                                <div class="row">
+                                                                    <x-input hidden type="url" name="fileUrl"
+                                                                        id="fileUrlInput"></x-input>
 
-                                                        <div class="table-responsive overflow-auto"
-                                                            id="file-upload-container">
-                                                            <div class="table table-striped">
-                                                                <div class="d-none">
-                                                                    <div id="template" class="file-row">
-                                                                        <!-- This is used as the file preview template -->
-                                                                        <div>
-                                                                            <span class="preview"><img
-                                                                                    data-dz-thumbnail /></span>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p class="name" data-dz-name></p>
-                                                                            <strong class="error text-danger"
-                                                                                data-dz-errormessage></strong>
-                                                                        </div>
-                                                                        <div class="file-metadata">
-                                                                            <div class="row">
-                                                                                <x-input name="file[]"
-                                                                                    class="file" hidden>
-                                                                                </x-input>
+                                                                    <div class="col-12 mt-3">
+                                                                        <label class="form-text">Filename</label>
+                                                                        <span class="h5 text-secondary fw-bold"
+                                                                            id="fileText">
+                                                                        </span>
+                                                                        <a href="javascript:void(0)" class="btn btn-link" id="openStorageBtn">Open storage</a>
+                                                                    </div>
 
-                                                                                <div class="col-12 d-none file-group">
-                                                                                    <x-label>Title</x-label>
-                                                                                    <x-input name="title[]"></x-input>
-                                                                                </div>
+                                                                    <div class="col-12 mt-3">
+                                                                        <x-label>Title</x-label>
+                                                                        <x-input name="title"></x-input>
+                                                                    </div>
 
-                                                                                <div class="col-12 d-none file-group">
-                                                                                    <x-label>Description</x-label>
-                                                                                    <x-input-textarea
-                                                                                        name="description[]">
-                                                                                    </x-input-textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <p class="size" data-dz-size></p>
-                                                                            <div class="progress progress-striped active"
-                                                                                role="progressbar" aria-valuemin="0"
-                                                                                aria-valuemax="100" aria-valuenow="0">
-                                                                                <div class="progress-bar progress-bar-success"
-                                                                                    style="width:0%;"
-                                                                                    data-dz-uploadprogress>
-                                                                                </div>
-                                                                            </div>
-                                                                            <span class="badge bg-success">Uploaded
-                                                                                successfully</span>
-                                                                        </div>
-                                                                        <div class="d-flex justify-content-end ps-5">
-                                                                            <x-button :class="'btn-primary start'">
-                                                                                <span>Start</span>
-                                                                            </x-button>
+                                                                    <div class="col-12 mt-3">
+                                                                        <x-label>Description</x-label>
+                                                                        <x-input-textarea name="description">
+                                                                        </x-input-textarea>
+                                                                    </div>
 
-                                                                            <x-button data-dz-remove
-                                                                                :class="'btn-warning cancel'">
-                                                                                <span>Cancel</span>
-                                                                            </x-button>
+                                                                    <div class="col-12 my-5">
+                                                                        <button class="btn btn-success"
+                                                                            type="submit">Submit resource</button>
+                                                                    </div>
 
-                                                                            <x-button data-dz-remove
-                                                                                :class="'btn-danger delete'">
-                                                                                <span>Delete</span>
-                                                                            </x-button>
+                                                                    <div class="col-12">
+                                                                        <div class="alert alert-danger fade">
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="previews" id="previews"></div>
-                                                            </div>
+                                                            </x-form-post>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </x-form-post>
+                                            </div>
                                         </div>
                                         <div class="tab-pane fade" id="generalSubmitPreview" role="tabpanel">
                                             <header class="fs-5 fw-bold">
@@ -1460,25 +1560,58 @@
 
         <script>
             $(document).ready(function() {
-                $('#fileupload-standalone').click(function() {
-                    window.open('/file-manager/summernote', 'fm', 'width=1400,height=800');
+                /* CUSTOM EVENTS */
+                $(document).on('resourceSubmitStart', function(event) {
+                    // disable submit btn/form
+                    // add loading spinner
+                })
 
-                    document.getElementById('fm-main-block').setAttribute('style', 'height:' + window
-                        .innerHeight + 'px');
+                $(document).on('resourceSubmittedSuccessful', function(event) {
+                    // fetch current list of resources
+                    // update log list
+                        // add log item
+                        // increase log count
+                    // show success popup
+                })
+
+                $(document).on('resourceSubmittedFail', function(event) {
+                    // show error alert
+                        // main error message
+                        // list of errors
+                })
+
+                $(document).on('resourceSubmitEnd', function(event) {
+                    // enable submit btn/form
+                    // remove loading spinner
+                })
+
+                let fmWindow;
+                $('#fileupload-standalone, #openStorageBtn').click(function() {
+                    fmWindow = window.open('/file-manager/summernote?leftPath=users/{{auth()->id()}}', 'fm', 'width=1400,height=800');
+
+                    // document.getElementById('fm-main-block').setAttribute('style', 'height:' + window
+                    //     .innerHeight + 'px');
                     fm.$store.commit('fm/setFileCallBack', function(fileUrl) {
                         window.opener.fmSetLink(fileUrl);
-                        window.close();
+                        fmWindow.close();
+                    });
+
+                    if (!fmWindow) {
+                        console.log("It has never been opened!");
+                    } else {
+                        if (fmWindow.closed) {
+                            console.log("It is closed.");
+                        } else {
+                            console.log("It is open.");
+                        }
+                    }
+
+                    fmWindow.addEventListener('beforeunload', function(e) {
+                        // e.preventDefault();
+                        // e.returnValue = '';
+                        // alert('nene')
                     });
                 });
-            });
-
-            function fmSetLink(url) {
-                let filename = url.split('/').pop();
-                console.log(url)
-
-                // $('#fileUrlInput').val(url)
-                // $('#fileText').text(filename)
-            }
 
             /* ON RESOURCE MODAL SHOW */
             $('#exampleModal').on('show.bs.modal', function(event) {
@@ -1749,6 +1882,47 @@
                         })
                         .fail(function() {
                             alert("error");
+                        })
+                        .always(function() {
+                            $(event.target).removeClass('loading disabled')
+                        });
+                })
+
+                /* SUBMIT RESOURCE LINK AJAX */
+                $('#storeByUrlForm [type="submit"]').click(function(event) {
+                    $('#storeByUrlForm .alert-danger').hide()
+
+                    const $formFields = $('#storeByUrlForm').serializeArray()
+                    const jsonData = {}
+                    $.each($formFields, function(index, field) {
+                        jsonData[field.name] = field.value
+                    })
+                    jsonData['course_id'] = $('[name="course_id"]').first().val()
+
+                    $.ajax({
+                            method: "POST",
+                            url: "{{ route('resources.storeByUrl') }}",
+                            data: jsonData
+                        })
+                        .done(function(data) {
+                            $('#resources-table').DataTable().draw('page')
+                            $('#storeByUrlForm')[0].reset()
+                            $('#fileText').text('')
+                        })
+                        .fail(function(response) {
+                            response = response.responseJSON
+                            $('#storeByUrlForm .alert-danger').stop(true, true)
+                            $('#storeByUrlForm .alert-danger').fadeTo(2000, 500);
+                            $('#storeByUrlForm .alert-danger').html(
+                                `<h5>You got few validation errors.</h5>
+                                 <ul class="formErrorList"></ul>
+                                `
+                            )
+                            $.each(response.errors, function(key, error) {
+                                $('#storeByUrlForm .formErrorList').append(
+                                    `<li>${error}</li>`
+                                )
+                            })
                         })
                         .always(function() {
                             $(event.target).removeClass('loading disabled')
@@ -2974,6 +3148,15 @@
                     $(ddlink).text(`Submit ${$(event.target).text()}`)
                 })
             })
+
+        });
+
+        function fmSetLink(url) {
+            let filename = url.split('/').pop();
+
+            $('#fileUrlInput').val(url)
+            $('#fileText').text(filename)
+        }
         </script>
     @endsection
 </x-app-layout>

@@ -31,7 +31,7 @@ class ResourcesDataTable extends DataTable
                 return $btn;
             })
             ->addColumn('media', function ($row) {
-                return $row->getFirstMedia()->name . ' (' . $row->getFirstMedia()->mime_type . ') ';
+                return $row->getFirstMedia() ? $row->getFirstMedia()->name . ' (' . $row->getFirstMedia()->mime_type . ') ' : 'unknown file';
             })
             ->addColumn('date_uploaded', function ($row) {
                 return Carbon::create($row->created_at)->toFormattedDateString();

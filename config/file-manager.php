@@ -2,6 +2,7 @@
 
 use Alexusmai\LaravelFileManager\Services\ConfigService\DefaultConfigRepository;
 use Alexusmai\LaravelFileManager\Services\ACLService\ConfigACLRepository;
+use App\PackageCustomizers\FilemanagerCustomACLRepository;
 
 return [
 
@@ -17,7 +18,7 @@ return [
      *
      * Default - ConfigACLRepository (see rules in - aclRules)
      */
-    'aclRepository' => ConfigACLRepository::class,
+    'aclRepository' => FilemanagerCustomACLRepository::class,
 
     //********* Default configuration for DefaultConfigRepository **************
 
@@ -38,7 +39,7 @@ return [
      *
      * null - auto select the first disk in the disk list
      */
-    'leftDisk' => null,
+    'leftDisk' => 'public',
 
     /**
      * Default disk for right manager
@@ -76,7 +77,7 @@ return [
      * 2 - one file manager window with directories tree module
      * 3 - two file manager windows
      */
-    'windowsConfig' => 2,
+    'windowsConfig' => 1,
 
     /**
      * File upload - Max file size in KB
@@ -103,14 +104,14 @@ return [
      * Add your middleware name to array -> ['web', 'auth', 'admin']
      * !!!! RESTRICT ACCESS FOR NON ADMIN USERS !!!!
      */
-    'middleware' => ['web'],
+    'middleware' => ['web', 'auth'],
 
     /***************************************************************************
      * ACL mechanism ON/OFF
      *
      * default - false(OFF)
      */
-    'acl' => false,
+    'acl' => true,
 
     /**
      * Hide files and folders from file-manager if user doesn't have access
@@ -126,7 +127,7 @@ return [
      *
      * whitelist - Deny anything(access - 0 - deny), that not allowed by the ACL rules list
      */
-    'aclStrategy' => 'blacklist',
+    'aclStrategy' => 'whitelist',
 
     /**
      * ACL Rules cache

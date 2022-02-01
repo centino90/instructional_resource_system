@@ -11267,10 +11267,6 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-#actions, #actions-syllabus {
-  margin: 2em 0;
-}
-
 .progress {
   width: 10rem;
 }
@@ -11398,21 +11394,6 @@ div.table .file-row:nth-child(odd) {
 }
 .bg-light {
   background: #f3f4f6 !important;
-}
-
-.card {
-  border-radius: 0.475rem;
-  border: 0;
-}
-
-.card-footer {
-  padding: 0.75rem 1.25rem;
-  background-color: #f9fafb;
-  border-top: 0;
-}
-
-.card-footer:last-child {
-  border-radius: 0 0 0.475rem 0.475rem;
 }
 
 .small {

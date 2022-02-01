@@ -42,6 +42,16 @@ return [
             'visibility' => 'public',
         ],
 
+        // 'userResources' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app/userResources'),
+        // ],
+
+        // 'courseResources' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app/courseResources'),
+        // ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

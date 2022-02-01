@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
+    Route::post('resources/storeByUrl', [ResourceController::class, 'storeByUrl'])->name('resources.storeByUrl');
     Route::resource('resources', ResourceController::class);
     Route::get('resources/preview/{resource}', [ResourceController::class, 'preview'])->name('resources.preview');
     Route::get('resources/download/{resource}', [ResourceController::class, 'download'])->name('resources.download');

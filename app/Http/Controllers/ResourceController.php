@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ResourceCreated;
+use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Course;
 use App\Models\Resource;
@@ -105,15 +106,16 @@ class ResourceController extends Controller
                         'title' => $request->title[$index],
                         'approved_at' => now()
                     ]);
-
                     $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
 
-                    $r->addMedia(storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name))
-                        ->toMediaCollection();
+                    $tmpPath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
+
+                    Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name, $tmpPath);
+                    $r->addMedia($tmpPath)->toMediaCollection();
+
                     rmdir(storage_path('app/public/resource/tmp/' . $file));
 
                     event(new ResourceCreated($r));
-
                     $temporaryFile->delete();
 
                     $r = Resource::with('media', 'user')->findOrFail($r->id);
@@ -146,6 +148,31 @@ class ResourceController extends Controller
                 'message' => $th->getMessage(),
             ]);
         }
+    }
+
+    public function storeByUrl(StoreResourceByUrlRequest $request)
+    {
+        abort_if(
+            $request->user()->cannot('create', Resource::class),
+            403
+        );
+
+        $filePath = str_replace(url('storage'). '/', "", $request->fileUrl);
+        $filename = pathinfo($request->fileUrl, PATHINFO_FILENAME);
+        $model = Resource::create($request->validated() + [
+            'user_id' => auth()->id(),
+            'batch_id' => Str::random(5),
+            'approved_at' => now()
+        ]);
+
+        $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
+        Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $filename, storage_path('app/public/' . $filePath));
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'resource was uploaded successfully.',
+            'resource' => $model
+        ]);
     }
 
     /**
@@ -182,7 +209,7 @@ class ResourceController extends Controller
         }
 
         if ($resource->getFirstMedia()) {
-            if(in_array($resource->getFirstMedia()->mime_type, config('app.pdf_convertible_mimetypes'))) {
+            if (in_array($resource->getFirstMedia()->mime_type, config('app.pdf_convertible_mimetypes'))) {
                 $newFileExt = 'pdf';
                 $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
                 $converter->convertTo($newFilename . '.' . $newFileExt);
@@ -192,10 +219,9 @@ class ResourceController extends Controller
 
                 $a = getimagesize($resourcePath);
 
-                if($a) {
+                if ($a) {
                     $image_type = $a[2];
-                    if(in_array($image_type , config('app.php_imgtype_constants')))
-                    {
+                    if (in_array($image_type, config('app.php_imgtype_constants'))) {
                         // return an image preview
                         dd('image');
                     }
@@ -331,7 +357,7 @@ class ResourceController extends Controller
 
         $resource = Resource::withTrashed()->find($mediaItem);
 
-        if(in_array($resource->getFirstMedia()->mime_type, config('app.pdf_convertible_mimetypes'))) {
+        if (in_array($resource->getFirstMedia()->mime_type, config('app.pdf_convertible_mimetypes'))) {
             $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
             $converter->convertTo($resource->getFirstMedia()->name . '.pdf'); //generates pdf file in same directory as test-file.docx
 

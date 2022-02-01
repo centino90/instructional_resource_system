@@ -22,6 +22,7 @@ class DashboardController extends Controller
      */
     public function index(ResourcesDataTable $dataTable)
     {
+
         if (auth()->user()->isAdmin()) {
             return view('pages.admin.dashboard');
         }
