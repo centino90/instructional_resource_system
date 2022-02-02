@@ -245,8 +245,6 @@ return [
         'application/msword',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/vnd.ms-excel',
-        'image/png',
-        'image/jpeg'
     ],
 
     'pdf_convertible_filetypes' => [
@@ -256,10 +254,7 @@ return [
         'docx',
         'doc',
         'xlsx',
-        'xls',
-        'png',
-        'jpg',
-        'jpeg'
+        'xls'
     ],
 
     'php_imgtype_constants' => [
@@ -328,5 +323,31 @@ return [
         'WS',
         'WSF',
         'WSH',
+    ],
+
+    'zip_filetypes' => [
+        'zip',
+        'rar',
+        'tar',
+        'jar',
+    ],
+
+    'video_filetypes' => [
+        'mp4',
+        'mov',
+        'wmv',
+        'avi',
+        'avchd',
+        'flv',
+        'f4v',
+        'swf',
+        'mkv',
+        'webm ',
+    ],
+
+    'audio_filetypes' => [
+        'mp3',
+        'ogg',
+        'au'
     ]
 ];

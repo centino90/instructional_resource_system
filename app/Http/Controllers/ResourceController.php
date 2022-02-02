@@ -29,6 +29,8 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 use Elibyy\TCPDF\Facades\TCPDF;
+use Error;
+use Illuminate\Http\Response;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use Throwable;
 
@@ -157,7 +159,7 @@ class ResourceController extends Controller
             403
         );
 
-        $filePath = str_replace(url('storage'). '/', "", $request->fileUrl);
+        $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
         $filename = pathinfo($request->fileUrl, PATHINFO_FILENAME);
         $model = Resource::create($request->validated() + [
             'user_id' => auth()->id(),
@@ -196,66 +198,112 @@ class ResourceController extends Controller
 
     public function preview($id)
     {
-        $resource = Resource::findOrFail($id);
+        $resource = Resource::with('media', 'user')->findOrFail($id);
         Gate::authorize('view', $resource);
 
-        $newFilename = auth()->user()->username . '-preview-resource';
-        $newFileExt = 'pdf';
-        if (file_exists(storage_path('app/public/' . $newFilename . '.pdf'))) {
-            unlink(storage_path('app/public/' . $newFilename . '.pdf'));
-        }
-        if (file_exists(storage_path('app/public/' . $newFilename . '.txt'))) {
-            unlink(storage_path('app/public/' . $newFilename . '.txt'));
-        }
+        $mediaFileExt = pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION);
+        try {
+            if (!$mediaFileExt) {
+                throw new Error('Resource file not found.', 404);
+            }
 
-        if ($resource->getFirstMedia()) {
-            if (in_array($resource->getFirstMedia()->mime_type, config('app.pdf_convertible_mimetypes'))) {
+            if (
+                !in_array($mediaFileExt, array_merge(
+                    array_values(config('app.pdf_convertible_filetypes')),
+                    array_values(config('app.img_filetypes')),
+                    array_values(config('app.video_filetypes')),
+                    array_values(config('app.audio_filetypes'))
+                )) && $resource->getFirstMedia()->mime_type !== 'text/plain'
+            ) {
+                throw new Error('Resource filetype is not previewable.', 415);
+            }
+
+            /* IMAGE, VIDEO, AUDIO */
+            if (
+                in_array($mediaFileExt, config('app.img_filetypes'))
+                || in_array($mediaFileExt, config('app.video_filetypes'))
+                || in_array($mediaFileExt, config('app.audio_filetypes'))
+            ) {
+                return response()->json(
+                    [
+                        'message' => 'Resource is previewable',
+                        'fileType' => $this->getFileTypeGroup($mediaFileExt),
+                        'fileMimeType' => mime_content_type($resource->getFirstMediaPath()),
+                        'resourceUrl' => $resource->getFirstMediaUrl()
+                    ]
+                );
+            }
+
+            $newFilename = auth()->user()->username . '-preview-resource';
+            $newFileExt = 'pdf';
+
+            /* PDF CONVERTIBLES */
+            if (in_array($mediaFileExt, config('app.pdf_convertible_filetypes'))) {
+                if (file_exists(storage_path('app/public/' . $newFilename . '.pdf'))) {
+                    unlink(storage_path('app/public/' . $newFilename . '.pdf'));
+                }
+
                 $newFileExt = 'pdf';
                 $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
                 $converter->convertTo($newFilename . '.' . $newFileExt);
-            } else {
+
+                return response()->download(
+                    storage_path('app/public/' . $newFilename . '.' . $newFileExt),
+                    $newFilename . $newFileExt
+                );
+            }
+
+            /* PLAIN TEXTS */
+            if ($resource->getFirstMedia()->mime_type === 'text/plain') {
+                if (!Storage::disk('public')->exists($resource->getFirstMedia()->file_name)) {
+                    throw new Error('Resource file not found', 404);
+                }
+
+                if (file_exists(storage_path('app/public/' . $newFilename . '.txt'))) {
+                    unlink(storage_path('app/public/' . $newFilename . '.txt'));
+                }
+
                 $newFileExt = 'txt';
                 $resourcePath = $resource->getFirstMediaPath();
-
-                $a = getimagesize($resourcePath);
-
-                if ($a) {
-                    $image_type = $a[2];
-                    if (in_array($image_type, config('app.php_imgtype_constants'))) {
-                        // return an image preview
-                        dd('image');
-                    }
-                }
 
                 if (Storage::disk('public')->exists($newFilename . '.' . $newFileExt)) {
                     Storage::disk('public')->put($newFilename . '.' . $newFileExt, '');
                 }
-                $outputTxtPath = storage_path('app/public/' . $newFilename . '.' . $newFileExt);
-                // $outputTxt = fopen($outputTxtPath, "w") or die("Unable to open file!");
+
                 $txt = nl2br(file_get_contents($resourcePath));
-                // fwrite($outputTxt, $txt);
 
                 return response()->json([
                     'status' => 'ok',
+                    'fileType' => 'text_filetypes',
                     'resourceText' => $txt
                 ]);
-                // $newFileExt = 'pdf';
-                // $converter = new OfficeConverter($outputTxtPath, storage_path('app/public'));
-                // $converter->convertTo($newFilename . '.' . $newFileExt);
             }
-
-            return response()->download(
-                storage_path('app/public/' . $newFilename . '.' . $newFileExt),
-                $newFilename . $newFileExt
-            );
-        } else {
+        } catch (\Throwable $th) {
             return response()->json(
                 [
-                    'status' => 'fail',
-                    'message' => 'File does not exist.'
-                ]
+                    'message' => $th->getMessage()
+                ],
+                in_array($th->getCode(), array_keys(Response::$statusTexts)) ? $th->getCode() : 500
             );
         }
+    }
+
+    private function getFileTypeGroup($fileExtension)
+    {
+        if(in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
+            return 'pdf_convertible_filetypes';
+        }
+        else if(in_array($fileExtension, config('app.img_filetypes'))) {
+            return 'img_filetypes';
+        }
+        else if(in_array($fileExtension, config('app.video_filetypes'))) {
+            return 'video_filetypes';
+        }
+        else if(in_array($fileExtension, config('app.audio_filetypes'))) {
+            return 'audio_filetypes';
+        }
+
+        return false;
     }
 
     /**
@@ -357,7 +405,7 @@ class ResourceController extends Controller
 
         $resource = Resource::withTrashed()->find($mediaItem);
 
-        if (in_array($resource->getFirstMedia()->mime_type, config('app.pdf_convertible_mimetypes'))) {
+        if (in_array(pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION), config('app.pdf_convertible_filetypes'))) {
             $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
             $converter->convertTo($resource->getFirstMedia()->name . '.pdf'); //generates pdf file in same directory as test-file.docx
 

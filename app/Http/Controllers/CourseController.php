@@ -102,7 +102,7 @@ class CourseController extends Controller
             $item->status = $status;
             $isOwner = $item->user_id == auth()->id() ? true : false;
             $item->isOwner = $isOwner;
-            $item->mimetype = $item->getFirstMedia() ? $item->getFirstMedia()->mime_type : null;
+            $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
             $newResourceLogs->push($item);
         });
 
@@ -112,7 +112,7 @@ class CourseController extends Controller
             $item->status = $status;
             $isOwner = $item->user_id == auth()->id() ? true : false;
             $item->isOwner = $isOwner;
-            $item->mimetype = $item->getFirstMedia() ? $item->getFirstMedia()->mime_type : null;
+            $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
             $newSyllabiLogs->push($item);
         });
 
@@ -122,7 +122,7 @@ class CourseController extends Controller
             $item->status = $status;
             $isOwner = $item->user_id == auth()->id() ? true : false;
             $item->isOwner = $isOwner;
-            $item->mimetype = $item->getFirstMedia() ? $item->getFirstMedia()->mime_type : null;
+            $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
             $newPresentationLogs->push($item);
         });
 
