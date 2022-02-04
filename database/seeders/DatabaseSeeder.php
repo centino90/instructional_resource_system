@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CourseSeeder::class,
             ResourceSeeder::class,
+            ResourceDownloadSeeder::class
             // DogSeeder::class,
             // SyllabusSeeder::class
         ]);

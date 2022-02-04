@@ -54,7 +54,7 @@
                                         Pending
                                     </span>
                                 @endif
-                                {{ $resource->users->first()->name ?? 'unknown user' }}
+                                {{ $resource->user->fname . ' ' . $resource->user->lname ?? 'unknown user' }}
                             </h5>
                             <small class="text-muted me-3">
                                 Submitted on {{ $resource->course->code }} - {{ $resource->course->title }}
@@ -86,7 +86,7 @@
                             </p>
 
                             <div class="d-flex gap-2 border-top pt-3">
-                                @if (auth()->user()->isAdmin())
+                                @if (auth()->user()->isProgramDean())
                                     <x-submit.approve-pendingresource-hidden :passover="$resource->id"
                                         :isApproved="$resource->approved_at ? true : false">
                                     </x-submit.approve-pendingresource-hidden>
@@ -94,7 +94,7 @@
                                     <x-submit.reject-pendingresource-hidden :passover="$resource->id"
                                         :isRejected="$resource->rejected_at ? true : false">
                                     </x-submit.reject-pendingresource-hidden>
-                                @elseif(auth()->user()->isTeacher())
+                                @elseif(auth()->user()->isInstructor())
                                     <a href="btn btn-secondary">Add another file</a>
                                 @endif
                             </div>
@@ -159,7 +159,7 @@
                             <div class="col-12">
                                 @foreach ($resource->activities as $activity)
                                     <span>
-                                        <b>{{ $activity->causer->name ?? 'unknown user' }}</b>
+                                        <b>{{ $activity->causer->fname . ' ' . $activity->causer->lname ?? 'unknown user' }}</b>
                                         {{ $activity->description }}
                                         <ul>
                                             @foreach ($activity->subject->getMedia() as $media)

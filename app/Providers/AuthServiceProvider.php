@@ -38,9 +38,19 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('superadmin-view', function (User $user) {
         //     return $user->role_id == Role::SUPER_ADMIN;
         // });
-        // Gate::define('admin-view', function (User $user) {
-        //     return $user->role_id == Role::ADMIN;
-        // });
+        Gate::define('manage', function (User $user) {
+            return $user->isAdmin() || $user->isProgramDean();
+        });
+
+        Gate::define('manage-program', function (User $user) {
+            return $user->isAdmin();
+        });
+        Gate::define('manage-course', function (User $user) {
+            return $user->isAdmin() || $user->isProgramDean();
+        });
+        Gate::define('manage-instructor', function (User $user) {
+            return $user->isAdmin() || $user->isProgramDean();
+        });
         // Gate::define('secretary-view', function (User $user) {
         //     return $user->role_id == Role::SECRETARY;
         // });

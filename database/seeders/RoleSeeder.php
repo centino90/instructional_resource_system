@@ -19,10 +19,10 @@ class RoleSeeder extends Seeder
         Role::factory()
             ->count(4)
             ->state(new Sequence(
-                ['name' => 'SUPER_ADMIN'],
                 ['name' => 'ADMIN'],
+                ['name' => 'PROGRAM DEAN'],
                 ['name' => 'SECRETARY'],
-                ['name' => 'TEACHER']
+                ['name' => 'INSTRUCTOR']
             ))
             ->create();
     }

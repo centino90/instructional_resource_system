@@ -1,7 +1,7 @@
 // Custom style...
 
-#actions {
-    margin: 2em 0;
+  #actions, #actions-syllabus {
+    // margin: 2em 0;
   }
   .progress {
     width: 10rem;
@@ -27,36 +27,37 @@
   }
 
   /* The total progress gets shown by event listeners */
-  #total-progress {
+  .fileupload-process .progress {
     opacity: 0;
     transition: opacity 0.3s linear;
   }
 
-  #previews .file-row .badge.bg-success {
+  .previews .file-row .badge.bg-success {
     opacity: 0;
     transition: opacity 0.3s linear;
   }
 
   /* Hide the progress bar when finished */
-  #previews .file-row.dz-success .progress {
+  .previews .file-row.dz-success .progress {
     display: none;
   }
-  #previews .file-row.dz-success .badge.bg-success {
+  .previews .file-row.dz-success .badge.bg-success {
     opacity: 1;
   }
 
   /* Hide the delete button initially */
-  #previews .file-row .delete {
+  .previews .file-row .delete {
     display: none;
   }
 
   /* Hide the start and cancel buttons and show the delete button */
-
-  #previews .file-row.dz-success .start,
-  #previews .file-row.dz-success .cancel {
+  .previews .file-row.dz-success .start,
+  .previews .file-row.dz-error .start,
+  .previews .file-row.dz-success .cancel {
     display: none;
   }
-  #previews .file-row.dz-success .delete {
+
+  .previews .file-row.dz-success .delete {
     display: block;
   }
 
@@ -85,38 +86,30 @@
     .animate {
         animation-duration: 0.3s;
         -webkit-animation-duration: 0.3s;
-        animation-fill-mode: both;
-        -webkit-animation-fill-mode: both;
+        // animation-fill-mode: both;
+        // -webkit-animation-fill-mode: both;
     }
 }
 
 @keyframes slideIn {
     0% {
-        transform: translateY(1rem);
+        // transform: translateY(0) translateX(0rem);
         opacity: 0;
     }
     100% {
-        transform: translateY(0rem);
+        // transform: translateY(1rem) translateX(0rem);
         opacity: 1;
-    }
-    0% {
-        transform: translateY(1rem);
-        opacity: 0;
     }
 }
 
 @-webkit-keyframes slideIn {
     0% {
-        -webkit-transform: transform;
+        // -webkit-transform: translateY(0) translateX(0rem);
         -webkit-opacity: 0;
     }
     100% {
-        -webkit-transform: translateY(0);
+        // -webkit-transform: translateY(1rem) translateX(0rem);
         -webkit-opacity: 1;
-    }
-    0% {
-        -webkit-transform: translateY(1rem);
-        -webkit-opacity: 0;
     }
 }
 
@@ -153,25 +146,35 @@
 }
 
 .card {
-    border-radius: 0.475rem;
-    border: 0;
+    // border-radius: 0.475rem;
+    // border: 0;
 }
 
 .card-footer {
-    padding: 0.75rem 1.25rem;
-    background-color: #f9fafb;
-    border-top: 0;
+    // padding: 0.75rem 1.25rem;
+    // background-color: #f9fafb;
+    // border-top: 0;
 }
 
 .card-footer:last-child {
-    border-radius: 0 0 0.475rem 0.475rem;
+    // border-radius: 0 0 0.475rem 0.475rem;
 }
 
 .small {
     font-size: 0.875rem !important;
 }
 
-// bs dashboard
+// bs nav pill
+.nav-pills .nav-link {
+    color: $green-1;
+    &:hover {
+        border-bottom: 5px solid darken($primary, 15) !important;
+    }
+    &.active {
+        background-color: unset !important;
+        border-bottom: 5px solid $primary !important;
+    }
+}
 
 #sidebarMenu {
     width: 230px;

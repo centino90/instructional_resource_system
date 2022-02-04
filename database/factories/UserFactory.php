@@ -25,12 +25,13 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $roles = [Role::PROGRAM_DEAN, Role::SECRETARY, ROLE::INSTRUCTOR];
         return [
-            'name' => $this->faker->name,
+            'fname' => $this->faker->firstName(),
+            'lname' => $this->faker->lastName(),
             'username' => $this->faker->unique()->username,
             'password' => Hash::make('password'), // password
-            'program_id' => Program::all()->random(),
-            'role_id' => Role::all()->random()
+            'role_id' => $roles[rand(0, 2)]
         ];
     }
 

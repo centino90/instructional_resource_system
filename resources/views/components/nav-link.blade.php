@@ -5,7 +5,7 @@ $active = $active ?? explode('/', Route::current()->uri)[0] == explode('.', $hre
 
 $classes = $active ?? false ? 'nav-link active font-weight-bolder' : 'nav-link';
 @endphp
-
+{{-- @dd($current_route) --}}
 <li class="nav-item">
     <a {{ $attributes->merge(['class' => $classes, 'href' => $href != '#' ? route($href, $routeParams) : '#']) }}>
 

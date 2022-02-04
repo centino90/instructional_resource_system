@@ -11,10 +11,10 @@ class Role extends Model
 
     protected $fillable = ['name'];
 
-    public const SUPER_ADMIN = 1;
-    public const ADMIN = 2;
+    public const ADMIN = 1;
+    public const PROGRAM_DEAN = 2;
     public const SECRETARY = 3;
-    public const TEACHER = 4;
+    public const INSTRUCTOR = 4;
 
     public function users()
     {

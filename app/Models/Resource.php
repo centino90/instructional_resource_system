@@ -16,7 +16,7 @@ class Resource extends Model implements HasMedia
     use HasFactory, SoftDeletes, InteractsWithMedia, LogsActivity;
 
     protected $fillable = [
-        'course_id', 'user_id', 'batch_id', 'title', 'description', 'is_syllabus','approved_at', 'rejected_at', 'archived_at'
+        'course_id', 'user_id', 'batch_id', 'title', 'description', 'is_syllabus', 'is_presentation', 'downloads', 'views', 'approved_at', 'rejected_at', 'archived_at'
     ];
 
     protected static $logAttributes = ['course_id', 'user_id', 'batch_id', 'is_syllabus'];
@@ -30,6 +30,10 @@ class Resource extends Model implements HasMedia
         // }
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function users()
     {
         return $this->belongsToMany(User::class)
@@ -58,6 +62,11 @@ class Resource extends Model implements HasMedia
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function downloads()
+    {
+        return $this->hasMany(ResourceDownload::class);
     }
 
     // checks

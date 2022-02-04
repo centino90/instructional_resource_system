@@ -24,7 +24,7 @@ class CreateCoursesTable extends Migration
             $table->integer('term'); //1-2
             // Credit (2 - 3 units)
             // Time Allotment (50 - 60 hours)
-            $table->timestamp('archived_at');
+            $table->timestamp('archived_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

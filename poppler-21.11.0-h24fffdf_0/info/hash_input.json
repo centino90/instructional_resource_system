@@ -1,0 +1,20 @@
+{
+  "fontconfig": "2.13",
+  "boost": "1.74.0",
+  "glib": "2",
+  "curl": "7",
+  "cairo": "1.16",
+  "libcurl": "7",
+  "freetype": "2",
+  "cxx_compiler": "vs2017",
+  "channel_targets": "conda-forge main",
+  "jpeg": "9",
+  "target_platform": "win-64",
+  "libtiff": "4",
+  "c_compiler": "vs2017",
+  "libiconv": "1.16",
+  "libpng": "1.6",
+  "openjpeg": "2.4",
+  "boost_cpp": "1.74.0",
+  "zlib": "1.2"
+}

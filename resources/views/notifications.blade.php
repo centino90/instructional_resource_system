@@ -37,24 +37,22 @@
         <div class="col-12">
             @forelse ($notifications as $notification)
                 @isset($notification->data['program_id'])
-                    @if ($notification->data['program_id'] == auth()->user()->program_id)
-                        <div class="alert alert-success">
-                            [{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $notification->created_at)->toDayDateTimeString() }}]
-                            {{ $notification->data['user'] }} created a
+                    <div class="alert alert-success">
+                        [{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $notification->created_at)->toDayDateTimeString() }}]
+                        {{ $notification->data['user'] }} created a
 
-                            @if (isset($notification->data['resource_id']))
-                                <a class="notification-show-link text-decoration-none"
-                                    href="{{ route('pending-resources.show', $notification->data['resource_id']) }}"
-                                    data-passover="{{ $notification->id }}">
-                                    <b> syllabus [{{ $notification->data['file_name'] }}]</b>
-                                </a>
-                                on {{ $notification->data['course_code'] }}
-                                <i>Click to read</i>
-                            @else
-                                {{ $notification->data['file_name'] }}
-                            @endisset
-                    </div>
-                @endif
+                        @if (isset($notification->data['resource_id']))
+                            <a class="notification-show-link text-decoration-none"
+                                href="{{ route('pending-resources.show', $notification->data['resource_id']) }}"
+                                data-passover="{{ $notification->id }}">
+                                <b> syllabus [{{ $notification->data['file_name'] }}]</b>
+                            </a>
+                            on {{ $notification->data['course_code'] }}
+                            <i>Click to read</i>
+                        @else
+                            {{ $notification->data['file_name'] }}
+                        @endisset
+                </div>
             @endisset
         @empty
             There are no notifications

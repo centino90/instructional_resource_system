@@ -3154,10 +3154,16 @@ $('.sidebar-menu-btn').click(function () {
 });
 $('button[type="submit"]:not(".no-loading"), input[type="submit"]:not(".no-loading"), button.submit').click(function () {
   $(this).addClass('disabled loading');
+}); // let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+// let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+//     return new Bootstrap.Tooltip(tooltipTriggerEl)
+// })
+
+[].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(function (el) {
+  return new bootstrap.Tooltip(el);
 });
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new Bootstrap.Tooltip(tooltipTriggerEl);
+[].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]')).forEach(function (el) {
+  return new bootstrap.Popover(el);
 });
 
 /***/ }),
@@ -3178,7 +3184,7 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 try {
   window.Popper = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/index.js").default;
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-  window.bs = window.Bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+  window.bs = window.Bootstrap = window.bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 } catch (e) {}
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

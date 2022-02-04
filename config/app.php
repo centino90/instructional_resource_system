@@ -161,6 +161,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        Elibyy\TCPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -229,8 +231,123 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        // 'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
+
+    'pdf_convertible_mimetypes' => [
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/vnd.ms-powerpoint',
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-excel',
+    ],
+
+    'pdf_convertible_filetypes' => [
+        'pptx',
+        'ppt',
+        'pdf',
+        'docx',
+        'doc',
+        'xlsx',
+        'xls'
+    ],
+
+    'php_imgtype_constants' => [
+        IMAGETYPE_GIF,
+        IMAGETYPE_JPEG2000,
+        IMAGETYPE_SWF,
+        IMAGETYPE_PSD,
+        IMAGETYPE_BMP,
+        IMAGETYPE_WBMP,
+        IMAGETYPE_XBM,
+        IMAGETYPE_TIFF_II,
+        IMAGETYPE_TIFF_MM,
+        IMAGETYPE_IFF,
+        IMAGETYPE_JB2,
+        IMAGETYPE_JPC,
+        IMAGETYPE_JP2,
+        IMAGETYPE_JPX,
+        IMAGETYPE_SWC,
+        IMAGETYPE_ICO,
+        IMAGETYPE_WEBP,
+    ],
+
+    'img_filetypes' => [
+        'gif',
+        'png',
+        'jpg',
+        'jpeg',
+        'webp',
+        // 'tiff',
+        'svg'
+    ],
+
+    'executable_filetypes' => [
+        'BAT',
+        'BIN',
+        'CMD',
+        'COM',
+        'CPL',
+        'EXE',
+        'GADGET',
+        'INF1',
+        'INS',
+        'INX',
+        'ISU',
+        'JOB',
+        'JSE',
+        'LNK',
+        'MSC',
+        'MSI',
+        'MSP',
+        'MST',
+        'PAF',
+        'PIF',
+        'PS1',
+        'REG',
+        'RGS',
+        'SCR',
+        'SCT',
+        'SHB',
+        'SHS',
+        'U3P',
+        'VB',
+        'VBE',
+        'VBS',
+        'VBSCRIPT',
+        'WS',
+        'WSF',
+        'WSH',
+    ],
+
+    'zip_filetypes' => [
+        'zip',
+        // 'rar',
+        // 'tar',
+        // 'jar',
+    ],
+
+    'video_filetypes' => [
+        'mp4',
+        // 'mov',
+        // 'wmv',
+        // 'avi',
+        // 'avchd',
+        // 'flv',
+        // 'f4v',
+        // 'swf',
+        // 'mkv',
+        // 'webm ',
+    ],
+
+    'audio_filetypes' => [
+        'mp3',
+        // 'ogg',
+        // 'wav'
+    ]
 ];

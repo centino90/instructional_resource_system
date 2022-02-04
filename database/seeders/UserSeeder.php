@@ -16,19 +16,22 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->count(5)
+        User::factory()->count(14)
+            ->create();
+
+        User::factory()->count(1)
             ->state(new Sequence(
-                ['program_id' => 1, 'role_id' => 2],
-                ['program_id' => 1, 'role_id' => 4],
-                ['program_id' => 2],
-                ['program_id' => 2],
-                ['program_id' => 2],
+                ['role_id' => 1]
             ))
             ->create();
 
         foreach (User::all() as $user) {
-            foreach (Program::all() as $program) {
-                $user->programs()->attach($program->id);
+            if ($user->isAdmin() || $user->isSecretary()) {
+                foreach (Program::all() as $program) {
+                    $user->programs()->attach($program->id);
+                }
+            } else {
+                $user->programs()->attach(Program::all()->random());
             }
         }
     }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 use Spatie\Activitylog\Traits\CausesActivity;
 
 class User extends Authenticatable
@@ -23,7 +24,7 @@ class User extends Authenticatable
         'lname',
         'username',
         'password',
-        'program_id',
+        // 'program_id',
         'role_id'
     ];
 
@@ -54,14 +55,14 @@ class User extends Authenticatable
     |
     */
 
-    public function isSuperAdmin()
-    {
-        return $this->role_id == Role::SUPER_ADMIN;
-    }
-
     public function isAdmin()
     {
         return $this->role_id == Role::ADMIN;
+    }
+
+    public function isProgramDean()
+    {
+        return $this->role_id == Role::PROGRAM_DEAN;
     }
 
     public function isSecretary()
@@ -69,17 +70,30 @@ class User extends Authenticatable
         return $this->role_id == Role::SECRETARY;
     }
 
-    public function isTeacher()
+    public function isInstructor()
     {
-        return $this->role_id == Role::TEACHER;
+        return $this->role_id == Role::INSTRUCTOR;
     }
 
     public function belongsToProgram($programId)
     {
+        if(!is_array($programId)) {
+            $programId = Arr::add([], '0', $programId);
+        }
         return $this->whereHas('programs', function (Builder $query) use($programId) {
-            $query->where(['program_id' => $programId, 'user_id' => auth()->id()]);
+            $query->whereIn('program_id', $programId)
+                ->where('user_id', auth()->id());
         })->exists();
     }
+
+
+
+    // public function belongsToProgram($programId)
+    // {
+    //     return $this->whereHas('programs', function (Builder $query) use($programId) {
+    //         $query->where(['program_id' => $programId, 'user_id' => auth()->id()]);
+    //     })->exists();
+    // }
 
     // public function getProgramsByUser($user = auth()->user())
     // {
@@ -119,6 +133,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
     }
 
     public function program()

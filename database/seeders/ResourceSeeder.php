@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Course;
 use App\Models\Resource;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
@@ -17,8 +18,9 @@ class ResourceSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::all()->first();
-        $nextUser = User::all()->last();
+
+        $user = User::where('role_id', Role::INSTRUCTOR)->get()->first();
+        $nextUser = User::where('role_id', Role::INSTRUCTOR)->get()->last();
         $faker = \Faker\Factory::create();
 
         Resource::factory()
@@ -29,7 +31,7 @@ class ResourceSeeder extends Seeder
             ->count(2)
             ->state(new Sequence(
                 [
-                    'course_id' => Course::where('program_id', $nextUser->program_id)->get()->random(),
+                    'course_id' => Course::where('program_id', $nextUser->programs()->first()->id)->get()->random(),
                     'user_id' => $user,
                     'batch_id' => $faker->uuid(),
                     'title' => $faker->word(),
@@ -37,7 +39,7 @@ class ResourceSeeder extends Seeder
                     'deleted_at' => now(),
                 ],
                 [
-                    'course_id' => Course::where('program_id', $nextUser->program_id)->get()->random(),
+                    'course_id' => Course::where('program_id', $nextUser->programs()->first()->id)->get()->random(),
                     'user_id' => $user,
                     'batch_id' => $faker->uuid(),
                     'title' => $faker->word(),
