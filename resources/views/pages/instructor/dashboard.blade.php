@@ -752,21 +752,19 @@
                                     <header class="fs-5 fw-bold">Submit Resource</header>
 
                                     <ul class="shadow list-group mt-3">
-                                        <li class="list-group-item pt-0 bg-light text-success overflow-auto"
-                                            style="max-height: 370px">
-                                            <header class="bg-light py-2 d-flex justify-content-between">
-                                                <span> Submit logs </span>
-                                                <div class="hstack gap-3">
+                                        <li class="list-group-item bg-light text-success">
+                                            <header>
+                                                <span> Recent submissions </span>
+                                                {{-- <div class="hstack gap-3">
                                                     <strong id="submit-general-tab-logs-count"
                                                         class="submitResourceLogsCount"></strong>
                                                     <div class="vr"></div>
                                                     <a href="javascript:void(0)" class="submitResourceLogsShowAll">Show
                                                         all</a>
-                                                </div>
+                                                </div> --}}
                                             </header>
                                             <ul id="submit-general-tab-logs"
-                                                class="submitResourceLogsList w-100 list-group mt-3 overflow-hidden"
-                                                style="max-height: 280px">
+                                                class="submitResourceLogsList w-100 list-group mt-3">
                                             </ul>
                                         </li>
                                     </ul>
@@ -905,11 +903,11 @@
                                                                                         class="file-row">
                                                                                         <!-- This is used as the file preview template -->
                                                                                         <div>
-                                                                                            <span class="preview" style="max-width: 140px">
+                                                                                            <span class="preview" style="width: 140px">
                                                                                                 <img class="w-100" data-dz-thumbnail />
                                                                                             </span>
                                                                                         </div>
-                                                                                        <div>
+                                                                                        <div style="max-width: 240px">
                                                                                             <p class="name"
                                                                                                 data-dz-name></p>
                                                                                             <strong
@@ -926,7 +924,7 @@
 
                                                                                                 <div
                                                                                                     class="col-12 d-none file-group">
-                                                                                                    <x-label>Title
+                                                                                                    <x-label>Resource title
                                                                                                     </x-label>
                                                                                                     <x-input
                                                                                                         name="title[]">
@@ -998,8 +996,8 @@
 
                                                                     <div class="col-12 mt-3">
                                                                         <label class="form-text">Filename</label>
-                                                                        <span class="h5 text-secondary fw-bold"
-                                                                            id="fileText" class="alexusmaiFileText">
+                                                                        <span class="alexusmaiFileText h5 text-secondary fw-bold"
+                                                                            id="fileText">
                                                                         </span>
                                                                         <a href="javascript:void(0)"
                                                                             class="openStorageBtn btn btn-link"
@@ -1602,17 +1600,13 @@
                 })
 
                 let fmWindow;
-                $('.storageUploadStandaloneBtn, .openStorageBtn').click(function(event) {
+                $('.openStorageBtn').click(function(event) {
                     fmWindow = window.open('/file-manager/summernote?leftPath=users/{{ auth()->id() }}',
                         'fm',
                         'width=1400,height=800');
 
                     fm.$store.commit('fm/setFileCallBack', function(fileUrl) {
-                        if ($(event.target).hasClass('storageUploadStandaloneBtn')) {
-                            window.opener.fmSetLink(fileUrl);
-                        } else {
-                            window.opener.fmSetLink(fileUrl, event.target);
-                        }
+                        window.opener.fmSetLink(fileUrl);
                         fmWindow.close();
                     });
                 });
@@ -1854,10 +1848,23 @@
 
                                 if (data.resources.length > 0) {
                                     $(data.resources).each(function(index, item) {
-                                        $("#submit-general-tab-logs").prepend(`
-                                            <li class="logsRootList list-group-item d-flex justify-content-between align-items-center lh-sm">
-                                                <span>${item.media[0] ? item.media[0].file_name : 'Unknown file'}</span>
-                                                <span> ${new Date(item.created_at).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "numeric", second: "numeric"})} </span>
+                                    let fileSubmissionDate = new Date(item.created_at)
+                                    .toLocaleDateString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        second: 'numeric'
+                                    })
+                                    let fileName = item.media[0] ? item.media[0].file_name :
+                                    'unknown file'
+                                    $('#submit-general-tab-logs').prepend(`
+                                        <li class="logsRootList list-group-item hstack gap-3 lh-sm">
+                                            <span class="text-truncate" title="${fileName}"> ${fileName} </span>
+                                            <span class="vr"></span>
+                                            <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+                                            <span class="vr"></span>
                                                 <div>
                                                     <div class="btn-group dropend">
                                                         <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -1904,11 +1911,13 @@
                                             </li>
                                         `)
 
-                                        let currentLogsCounter = parseInt($(
-                                                "#submit-general-tab-logs-count")
-                                            .text()) + data.resources.length;
-                                        $("#submit-general-tab-logs-count").text(
-                                            currentLogsCounter);
+                                        $('#submit-general-tab-logs .logsRootList:last').remove();
+
+                                        // let currentLogsCounter = parseInt($(
+                                        //         "#submit-general-tab-logs-count")
+                                        //     .text()) + data.resources.length;
+                                        // $("#submit-general-tab-logs-count").text(
+                                        //     currentLogsCounter);
                                     })
                                 }
                             })
@@ -1937,6 +1946,76 @@
                                 data: jsonData
                             })
                             .done(function(data) {
+                                $(data.resources).each(function(index, item) {
+                                let fileSubmissionDate = new Date(item.created_at)
+                                    .toLocaleDateString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        second: 'numeric'
+                                    })
+                                let fileName = item.media[0] ? item.media[0].file_name :
+                                    'unknown file'
+                                $('#submit-general-tab-logs').append(`
+                                        <li class="logsRootList list-group-item hstack gap-3 lh-sm">
+                                            <span class="text-truncate" title="${fileName}"> ${fileName} </span>
+                                            <span class="vr"></span>
+                                            <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+                                            <span class="vr"></span>
+                                            <div>
+                                                <div class="btn-group dropend">
+                                                    <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                                    </button>
+                                                    <ul class="dropdown-menu shadow border-0 p-0">
+                                                        <li class="dropdown-item p-0">
+                                                            <ul class="list-group" style="min-width: 300px">
+                                                                <li class="list-group-item">
+                                                                    <div>
+                                                                        <h6 class="my-0 fw-bold">
+                                                                            ${item.user.username}
+                                                                        </h6>
+                                                                        <small class="text-muted">Submitter</small>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <div>
+                                                                        <h6 class="my-0 fw-bold">
+                                                                            approved
+                                                                        </h6>
+                                                                        <small class="text-muted">Status</small>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+                                                                                Preview
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+                                                                                Unsubmit
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    `)
+
+                                    // let currentLogsCounter = parseInt($(
+                                    //         "#submit-general-tab-logs-count")
+                                    //     .text()) + data.resources.length;
+                                    // $("#submit-general-tab-logs-count").text(
+                                    //     currentLogsCounter);
+                                })
                                 $('#resources-table').DataTable().draw('page')
                                 $('#storeByUrlForm')[0].reset()
                                 $('#fileText').text('')
@@ -1968,7 +2047,7 @@
                             url: courseUrl,
                         })
                         .done(function(data) {
-                            $('#submit-general-tab-logs-count').text($(data.resourceLogs).length)
+                            // $('#submit-general-tab-logs-count').text($(data.resourceLogs).length)
                             $('#submit-general-tab-logs').html('')
                             $(data.resourceLogs).each(function(index, item) {
                                 let fileSubmissionDate = new Date(item.created_at)
@@ -1985,7 +2064,9 @@
                                 $('#submit-general-tab-logs').append(`
                                         <li class="logsRootList list-group-item hstack gap-3 lh-sm">
                                             <span class="text-truncate" title="${fileName}"> ${fileName} </span>
-                                            <span class="d-inline-block text-truncate" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+                                            <span class="vr"></span>
+                                            <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+                                            <span class="vr"></span>
                                             <div class="ms-auto">
                                                 <div class="btn-group dropend">
                                                     <button class="btn" data-bs-toggle="dropdown" onclick="'${item.status}' != 'for approval' || ${!item.isOwner} ? event.target.closest('.btn-group').querySelector('.generalLogsUnsubmit') != undefined ? event.target.closest('.btn-group').querySelector('.generalLogsUnsubmit').remove() : '' : ''" data-bs-auto-close="outside" aria-expanded="false">
@@ -2033,19 +2114,19 @@
                                     `)
                             })
 
-                            let logClickCount = 0
-                            $('.submitResourceLogsShowAll').click(function(event) {
-                                if (logClickCount % 2 === 0) {
-                                    $(event.target).text('Hide some')
-                                    $(event.target).closest('li').find('.submitResourceLogsList')
-                                        .css('max-height', '100%')
-                                } else {
-                                    $(event.target).text('Show all')
-                                    $(event.target).closest('li').find('.submitResourceLogsList')
-                                        .css('max-height', '280px')
-                                }
-                                logClickCount++
-                            })
+                            // let logClickCount = 0
+                            // $('.submitResourceLogsShowAll').click(function(event) {
+                            //     if (logClickCount % 2 === 0) {
+                            //         $(event.target).text('Hide some')
+                            //         $(event.target).closest('li').find('.submitResourceLogsList')
+                            //             .css('max-height', '100%')
+                            //     } else {
+                            //         $(event.target).text('Show all')
+                            //         $(event.target).closest('li').find('.submitResourceLogsList')
+                            //             .css('max-height', '280px')
+                            //     }
+                            //     logClickCount++
+                            // })
 
                             $('#submit-general-tab-logs').delegate('.generalLogsUnsubmit', 'click',
                                 function(event) {
@@ -2066,11 +2147,11 @@
                                         .done(function(data) {
                                             if (data.status == 'ok') {
                                                 $(event.target).closest('.logsRootList').remove()
-                                                let currentLogsCounter = parseInt($(
-                                                        '#submit-general-tab-logs-count')
-                                                    .text()) - 1
-                                                $('#submit-general-tab-logs-count').text(
-                                                    currentLogsCounter)
+                                                // let currentLogsCounter = parseInt($(
+                                                //         '#submit-general-tab-logs-count')
+                                                //     .text()) - 1
+                                                // $('#submit-general-tab-logs-count').text(
+                                                //     currentLogsCounter)
                                             }
                                         })
                                         .fail(function() {
@@ -2142,14 +2223,15 @@
 
                                                 if(data.fileType === 'img_filetypes') {
                                                     $('#generalSubmitPreviewContent').append(
-                                                        `<img scr="${data.resourceUrl}" />`
+                                                        `<img style="width: 300px" src="${data.resourceUrl}" />`
                                                     )
                                                 }
 
                                                 if(data.fileType === 'video_filetypes') {
+                                                    console.log(data)
                                                     $('#generalSubmitPreviewContent').append(
                                                         `<video width="320" height="240" controls autoplay>
-                                                            <source src="${data.resourceUrl}" type="${data.fileMimeType}">
+                                                            <source src="${data.resourceUrl}" type="video/mp4">
                                                         </video>`
                                                     )
                                                 }
@@ -2157,7 +2239,7 @@
                                                 if(data.fileType === 'audio_filetypes') {
                                                     $('#generalSubmitPreviewContent').append(
                                                         `<audio controls autoplay>
-                                                            <source src="${data.resourceUrl}" type="${data.fileMimeType}">
+                                                            <source src="${data.resourceUrl}" type="audio/mpeg">
                                                         </audio>`
                                                     )
                                                 }
@@ -2197,20 +2279,20 @@
                                                 .numPages; page++) {
                                                 canvas = document.createElement(
                                                     "canvas");
-                                                canvas.className = 'd-block w-100';
+                                                canvas.className = 'd-block w-100 mx-auto';
+                                                canvas.style.maxWidth = '900px';
                                                 viewer.appendChild(canvas);
                                                 renderPage(page, canvas);
                                             }
 
                                             $(event.target).html(`Preview`)
                                         }).catch((error) => {
-                                            console.log(error)
                                             $(event.target).html(`Preview`)
 
                                             $('#generalSubmitPreviewContent').html(
                                                 `<div class="alert alert-danger" role="alert">
-                                                File was not able to be previewed due to certain error. Try again!
-                                            </div>`
+                                                    File was not able to be previewed due to certain error. Try again!
+                                                </div>`
                                             )
                                         })
 
@@ -2256,6 +2338,7 @@
                                         $(elem)
                                             .css('position', 'absolute')
                                             .css('width', '100%')
+                                            .css('height', '100%')
                                             .css('left', '0')
                                             .css('top', '0')
                                             .css('background-color', '#fff')
@@ -2265,6 +2348,7 @@
                                         $(elem)
                                             .css('position', '')
                                             .css('width', '')
+                                            .css('height', '100%')
                                             .css('left', '')
                                             .css('top', '')
                                             .css('background-color', '')
@@ -3242,13 +3326,11 @@
 
             });
 
-            function fmSetLink(url, storageBtn = null) {
+            function fmSetLink(url) {
                 let filename = url.split('/').pop();
 
-                if (!storageBtn) return
-
-                $(storageBtn).find('.alexusmaiFileUrlInput').val(url)
-                $(storageBtn).find('.alexusmaiFileText').text(filename)
+                $('.tab-pane.active .alexusmaiFileUrlInput').val(url)
+                $('.tab-pane.active .alexusmaiFileText').text(filename)
             }
         </script>
     @endsection

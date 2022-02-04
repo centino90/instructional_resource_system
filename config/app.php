@@ -283,7 +283,7 @@ return [
         'jpg',
         'jpeg',
         'webp',
-        'tiff',
+        // 'tiff',
         'svg'
     ],
 
@@ -327,27 +327,27 @@ return [
 
     'zip_filetypes' => [
         'zip',
-        'rar',
-        'tar',
-        'jar',
+        // 'rar',
+        // 'tar',
+        // 'jar',
     ],
 
     'video_filetypes' => [
         'mp4',
-        'mov',
-        'wmv',
-        'avi',
-        'avchd',
-        'flv',
-        'f4v',
-        'swf',
-        'mkv',
-        'webm ',
+        // 'mov',
+        // 'wmv',
+        // 'avi',
+        // 'avchd',
+        // 'flv',
+        // 'f4v',
+        // 'swf',
+        // 'mkv',
+        // 'webm ',
     ],
 
     'audio_filetypes' => [
         'mp3',
-        'ogg',
-        'au'
+        // 'ogg',
+        // 'wav'
     ]
 ];

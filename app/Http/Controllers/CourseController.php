@@ -72,6 +72,7 @@ class CourseController extends Controller
         $resourcesLogs = Resource::with('media', 'user')->where('is_syllabus', false)->where('is_presentation', false)
             ->where('course_id', $course->id)
             ->orderByDesc('created_at')
+            ->limit(5)
             ->get();
 
         /* ON SUBMIT SYLLABUS */
@@ -83,6 +84,7 @@ class CourseController extends Controller
         $syllabiLogs = Resource::with('media', 'user')->where('is_syllabus', true)
             ->where('course_id', $course->id)
             ->orderByDesc('created_at')
+            ->limit(5)
             ->get();
 
         /* ON SUBMIT PRESENTATION */
@@ -94,6 +96,7 @@ class CourseController extends Controller
         $presentationLogs = Resource::with('media', 'user')->where('is_presentation', true)
             ->where('course_id', $course->id)
             ->orderByDesc('created_at')
+            ->limit(5)
             ->get();
 
         $newResourceLogs = collect();

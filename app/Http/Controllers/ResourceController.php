@@ -173,7 +173,7 @@ class ResourceController extends Controller
         return response()->json([
             'status' => 'ok',
             'message' => 'resource was uploaded successfully.',
-            'resource' => $model
+            'resources' => collect($model)
         ]);
     }
 
@@ -229,7 +229,7 @@ class ResourceController extends Controller
                         'message' => 'Resource is previewable',
                         'fileType' => $this->getFileTypeGroup($mediaFileExt),
                         'fileMimeType' => mime_content_type($resource->getFirstMediaPath()),
-                        'resourceUrl' => $resource->getFirstMediaUrl()
+                        'resourceUrl' => 'data:' . $resource->getFirstMedia()->mime_type . ';base64,' . base64_encode(file_get_contents($resource->getFirstMediaPath()))
                     ]
                 );
             }
@@ -290,16 +290,13 @@ class ResourceController extends Controller
 
     private function getFileTypeGroup($fileExtension)
     {
-        if(in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
+        if (in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
             return 'pdf_convertible_filetypes';
-        }
-        else if(in_array($fileExtension, config('app.img_filetypes'))) {
+        } else if (in_array($fileExtension, config('app.img_filetypes'))) {
             return 'img_filetypes';
-        }
-        else if(in_array($fileExtension, config('app.video_filetypes'))) {
+        } else if (in_array($fileExtension, config('app.video_filetypes'))) {
             return 'video_filetypes';
-        }
-        else if(in_array($fileExtension, config('app.audio_filetypes'))) {
+        } else if (in_array($fileExtension, config('app.audio_filetypes'))) {
             return 'audio_filetypes';
         }
 
