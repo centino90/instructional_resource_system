@@ -173,10 +173,13 @@ class PresentationResourceController extends Controller
 
                     $temporaryFile->delete();
 
+                    $resource = Resource::with('media, user')->findOrFail($r->id);
+
                     return response()->json([
                         'status' => 'ok',
                         'message' => 'presentation was successfully uploaded.',
-                        'texts' => $texts
+                        'texts' => $texts,
+                        'resources' => collect($resource)
                     ]);
                 }
 

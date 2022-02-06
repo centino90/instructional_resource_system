@@ -708,20 +708,21 @@
                             <a class="nav-link dropdown-toggle rounded-0" data-bs-toggle="dropdown"
                                 href="javascript:void(0)" role="button" aria-expanded="false">Submit resource</a>
                             <ul class="dropdown-menu shadow">
-                                <li><a class="dropdown-item" id="resource-modal-tabcontent-submit-general-tab"
-                                        data-bs-toggle="pill" data-bs-target="#resource-modal-tabcontent-submit-general"
-                                        href="javascript:void(0)">General</a></li>
+                                <li><a class="submit-resource-tab dropdown-item"
+                                        id="resource-modal-tabcontent-submit-general-tab" data-bs-toggle="pill"
+                                        data-bs-target="#resource-modal-tabcontent-submit-general"
+                                        data-label="general" href="javascript:void(0)">General</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" id="resource-modal-tabcontent-submit-syllabus-tab"
-                                        data-bs-toggle="pill"
+                                <li><a class="submit-resource-tab dropdown-item"
+                                        id="resource-modal-tabcontent-submit-syllabus-tab" data-bs-toggle="pill"
                                         data-bs-target="#resource-modal-tabcontent-submit-syllabus"
-                                        href="javascript:void(0)">Syllabus</a></li>
-                                <li><a class="dropdown-item" id="resource-modal-tabcontent-submit-presentation-tab"
-                                        data-bs-toggle="pill"
+                                        data-label="syllabus" href="javascript:void(0)">Syllabus</a></li>
+                                <li><a class="submit-resource-tab dropdown-item"
+                                        id="resource-modal-tabcontent-submit-presentation-tab" data-bs-toggle="pill"
                                         data-bs-target="#resource-modal-tabcontent-submit-presentation"
-                                        href="javascript:void(0)">Presentation</a></li>
+                                        data-label="presentation"  href="javascript:void(0)">Presentation</a></li>
                             </ul>
                         </li>
                         <!-- Hidden tab -->
@@ -737,7 +738,8 @@
                     <!-- MODAL TAB CONTENT-->
                     <div class="tab-content" id="pills-tabContent">
                         <!-- GENERAL TAB -->
-                        <div class="tab-pane fade show active" id="resource-modal-tabcontent-general" role="tabpanel"
+                        <div class="submit-resource-tabpane tab-pane fade show active"
+                            id="resource-modal-tabcontent-general" role="tabpanel"
                             aria-labelledby="resource-modal-tabcontent-general-tab">
                             <div class="pt-4">
                                 {!! $dataTable->table(['style' => 'width: 100%', 'class' => 'table table-hover']) !!}
@@ -745,7 +747,8 @@
                         </div>
 
                         <!-- SUBMIT GENERAL RESOURCE TAB -->
-                        <div class="tab-pane fade" id="resource-modal-tabcontent-submit-general" role="tabpanel"
+                        <div class="submit-resource-tabpane tab-pane fade"
+                            id="resource-modal-tabcontent-submit-general" role="tabpanel"
                             aria-labelledby="resource-modal-tabcontent-submit-general-tab">
                             <div class="pt-4 row">
                                 <div class="col-12 col-lg-4">
@@ -814,12 +817,13 @@
                                                             role="tabpanel">
                                                             <x-form-post onsubmit="event.preventDefault()"
                                                                 action="{{ route('resources.store') }}"
-                                                                id="resourceForm">
+                                                                class="submit-resource-form" id="resourceForm">
                                                                 <x-input type="hidden" name="course_id"></x-input>
                                                                 <div id="fileMaster">
                                                                     <div class="row-group align-items-start"
                                                                         id="file-g">
-                                                                        <div id="actions" class="row g-0">
+                                                                        <div class="submit-resource-form-actions"
+                                                                            id="actions" class="row g-0">
                                                                             <div class="col-12">
                                                                                 <!-- The fileinput-button span is used to style the file input field as button -->
                                                                                 <div
@@ -890,21 +894,25 @@
                                                                                 <div class="alert alert-success fade"
                                                                                     role="alert">
                                                                                     <strong
+                                                                                        class="submit-resource-alert"
                                                                                         id="submit-resource-alert"></strong>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
 
-                                                                        <div class="table-responsive overflow-auto"
+                                                                        <div class="file-upload-container table-responsive overflow-auto"
                                                                             id="file-upload-container">
                                                                             <div class="table table-striped">
                                                                                 <div class="d-none">
                                                                                     <div id="template"
-                                                                                        class="file-row">
+                                                                                        class="dropzone-template file-row">
                                                                                         <!-- This is used as the file preview template -->
                                                                                         <div>
-                                                                                            <span class="preview" style="width: 140px">
-                                                                                                <img class="w-100" data-dz-thumbnail />
+                                                                                            <span
+                                                                                                class="preview"
+                                                                                                style="width: 140px">
+                                                                                                <img class="w-100"
+                                                                                                    data-dz-thumbnail />
                                                                                             </span>
                                                                                         </div>
                                                                                         <div style="max-width: 240px">
@@ -924,7 +932,8 @@
 
                                                                                                 <div
                                                                                                     class="col-12 d-none file-group">
-                                                                                                    <x-label>Resource title
+                                                                                                    <x-label>Resource
+                                                                                                        title
                                                                                                     </x-label>
                                                                                                     <x-input
                                                                                                         name="title[]">
@@ -977,7 +986,7 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="previews"
+                                                                                <div class="dropzone-preview previews"
                                                                                     id="previews"></div>
                                                                             </div>
                                                                         </div>
@@ -996,7 +1005,8 @@
 
                                                                     <div class="col-12 mt-3">
                                                                         <label class="form-text">Filename</label>
-                                                                        <span class="alexusmaiFileText h5 text-secondary fw-bold"
+                                                                        <span
+                                                                            class="alexusmaiFileText h5 text-secondary fw-bold"
                                                                             id="fileText">
                                                                         </span>
                                                                         <a href="javascript:void(0)"
@@ -1046,7 +1056,8 @@
                         </div>
 
                         <!-- SUBMIT SYLLABUS RESOURCE TAB -->
-                        <div class="tab-pane fade" id="resource-modal-tabcontent-submit-syllabus" role="tabpanel"
+                        <div class="submit-resource-tabpane tab-pane fade"
+                            id="resource-modal-tabcontent-submit-syllabus" role="tabpanel"
                             aria-labelledby="resource-modal-tabcontent-submit-syllabus-tab">
                             <div class="pt-4 row">
                                 <div class="col-12 col-lg-4">
@@ -1085,11 +1096,13 @@
                                     <div class="tab-content" id="syllabusSubmitTabcontent">
                                         <div class="tab-pane fade show active" id="syllabusSubmitForm" role="tabpanel">
                                             <x-form-post onsubmit="event.preventDefault()"
-                                                action="{{ route('syllabi.upload') }}" id="syllabusForm">
+                                                action="{{ route('syllabi.upload') }}" class="submit-resource-form"
+                                                id="syllabusForm">
                                                 <x-input type="hidden" name="course_id"></x-input>
                                                 <div id="fileMaster-syllabus">
                                                     <div class="row-group" id="file-g-syllabus">
-                                                        <div id="actions-syllabus" class="row g-0">
+                                                        <div class="submit-resource-form-actions" id="actions-syllabus"
+                                                            class="row g-0">
                                                             <div class="col-12">
                                                                 <!-- The global file processing state -->
                                                                 <span class="fileupload-process w-100">
@@ -1147,7 +1160,7 @@
 
                                                             <div class="col-12 mt-3">
                                                                 <div class="alert alert-success fade" role="alert">
-                                                                    <strong
+                                                                    <strong class="submit-resource-alert"
                                                                         id="submit-resource-alert-syllabus"></strong>
                                                                 </div>
                                                             </div>
@@ -1158,11 +1171,12 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="table-responsive overflow-auto"
+                                                        <div class="file-upload-container table-responsive overflow-auto"
                                                             id="file-upload-container-syllabus">
                                                             <div class="table table-striped">
                                                                 <div class="d-none">
-                                                                    <div id="template-syllabus" class="file-row">
+                                                                    <div id="template-syllabus"
+                                                                        class="dropzone-template file-row">
                                                                         <!-- This is used as the file preview template -->
                                                                         <div>
                                                                             <span class="preview"><img
@@ -1222,7 +1236,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="previews" id="previews-syllabus">
+                                                                <div class="dropzone-preview previews"
+                                                                    id="previews-syllabus">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1279,11 +1294,13 @@
                                         <div class="tab-pane fade show active" id="presentationSubmitForm"
                                             role="tabpanel">
                                             <x-form-post onsubmit="event.preventDefault()"
-                                                action="{{ route('presentations.upload') }}" id="presentationForm">
+                                                action="{{ route('presentations.upload') }}"
+                                                class="submit-resource-form" id="presentationForm">
                                                 <x-input type="hidden" name="course_id"></x-input>
                                                 <div id="fileMaster-presentation">
                                                     <div class="row-group" id="file-g-presentation">
-                                                        <div id="actions-presentation" class="row g-0">
+                                                        <div class="submit-resource-form-actions"
+                                                            id="actions-presentation" class="row g-0">
                                                             <div class="col-12">
                                                                 <!-- The global file processing state -->
                                                                 <span class="fileupload-process w-100">
@@ -1341,7 +1358,7 @@
 
                                                             <div class="col-12 mt-3">
                                                                 <div class="alert alert-success fade" role="alert">
-                                                                    <strong
+                                                                    <strong class="submit-resource-alert"
                                                                         id="submit-resource-alert-presentation"></strong>
                                                                 </div>
                                                             </div>
@@ -1352,16 +1369,18 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="table-responsive overflow-auto"
+                                                        <div class="file-upload-container table-responsive overflow-auto"
                                                             id="file-upload-container-presentation">
                                                             <div class="table table-striped">
                                                                 <div class="d-none">
                                                                     <div id="template-presentation"
-                                                                        class="file-row">
+                                                                        class="dropzone-template file-row">
                                                                         <!-- This is used as the file preview template -->
                                                                         <div>
-                                                                            <span class="preview" style="max-width: 200px">
-                                                                                <img class="w-100" data-dz-thumbnail />
+                                                                            <span class="preview"
+                                                                                style="max-width: 200px">
+                                                                                <img class="w-100"
+                                                                                    data-dz-thumbnail />
                                                                             </span>
                                                                         </div>
                                                                         <div>
@@ -1418,7 +1437,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="previews" id="previews-presentation">
+                                                                <div class="dropzone-preview previews"
+                                                                    id="previews-presentation">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1663,17 +1683,20 @@
 
                 })
 
-                /* ON SHOW SUBMIT GENERAL TAB */
-                $('#resource-modal-tabcontent-submit-general-tab').on('shown.bs.tab', function() {
-                    const dropzone = $('#resource-modal-tabcontent-submit-general')
-                    if (dropzone[0].dropzone) return
+                /* ON SHOW SUBMIT TABS */
+                $('.submit-resource-tab').on('shown.bs.tab', function(event) {
+                    const $targetTabpaneId = $(event.target).attr('data-bs-target')
+                    const $targetTabpaneLabel = $(event.target).attr('data-label')
 
-                    let previewNode = $("#template")[0];
-                    // previewNode.id = "";
-                    let previewTemplate = previewNode.parentNode.innerHTML;
-                    previewNode.parentNode.removeChild(previewNode);
+                    const $dropzone = $($targetTabpaneId)
 
-                    let myDropzone = new Dropzone(dropzone[0], { // Make the whole body a dropzone
+                    if ($dropzone[0].dropzone) return
+
+                    let $previewNode = $dropzone.find(".dropzone-template");
+                    let previewTemplate = $previewNode.parent().html();
+                    $previewNode.parent().remove('.dropzone-template')
+
+                    let dropzoneParams = {
                         url: "{{ route('upload-temporary-file.store') }}", // Set the url
                         params: {
                             _token: "{{ csrf_token() }}"
@@ -1683,710 +1706,15 @@
                         parallelUploads: 20,
                         previewTemplate: previewTemplate,
                         autoQueue: true, // Make sure the files aren't queued until manually added
-                        previewsContainer: "#previews", // Define the container to display the previews
-                        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+                        previewsContainer: `${$targetTabpaneId} .dropzone-preview`, // Define the container to display the previews
+                        clickable: `${$targetTabpaneId} .fileinput-button`, // Define the element that should be used as click trigger to select files.
                         maxFilesize: 5000
-                    });
-
-                    myDropzone.on("addedfile", function(file) {
-                        $('#submit-resource-alert').parent().removeClass('show')
-                    });
-
-                    myDropzone.on("removedfile", function(file) {
-                        let $input = $('#file-upload-container .dz-success .file-metadata :input'),
-                            $submitButton = $('#resourceForm button[type="submit"]');
-
-                        $input.unbind('keyup');
-                        let trigger = false;
-
-                        if ($input.length <= 0) {
-                            trigger = true;
-                        } else {
-                            $input.each(function() {
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
-                        }
-
-                        trigger ? $submitButton.addClass('disabled') : $submitButton
-                            .removeClass(
-                                'disabled');
-
-                        dropzone.find('.file-metadata').delegate($input, 'keyup', function(e) {
-                            let trigger = false;
-
-                            $input.each(function() {
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
-
-                            trigger ? $submitButton.addClass('disabled') : $submitButton
-                                .removeClass(
-                                    'disabled');
-                        })
-
-                        if (dropzone.find('.file-row').length <= 0) {
-                            $("#actions .cancel").addClass('d-none')
-                            $("#submit-resource").addClass('d-none')
-                        }
-                    })
-
-                    // Update the total progress bar
-                    myDropzone.on("totaluploadprogress", function(progress) {
-                        $('#total-progress .progress-bar').css('width', progress + '%');
-                    });
-
-                    myDropzone.on("sending", function(file) {
-                        // Show the total progress bar when upload starts
-                        $('#total-progress').css('opacity', 1);
-                        $('#total-progress .progress-bar').css('width', '0%');
-
-                        // And disable the start button
-                        $(file.previewElement).find('.start').attr('disabled', 'disabled')
-                    });
-
-                    myDropzone.on("success", function(file) {
-                        $(file.previewElement).find('.file').val(file.xhr.responseText)
-                        $(file.previewElement).find('.file-group').removeClass('d-none')
-                        $("#actions .cancel").removeClass('d-none')
-
-                        let $input = $('#file-upload-container .file-metadata :input'),
-                            $submitButton = $('#resourceForm button[type="submit"]');
-
-                        $submitButton.addClass('disabled')
-
-                        $('.file-metadata').delegate($input, 'keyup', function(e) {
-                            let trigger = false;
-
-                            $input.each(function() {
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
-
-                            trigger ? $submitButton.addClass('disabled') : $submitButton
-                                .removeClass(
-                                    'disabled');
-                        })
-
-                        $("#submit-resource").removeClass('d-none')
-                    });
-
-                    // Hide the total progress bar when nothing's uploading anymore
-                    myDropzone.on("queuecomplete", function(progress) {
-                        $('#total-progress').css('opacity', 0);
-                    });
-
-                    $("#actions .cancel").click(function() {
-                        $("#actions .cancel").addClass('d-none')
-                        $("#submit-resource").addClass('d-none')
-                        myDropzone.removeAllFiles(true);
-                    });
-
-                    /* ON DRAG FILE */
-                    $(dropzone).find('.fileinput-button').children().addClass('pe-none')
-                    $(dropzone).find('.fileinput-button').on(
-                        'dragover',
-                        function(event) {
-                            $(event.target)
-                                .addClass('shadow-lg fw-bold')
-                                .css('height', '150px')
-                        }
-                    )
-                    $(dropzone).find('.fileinput-button').on(
-                        'dragleave',
-                        function(event) {
-                            beforeDragDropzoneStyle(event.target)
-                        }
-                    )
-                    $(dropzone).find('.fileinput-button').on(
-                        'drop',
-                        function(event) {
-                            beforeDragDropzoneStyle(event.target)
-                        }
-                    )
-                    function beforeDragDropzoneStyle(dropzone) {
-                        $(dropzone)
-                                .removeClass('shadow-lg fw-bold')
-                                .css('height', '100px')
                     }
 
-                    /* UPLOAD RESOURCES AJAX */
-                    $('#submit-resource').click(function(event) {
-                        let files = [],
-                            titles = [],
-                            descriptions = []
-                        $('#resourceForm [name="file[]"]').each(function(index, item) {
-                            files.push($(item).val())
-                        })
-                        $('#resourceForm [name="title[]"]').each(function(index, item) {
-                            titles.push($(item).val())
-                        })
-                        $('#resourceForm [name="description[]"]').each(function(index, item) {
-                            descriptions.push($(item).val())
-                        })
-
-                        $.ajax({
-                                method: "POST",
-                                url: "{{ route('resources.store') }}",
-                                data: {
-                                    'file': files,
-                                    'course_id': $('#resourceForm [name="course_id"]').val(),
-                                    'title': titles,
-                                    'description': descriptions,
-                                }
-                            })
-                            .done(function(data) {
-                                $('.file-row').remove()
-                                $('#actions .cancel').addClass('d-none')
-                                $('#submit-resource').addClass('d-none')
-                                $('#resources-table').DataTable().draw('page')
-                                $('#submit-resource-alert').parent().addClass('show')
-                                $('#submit-resource-alert').text(data.message)
-
-                                if (data.resources.length > 0) {
-                                    $(data.resources).each(function(index, item) {
-                                    let fileSubmissionDate = new Date(item.created_at)
-                                    .toLocaleDateString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric',
-                                        hour: 'numeric',
-                                        minute: 'numeric',
-                                        second: 'numeric'
-                                    })
-                                    let fileName = item.media[0] ? item.media[0].file_name :
-                                    'unknown file'
-                                    $('#submit-general-tab-logs').prepend(`
-                                        <li class="logsRootList list-group-item hstack gap-3 lh-sm">
-                                            <span class="text-truncate" title="${fileName}"> ${fileName} </span>
-                                            <span class="vr"></span>
-                                            <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
-                                            <span class="vr"></span>
-                                                <div>
-                                                    <div class="btn-group dropend">
-                                                        <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                                        </button>
-                                                        <ul class="dropdown-menu shadow border-0 p-0">
-                                                            <li class="dropdown-item p-0">
-                                                                <ul class="list-group" style="min-width: 300px">
-                                                                    <li class="list-group-item">
-                                                                        <div>
-                                                                            <h6 class="my-0 fw-bold">
-                                                                                ${item.user.username}
-                                                                            </h6>
-                                                                            <small class="text-muted">Submitter</small>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li class="list-group-item">
-                                                                        <div>
-                                                                            <h6 class="my-0 fw-bold">
-                                                                                approved
-                                                                            </h6>
-                                                                            <small class="text-muted">Status</small>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li class="list-group-item">
-                                                                        <div class="row">
-                                                                            <div class="col-6">
-                                                                                <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
-                                                                                    Preview
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="col-6">
-                                                                                <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
-                                                                                    Unsubmit
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        `)
-
-                                        $('#submit-general-tab-logs .logsRootList:last').remove();
-
-                                        // let currentLogsCounter = parseInt($(
-                                        //         "#submit-general-tab-logs-count")
-                                        //     .text()) + data.resources.length;
-                                        // $("#submit-general-tab-logs-count").text(
-                                        //     currentLogsCounter);
-                                    })
-                                }
-                            })
-                            .fail(function() {
-                                alert("error");
-                            })
-                            .always(function() {
-                                $(event.target).removeClass('loading disabled')
-                            });
-                    })
-
-                    /* SUBMIT RESOURCE LINK AJAX */
-                    $('#storeByUrlForm [type="submit"]').click(function(event) {
-                        $('#storeByUrlForm .alert-danger').hide()
-
-                        const $formFields = $('#storeByUrlForm').serializeArray()
-                        const jsonData = {}
-                        $.each($formFields, function(index, field) {
-                            jsonData[field.name] = field.value
-                        })
-                        jsonData['course_id'] = $('[name="course_id"]').first().val()
-
-                        $.ajax({
-                                method: "POST",
-                                url: "{{ route('resources.storeByUrl') }}",
-                                data: jsonData
-                            })
-                            .done(function(data) {
-                                $(data.resources).each(function(index, item) {
-                                let fileSubmissionDate = new Date(item.created_at)
-                                    .toLocaleDateString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric',
-                                        hour: 'numeric',
-                                        minute: 'numeric',
-                                        second: 'numeric'
-                                    })
-                                let fileName = item.media[0] ? item.media[0].file_name :
-                                    'unknown file'
-                                $('#submit-general-tab-logs').append(`
-                                        <li class="logsRootList list-group-item hstack gap-3 lh-sm">
-                                            <span class="text-truncate" title="${fileName}"> ${fileName} </span>
-                                            <span class="vr"></span>
-                                            <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
-                                            <span class="vr"></span>
-                                            <div>
-                                                <div class="btn-group dropend">
-                                                    <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                                    </button>
-                                                    <ul class="dropdown-menu shadow border-0 p-0">
-                                                        <li class="dropdown-item p-0">
-                                                            <ul class="list-group" style="min-width: 300px">
-                                                                <li class="list-group-item">
-                                                                    <div>
-                                                                        <h6 class="my-0 fw-bold">
-                                                                            ${item.user.username}
-                                                                        </h6>
-                                                                        <small class="text-muted">Submitter</small>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div>
-                                                                        <h6 class="my-0 fw-bold">
-                                                                            approved
-                                                                        </h6>
-                                                                        <small class="text-muted">Status</small>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="row">
-                                                                        <div class="col-6">
-                                                                            <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
-                                                                                Preview
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                            <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
-                                                                                Unsubmit
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    `)
-
-                                    // let currentLogsCounter = parseInt($(
-                                    //         "#submit-general-tab-logs-count")
-                                    //     .text()) + data.resources.length;
-                                    // $("#submit-general-tab-logs-count").text(
-                                    //     currentLogsCounter);
-                                })
-                                $('#resources-table').DataTable().draw('page')
-                                $('#storeByUrlForm')[0].reset()
-                                $('#fileText').text('')
-                            })
-                            .fail(function(response) {
-                                response = response.responseJSON
-                                $('#storeByUrlForm .alert-danger').stop(true, true)
-                                $('#storeByUrlForm .alert-danger').fadeTo(2000, 500);
-                                $('#storeByUrlForm .alert-danger').html(
-                                    `<h5>You got few validation errors.</h5>
-                                 <ul class="formErrorList"></ul>
-                                `
-                                )
-                                $.each(response.errors, function(key, error) {
-                                    $('#storeByUrlForm .formErrorList').append(
-                                        `<li>${error}</li>`
-                                    )
-                                })
-                            })
-                            .always(function() {
-                                $(event.target).removeClass('loading disabled')
-                            });
-                    })
-
-                    let courseUrl = '{{ route('courses.index') }}'
-                    courseUrl = `${courseUrl}/${$('[name="course_id"]').first().val()}`
-                    $.ajax({
-                            method: "GET",
-                            url: courseUrl,
-                        })
-                        .done(function(data) {
-                            // $('#submit-general-tab-logs-count').text($(data.resourceLogs).length)
-                            $('#submit-general-tab-logs').html('')
-                            $(data.resourceLogs).each(function(index, item) {
-                                let fileSubmissionDate = new Date(item.created_at)
-                                    .toLocaleDateString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric',
-                                        hour: 'numeric',
-                                        minute: 'numeric',
-                                        second: 'numeric'
-                                    })
-                                let fileName = item.media[0] ? item.media[0].file_name :
-                                    'unknown file'
-                                $('#submit-general-tab-logs').append(`
-                                        <li class="logsRootList list-group-item hstack gap-3 lh-sm">
-                                            <span class="text-truncate" title="${fileName}"> ${fileName} </span>
-                                            <span class="vr"></span>
-                                            <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
-                                            <span class="vr"></span>
-                                            <div class="ms-auto">
-                                                <div class="btn-group dropend">
-                                                    <button class="btn" data-bs-toggle="dropdown" onclick="'${item.status}' != 'for approval' || ${!item.isOwner} ? event.target.closest('.btn-group').querySelector('.generalLogsUnsubmit') != undefined ? event.target.closest('.btn-group').querySelector('.generalLogsUnsubmit').remove() : '' : ''" data-bs-auto-close="outside" aria-expanded="false">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                                    </button>
-                                                    <ul class="dropdown-menu shadow border-0 p-0">
-                                                        <li class="dropdown-item p-0">
-                                                            <ul class="list-group" style="min-width: 300px">
-                                                                <li class="list-group-item">
-                                                                    <div>
-                                                                        <h6 class="my-0 fw-bold">
-                                                                            ${item.user.username}
-                                                                        </h6>
-                                                                        <small class="text-muted">Submitter</small>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div>
-                                                                        <h6 class="my-0 fw-bold">
-                                                                            ${item.status}
-                                                                        </h6>
-                                                                        <small class="text-muted">Status</small>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="row">
-                                                                        <div class="col-6">
-                                                                            <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
-                                                                                Preview
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                            <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
-                                                                                Unsubmit
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    `)
-                            })
-
-                            // let logClickCount = 0
-                            // $('.submitResourceLogsShowAll').click(function(event) {
-                            //     if (logClickCount % 2 === 0) {
-                            //         $(event.target).text('Hide some')
-                            //         $(event.target).closest('li').find('.submitResourceLogsList')
-                            //             .css('max-height', '100%')
-                            //     } else {
-                            //         $(event.target).text('Show all')
-                            //         $(event.target).closest('li').find('.submitResourceLogsList')
-                            //             .css('max-height', '280px')
-                            //     }
-                            //     logClickCount++
-                            // })
-
-                            $('#submit-general-tab-logs').delegate('.generalLogsUnsubmit', 'click',
-                                function(event) {
-                                    let deleteUrl = '{{ route('resources.index') }}'
-                                    deleteUrl =
-                                        `${deleteUrl}/${$(event.target).attr('data-unsubmit-id')}`
-
-                                    $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
-                                                <div class="spinner-border text-primary" role="status"></div>
-                                            </div>`)
-                                    $.ajax({
-                                            method: "POST",
-                                            url: deleteUrl,
-                                            data: {
-                                                '_method': 'DELETE'
-                                            }
-                                        })
-                                        .done(function(data) {
-                                            if (data.status == 'ok') {
-                                                $(event.target).closest('.logsRootList').remove()
-                                                // let currentLogsCounter = parseInt($(
-                                                //         '#submit-general-tab-logs-count')
-                                                //     .text()) - 1
-                                                // $('#submit-general-tab-logs-count').text(
-                                                //     currentLogsCounter)
-                                            }
-                                        })
-                                        .fail(function() {
-                                            alert("error");
-                                        })
-                                        .always(function() {
-                                            $(event.target).html(`Unsubmit`)
-                                        });
-                                })
-
-                            const generalSubmitPreviewTab = document.querySelector(
-                                '#generalSubmitPreviewTab')
-
-                            $('#submit-general-tab-logs').delegate('.submitGeneralPreviewBtns', 'click',
-                                function(event) {
-                                    $('#submit-general-tab-logs .logsRootList').removeClass(
-                                        'shadow-lg border-5 border-primary fw-bold  ')
-                                    $(event.target).closest('.logsRootList').addClass(
-                                        'shadow-lg border-5 border-primary fw-bold')
-
-                                    $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
-                                                <div class="spinner-border text-primary" role="status"></div>
-                                            </div>`)
-
-                                    bootstrap.Tab.getOrCreateInstance(
-                                        generalSubmitPreviewTab).show()
-
-                                    let previewUrl = '{{ route('resources.index') }}'
-                                    previewUrl =
-                                        `${previewUrl}/preview/${$(event.target).attr('data-preview-id')}`
-
-                                    $('#generalSubmitPreviewContent')
-                                        .html(`<div class="d-flex justify-content-center align-items-center">
-                                                <div class="spinner-border text-primary" role="status"></div>
-                                              </div>`)
-
-                                    const filetypes = @json(config('app.pdf_convertible_filetypes'));
-
-                                    if ($.inArray($(event.target).attr('data-preview-filetype'), filetypes) == -1) {
-                                        /* IF NOT PDF CONVERTIBLE */
-
-                                        $.ajax({
-                                                method: "GET",
-                                                url: previewUrl
-                                            })
-                                            .done(function(data) {
-                                                const downloadRoute =
-                                                    '{{ route('resources.index') }}'
-                                                $('#generalSubmitPreviewContent').html(
-                                                    `<div class="mb-4">
-                                                        <a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>
-                                                        <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
-                                                    </div>`
-                                                )
-
-                                                if(data.fileType === 'text_filetypes') {
-                                                    $('#generalSubmitPreviewContent').append(
-                                                    '<textarea id="previewGeneralSummernote"></textarea>'
-                                                    )
-                                                    $('#previewGeneralSummernote').summernote({
-                                                        'toolbar': [],
-                                                        codeviewFilter: false,
-                                                        codeviewIframeFilter: true
-                                                    })
-                                                    $('#previewGeneralSummernote').summernote('code',
-                                                        data.resourceText)
-                                                    $('#previewGeneralSummernote').summernote('disable')
-                                                }
-
-                                                if(data.fileType === 'img_filetypes') {
-                                                    $('#generalSubmitPreviewContent').append(
-                                                        `<img style="width: 300px" src="${data.resourceUrl}" />`
-                                                    )
-                                                }
-
-                                                if(data.fileType === 'video_filetypes') {
-                                                    console.log(data)
-                                                    $('#generalSubmitPreviewContent').append(
-                                                        `<video width="320" height="240" controls autoplay>
-                                                            <source src="${data.resourceUrl}" type="video/mp4">
-                                                        </video>`
-                                                    )
-                                                }
-
-                                                if(data.fileType === 'audio_filetypes') {
-                                                    $('#generalSubmitPreviewContent').append(
-                                                        `<audio controls autoplay>
-                                                            <source src="${data.resourceUrl}" type="audio/mpeg">
-                                                        </audio>`
-                                                    )
-                                                }
-                                            })
-                                            .fail(function(error) {
-                                                $('#generalSubmitPreviewContent').html(
-                                                    `<div class="alert alert-danger" role="alert">
-                                                        ${error.responseJSON.message}
-                                                    </div>`
-                                                )
-                                            })
-                                            .always(function() {
-                                                $(event.target).text(`Preview`)
-                                            });
-                                    } else {
-                                        /* IF PDF CONVERTIBLE */
-
-                                        var thePdf = null;
-                                        var scale = 1;
-                                        pdfjsLib.getDocument(previewUrl).promise.then(pdf => {
-                                            const downloadRoute =
-                                                '{{ route('resources.index') }}'
-                                            $('#generalSubmitPreviewContent').html(
-                                                `
-                                            <div class="mb-4">
-                                                <a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>
-                                                <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
-                                            </div>
-                                            `
-                                            )
-
-                                            thePdf = pdf;
-                                            viewer = document.getElementById(
-                                                'generalSubmitPreviewContent');
-
-                                            for (page = 1; page <= pdf
-                                                .numPages; page++) {
-                                                canvas = document.createElement(
-                                                    "canvas");
-                                                canvas.className = 'd-block w-100 mx-auto';
-                                                canvas.style.maxWidth = '900px';
-                                                viewer.appendChild(canvas);
-                                                renderPage(page, canvas);
-                                            }
-
-                                            $(event.target).html(`Preview`)
-                                        }).catch((error) => {
-                                            $(event.target).html(`Preview`)
-
-                                            $('#generalSubmitPreviewContent').html(
-                                                `<div class="alert alert-danger" role="alert">
-                                                    File was not able to be previewed due to certain error. Try again!
-                                                </div>`
-                                            )
-                                        })
-
-                                        function renderPage(pageNumber, canvas) {
-                                            thePdf.getPage(pageNumber).then(function(page) {
-                                                viewport = page.getViewport({
-                                                    scale: scale
-                                                });
-                                                canvas.height = viewport.height;
-                                                canvas.width = viewport.width;
-                                                page.render({
-                                                    canvasContext: canvas
-                                                        .getContext('2d'),
-                                                    viewport: viewport
-                                                });
-                                            });
-                                        }
-                                    }
-
-                                    let isFullscreen = false
-                                    $('#generalSubmitPreview').delegate(
-                                        '#generalSubmitPreviewFullscreen', 'click',
-                                        (event) => {
-                                            if (!isFullscreen) {
-                                                openFullscreen($(
-                                                    '#generalSubmitPreviewContent'
-                                                )[0])
-
-                                                $(event.target).text(
-                                                    'Cancel fullscreen')
-                                                isFullscreen = true
-                                            } else {
-                                                closeFullscreen($(
-                                                    '#generalSubmitPreviewContent'
-                                                )[0])
-
-                                                $(event.target).text('Fullscreen')
-                                                isFullscreen = false
-                                            }
-                                        })
-
-                                    function openFullscreen(elem) {
-                                        $(elem)
-                                            .css('position', 'absolute')
-                                            .css('width', '100%')
-                                            .css('height', '100%')
-                                            .css('left', '0')
-                                            .css('top', '0')
-                                            .css('background-color', '#fff')
-                                    }
-
-                                    function closeFullscreen(elem) {
-                                        $(elem)
-                                            .css('position', '')
-                                            .css('width', '')
-                                            .css('height', '100%')
-                                            .css('left', '')
-                                            .css('top', '')
-                                            .css('background-color', '')
-                                    }
-                                })
-                            const generalSubmitFormTab = document.querySelector(
-                                '#generalSubmitFormTab')
-                            $('#generalSubmitPreviewReturn').click(function() {
-                                bootstrap.Tab.getOrCreateInstance(
-                                    generalSubmitFormTab).show()
-                            })
-                        })
-                        .fail(function() {
-                            alert("error");
-                        })
-                        .always(function() {
-                            // $(event.target).removeClass('loading disabled')
-                        });
-                })
-
-                /* ON SHOW SUBMIT SYLLABUS TAB */
-                $('#resource-modal-tabcontent-submit-syllabus-tab').on('shown.bs.tab', function() {
-                    const syllabusDropzone = $('#resource-modal-tabcontent-submit-syllabus')
-                    if (syllabusDropzone[0].dropzone) return
-
-                    let previewNode = $("#template-syllabus")[0];
-                    // previewNode.id = "";
-                    let previewTemplate = previewNode.parentNode.innerHTML;
-                    previewNode.parentNode.removeChild(previewNode);
-
-                    let myDropzone = new Dropzone(syllabusDropzone[
-                        0], { // Make the whole body a dropzone
-                        url: "{{ route('upload-temporary-file.store') }}", // Set the url
-                        params: {
-                            _token: "{{ csrf_token() }}"
-                        },
-                        accept: function(file, done) {
-                            console.log(file.type);
+                    // if ($targetTabpaneId === 'general')
+                    if ($targetTabpaneLabel === 'syllabus') {
+                        dropzoneParams['maxFiles'] = 1
+                        dropzoneParams['accept'] = function(file, done) {
                             if (
                                 file.type ==
                                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
@@ -2396,397 +1724,10 @@
                             } else {
                                 done("Error! You have to submit a docx or doc file.");
                             }
-                        },
-                        parallelUploads: 20,
-                        previewTemplate: previewTemplate,
-                        autoQueue: true, // Make sure the files aren't queued until manually added
-                        previewsContainer: "#previews-syllabus", // Define the container to display the previews
-                        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
-                        maxFilesize: 5000,
-                        maxFiles: 1
-                    });
-
-                    myDropzone.on("addedfile", function(file) {
-                        $('#submit-resource-alert-syllabus').parent().removeClass('show')
-                    });
-
-                    myDropzone.on("removedfile", function(file) {
-                        let $input = $(
-                                '#file-upload-container-syllabus .dz-success .file-metadata :input'),
-                            $submitButton = $('#syllabusForm button[type="submit"]');
-
-                        $input.unbind('keyup');
-                        let trigger = false;
-
-                        if ($input.length <= 0) {
-                            trigger = true;
-                        } else {
-                            $input.each(function() {
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
                         }
-
-                        trigger ? $submitButton.addClass('disabled') : $submitButton
-                            .removeClass(
-                                'disabled');
-
-                        syllabusDropzone.find('.file-metadata').delegate($input, 'keyup', function(
-                            e) {
-                            let trigger = false;
-
-                            $input.each(function() {
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
-
-                            trigger ? $submitButton.addClass('disabled') : $submitButton
-                                .removeClass(
-                                    'disabled');
-                        })
-
-                        if (syllabusDropzone.find('.file-row').length <= 0) {
-                            syllabusDropzone.find("#actions-syllabus .cancel").addClass('d-none')
-                            syllabusDropzone.find("#submit-resource-syllabus").addClass('d-none')
-                        }
-                    })
-
-                    // Update the total progress bar
-                    myDropzone.on("totaluploadprogress", function(progress) {
-                        syllabusDropzone.find('#total-progress-syllabus .progress-bar').css('width',
-                            progress + '%');
-                    });
-
-                    myDropzone.on("sending", function(file) {
-                        // Show the total progress bar when upload starts
-                        syllabusDropzone.find('#total-progress-syllabus').css('opacity', 1);
-                        syllabusDropzone.find('#total-progress-syllabus .progress-bar').css('width',
-                            '0%');
-
-                        // And disable the start button
-                        $(file.previewElement).find('.start').attr('disabled', 'disabled')
-                    });
-
-                    myDropzone.on("success", function(file) {
-                        console.log('success')
-                        $(file.previewElement).find('.file').val(file.xhr.responseText)
-                        $(file.previewElement).find('.file-group').removeClass('d-none')
-                        syllabusDropzone.find("#actions-syllabus .cancel").removeClass('d-none')
-
-                        let $input = $(
-                                '#file-upload-container-syllabus .dz-success .file-metadata :input'),
-                            $submitButton = $('#syllabusForm button[type="submit"]');
-
-                        $submitButton.addClass('disabled')
-
-                        console.log($input)
-
-                        $('.file-metadata').delegate($input, 'keyup', function(e) {
-                            let trigger = false;
-
-                            $input.each(function() {
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
-
-                            trigger ? $submitButton.addClass('disabled') : $submitButton
-                                .removeClass(
-                                    'disabled');
-                        })
-
-                        $("#submit-resource-syllabus").removeClass('d-none')
-                    });
-
-                    // Hide the total progress bar when nothing's uploading anymore
-                    myDropzone.on("queuecomplete", function(progress) {
-                        syllabusDropzone.find('#total-progress-syllabus').css('opacity', 0);
-                    });
-
-                    syllabusDropzone.find("#actions-syllabus .cancel").click(function() {
-                        syllabusDropzone.find("#actions-syllabus .cancel").addClass('d-none')
-                        syllabusDropzone.find("#submit-resource-syllabus").addClass('d-none')
-                        myDropzone.removeAllFiles(true);
-                    });
-
-                    /* UPLOAD RESOURCES AJAX */
-                    $('#submit-resource-syllabus').click(function(event) {
-                        let files = [],
-                            titles = [],
-                            descriptions = []
-                        $('#syllabusForm [name="file[]"]').each(function(index, item) {
-                            files.push($(item).val())
-                        })
-                        $('#syllabusForm [name="title[]"]').each(function(index, item) {
-                            titles.push($(item).val())
-                        })
-                        $('#syllabusForm [name="description[]"]').each(function(index, item) {
-                            descriptions.push($(item).val())
-                        })
-
-                        $.ajax({
-                                method: "POST",
-                                url: "{{ route('syllabi.upload') }}",
-                                data: {
-                                    'file': files,
-                                    'course_id': $('#syllabusForm [name="course_id"]').val(),
-                                    'title': titles,
-                                    'description': descriptions,
-                                }
-                            })
-                            .done(function(data) {
-                                syllabusDropzone.find('.file-row').remove()
-                                myDropzone.files = []
-
-                                $('#syllabus-iframe-container').append(data.embed)
-
-                                $('#actions-syllabus .cancel').addClass('d-none')
-                                $('#submit-resource-syllabus').addClass('d-none')
-                                // $('#resources-table').DataTable().draw('page')
-                                // $('#submit-resource-alert-syllabus').parent().addClass('show')
-                                // $('#submit-resource-alert-syllabus').text(data.message)
-
-                            })
-                            .fail(function() {
-                                alert("error");
-                            })
-                            .always(function() {
-                                $(event.target).removeClass('loading disabled')
-                            });
-                    })
-
-                    /* LOAD SYLLABUS TAB DATA */
-                    let courseUrl = '{{ route('courses.index') }}'
-                    courseUrl = `${courseUrl}/${$('[name="course_id"]').first().val()}`
-                    $.ajax({
-                            method: "GET",
-                            url: courseUrl,
-                        })
-                        .done(function(data) {
-                            if (data.complied) {
-                                $('#submit-syllabus-tab-status').text('Fulfilled')
-                                $('#submit-syllabus-tab-status').closest('.list-group-item')
-                                    .removeClass('text-danger')
-                                $('#submit-syllabus-tab-status').closest('.list-group-item')
-                                    .addClass('text-success')
-                            } else {
-                                $('#submit-syllabus-tab-status').text('Unfulfilled')
-                                $('#submit-syllabus-tab-status').closest('.list-group-item')
-                                    .removeClass('text-success')
-                                $('#submit-syllabus-tab-status').closest('.list-group-item')
-                                    .addClass('text-danger')
-                            }
-                            $('#submit-syllabus-tab-logs-count').text($(data.logs).length)
-                            $('#submit-syllabus-tab-logs').html('')
-                            $(data.logs).each(function(index, item) {
-                                $('#submit-syllabus-tab-logs').append(`
-                                        <li class="logsRootList list-group-item d-flex justify-content-between align-items-center lh-sm">
-                                            <span> ${item.media[0].file_name} </span>
-                                            <span> ${new Date(item.created_at).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'})} </span>
-                                            <div>
-                                                <div class="btn-group dropend">
-                                                    <button class="dropdown-btn btn" data-bs-toggle="dropdown" onclick="'${item.status}' != 'for approval' || ${!item.isOwner} ? event.target.closest('.btn-group').querySelector('.syllabusLogsUnsubmit') != undefined ? event.target.closest('.btn-group').querySelector('.syllabusLogsUnsubmit').remove() : '' : ''" data-bs-auto-close="outside" aria-expanded="false">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                                    </button>
-                                                    <ul class="dropdown-menu shadow border-0 p-0">
-                                                        <li class="dropdown-item p-0">
-                                                            <ul class="list-group" style="min-width: 300px">
-                                                                <li class="list-group-item">
-                                                                    <div>
-                                                                        <h6 class="my-0 fw-bold">
-                                                                            ${item.user.username}
-                                                                        </h6>
-                                                                        <small class="text-muted">Submitter</small>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div>
-                                                                        <h6 class="my-0 fw-bold">
-                                                                            ${item.status}
-                                                                        </h6>
-                                                                        <small class="text-muted">Status</small>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="row">
-                                                                        <div class="col-6">
-                                                                            <button data-preview-id="${item.id}" class="submitSyllabusPreviewBtns w-100 btn btn-light border text-primary fw-bold">
-                                                                                Preview
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                            <button data-unsubmit-id="${item.id}" class="syllabusLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
-                                                                                Unsubmit
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    `)
-                            })
-
-                            function onSubmitLogsClick(status, isOwner) {
-                                $unsubmitBtn = $(this).parent().find('.syllabusLogsUnsubmit')
-                                if ($unsubmitBtn) {
-                                    status != 'for approval' || !isOwner ? $(this).parent()
-                                        .find('.syllabusLogsUnsubmit').remove() : ''
-                                }
-                            }
-                            $('#submit-syllabus-tab-logs').delegate('.syllabusLogsUnsubmit', 'click',
-                                function(event) {
-                                    let deleteUrl = '{{ route('resources.index') }}'
-                                    deleteUrl =
-                                        `${deleteUrl}/${$(event.target).attr('data-unsubmit-id')}`
-
-                                    $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
-                                                <div class="spinner-border text-primary" role="status"></div>
-                                            </div>`)
-
-                                    $.ajax({
-                                            method: "POST",
-                                            url: deleteUrl,
-                                            data: {
-                                                '_method': 'DELETE'
-                                            }
-                                        })
-                                        .done(function(data) {
-                                            if (data.status == 'ok') {
-                                                $(event.target).closest('.logsRootList').remove()
-                                                let currentLogsCounter = parseInt($(
-                                                        '#submit-syllabus-tab-logs-count')
-                                                    .text()) - 1
-                                                $('#submit-syllabus-tab-logs-count').text(
-                                                    currentLogsCounter)
-                                            }
-                                        })
-                                        .fail(function() {
-                                            alert("error");
-                                        })
-                                        .always(function() {
-                                            $(event.target).html('Unsubmit')
-                                        });
-                                })
-
-                            const syllabusSubmitPreviewTab = document.querySelector(
-                                '#syllabusSubmitPreviewTab')
-                            $('#submit-syllabus-tab-logs').delegate('.submitSyllabusPreviewBtns', 'click',
-                                function(event) {
-                                    $(event.target).html(`<div style="" class="d-flex justify-content-center align-items-center">
-                                            <div class="spinner-border text-primary" role="status">
-                                              </div>
-                                        </div>`)
-                                    bootstrap.Tab.getOrCreateInstance(
-                                        syllabusSubmitPreviewTab).show()
-
-                                    let previewUrl = '{{ route('syllabi.index') }}'
-                                    previewUrl =
-                                        `${previewUrl}/preview/${$(event.target).attr('data-preview-id')}`
-
-                                    $('#syllabusSubmitPreviewContent').html('')
-                                    $('#syllabusSubmitPreviewContent')
-                                        .html(`<div style="" class="d-flex justify-content-center align-items-center">
-                                            <div class="spinner-border text-primary" role="status">
-                                              </div>
-                                        </div>`)
-                                    $.ajax({
-                                            method: "GET",
-                                            url: previewUrl,
-                                        })
-                                        .done(function(data) {
-                                            const downloadRoute =
-                                                '{{ route('resources.index') }}'
-                                            $('#syllabusSubmitPreviewContent').html(
-                                                `<a class="btn btn-primary" href="${downloadRoute}/download/${data.id}">Download</a>`
-                                            )
-                                            $('#syllabusSubmitPreviewContent').append(
-                                                `<a class="btn btn-secondary" id="syllabusSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>`
-                                            )
-                                            $('#syllabusSubmitPreviewContent').append(
-                                                data.html)
-
-                                            let isFullscreen = false
-                                            $('#syllabusSubmitPreviewFullscreen').click(
-                                                (event) => {
-                                                    if (!isFullscreen) {
-                                                        openFullscreen($(
-                                                            '#syllabusSubmitPreviewContent'
-                                                        )[0])
-
-                                                        $(event.target).text(
-                                                            'Cancel fullscreen')
-                                                        isFullscreen = true
-                                                    } else {
-                                                        closeFullscreen($(
-                                                            '#syllabusSubmitPreviewContent'
-                                                        )[0])
-
-                                                        $(event.target).text('Fullscreen')
-                                                        isFullscreen = false
-                                                    }
-                                                })
-
-                                            function openFullscreen(elem) {
-                                                $(elem)
-                                                    .css('position', 'absolute')
-                                                    .css('left', '0')
-                                                    .css('top', '0')
-                                                    .css('background-color', '#fff')
-                                            }
-
-                                            function closeFullscreen(elem) {
-                                                $(elem)
-                                                    .css('position', '')
-                                                    .css('left', '')
-                                                    .css('top', '')
-                                                    .css('background-color', '')
-                                            }
-
-                                        }).fail(function() {
-
-                                        })
-                                        .always(function() {
-                                            $(event.target).html(`Preview`)
-                                        });
-                                })
-                            const syllabusSubmitFormTab = document.querySelector(
-                                '#syllabusSubmitFormTab')
-                            $('#syllabusSubmitPreviewReturn').click(function() {
-                                bootstrap.Tab.getOrCreateInstance(
-                                    syllabusSubmitFormTab).show()
-                            })
-                        })
-                        .fail(function() {
-                            alert("error");
-                        })
-                        .always(function() {
-                            // $(event.target).removeClass('loading disabled')
-                        });
-                })
-
-                /* ON SHOW SUBMIT PRESENTATION TAB */
-                $('#resource-modal-tabcontent-submit-presentation-tab').on('shown.bs.tab', function() {
-                    const presentationDropzone = $('#resource-modal-tabcontent-submit-presentation')
-                    if (presentationDropzone[0].dropzone) return
-
-                    let previewNode = $("#template-presentation")[0];
-                    // previewNode.id = "";
-                    let previewTemplate = previewNode.parentNode.innerHTML;
-                    previewNode.parentNode.removeChild(previewNode);
-
-                    let myDropzone = new Dropzone(presentationDropzone[
-                        0], { // Make the whole body a dropzone
-                        url: "{{ route('upload-temporary-file.store') }}", // Set the url
-                        params: {
-                            _token: "{{ csrf_token() }}"
-                        },
-                        accept: function(file, done) {
+                    } else if ($targetTabpaneLabel === 'presentation') {
+                        dropzoneParams['maxFiles'] = 1
+                        dropzoneParams['accept'] = function(file, done) {
                             if (
                                 file.type ==
                                 "application/vnd.ms-powerpoint" ||
@@ -2797,30 +1738,27 @@
                             } else {
                                 done("Error! You have to submit a pptx or ppt file.");
                             }
-                        },
-                        parallelUploads: 20,
-                        previewTemplate: previewTemplate,
-                        autoQueue: true, // Make sure the files aren't queued until manually added
-                        previewsContainer: "#previews-presentation", // Define the container to display the previews
-                        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
-                        maxFilesize: 5000,
-                        maxFiles: 1
+                        }
+                    }
+
+                    // Make the target tabpane a dropzone
+                    let DropzoneInstance = new Dropzone($dropzone[0], dropzoneParams);
+
+                    DropzoneInstance.on("addedfile", function(file) {
+                        $dropzone.find('.submit-resource-alert').parent('.alert').removeClass('show')
                     });
 
-                    myDropzone.on("addedfile", function(file) {
-                        $('#submit-resource-alert-presentation').parent().removeClass('show')
-                    });
-
-                    myDropzone.on("removedfile", function(file) {
-                        let $input = $(
-                                '#file-upload-container-presentation .dz-success .file-metadata :input'
-                            ),
-                            $submitButton = $('#presentationForm button[type="submit"]');
+                    DropzoneInstance.on("removedfile", function(file) {
+                        let $input = $dropzone.find(
+                                '.dropzone-preview .dz-success .file-metadata input[name="title[]"]'),
+                            $submitButton = $dropzone.find(
+                                '.submit-resource-form button[type="submit"]');
 
                         $input.unbind('keyup');
                         let trigger = false;
 
                         if ($input.length <= 0) {
+                            console.log($input.length)
                             trigger = true;
                         } else {
                             $input.each(function() {
@@ -2834,184 +1772,197 @@
                             .removeClass(
                                 'disabled');
 
-                        presentationDropzone.find('.file-metadata').delegate($input, 'keyup', function(
-                            e) {
-                            let trigger = false;
+                        $dropzone.find('.dropzone-preview .file-metadata').delegate($input, 'keyup',
+                            function(e) {
+                                let trigger = false;
 
-                            $input.each(function() {
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
+                                $input.each(function() {
+                                    if (!$(this).val()) {
+                                        trigger = true;
+                                    }
+                                });
 
-                            trigger ? $submitButton.addClass('disabled') : $submitButton
-                                .removeClass(
-                                    'disabled');
-                        })
+                                trigger ? $submitButton.addClass('disabled') : $submitButton
+                                    .removeClass(
+                                        'disabled');
+                            })
 
-                        if (presentationDropzone.find('.file-row').length <= 0) {
-                            presentationDropzone.find("#actions-presentation .cancel").addClass(
-                                'd-none')
-                            presentationDropzone.find("#submit-resource-presentation").addClass(
-                                'd-none')
+                        if (DropzoneInstance.files.length <= 0) {
+                            $dropzone.find(".submit-resource-form-actions .cancel").addClass('d-none')
+                            $submitButton.addClass('d-none')
                         }
                     })
 
                     // Update the total progress bar
-                    myDropzone.on("totaluploadprogress", function(progress) {
-                        presentationDropzone.find('#total-progress-presentation .progress-bar').css(
-                            'width',
-                            progress + '%');
+                    DropzoneInstance.on("totaluploadprogress", function(progress) {
+                        $dropzone.find('.progress .progress-bar').css('width', progress + '%');
                     });
 
-                    myDropzone.on("sending", function(file) {
+                    DropzoneInstance.on("sending", function(file) {
                         // Show the total progress bar when upload starts
-                        presentationDropzone.find('#total-progress-presentation').css('opacity', 1);
-                        presentationDropzone.find('#total-progress-presentation .progress-bar').css(
-                            'width',
-                            '0%');
+                        $dropzone.find('.progress').css('opacity', 1);
+                        $dropzone.find('.progress .progress-bar').css('width', '0%');
 
                         // And disable the start button
                         $(file.previewElement).find('.start').attr('disabled', 'disabled')
                     });
 
-                    myDropzone.on("success", function(file) {
-                        console.log('success')
+                    DropzoneInstance.on("success", function(file) {
                         $(file.previewElement).find('.file').val(file.xhr.responseText)
                         $(file.previewElement).find('.file-group').removeClass('d-none')
-                        presentationDropzone.find("#actions-presentation .cancel").removeClass('d-none')
 
-                        let $input = $(
-                                '#file-upload-container-presentation .dz-success .file-metadata :input'
-                            ),
-                            $submitButton = $('#presentationForm button[type="submit"]');
+                        let $input = $dropzone.find(
+                                '.dropzone-preview .file-metadata input[name="title[]"]'),
+                            $submitButton = $dropzone.find(
+                                '.submit-resource-form button[type="submit"]');
 
                         $submitButton.addClass('disabled')
 
-                        $('.file-metadata').delegate($input, 'keyup', function(e) {
-                            let trigger = false;
+                        $dropzone.find('.dropzone-preview .file-metadata').delegate($input, 'keyup',
+                            function(e) {
+                                let trigger = false;
 
-                            $input.each(function() {
-                                if (!$(this).val()) {
-                                    trigger = true;
-                                }
-                            });
+                                $input.each(function() {
+                                    console.log($(this).val())
+                                    if (!$(this).val()) {
+                                        trigger = true;
+                                    }
+                                });
 
-                            trigger ? $submitButton.addClass('disabled') : $submitButton
-                                .removeClass(
-                                    'disabled');
-                        })
+                                trigger ? $submitButton.addClass('disabled') : $submitButton
+                                    .removeClass(
+                                        'disabled');
+                            })
 
-                        $("#submit-resource-presentation").removeClass('d-none')
+                        $dropzone.find(".submit-resource-form-actions .cancel").removeClass('d-none')
+                        $submitButton.removeClass('d-none')
                     });
 
                     // Hide the total progress bar when nothing's uploading anymore
-                    myDropzone.on("queuecomplete", function(progress) {
-                        presentationDropzone.find('#total-progress-presentation').css('opacity', 0);
+                    DropzoneInstance.on("queuecomplete", function(progress) {
+                        $dropzone.find('.progress').css('opacity', 0);
                     });
 
-                    presentationDropzone.find("#actions-presentation .cancel").click(function() {
-                        presentationDropzone.find("#actions-presentation .cancel").addClass('d-none')
-                        presentationDropzone.find("#submit-resource-presentation").addClass('d-none')
-                        myDropzone.removeAllFiles(true);
+                    /* ON REMOVE ALL FILES */
+                    $(".submit-resource-form-actions .cancel").click(function() {
+                        DropzoneInstance.removeAllFiles(true);
                     });
 
-                    /* UPLOAD RESOURCES AJAX */
-                    $('#submit-resource-presentation').click(function(event) {
+                    /* ON DRAG FILE */
+                    $dropzone.find('.fileinput-button').children().addClass('pe-none')
+                    $dropzone.find('.fileinput-button').on(
+                        'dragover',
+                        function(event) {
+                            $(event.target)
+                                .addClass('shadow-lg fw-bold')
+                                .css('height', '150px')
+                        }
+                    )
+                    $dropzone.find('.fileinput-button').on(
+                        'dragleave',
+                        function(event) {
+                            beforeDragDropzoneStyle(event.target)
+                        }
+                    )
+                    $dropzone.find('.fileinput-button').on(
+                        'drop',
+                        function(event) {
+                            beforeDragDropzoneStyle(event.target)
+                            $('#syllabus-iframe-container').html('')
+                        }
+                    )
+
+                    function beforeDragDropzoneStyle(dropzone) {
+                        $(dropzone)
+                            .removeClass('shadow-lg fw-bold')
+                            .css('height', '100px')
+                    }
+
+                    /* ON SUBMIT RESOURCE */
+                    $dropzone.find('.submit-resource-form button[type="submit"]').click(function(event) {
                         let files = [],
                             titles = [],
                             descriptions = []
-                        $('#presentationForm [name="file[]"]').each(function(index, item) {
+                        $dropzone.find('.dropzone-preview [name="file[]"]').each(function(index,
+                            item) {
                             files.push($(item).val())
                         })
-                        $('#presentationForm [name="title[]"]').each(function(index, item) {
+                        $dropzone.find('.dropzone-preview [name="title[]"]').each(function(index,
+                            item) {
                             titles.push($(item).val())
                         })
-                        $('#presentationForm [name="description[]"]').each(function(index, item) {
+                        $dropzone.find('.dropzone-preview [name="description[]"]').each(function(
+                            index, item) {
                             descriptions.push($(item).val())
                         })
 
-                        $('#presentation-iframe-container').html('')
-
+                        let formRoute = $dropzone.find('.submit-resource-form').attr('action')
                         $.ajax({
                                 method: "POST",
-                                url: "{{ route('presentations.upload') }}",
+                                url: formRoute,
                                 data: {
                                     'file': files,
-                                    'course_id': $('#syllabusForm [name="course_id"]').val(),
+                                    'course_id': $dropzone.find('.submit-resource-form [name="course_id"]').val(),
                                     'title': titles,
                                     'description': descriptions,
+                                },
+                                beforeSend: function() {
+                                    $('#syllabus-iframe-container').html('')
+                                    $('#presentation-iframe-container').html('')
                                 }
                             })
                             .done(function(data) {
-                                presentationDropzone.find('.file-row').remove()
-                                myDropzone.files = []
+                                DropzoneInstance.removeAllFiles(true);
+                                $dropzone.find('.submit-resource-form-actions .cancel').addClass(
+                                    'd-none')
+                                $(event.target).addClass('d-none')
 
-                                $('#presentation-iframe-container').append(
+                                if($targetTabpaneLabel == 'general') {
+                                    $dropzone.find('#resources-table').DataTable().draw('page')
+                                    $dropzone.find('.submit-resource-alert').parent().addClass('show')
+                                    $dropzone.find('.submit-resource-alert').text(data.message)
+
+                                    if (data.resources.length > 0) {
+                                        appendSubmittedResourceLogItem(data.resources)
+                                    }
+                                } else if ($targetTabpaneLabel == 'syllabus') {
+                                    /* !Reminder: MIGRATE PHP JS SCRIPT TO JS ONLY*/
+                                    $('#syllabus-iframe-container').append(data.embed)
+                                } else if($targetTabpaneLabel == 'presentation') {
+                                    $('#presentation-iframe-container').append(
                                     '<ul id="presentation-slide-list"></ul>')
 
                                 if (data.status == 'ok') {
                                     $('#submit-resource-alert-presentation').parent().addClass(
                                         'show')
                                     $('#submit-resource-alert-presentation').text(data.message)
+                                    $('#resources-table').DataTable().draw('page')
+
+                                    if (data.resources.length > 0) {
+                                        appendSubmittedResourceLogItem(data.resources)
+                                    }
                                 } else {
-                                    // let isMispelled = false
                                     $(data.texts).each(function(index, item) {
-                                        // if(!dictionary.check(item)) {
-                                        //     if(
-                                        //         $.inArray('reference', dictionary.suggest(item))
-                                        //         || $.inArray('references', dictionary.suggest(item))
-                                        //     ) {
-                                        //         isMispelled = true
-                                        //         $('#presentation-slide-list').append(
-                                        //             `<li>${item} (This may have been a mispelling of the word 'reference' or 'references')</li>`
-                                        //         )
-                                        //     } else {
-                                        //         $('#presentation-slide-list').append(
-                                        //             `<li>${item}</li>`
-                                        //         )
-                                        //     }
-                                        // } else {
-                                        //     $('#presentation-slide-list').append(
-                                        //         `<li>${item}</li>`
-                                        //     )
-                                        // }
                                         $('#presentation-slide-list').append(
                                             `<li>${item}</li>`
                                         )
                                     })
-
                                     $('#presentation-iframe-container').prepend(
                                         ` <div class="h5 fw-bold">
-                                                These are the texts that were found on the last page of your uploaded presentation.
-                                            </div>`
+                                        These are the texts that were found on the last page of your uploaded presentation.
+                                    </div>`
                                     )
                                     $('#presentation-iframe-container').prepend(
                                         `<div class="alert alert-danger h4">
-                                                The last slide/page of your presentation must contain a section labeled as <strong>reference/references.</strong>
-                                            </div>`
+                                        The last slide/page of your presentation must contain a section labeled as <strong>reference/references.</strong>
+                                    </div>`
                                     )
-                                    // if (!isMispelled) {
-                                    //     $('#presentation-iframe-container').prepend(
-                                    //         ` <div class="alert alert-danger fade show" role="alert">
-                            //              The last slide/page of your presentation must contain a section labeled as <strong>reference/references.</strong>
-                            //           </div>`
-                                    //     )
-                                    // } else {
-                                    //     $('#presentation-iframe-container').prepend(
-                                    //         `<div class="h4">The <strong>reference page</strong> of your presentation must be correctly labeled <strong>reference or references</strong>.</div>`
-                                    //     )
-                                    // }
                                 }
 
-
                                 $('#presentation-iframe-container').append(data.embed)
-                                $('#actions-presentation .cancel').addClass('d-none')
-                                $('#submit-resource-presentation').addClass('d-none')
-                                // $('#resources-table').DataTable().draw('page')
-                                // $('#submit-resource-alert-presentation').parent().addClass('show')
-                                // $('#submit-resource-alert-presentation').text(data.message)
+                                }
 
+                                console.log(data)
                             })
                             .fail(function() {
                                 alert("error");
@@ -3021,244 +1972,2145 @@
                             });
                     })
 
-                    let courseUrl = '{{ route('courses.index') }}'
-                    courseUrl = `${courseUrl}/${$('[name="course_id"]').first().val()}`
-                    $.ajax({
-                            method: "GET",
-                            url: courseUrl,
-                        })
-                        .done(function(data) {
-                            if (data.presentationComplied) {
-                                $('#submit-presentation-tab-status').text('Fulfilled')
-                                $('#submit-presentation-tab-status').closest('.list-group-item')
-                                    .removeClass('text-danger')
-                                $('#submit-presentation-tab-status').closest('.list-group-item')
-                                    .addClass('text-success')
-                            } else {
-                                $('#submit-presentation-tab-status').text('Unfulfilled')
-                                $('#submit-presentation-tab-status').closest('.list-group-item')
-                                    .removeClass('text-success')
-                                $('#submit-presentation-tab-status').closest('.list-group-item')
-                                    .addClass('text-danger')
-                            }
-                            $('#submit-presentation-tab-logs-count').text($(data.presentationLogs).length)
-                            $('#submit-presentation-tab-logs').html('')
-                            $(data.presentationLogs).each(function(index, item) {
-                                $('#submit-presentation-tab-logs').append(`
-                                        <li class="logsRootList list-group-item d-flex justify-content-between align-items-center lh-sm">
-                                            <span> ${item.media[0].file_name} </span>
-                                            <span> ${new Date(item.created_at).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'})} </span>
-                                            <div>
-                                                <div class="btn-group dropend">
-                                                    <button class="btn" data-bs-toggle="dropdown" onclick="'${item.status}' != 'for approval' || ${!item.isOwner} ? event.target.closest('.btn-group').querySelector('.presentationLogsUnsubmit') != undefined ? event.target.closest('.btn-group').querySelector('.presentationLogsUnsubmit').remove() : '' : ''" data-bs-auto-close="outside" aria-expanded="false">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                                    </button>
-                                                    <ul class="dropdown-menu shadow border-0 p-0">
-                                                        <li class="dropdown-item p-0">
-                                                            <ul class="list-group" style="min-width: 300px">
-                                                                <li class="list-group-item">
-                                                                    <div>
-                                                                        <h6 class="my-0 fw-bold">
-                                                                            ${item.user.username}
-                                                                        </h6>
-                                                                        <small class="text-muted">Submitter</small>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div>
-                                                                        <h6 class="my-0 fw-bold">
-                                                                            ${item.status}
-                                                                        </h6>
-                                                                        <small class="text-muted">Status</small>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="row">
-                                                                        <div class="col-6">
-                                                                            <button data-preview-id="${item.id}" class="submitPresentationPreviewBtns w-100 btn btn-light border text-primary fw-bold">
-                                                                                Preview
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                            <button data-unsubmit-id="${item.id}" class="presentationLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
-                                                                                Unsubmit
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    `)
-                            })
-
-                            $('#submit-presentation-tab-logs').delegate('.presentationLogsUnsubmit',
-                                'click',
-                                function(event) {
-                                    let deleteUrl = '{{ route('resources.index') }}'
-                                    deleteUrl =
-                                        `${deleteUrl}/${$(event.target).attr('data-unsubmit-id')}`
-
-                                    $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
-                                                <div class="spinner-border text-primary" role="status"></div>
-                                            </div>`)
-
-                                    $.ajax({
-                                            method: "POST",
-                                            url: deleteUrl,
-                                            data: {
-                                                '_method': 'DELETE'
-                                            }
-                                        })
-                                        .done(function(data) {
-                                            if (data.status == 'ok') {
-                                                $(event.target).closest('.logsRootList').remove()
-                                                let currentLogsCounter = parseInt($(
-                                                        '#submit-presentation-tab-logs-count')
-                                                    .text()) - 1
-                                                $('#submit-presentation-tab-logs-count').text(
-                                                    currentLogsCounter)
-                                            }
-                                        })
-                                        .fail(function() {
-                                            alert("error");
-                                        })
-                                        .always(function() {
-                                            $(event.target).html('Unsubmit')
-                                        });
-                                })
-
-                            const presentationSubmitPreviewTab = document.querySelector(
-                                '#presentationSubmitPreviewTab')
-                            $('#submit-presentation-tab-logs').delegate('.submitPresentationPreviewBtns',
-                                'click',
-                                function(event) {
-                                    $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
-                                                <div class="spinner-border text-primary" role="status"></div>
-                                            </div>`)
-
-                                    bootstrap.Tab.getOrCreateInstance(
-                                        presentationSubmitPreviewTab).show()
-
-                                    let previewUrl = '{{ route('presentations.index') }}'
-                                    previewUrl =
-                                        `${previewUrl}/preview/${$(event.target).attr('data-preview-id')}`
-
-                                    $('#presentationSubmitPreviewContent').html('')
-                                    $('#presentationSubmitPreviewContent')
-                                        .html(`<div class="d-flex justify-content-center align-items-center">
-                                    <div class="spinner-border text-primary" role="status">
-                                      </div>
-                                </div>`)
-
-                                    var thePdf = null;
-                                    var scale = 1;
-                                    pdfjsLib.getDocument(previewUrl).promise.then(pdf => {
-                                        const downloadRoute =
-                                            '{{ route('resources.index') }}'
-                                        $('#presentationSubmitPreviewContent').html(
-                                            `<a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>`
-                                        )
-                                        $('#presentationSubmitPreviewContent')
-                                            .append(
-                                                `<a class="btn btn-secondary" id="presentationSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>`
-                                            )
-
-                                        thePdf = pdf;
-                                        viewer = document.getElementById(
-                                            'presentationSubmitPreviewContent');
-
-                                        for (page = 1; page <= pdf
-                                            .numPages; page++) {
-                                            canvas = document.createElement(
-                                                "canvas");
-                                            canvas.className = 'd-block w-100';
-                                            viewer.appendChild(canvas);
-                                            renderPage(page, canvas);
-                                        }
-                                        $(event.target).html(`Preview`)
-                                    }).catch(err => {
-                                        $(event.target).html(`Preview`)
-
-                                        $('#generalSubmitPreviewContent').html(
-                                            `<div class="alert alert-danger" role="alert">
-                                            File was not able to be previewed due to certain error. Try again!
-                                        </div>`
-                                        )
+                    function appendSubmittedResourceLogItem(resources) {
+                            $(resources).each(function(index, item) {
+                                let fileSubmissionDate = new Date(item.created_at)
+                                    .toLocaleDateString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        second: 'numeric'
                                     })
+                                let fileName = item.media[0] ? item.media[0]
+                                    .file_name :
+                                    'unknown file'
 
-                                    function renderPage(pageNumber, canvas) {
-                                        thePdf.getPage(pageNumber).then(function(page) {
-                                            viewport = page.getViewport({
-                                                scale: scale
-                                            });
-                                            canvas.height = viewport.height;
-                                            canvas.width = viewport.width;
-                                            page.render({
-                                                canvasContext: canvas
-                                                    .getContext('2d'),
-                                                viewport: viewport
-                                            });
-                                        });
-                                    }
+                                $('#submit-general-tab-logs').prepend(`
+                                    <li class="logsRootList list-group-item hstack gap-3 lh-sm">
+                                    <span class="text-truncate" title="${fileName}"> ${fileName} </span>
+                                    <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+                                    <span class="vr"></span>
+                                        <div>
+                                            <div class="btn-group dropend">
+                                                <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                                </button>
+                                                <ul class="dropdown-menu shadow border-0 p-0">
+                                                    <li class="dropdown-item p-0">
+                                                        <ul class="list-group" style="min-width: 300px">
+                                                            <li class="list-group-item">
+                                                                <div>
+                                                                    <h6 class="my-0 fw-bold">
+                                                                        ${item.user.username}
+                                                                    </h6>
+                                                                    <small class="text-muted">Submitter</small>
+                                                                </div>
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div>
+                                                                    <h6 class="my-0 fw-bold">
+                                                                        approved
+                                                                    </h6>
+                                                                    <small class="text-muted">Status</small>
+                                                                </div>
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+                                                                            Preview
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+                                                                            Unsubmit
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                `)
 
-                                    let isFullscreen = false
-                                    $('#presentationSubmitPreview').delegate(
-                                        '#presentationSubmitPreviewFullscreen', 'click',
-                                        (event) => {
-                                            if (!isFullscreen) {
-                                                openFullscreen($(
-                                                    '#presentationSubmitPreviewContent'
-                                                )[0])
+                                $('#submit-general-tab-logs .logsRootList:last')
+                                    .remove();
 
-                                                $(event.target).text(
-                                                    'Cancel fullscreen')
-                                                isFullscreen = true
-                                            } else {
-                                                closeFullscreen($(
-                                                    '#presentationSubmitPreviewContent'
-                                                )[0])
-
-                                                $(event.target).text('Fullscreen')
-                                                isFullscreen = false
-                                            }
-                                        })
-
-                                    function openFullscreen(elem) {
-                                        $(elem)
-                                            .css('position', 'absolute')
-                                            .css('width', '100%')
-                                            .css('left', '0')
-                                            .css('top', '0')
-                                            .css('background-color', '#fff')
-                                    }
-
-                                    function closeFullscreen(elem) {
-                                        $(elem)
-                                            .css('position', '')
-                                            .css('width', '')
-                                            .css('left', '')
-                                            .css('top', '')
-                                            .css('background-color', '')
-                                    }
-                                })
-                            const presentationSubmitFormTab = document.querySelector(
-                                '#presentationSubmitFormTab')
-                            $('#presentationSubmitPreviewReturn').click(function() {
-                                bootstrap.Tab.getOrCreateInstance(
-                                    presentationSubmitFormTab).show()
+                                // let currentLogsCounter = parseInt($(
+                                //         "#submit-general-tab-logs-count")
+                                //     .text()) + data.resources.length;
+                                // $("#submit-general-tab-logs-count").text(
+                                //     currentLogsCounter);
                             })
-                        })
-                        .fail(function() {
-                            alert("error");
-                        })
-                        .always(function() {
-                            // $(event.target).removeClass('loading disabled')
-                        });
+                    }
+
+                    // /* SUBMIT RESOURCE LINK AJAX */
+                    // $('#storeByUrlForm [type="submit"]').click(function(event) {
+                    //     $('#storeByUrlForm .alert-danger').hide()
+
+                    //     const $formFields = $('#storeByUrlForm').serializeArray()
+                    //     const jsonData = {}
+                    //     $.each($formFields, function(index, field) {
+                    //         jsonData[field.name] = field.value
+                    //     })
+                    //     jsonData['course_id'] = $('[name="course_id"]').first().val()
+
+                    //     $.ajax({
+                    //             method: "POST",
+                    //             url: "{{ route('resources.storeByUrl') }}",
+                    //             data: jsonData
+                    //         })
+                    //         .done(function(data) {
+                    //             $(data.resources).each(function(index, item) {
+                    //                 let fileSubmissionDate = new Date(item.created_at)
+                    //                     .toLocaleDateString('en-US', {
+                    //                         month: 'short',
+                    //                         day: 'numeric',
+                    //                         year: 'numeric',
+                    //                         hour: 'numeric',
+                    //                         minute: 'numeric',
+                    //                         second: 'numeric'
+                    //                     })
+                    //                 let fileName = item.media[0] ? item.media[0].file_name :
+                    //                     'unknown file'
+                    //                 $('#submit-general-tab-logs').append(`
+                    //             <li class="logsRootList list-group-item hstack gap-3 lh-sm">
+                    //                 <span class="text-truncate" title="${fileName}"> ${fileName} </span>
+                    //                 <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+                    //                 <span class="vr"></span>
+                    //                 <div>
+                    //                     <div class="btn-group dropend">
+                    //                         <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                    //                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                    //                         </button>
+                    //                         <ul class="dropdown-menu shadow border-0 p-0">
+                    //                             <li class="dropdown-item p-0">
+                    //                                 <ul class="list-group" style="min-width: 300px">
+                    //                                     <li class="list-group-item">
+                    //                                         <div>
+                    //                                             <h6 class="my-0 fw-bold">
+                    //                                                 ${item.user.username}
+                    //                                             </h6>
+                    //                                             <small class="text-muted">Submitter</small>
+                    //                                         </div>
+                    //                                     </li>
+                    //                                     <li class="list-group-item">
+                    //                                         <div>
+                    //                                             <h6 class="my-0 fw-bold">
+                    //                                                 approved
+                    //                                             </h6>
+                    //                                             <small class="text-muted">Status</small>
+                    //                                         </div>
+                    //                                     </li>
+                    //                                     <li class="list-group-item">
+                    //                                         <div class="row">
+                    //                                             <div class="col-6">
+                    //                                                 <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+                    //                                                     Preview
+                    //                                                 </button>
+                    //                                             </div>
+                    //                                             <div class="col-6">
+                    //                                                 <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+                    //                                                     Unsubmit
+                    //                                                 </button>
+                    //                                             </div>
+                    //                                         </div>
+                    //                                     </li>
+                    //                                 </ul>
+                    //                             </li>
+                    //                         </ul>
+                    //                     </div>
+                    //                 </div>
+                    //             </li>
+                    //         `)
+
+                    //                 // let currentLogsCounter = parseInt($(
+                    //                 //         "#submit-general-tab-logs-count")
+                    //                 //     .text()) + data.resources.length;
+                    //                 // $("#submit-general-tab-logs-count").text(
+                    //                 //     currentLogsCounter);
+                    //             })
+                    //             $('#resources-table').DataTable().draw('page')
+                    //             $('#storeByUrlForm')[0].reset()
+                    //             $('#fileText').text('')
+                    //         })
+                    //         .fail(function(response) {
+                    //             response = response.responseJSON
+                    //             $('#storeByUrlForm .alert-danger').stop(true, true)
+                    //             $('#storeByUrlForm .alert-danger').fadeTo(2000, 500);
+                    //             $('#storeByUrlForm .alert-danger').html(
+                    //                 `<h5>You got few validation errors.</h5>
+                    //      <ul class="formErrorList"></ul>
+                    //     `
+                    //             )
+                    //             $.each(response.errors, function(key, error) {
+                    //                 $('#storeByUrlForm .formErrorList').append(
+                    //                     `<li>${error}</li>`
+                    //                 )
+                    //             })
+                    //         })
+                    //         .always(function() {
+                    //             $(event.target).removeClass('loading disabled')
+                    //         });
+                    // })
+
+                    // /* UPDATE SUBMIT RESOURCE TAB */
+                    // let courseUrl = '{{ route('courses.index') }}'
+                    // courseUrl = `${courseUrl}/${$('[name="course_id"]').first().val()}`
+                    // $.ajax({
+                    //         method: "GET",
+                    //         url: courseUrl,
+                    //     })
+                    //     .done(function(data) {
+                    //         // $('#submit-general-tab-logs-count').text($(data.resourceLogs).length)
+                    //         $('#submit-general-tab-logs').html('')
+                    //         $(data.resourceLogs).each(function(index, item) {
+                    //             let fileSubmissionDate = new Date(item.created_at)
+                    //                 .toLocaleDateString('en-US', {
+                    //                     month: 'short',
+                    //                     day: 'numeric',
+                    //                     year: 'numeric',
+                    //                     hour: 'numeric',
+                    //                     minute: 'numeric',
+                    //                     second: 'numeric'
+                    //                 })
+                    //             let fileName = item.media[0] ? item.media[0].file_name :
+                    //                 'unknown file'
+                    //             $('#submit-general-tab-logs').append(`
+                    //             <li class="logsRootList list-group-item hstack gap-3 lh-sm">
+                    //                 <span class="text-truncate" title="${fileName}"> ${fileName} </span>
+                    //                 <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+                    //                 <span class="vr"></span>
+                    //                 <div class="ms-auto">
+                    //                     <div class="btn-group dropend">
+                    //                         <button class="btn" data-bs-toggle="dropdown" onclick="'${item.status}' != 'for approval' || ${!item.isOwner} ? event.target.closest('.btn-group').querySelector('.generalLogsUnsubmit') != undefined ? event.target.closest('.btn-group').querySelector('.generalLogsUnsubmit').remove() : '' : ''" data-bs-auto-close="outside" aria-expanded="false">
+                    //                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                    //                         </button>
+                    //                         <ul class="dropdown-menu shadow border-0 p-0">
+                    //                             <li class="dropdown-item p-0">
+                    //                                 <ul class="list-group" style="min-width: 300px">
+                    //                                     <li class="list-group-item">
+                    //                                         <div>
+                    //                                             <h6 class="my-0 fw-bold">
+                    //                                                 ${item.user.username}
+                    //                                             </h6>
+                    //                                             <small class="text-muted">Submitter</small>
+                    //                                         </div>
+                    //                                     </li>
+                    //                                     <li class="list-group-item">
+                    //                                         <div>
+                    //                                             <h6 class="my-0 fw-bold">
+                    //                                                 ${item.status}
+                    //                                             </h6>
+                    //                                             <small class="text-muted">Status</small>
+                    //                                         </div>
+                    //                                     </li>
+                    //                                     <li class="list-group-item">
+                    //                                         <div class="row">
+                    //                                             <div class="col-6">
+                    //                                                 <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+                    //                                                     Preview
+                    //                                                 </button>
+                    //                                             </div>
+                    //                                             <div class="col-6">
+                    //                                                 <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+                    //                                                     Unsubmit
+                    //                                                 </button>
+                    //                                             </div>
+                    //                                         </div>
+                    //                                     </li>
+                    //                                 </ul>
+                    //                             </li>
+                    //                         </ul>
+                    //                     </div>
+                    //                 </div>
+                    //             </li>
+                    //         `)
+                    //         })
+
+                    //         // let logClickCount = 0
+                    //         // $('.submitResourceLogsShowAll').click(function(event) {
+                    //         //     if (logClickCount % 2 === 0) {
+                    //         //         $(event.target).text('Hide some')
+                    //         //         $(event.target).closest('li').find('.submitResourceLogsList')
+                    //         //             .css('max-height', '100%')
+                    //         //     } else {
+                    //         //         $(event.target).text('Show all')
+                    //         //         $(event.target).closest('li').find('.submitResourceLogsList')
+                    //         //             .css('max-height', '280px')
+                    //         //     }
+                    //         //     logClickCount++
+                    //         // })
+
+                    //         $('#submit-general-tab-logs').delegate('.generalLogsUnsubmit', 'click',
+                    //             function(event) {
+                    //                 let deleteUrl = '{{ route('resources.index') }}'
+                    //                 deleteUrl =
+                    //                     `${deleteUrl}/${$(event.target).attr('data-unsubmit-id')}`
+
+                    //                 $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
+                    //                     <div class="spinner-border text-primary" role="status"></div>
+                    //                 </div>`)
+                    //                 $.ajax({
+                    //                         method: "POST",
+                    //                         url: deleteUrl,
+                    //                         data: {
+                    //                             '_method': 'DELETE'
+                    //                         }
+                    //                     })
+                    //                     .done(function(data) {
+                    //                         if (data.status == 'ok') {
+                    //                             $(event.target).closest('.logsRootList').remove()
+                    //                             // let currentLogsCounter = parseInt($(
+                    //                             //         '#submit-general-tab-logs-count')
+                    //                             //     .text()) - 1
+                    //                             // $('#submit-general-tab-logs-count').text(
+                    //                             //     currentLogsCounter)
+                    //                         }
+                    //                     })
+                    //                     .fail(function() {
+                    //                         alert("error");
+                    //                     })
+                    //                     .always(function() {
+                    //                         $(event.target).html(`Unsubmit`)
+                    //                     });
+                    //             })
+
+                    //         const generalSubmitPreviewTab = document.querySelector(
+                    //             '#generalSubmitPreviewTab')
+
+                    //         let onPreview = false;
+                    //         $('#submit-general-tab-logs').delegate('.submitGeneralPreviewBtns', 'click',
+                    //             function(event) {
+                    //                 if (onPreview) return;
+
+                    //                 onPreview = true;
+
+                    //                 $('#submit-general-tab-logs .logsRootList').removeClass(
+                    //                     'shadow-lg border-5 border-primary fw-bold  ')
+                    //                 $(event.target).closest('.logsRootList').addClass(
+                    //                     'shadow-lg border-5 border-primary fw-bold')
+
+                    //                 $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
+                    //                     <div class="spinner-border text-primary" role="status"></div>
+                    //                 </div>`)
+
+                    //                 bootstrap.Tab.getOrCreateInstance(
+                    //                     generalSubmitPreviewTab).show()
+
+                    //                 let previewUrl = '{{ route('resources.index') }}'
+                    //                 previewUrl =
+                    //                     `${previewUrl}/preview/${$(event.target).attr('data-preview-id')}`
+
+                    //                 $('#generalSubmitPreviewContent')
+                    //                     .html(`<div class="d-flex justify-content-center align-items-center">
+                    //                     <div class="spinner-border text-primary" role="status"></div>
+                    //                   </div>`)
+
+                    //                 const filetypes = @json(config('app.pdf_convertible_filetypes'));
+                    //                 if ($.inArray($(event.target).attr('data-preview-filetype'),
+                    //                         filetypes) == -1) {
+                    //                     /* IF NOT PDF CONVERTIBLE */
+                    //                     $.ajax({
+                    //                             method: "GET",
+                    //                             url: previewUrl,
+                    //                             // beforeSend: function(){
+                    //                             //     onPreview = true
+                    //                             // },
+                    //                         })
+                    //                         .done(function(data) {
+                    //                             const downloadRoute =
+                    //                                 '{{ route('resources.index') }}'
+                    //                             $('#generalSubmitPreviewContent').html(
+                    //                                 `<div class="mb-4">
+                    //                             <a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>
+                    //                             <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
+                    //                         </div>`
+                    //                             )
+
+                    //                             if (data.fileType === 'text_filetypes') {
+                    //                                 $('#generalSubmitPreviewContent').append(
+                    //                                     '<textarea id="previewGeneralSummernote"></textarea>'
+                    //                                 )
+                    //                                 $('#previewGeneralSummernote').summernote({
+                    //                                     'toolbar': [],
+                    //                                     codeviewFilter: false,
+                    //                                     codeviewIframeFilter: true
+                    //                                 })
+                    //                                 $('#previewGeneralSummernote').summernote(
+                    //                                     'code',
+                    //                                     data.resourceText)
+                    //                                 $('#previewGeneralSummernote').summernote(
+                    //                                     'disable')
+                    //                             }
+
+                    //                             if (data.fileType === 'img_filetypes') {
+                    //                                 $('#generalSubmitPreviewContent').append(
+                    //                                     `<img style="width: 300px" src="${data.resourceUrl}" />`
+                    //                                 )
+                    //                             }
+
+                    //                             if (data.fileType === 'video_filetypes') {
+                    //                                 console.log(data)
+                    //                                 $('#generalSubmitPreviewContent').append(
+                    //                                     `<video width="320" height="240" controls autoplay>
+                    //                                 <source src="${data.resourceUrl}" type="video/mp4">
+                    //                             </video>`
+                    //                                 )
+                    //                             }
+
+                    //                             if (data.fileType === 'audio_filetypes') {
+                    //                                 $('#generalSubmitPreviewContent').append(
+                    //                                     `<audio controls autoplay>
+                    //                                 <source src="${data.resourceUrl}" type="audio/mpeg">
+                    //                             </audio>`
+                    //                                 )
+                    //                             }
+                    //                         })
+                    //                         .fail(function(error) {
+                    //                             $('#generalSubmitPreviewContent').html(
+                    //                                 `<div class="alert alert-danger" role="alert">
+                    //                             ${error.responseJSON.message}
+                    //                         </div>`
+                    //                             )
+                    //                         })
+                    //                         .always(function() {
+                    //                             $(event.target).text(`Preview`)
+                    //                             onPreview = false;
+                    //                         });
+                    //                 } else {
+                    //                     /* IF PDF CONVERTIBLE */
+                    //                     var thePdf = null;
+                    //                     var scale = 1;
+                    //                     pdfjsLib.getDocument(previewUrl).promise.then(pdf => {
+                    //                         onPreview = false;
+
+                    //                         const downloadRoute =
+                    //                             '{{ route('resources.index') }}'
+                    //                         $('#generalSubmitPreviewContent').html(
+                    //                             `
+                    //                             <div class="mb-4">
+                    //                                 <a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>
+                    //                                 <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
+                    //                             </div>
+                    //                             `
+                    //                         )
+
+                    //                         thePdf = pdf;
+                    //                         viewer = document.getElementById(
+                    //                             'generalSubmitPreviewContent');
+
+                    //                         for (page = 1; page <= pdf
+                    //                             .numPages; page++) {
+                    //                             canvas = document.createElement(
+                    //                                 "canvas");
+                    //                             canvas.className = 'd-block w-100 mx-auto';
+                    //                             canvas.style.maxWidth = '900px';
+                    //                             viewer.appendChild(canvas);
+                    //                             renderPage(page, canvas);
+                    //                         }
+
+                    //                         $(event.target).html(`Preview`)
+                    //                     }).catch((error) => {
+                    //                         onPreview = false;
+
+                    //                         $(event.target).html(`Preview`)
+
+                    //                         $('#generalSubmitPreviewContent').html(
+                    //                             `<div class="alert alert-danger" role="alert">
+                    //                         File was not able to be previewed due to certain error. Try again!
+                    //                     </div>`
+                    //                         )
+                    //                     })
+
+                    //                     function renderPage(pageNumber, canvas) {
+                    //                         thePdf.getPage(pageNumber).then(function(page) {
+                    //                             viewport = page.getViewport({
+                    //                                 scale: scale
+                    //                             });
+                    //                             canvas.height = viewport.height;
+                    //                             canvas.width = viewport.width;
+                    //                             page.render({
+                    //                                 canvasContext: canvas
+                    //                                     .getContext('2d'),
+                    //                                 viewport: viewport
+                    //                             });
+                    //                         });
+                    //                     }
+                    //                 }
+
+                    //                 let isFullscreen = false
+                    //                 $('#generalSubmitPreview').delegate(
+                    //                     '#generalSubmitPreviewFullscreen', 'click',
+                    //                     (event) => {
+                    //                         if (!isFullscreen) {
+                    //                             openFullscreen($(
+                    //                                 '#generalSubmitPreviewContent'
+                    //                             )[0])
+
+                    //                             $(event.target).text(
+                    //                                 'Cancel fullscreen')
+                    //                             isFullscreen = true
+                    //                         } else {
+                    //                             closeFullscreen($(
+                    //                                 '#generalSubmitPreviewContent'
+                    //                             )[0])
+
+                    //                             $(event.target).text('Fullscreen')
+                    //                             isFullscreen = false
+                    //                         }
+                    //                     })
+
+                    //                 function openFullscreen(elem) {
+                    //                     $(elem)
+                    //                         .css('position', 'absolute')
+                    //                         .css('width', '100%')
+                    //                         .css('height', '100%')
+                    //                         .css('left', '0')
+                    //                         .css('top', '0')
+                    //                         .css('background-color', '#fff')
+                    //                 }
+
+                    //                 function closeFullscreen(elem) {
+                    //                     $(elem)
+                    //                         .css('position', '')
+                    //                         .css('width', '')
+                    //                         .css('height', '100%')
+                    //                         .css('left', '')
+                    //                         .css('top', '')
+                    //                         .css('background-color', '')
+                    //                 }
+                    //             })
+                    //         const generalSubmitFormTab = document.querySelector(
+                    //             '#generalSubmitFormTab')
+                    //         $('#generalSubmitPreviewReturn').click(function() {
+                    //             bootstrap.Tab.getOrCreateInstance(
+                    //                 generalSubmitFormTab).show()
+                    //         })
+                    //     })
+                    //     .fail(function() {
+                    //         alert("error");
+                    //     })
+                    //     .always(function() {
+                    //         // $(event.target).removeClass('loading disabled')
+                    //     });
                 })
+
+                // /* ON SHOW SUBMIT GENERAL TAB */
+                // $('#resource-modal-tabcontent-submit-general-tab').on('shown.bs.tab', function(event) {
+                //     const $targetTabpaneId = $(event.target).attr('data-bs-target')
+                //     const dropzone = $($targetTabpaneId)
+                //     if (dropzone[0].dropzone) return
+
+                //     let previewNode = $("#template")[0];
+                //     let previewTemplate = previewNode.parentNode.innerHTML;
+                //     previewNode.parentNode.removeChild(previewNode);
+
+                //     let myDropzone = new Dropzone(dropzone[0], { // Make the whole body a dropzone
+                //         url: "{{ route('upload-temporary-file.store') }}", // Set the url
+                //         params: {
+                //             _token: "{{ csrf_token() }}"
+                //         },
+                //         thumbnailWidth: 120,
+                //         thumbnailHeight: 120,
+                //         parallelUploads: 20,
+                //         previewTemplate: previewTemplate,
+                //         autoQueue: true, // Make sure the files aren't queued until manually added
+                //         previewsContainer: "#previews", // Define the container to display the previews
+                //         clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+                //         maxFilesize: 5000
+                //     });
+
+                //     myDropzone.on("addedfile", function(file) {
+                //         $('#submit-resource-alert').parent().removeClass('show')
+                //     });
+
+                //     myDropzone.on("removedfile", function(file) {
+                //         let $input = $('#file-upload-container .dz-success .file-metadata :input'),
+                //             $submitButton = $('#resourceForm button[type="submit"]');
+
+                //         $input.unbind('keyup');
+                //         let trigger = false;
+
+                //         if ($input.length <= 0) {
+                //             trigger = true;
+                //         } else {
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+                //         }
+
+                //         trigger ? $submitButton.addClass('disabled') : $submitButton
+                //             .removeClass(
+                //                 'disabled');
+
+                //         dropzone.find('.file-metadata').delegate($input, 'keyup', function(e) {
+                //             let trigger = false;
+
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+
+                //             trigger ? $submitButton.addClass('disabled') : $submitButton
+                //                 .removeClass(
+                //                     'disabled');
+                //         })
+
+                //         if (dropzone.find('.file-row').length <= 0) {
+                //             $("#actions .cancel").addClass('d-none')
+                //             $("#submit-resource").addClass('d-none')
+                //         }
+                //     })
+
+                //     // Update the total progress bar
+                //     myDropzone.on("totaluploadprogress", function(progress) {
+                //         $('#total-progress .progress-bar').css('width', progress + '%');
+                //     });
+
+                //     myDropzone.on("sending", function(file) {
+                //         // Show the total progress bar when upload starts
+                //         $('#total-progress').css('opacity', 1);
+                //         $('#total-progress .progress-bar').css('width', '0%');
+
+                //         // And disable the start button
+                //         $(file.previewElement).find('.start').attr('disabled', 'disabled')
+                //     });
+
+                //     myDropzone.on("success", function(file) {
+                //         $(file.previewElement).find('.file').val(file.xhr.responseText)
+                //         $(file.previewElement).find('.file-group').removeClass('d-none')
+                //         $("#actions .cancel").removeClass('d-none')
+
+                //         let $input = $('#file-upload-container .file-metadata :input'),
+                //             $submitButton = $('#resourceForm button[type="submit"]');
+
+                //         $submitButton.addClass('disabled')
+
+                //         $('.file-metadata').delegate($input, 'keyup', function(e) {
+                //             let trigger = false;
+
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+
+                //             trigger ? $submitButton.addClass('disabled') : $submitButton
+                //                 .removeClass(
+                //                     'disabled');
+                //         })
+
+                //         $("#submit-resource").removeClass('d-none')
+                //     });
+
+                //     // Hide the total progress bar when nothing's uploading anymore
+                //     myDropzone.on("queuecomplete", function(progress) {
+                //         $('#total-progress').css('opacity', 0);
+                //     });
+
+                //     $("#actions .cancel").click(function() {
+                //         $("#actions .cancel").addClass('d-none')
+                //         $("#submit-resource").addClass('d-none')
+                //         myDropzone.removeAllFiles(true);
+                //     });
+
+                //     /* ON DRAG FILE */
+                //     $(dropzone).find('.fileinput-button').children().addClass('pe-none')
+                //     $(dropzone).find('.fileinput-button').on(
+                //         'dragover',
+                //         function(event) {
+                //             $(event.target)
+                //                 .addClass('shadow-lg fw-bold')
+                //                 .css('height', '150px')
+                //         }
+                //     )
+                //     $(dropzone).find('.fileinput-button').on(
+                //         'dragleave',
+                //         function(event) {
+                //             beforeDragDropzoneStyle(event.target)
+                //         }
+                //     )
+                //     $(dropzone).find('.fileinput-button').on(
+                //         'drop',
+                //         function(event) {
+                //             beforeDragDropzoneStyle(event.target)
+                //         }
+                //     )
+
+                //     function beforeDragDropzoneStyle(dropzone) {
+                //         $(dropzone)
+                //             .removeClass('shadow-lg fw-bold')
+                //             .css('height', '100px')
+                //     }
+
+                //     /* UPLOAD RESOURCES AJAX */
+                //     $('#submit-resource').click(function(event) {
+                //         let files = [],
+                //             titles = [],
+                //             descriptions = []
+                //         $('#resourceForm [name="file[]"]').each(function(index, item) {
+                //             files.push($(item).val())
+                //         })
+                //         $('#resourceForm [name="title[]"]').each(function(index, item) {
+                //             titles.push($(item).val())
+                //         })
+                //         $('#resourceForm [name="description[]"]').each(function(index, item) {
+                //             descriptions.push($(item).val())
+                //         })
+
+                //         $.ajax({
+                //                 method: "POST",
+                //                 url: "{{ route('resources.store') }}",
+                //                 data: {
+                //                     'file': files,
+                //                     'course_id': $('#resourceForm [name="course_id"]').val(),
+                //                     'title': titles,
+                //                     'description': descriptions,
+                //                 }
+                //             })
+                //             .done(function(data) {
+                //                 $('.file-row').remove()
+                //                 $('#actions .cancel').addClass('d-none')
+                //                 $('#submit-resource').addClass('d-none')
+                //                 $('#resources-table').DataTable().draw('page')
+                //                 $('#submit-resource-alert').parent().addClass('show')
+                //                 $('#submit-resource-alert').text(data.message)
+
+                //                 if (data.resources.length > 0) {
+                //                     $(data.resources).each(function(index, item) {
+                //                         let fileSubmissionDate = new Date(item.created_at)
+                //                             .toLocaleDateString('en-US', {
+                //                                 month: 'short',
+                //                                 day: 'numeric',
+                //                                 year: 'numeric',
+                //                                 hour: 'numeric',
+                //                                 minute: 'numeric',
+                //                                 second: 'numeric'
+                //                             })
+                //                         let fileName = item.media[0] ? item.media[0]
+                //                             .file_name :
+                //                             'unknown file'
+                //                         $('#submit-general-tab-logs').prepend(`
+        //                 <li class="logsRootList list-group-item hstack gap-3 lh-sm">
+        //                     <span class="text-truncate" title="${fileName}"> ${fileName} </span>
+        //                     <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+        //                     <span class="vr"></span>
+        //                         <div>
+        //                             <div class="btn-group dropend">
+        //                                 <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+        //                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        //                                 </button>
+        //                                 <ul class="dropdown-menu shadow border-0 p-0">
+        //                                     <li class="dropdown-item p-0">
+        //                                         <ul class="list-group" style="min-width: 300px">
+        //                                             <li class="list-group-item">
+        //                                                 <div>
+        //                                                     <h6 class="my-0 fw-bold">
+        //                                                         ${item.user.username}
+        //                                                     </h6>
+        //                                                     <small class="text-muted">Submitter</small>
+        //                                                 </div>
+        //                                             </li>
+        //                                             <li class="list-group-item">
+        //                                                 <div>
+        //                                                     <h6 class="my-0 fw-bold">
+        //                                                         approved
+        //                                                     </h6>
+        //                                                     <small class="text-muted">Status</small>
+        //                                                 </div>
+        //                                             </li>
+        //                                             <li class="list-group-item">
+        //                                                 <div class="row">
+        //                                                     <div class="col-6">
+        //                                                         <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+        //                                                             Preview
+        //                                                         </button>
+        //                                                     </div>
+        //                                                     <div class="col-6">
+        //                                                         <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+        //                                                             Unsubmit
+        //                                                         </button>
+        //                                                     </div>
+        //                                                 </div>
+        //                                             </li>
+        //                                         </ul>
+        //                                     </li>
+        //                                 </ul>
+        //                             </div>
+        //                         </div>
+        //                     </li>
+        //                 `)
+
+                //                         $('#submit-general-tab-logs .logsRootList:last')
+                //                             .remove();
+
+                //                         // let currentLogsCounter = parseInt($(
+                //                         //         "#submit-general-tab-logs-count")
+                //                         //     .text()) + data.resources.length;
+                //                         // $("#submit-general-tab-logs-count").text(
+                //                         //     currentLogsCounter);
+                //                     })
+                //                 }
+                //             })
+                //             .fail(function() {
+                //                 alert("error");
+                //             })
+                //             .always(function() {
+                //                 $(event.target).removeClass('loading disabled')
+                //             });
+                //     })
+
+                //     /* SUBMIT RESOURCE LINK AJAX */
+                //     $('#storeByUrlForm [type="submit"]').click(function(event) {
+                //         $('#storeByUrlForm .alert-danger').hide()
+
+                //         const $formFields = $('#storeByUrlForm').serializeArray()
+                //         const jsonData = {}
+                //         $.each($formFields, function(index, field) {
+                //             jsonData[field.name] = field.value
+                //         })
+                //         jsonData['course_id'] = $('[name="course_id"]').first().val()
+
+                //         $.ajax({
+                //                 method: "POST",
+                //                 url: "{{ route('resources.storeByUrl') }}",
+                //                 data: jsonData
+                //             })
+                //             .done(function(data) {
+                //                 $(data.resources).each(function(index, item) {
+                //                     let fileSubmissionDate = new Date(item.created_at)
+                //                         .toLocaleDateString('en-US', {
+                //                             month: 'short',
+                //                             day: 'numeric',
+                //                             year: 'numeric',
+                //                             hour: 'numeric',
+                //                             minute: 'numeric',
+                //                             second: 'numeric'
+                //                         })
+                //                     let fileName = item.media[0] ? item.media[0].file_name :
+                //                         'unknown file'
+                //                     $('#submit-general-tab-logs').append(`
+        //                 <li class="logsRootList list-group-item hstack gap-3 lh-sm">
+        //                     <span class="text-truncate" title="${fileName}"> ${fileName} </span>
+        //                     <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+        //                     <span class="vr"></span>
+        //                     <div>
+        //                         <div class="btn-group dropend">
+        //                             <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+        //                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        //                             </button>
+        //                             <ul class="dropdown-menu shadow border-0 p-0">
+        //                                 <li class="dropdown-item p-0">
+        //                                     <ul class="list-group" style="min-width: 300px">
+        //                                         <li class="list-group-item">
+        //                                             <div>
+        //                                                 <h6 class="my-0 fw-bold">
+        //                                                     ${item.user.username}
+        //                                                 </h6>
+        //                                                 <small class="text-muted">Submitter</small>
+        //                                             </div>
+        //                                         </li>
+        //                                         <li class="list-group-item">
+        //                                             <div>
+        //                                                 <h6 class="my-0 fw-bold">
+        //                                                     approved
+        //                                                 </h6>
+        //                                                 <small class="text-muted">Status</small>
+        //                                             </div>
+        //                                         </li>
+        //                                         <li class="list-group-item">
+        //                                             <div class="row">
+        //                                                 <div class="col-6">
+        //                                                     <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+        //                                                         Preview
+        //                                                     </button>
+        //                                                 </div>
+        //                                                 <div class="col-6">
+        //                                                     <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+        //                                                         Unsubmit
+        //                                                     </button>
+        //                                                 </div>
+        //                                             </div>
+        //                                         </li>
+        //                                     </ul>
+        //                                 </li>
+        //                             </ul>
+        //                         </div>
+        //                     </div>
+        //                 </li>
+        //             `)
+
+                //                     // let currentLogsCounter = parseInt($(
+                //                     //         "#submit-general-tab-logs-count")
+                //                     //     .text()) + data.resources.length;
+                //                     // $("#submit-general-tab-logs-count").text(
+                //                     //     currentLogsCounter);
+                //                 })
+                //                 $('#resources-table').DataTable().draw('page')
+                //                 $('#storeByUrlForm')[0].reset()
+                //                 $('#fileText').text('')
+                //             })
+                //             .fail(function(response) {
+                //                 response = response.responseJSON
+                //                 $('#storeByUrlForm .alert-danger').stop(true, true)
+                //                 $('#storeByUrlForm .alert-danger').fadeTo(2000, 500);
+                //                 $('#storeByUrlForm .alert-danger').html(
+                //                     `<h5>You got few validation errors.</h5>
+        //          <ul class="formErrorList"></ul>
+        //         `
+                //                 )
+                //                 $.each(response.errors, function(key, error) {
+                //                     $('#storeByUrlForm .formErrorList').append(
+                //                         `<li>${error}</li>`
+                //                     )
+                //                 })
+                //             })
+                //             .always(function() {
+                //                 $(event.target).removeClass('loading disabled')
+                //             });
+                //     })
+
+                //     let courseUrl = '{{ route('courses.index') }}'
+                //     courseUrl = `${courseUrl}/${$('[name="course_id"]').first().val()}`
+                //     $.ajax({
+                //             method: "GET",
+                //             url: courseUrl,
+                //         })
+                //         .done(function(data) {
+                //             // $('#submit-general-tab-logs-count').text($(data.resourceLogs).length)
+                //             $('#submit-general-tab-logs').html('')
+                //             $(data.resourceLogs).each(function(index, item) {
+                //                 let fileSubmissionDate = new Date(item.created_at)
+                //                     .toLocaleDateString('en-US', {
+                //                         month: 'short',
+                //                         day: 'numeric',
+                //                         year: 'numeric',
+                //                         hour: 'numeric',
+                //                         minute: 'numeric',
+                //                         second: 'numeric'
+                //                     })
+                //                 let fileName = item.media[0] ? item.media[0].file_name :
+                //                     'unknown file'
+                //                 $('#submit-general-tab-logs').append(`
+        //                 <li class="logsRootList list-group-item hstack gap-3 lh-sm">
+        //                     <span class="text-truncate" title="${fileName}"> ${fileName} </span>
+        //                     <span class="text-nowrap form-text" title="${fileSubmissionDate}"> ${fileSubmissionDate} </span>
+        //                     <span class="vr"></span>
+        //                     <div class="ms-auto">
+        //                         <div class="btn-group dropend">
+        //                             <button class="btn" data-bs-toggle="dropdown" onclick="'${item.status}' != 'for approval' || ${!item.isOwner} ? event.target.closest('.btn-group').querySelector('.generalLogsUnsubmit') != undefined ? event.target.closest('.btn-group').querySelector('.generalLogsUnsubmit').remove() : '' : ''" data-bs-auto-close="outside" aria-expanded="false">
+        //                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        //                             </button>
+        //                             <ul class="dropdown-menu shadow border-0 p-0">
+        //                                 <li class="dropdown-item p-0">
+        //                                     <ul class="list-group" style="min-width: 300px">
+        //                                         <li class="list-group-item">
+        //                                             <div>
+        //                                                 <h6 class="my-0 fw-bold">
+        //                                                     ${item.user.username}
+        //                                                 </h6>
+        //                                                 <small class="text-muted">Submitter</small>
+        //                                             </div>
+        //                                         </li>
+        //                                         <li class="list-group-item">
+        //                                             <div>
+        //                                                 <h6 class="my-0 fw-bold">
+        //                                                     ${item.status}
+        //                                                 </h6>
+        //                                                 <small class="text-muted">Status</small>
+        //                                             </div>
+        //                                         </li>
+        //                                         <li class="list-group-item">
+        //                                             <div class="row">
+        //                                                 <div class="col-6">
+        //                                                     <button data-preview-id="${item.id}" data-preview-filetype="${item.filetype}" class="submitGeneralPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+        //                                                         Preview
+        //                                                     </button>
+        //                                                 </div>
+        //                                                 <div class="col-6">
+        //                                                     <button data-unsubmit-id="${item.id}" class="generalLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+        //                                                         Unsubmit
+        //                                                     </button>
+        //                                                 </div>
+        //                                             </div>
+        //                                         </li>
+        //                                     </ul>
+        //                                 </li>
+        //                             </ul>
+        //                         </div>
+        //                     </div>
+        //                 </li>
+        //             `)
+                //             })
+
+                //             // let logClickCount = 0
+                //             // $('.submitResourceLogsShowAll').click(function(event) {
+                //             //     if (logClickCount % 2 === 0) {
+                //             //         $(event.target).text('Hide some')
+                //             //         $(event.target).closest('li').find('.submitResourceLogsList')
+                //             //             .css('max-height', '100%')
+                //             //     } else {
+                //             //         $(event.target).text('Show all')
+                //             //         $(event.target).closest('li').find('.submitResourceLogsList')
+                //             //             .css('max-height', '280px')
+                //             //     }
+                //             //     logClickCount++
+                //             // })
+
+                //             $('#submit-general-tab-logs').delegate('.generalLogsUnsubmit', 'click',
+                //                 function(event) {
+                //                     let deleteUrl = '{{ route('resources.index') }}'
+                //                     deleteUrl =
+                //                         `${deleteUrl}/${$(event.target).attr('data-unsubmit-id')}`
+
+                //                     $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
+        //                         <div class="spinner-border text-primary" role="status"></div>
+        //                     </div>`)
+                //                     $.ajax({
+                //                             method: "POST",
+                //                             url: deleteUrl,
+                //                             data: {
+                //                                 '_method': 'DELETE'
+                //                             }
+                //                         })
+                //                         .done(function(data) {
+                //                             if (data.status == 'ok') {
+                //                                 $(event.target).closest('.logsRootList').remove()
+                //                                 // let currentLogsCounter = parseInt($(
+                //                                 //         '#submit-general-tab-logs-count')
+                //                                 //     .text()) - 1
+                //                                 // $('#submit-general-tab-logs-count').text(
+                //                                 //     currentLogsCounter)
+                //                             }
+                //                         })
+                //                         .fail(function() {
+                //                             alert("error");
+                //                         })
+                //                         .always(function() {
+                //                             $(event.target).html(`Unsubmit`)
+                //                         });
+                //                 })
+
+                //             const generalSubmitPreviewTab = document.querySelector(
+                //                 '#generalSubmitPreviewTab')
+
+                //             let onPreview = false;
+                //             $('#submit-general-tab-logs').delegate('.submitGeneralPreviewBtns', 'click',
+                //                 function(event) {
+                //                     if (onPreview) return;
+
+                //                     onPreview = true;
+
+                //                     $('#submit-general-tab-logs .logsRootList').removeClass(
+                //                         'shadow-lg border-5 border-primary fw-bold  ')
+                //                     $(event.target).closest('.logsRootList').addClass(
+                //                         'shadow-lg border-5 border-primary fw-bold')
+
+                //                     $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
+        //                         <div class="spinner-border text-primary" role="status"></div>
+        //                     </div>`)
+
+                //                     bootstrap.Tab.getOrCreateInstance(
+                //                         generalSubmitPreviewTab).show()
+
+                //                     let previewUrl = '{{ route('resources.index') }}'
+                //                     previewUrl =
+                //                         `${previewUrl}/preview/${$(event.target).attr('data-preview-id')}`
+
+                //                     $('#generalSubmitPreviewContent')
+                //                         .html(`<div class="d-flex justify-content-center align-items-center">
+        //                         <div class="spinner-border text-primary" role="status"></div>
+        //                       </div>`)
+
+                //                     const filetypes = @json(config('app.pdf_convertible_filetypes'));
+                //                     if ($.inArray($(event.target).attr('data-preview-filetype'),
+                //                             filetypes) == -1) {
+                //                         /* IF NOT PDF CONVERTIBLE */
+                //                         $.ajax({
+                //                                 method: "GET",
+                //                                 url: previewUrl,
+                //                                 // beforeSend: function(){
+                //                                 //     onPreview = true
+                //                                 // },
+                //                             })
+                //                             .done(function(data) {
+                //                                 const downloadRoute =
+                //                                     '{{ route('resources.index') }}'
+                //                                 $('#generalSubmitPreviewContent').html(
+                //                                     `<div class="mb-4">
+        //                                 <a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>
+        //                                 <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
+        //                             </div>`
+                //                                 )
+
+                //                                 if (data.fileType === 'text_filetypes') {
+                //                                     $('#generalSubmitPreviewContent').append(
+                //                                         '<textarea id="previewGeneralSummernote"></textarea>'
+                //                                     )
+                //                                     $('#previewGeneralSummernote').summernote({
+                //                                         'toolbar': [],
+                //                                         codeviewFilter: false,
+                //                                         codeviewIframeFilter: true
+                //                                     })
+                //                                     $('#previewGeneralSummernote').summernote(
+                //                                         'code',
+                //                                         data.resourceText)
+                //                                     $('#previewGeneralSummernote').summernote(
+                //                                         'disable')
+                //                                 }
+
+                //                                 if (data.fileType === 'img_filetypes') {
+                //                                     $('#generalSubmitPreviewContent').append(
+                //                                         `<img style="width: 300px" src="${data.resourceUrl}" />`
+                //                                     )
+                //                                 }
+
+                //                                 if (data.fileType === 'video_filetypes') {
+                //                                     console.log(data)
+                //                                     $('#generalSubmitPreviewContent').append(
+                //                                         `<video width="320" height="240" controls autoplay>
+        //                                     <source src="${data.resourceUrl}" type="video/mp4">
+        //                                 </video>`
+                //                                     )
+                //                                 }
+
+                //                                 if (data.fileType === 'audio_filetypes') {
+                //                                     $('#generalSubmitPreviewContent').append(
+                //                                         `<audio controls autoplay>
+        //                                     <source src="${data.resourceUrl}" type="audio/mpeg">
+        //                                 </audio>`
+                //                                     )
+                //                                 }
+                //                             })
+                //                             .fail(function(error) {
+                //                                 $('#generalSubmitPreviewContent').html(
+                //                                     `<div class="alert alert-danger" role="alert">
+        //                                 ${error.responseJSON.message}
+        //                             </div>`
+                //                                 )
+                //                             })
+                //                             .always(function() {
+                //                                 $(event.target).text(`Preview`)
+                //                                 onPreview = false;
+                //                             });
+                //                     } else {
+                //                         /* IF PDF CONVERTIBLE */
+                //                         var thePdf = null;
+                //                         var scale = 1;
+                //                         pdfjsLib.getDocument(previewUrl).promise.then(pdf => {
+                //                             onPreview = false;
+
+                //                             const downloadRoute =
+                //                                 '{{ route('resources.index') }}'
+                //                             $('#generalSubmitPreviewContent').html(
+                //                                 `
+        //                     <div class="mb-4">
+        //                         <a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>
+        //                         <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
+        //                     </div>
+        //                     `
+                //                             )
+
+                //                             thePdf = pdf;
+                //                             viewer = document.getElementById(
+                //                                 'generalSubmitPreviewContent');
+
+                //                             for (page = 1; page <= pdf
+                //                                 .numPages; page++) {
+                //                                 canvas = document.createElement(
+                //                                     "canvas");
+                //                                 canvas.className = 'd-block w-100 mx-auto';
+                //                                 canvas.style.maxWidth = '900px';
+                //                                 viewer.appendChild(canvas);
+                //                                 renderPage(page, canvas);
+                //                             }
+
+                //                             $(event.target).html(`Preview`)
+                //                         }).catch((error) => {
+                //                             onPreview = false;
+
+                //                             $(event.target).html(`Preview`)
+
+                //                             $('#generalSubmitPreviewContent').html(
+                //                                 `<div class="alert alert-danger" role="alert">
+        //                             File was not able to be previewed due to certain error. Try again!
+        //                         </div>`
+                //                             )
+                //                         })
+
+                //                         function renderPage(pageNumber, canvas) {
+                //                             thePdf.getPage(pageNumber).then(function(page) {
+                //                                 viewport = page.getViewport({
+                //                                     scale: scale
+                //                                 });
+                //                                 canvas.height = viewport.height;
+                //                                 canvas.width = viewport.width;
+                //                                 page.render({
+                //                                     canvasContext: canvas
+                //                                         .getContext('2d'),
+                //                                     viewport: viewport
+                //                                 });
+                //                             });
+                //                         }
+                //                     }
+
+                //                     let isFullscreen = false
+                //                     $('#generalSubmitPreview').delegate(
+                //                         '#generalSubmitPreviewFullscreen', 'click',
+                //                         (event) => {
+                //                             if (!isFullscreen) {
+                //                                 openFullscreen($(
+                //                                     '#generalSubmitPreviewContent'
+                //                                 )[0])
+
+                //                                 $(event.target).text(
+                //                                     'Cancel fullscreen')
+                //                                 isFullscreen = true
+                //                             } else {
+                //                                 closeFullscreen($(
+                //                                     '#generalSubmitPreviewContent'
+                //                                 )[0])
+
+                //                                 $(event.target).text('Fullscreen')
+                //                                 isFullscreen = false
+                //                             }
+                //                         })
+
+                //                     function openFullscreen(elem) {
+                //                         $(elem)
+                //                             .css('position', 'absolute')
+                //                             .css('width', '100%')
+                //                             .css('height', '100%')
+                //                             .css('left', '0')
+                //                             .css('top', '0')
+                //                             .css('background-color', '#fff')
+                //                     }
+
+                //                     function closeFullscreen(elem) {
+                //                         $(elem)
+                //                             .css('position', '')
+                //                             .css('width', '')
+                //                             .css('height', '100%')
+                //                             .css('left', '')
+                //                             .css('top', '')
+                //                             .css('background-color', '')
+                //                     }
+                //                 })
+                //             const generalSubmitFormTab = document.querySelector(
+                //                 '#generalSubmitFormTab')
+                //             $('#generalSubmitPreviewReturn').click(function() {
+                //                 bootstrap.Tab.getOrCreateInstance(
+                //                     generalSubmitFormTab).show()
+                //             })
+                //         })
+                //         .fail(function() {
+                //             alert("error");
+                //         })
+                //         .always(function() {
+                //             // $(event.target).removeClass('loading disabled')
+                //         });
+                // })
+
+                // /* ON SHOW SUBMIT SYLLABUS TAB */
+                // $('#resource-modal-tabcontent-submit-syllabus-tab').on('shown.bs.tab', function(event) {
+                //     const syllabusDropzone = $('#resource-modal-tabcontent-submit-syllabus')
+                //     syllabusDropzone.addClass('clickable-parent')
+                //     if (syllabusDropzone[0].dropzone) return
+
+                //     let previewNode = $("#template-syllabus")[0];
+                //     // previewNode.id = "";
+                //     let previewTemplate = previewNode.parentNode.innerHTML;
+                //     previewNode.parentNode.removeChild(previewNode);
+
+                //     let myDropzone = new Dropzone(syllabusDropzone[
+                //         0], { // Make the whole body a dropzone
+                //         url: "{{ route('upload-temporary-file.store') }}", // Set the url
+                //         params: {
+                //             _token: "{{ csrf_token() }}"
+                //         },
+                //         accept: function(file, done) {
+                //             console.log(file.type);
+                //             if (
+                //                 file.type ==
+                //                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                //                 file.type == "application/msword"
+                //             ) {
+                //                 done();
+                //             } else {
+                //                 done("Error! You have to submit a docx or doc file.");
+                //             }
+                //         },
+                //         parallelUploads: 20,
+                //         previewTemplate: previewTemplate,
+                //         autoQueue: true, // Make sure the files aren't queued until manually added
+                //         previewsContainer: "#previews-syllabus", // Define the container to display the previews
+                //         clickable: ".#resource-modal-tabcontent-submit-syllabus .fileinput-button", // Define the element that should be used as click trigger to select files.
+                //         maxFilesize: 5000,
+                //         maxFiles: 1
+                //     });
+
+                //     myDropzone.on("addedfile", function(file) {
+                //         $('#submit-resource-alert-syllabus').parent().removeClass('show')
+                //     });
+
+                //     myDropzone.on("removedfile", function(file) {
+                //         let $input = $(
+                //                 '#file-upload-container-syllabus .dz-success .file-metadata :input'),
+                //             $submitButton = $('#syllabusForm button[type="submit"]');
+
+                //         $input.unbind('keyup');
+                //         let trigger = false;
+
+                //         if ($input.length <= 0) {
+                //             trigger = true;
+                //         } else {
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+                //         }
+
+                //         trigger ? $submitButton.addClass('disabled') : $submitButton
+                //             .removeClass(
+                //                 'disabled');
+
+                //         syllabusDropzone.find('.file-metadata').delegate($input, 'keyup', function(
+                //             e) {
+                //             let trigger = false;
+
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+
+                //             trigger ? $submitButton.addClass('disabled') : $submitButton
+                //                 .removeClass(
+                //                     'disabled');
+                //         })
+
+                //         if (syllabusDropzone.find('.file-row').length <= 0) {
+                //             syllabusDropzone.find("#actions-syllabus .cancel").addClass('d-none')
+                //             syllabusDropzone.find("#submit-resource-syllabus").addClass('d-none')
+                //         }
+                //     })
+
+                //     // Update the total progress bar
+                //     myDropzone.on("totaluploadprogress", function(progress) {
+                //         syllabusDropzone.find('#total-progress-syllabus .progress-bar').css('width',
+                //             progress + '%');
+                //     });
+
+                //     myDropzone.on("sending", function(file) {
+                //         // Show the total progress bar when upload starts
+                //         syllabusDropzone.find('#total-progress-syllabus').css('opacity', 1);
+                //         syllabusDropzone.find('#total-progress-syllabus .progress-bar').css('width',
+                //             '0%');
+
+                //         // And disable the start button
+                //         $(file.previewElement).find('.start').attr('disabled', 'disabled')
+                //     });
+
+                //     myDropzone.on("success", function(file) {
+                //         console.log('success')
+                //         $(file.previewElement).find('.file').val(file.xhr.responseText)
+                //         $(file.previewElement).find('.file-group').removeClass('d-none')
+                //         syllabusDropzone.find("#actions-syllabus .cancel").removeClass('d-none')
+
+                //         let $input = $(
+                //                 '#file-upload-container-syllabus .dz-success .file-metadata :input'),
+                //             $submitButton = $('#syllabusForm button[type="submit"]');
+
+                //         $submitButton.addClass('disabled')
+
+                //         console.log($input)
+
+                //         $('.file-metadata').delegate($input, 'keyup', function(e) {
+                //             let trigger = false;
+
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+
+                //             trigger ? $submitButton.addClass('disabled') : $submitButton
+                //                 .removeClass(
+                //                     'disabled');
+                //         })
+
+                //         $("#submit-resource-syllabus").removeClass('d-none')
+                //     });
+
+                //     // Hide the total progress bar when nothing's uploading anymore
+                //     myDropzone.on("queuecomplete", function(progress) {
+                //         syllabusDropzone.find('#total-progress-syllabus').css('opacity', 0);
+                //     });
+
+                //     syllabusDropzone.find("#actions-syllabus .cancel").click(function() {
+                //         syllabusDropzone.find("#actions-syllabus .cancel").addClass('d-none')
+                //         syllabusDropzone.find("#submit-resource-syllabus").addClass('d-none')
+                //         myDropzone.removeAllFiles(true);
+                //     });
+
+                //     /* UPLOAD RESOURCES AJAX */
+                //     $('#submit-resource-syllabus').click(function(event) {
+                //         let files = [],
+                //             titles = [],
+                //             descriptions = []
+                //         $('#syllabusForm [name="file[]"]').each(function(index, item) {
+                //             files.push($(item).val())
+                //         })
+                //         $('#syllabusForm [name="title[]"]').each(function(index, item) {
+                //             titles.push($(item).val())
+                //         })
+                //         $('#syllabusForm [name="description[]"]').each(function(index, item) {
+                //             descriptions.push($(item).val())
+                //         })
+
+                //         $.ajax({
+                //                 method: "POST",
+                //                 url: "{{ route('syllabi.upload') }}",
+                //                 data: {
+                //                     'file': files,
+                //                     'course_id': $('#syllabusForm [name="course_id"]').val(),
+                //                     'title': titles,
+                //                     'description': descriptions,
+                //                 }
+                //             })
+                //             .done(function(data) {
+                //                 syllabusDropzone.find('.file-row').remove()
+                //                 myDropzone.files = []
+
+                //                 $('#syllabus-iframe-container').append(data.embed)
+
+                //                 $('#actions-syllabus .cancel').addClass('d-none')
+                //                 $('#submit-resource-syllabus').addClass('d-none')
+                //                 // $('#resources-table').DataTable().draw('page')
+                //                 // $('#submit-resource-alert-syllabus').parent().addClass('show')
+                //                 // $('#submit-resource-alert-syllabus').text(data.message)
+
+                //             })
+                //             .fail(function() {
+                //                 alert("error");
+                //             })
+                //             .always(function() {
+                //                 $(event.target).removeClass('loading disabled')
+                //             });
+                //     })
+
+                //     /* LOAD SYLLABUS TAB DATA */
+                //     let courseUrl = '{{ route('courses.index') }}'
+                //     courseUrl = `${courseUrl}/${$('[name="course_id"]').first().val()}`
+                //     $.ajax({
+                //             method: "GET",
+                //             url: courseUrl,
+                //         })
+                //         .done(function(data) {
+                //             if (data.complied) {
+                //                 $('#submit-syllabus-tab-status').text('Fulfilled')
+                //                 $('#submit-syllabus-tab-status').closest('.list-group-item')
+                //                     .removeClass('text-danger')
+                //                 $('#submit-syllabus-tab-status').closest('.list-group-item')
+                //                     .addClass('text-success')
+                //             } else {
+                //                 $('#submit-syllabus-tab-status').text('Unfulfilled')
+                //                 $('#submit-syllabus-tab-status').closest('.list-group-item')
+                //                     .removeClass('text-success')
+                //                 $('#submit-syllabus-tab-status').closest('.list-group-item')
+                //                     .addClass('text-danger')
+                //             }
+                //             $('#submit-syllabus-tab-logs-count').text($(data.logs).length)
+                //             $('#submit-syllabus-tab-logs').html('')
+                //             $(data.logs).each(function(index, item) {
+                //                 $('#submit-syllabus-tab-logs').append(`
+        //                         <li class="logsRootList list-group-item d-flex justify-content-between align-items-center lh-sm">
+        //                             <span> ${item.media[0].file_name} </span>
+        //                             <span> ${new Date(item.created_at).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'})} </span>
+        //                             <div>
+        //                                 <div class="btn-group dropend">
+        //                                     <button class="dropdown-btn btn" data-bs-toggle="dropdown" onclick="'${item.status}' != 'for approval' || ${!item.isOwner} ? event.target.closest('.btn-group').querySelector('.syllabusLogsUnsubmit') != undefined ? event.target.closest('.btn-group').querySelector('.syllabusLogsUnsubmit').remove() : '' : ''" data-bs-auto-close="outside" aria-expanded="false">
+        //                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        //                                     </button>
+        //                                     <ul class="dropdown-menu shadow border-0 p-0">
+        //                                         <li class="dropdown-item p-0">
+        //                                             <ul class="list-group" style="min-width: 300px">
+        //                                                 <li class="list-group-item">
+        //                                                     <div>
+        //                                                         <h6 class="my-0 fw-bold">
+        //                                                             ${item.user.username}
+        //                                                         </h6>
+        //                                                         <small class="text-muted">Submitter</small>
+        //                                                     </div>
+        //                                                 </li>
+        //                                                 <li class="list-group-item">
+        //                                                     <div>
+        //                                                         <h6 class="my-0 fw-bold">
+        //                                                             ${item.status}
+        //                                                         </h6>
+        //                                                         <small class="text-muted">Status</small>
+        //                                                     </div>
+        //                                                 </li>
+        //                                                 <li class="list-group-item">
+        //                                                     <div class="row">
+        //                                                         <div class="col-6">
+        //                                                             <button data-preview-id="${item.id}" class="submitSyllabusPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+        //                                                                 Preview
+        //                                                             </button>
+        //                                                         </div>
+        //                                                         <div class="col-6">
+        //                                                             <button data-unsubmit-id="${item.id}" class="syllabusLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+        //                                                                 Unsubmit
+        //                                                             </button>
+        //                                                         </div>
+        //                                                     </div>
+        //                                                 </li>
+        //                                             </ul>
+        //                                         </li>
+        //                                     </ul>
+        //                                 </div>
+        //                             </div>
+        //                         </li>
+        //                     `)
+                //             })
+
+                //             function onSubmitLogsClick(status, isOwner) {
+                //                 $unsubmitBtn = $(this).parent().find('.syllabusLogsUnsubmit')
+                //                 if ($unsubmitBtn) {
+                //                     status != 'for approval' || !isOwner ? $(this).parent()
+                //                         .find('.syllabusLogsUnsubmit').remove() : ''
+                //                 }
+                //             }
+                //             $('#submit-syllabus-tab-logs').delegate('.syllabusLogsUnsubmit', 'click',
+                //                 function(event) {
+                //                     let deleteUrl = '{{ route('resources.index') }}'
+                //                     deleteUrl =
+                //                         `${deleteUrl}/${$(event.target).attr('data-unsubmit-id')}`
+
+                //                     $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
+        //                                 <div class="spinner-border text-primary" role="status"></div>
+        //                             </div>`)
+
+                //                     $.ajax({
+                //                             method: "POST",
+                //                             url: deleteUrl,
+                //                             data: {
+                //                                 '_method': 'DELETE'
+                //                             }
+                //                         })
+                //                         .done(function(data) {
+                //                             if (data.status == 'ok') {
+                //                                 $(event.target).closest('.logsRootList').remove()
+                //                                 let currentLogsCounter = parseInt($(
+                //                                         '#submit-syllabus-tab-logs-count')
+                //                                     .text()) - 1
+                //                                 $('#submit-syllabus-tab-logs-count').text(
+                //                                     currentLogsCounter)
+                //                             }
+                //                         })
+                //                         .fail(function() {
+                //                             alert("error");
+                //                         })
+                //                         .always(function() {
+                //                             $(event.target).html('Unsubmit')
+                //                         });
+                //                 })
+
+                //             const syllabusSubmitPreviewTab = document.querySelector(
+                //                 '#syllabusSubmitPreviewTab')
+                //             $('#submit-syllabus-tab-logs').delegate('.submitSyllabusPreviewBtns', 'click',
+                //                 function(event) {
+                //                     $(event.target).html(`<div style="" class="d-flex justify-content-center align-items-center">
+        //                             <div class="spinner-border text-primary" role="status">
+        //                               </div>
+        //                         </div>`)
+                //                     bootstrap.Tab.getOrCreateInstance(
+                //                         syllabusSubmitPreviewTab).show()
+
+                //                     let previewUrl = '{{ route('syllabi.index') }}'
+                //                     previewUrl =
+                //                         `${previewUrl}/preview/${$(event.target).attr('data-preview-id')}`
+
+                //                     $('#syllabusSubmitPreviewContent').html('')
+                //                     $('#syllabusSubmitPreviewContent')
+                //                         .html(`<div style="" class="d-flex justify-content-center align-items-center">
+        //                             <div class="spinner-border text-primary" role="status">
+        //                               </div>
+        //                         </div>`)
+                //                     $.ajax({
+                //                             method: "GET",
+                //                             url: previewUrl,
+                //                         })
+                //                         .done(function(data) {
+                //                             const downloadRoute =
+                //                                 '{{ route('resources.index') }}'
+                //                             $('#syllabusSubmitPreviewContent').html(
+                //                                 `<a class="btn btn-primary" href="${downloadRoute}/download/${data.id}">Download</a>`
+                //                             )
+                //                             $('#syllabusSubmitPreviewContent').append(
+                //                                 `<a class="btn btn-secondary" id="syllabusSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>`
+                //                             )
+                //                             $('#syllabusSubmitPreviewContent').append(
+                //                                 data.html)
+
+                //                             let isFullscreen = false
+                //                             $('#syllabusSubmitPreviewFullscreen').click(
+                //                                 (event) => {
+                //                                     if (!isFullscreen) {
+                //                                         openFullscreen($(
+                //                                             '#syllabusSubmitPreviewContent'
+                //                                         )[0])
+
+                //                                         $(event.target).text(
+                //                                             'Cancel fullscreen')
+                //                                         isFullscreen = true
+                //                                     } else {
+                //                                         closeFullscreen($(
+                //                                             '#syllabusSubmitPreviewContent'
+                //                                         )[0])
+
+                //                                         $(event.target).text('Fullscreen')
+                //                                         isFullscreen = false
+                //                                     }
+                //                                 })
+
+                //                             function openFullscreen(elem) {
+                //                                 $(elem)
+                //                                     .css('position', 'absolute')
+                //                                     .css('left', '0')
+                //                                     .css('top', '0')
+                //                                     .css('background-color', '#fff')
+                //                             }
+
+                //                             function closeFullscreen(elem) {
+                //                                 $(elem)
+                //                                     .css('position', '')
+                //                                     .css('left', '')
+                //                                     .css('top', '')
+                //                                     .css('background-color', '')
+                //                             }
+
+                //                         }).fail(function() {
+
+                //                         })
+                //                         .always(function() {
+                //                             $(event.target).html(`Preview`)
+                //                         });
+                //                 })
+                //             const syllabusSubmitFormTab = document.querySelector(
+                //                 '#syllabusSubmitFormTab')
+                //             $('#syllabusSubmitPreviewReturn').click(function() {
+                //                 bootstrap.Tab.getOrCreateInstance(
+                //                     syllabusSubmitFormTab).show()
+                //             })
+                //         })
+                //         .fail(function() {
+                //             alert("error");
+                //         })
+                //         .always(function() {
+                //             // $(event.target).removeClass('loading disabled')
+                //         });
+                // })
+
+                // /* ON SHOW SUBMIT PRESENTATION TAB */
+                // $('#resource-modal-tabcontent-submit-presentation-tab').on('shown.bs.tab', function() {
+                //     const presentationDropzone = $('#resource-modal-tabcontent-submit-presentation')
+                //     if (presentationDropzone[0].dropzone) return
+
+                //     let previewNode = $("#template-presentation")[0];
+                //     // previewNode.id = "";
+                //     let previewTemplate = previewNode.parentNode.innerHTML;
+                //     previewNode.parentNode.removeChild(previewNode);
+
+                //     let myDropzone = new Dropzone(presentationDropzone[
+                //         0], { // Make the whole body a dropzone
+                //         url: "{{ route('upload-temporary-file.store') }}", // Set the url
+                //         params: {
+                //             _token: "{{ csrf_token() }}"
+                //         },
+                //         accept: function(file, done) {
+                //             if (
+                //                 file.type ==
+                //                 "application/vnd.ms-powerpoint" ||
+                //                 file.type ==
+                //                 "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                //             ) {
+                //                 done();
+                //             } else {
+                //                 done("Error! You have to submit a pptx or ppt file.");
+                //             }
+                //         },
+                //         parallelUploads: 20,
+                //         previewTemplate: previewTemplate,
+                //         autoQueue: true, // Make sure the files aren't queued until manually added
+                //         previewsContainer: "#previews-presentation", // Define the container to display the previews
+                //         clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+                //         maxFilesize: 5000,
+                //         maxFiles: 1
+                //     });
+
+                //     myDropzone.on("addedfile", function(file) {
+                //         $('#submit-resource-alert-presentation').parent().removeClass('show')
+                //     });
+
+                //     myDropzone.on("removedfile", function(file) {
+                //         let $input = $(
+                //                 '#file-upload-container-presentation .dz-success .file-metadata :input'
+                //             ),
+                //             $submitButton = $('#presentationForm button[type="submit"]');
+
+                //         $input.unbind('keyup');
+                //         let trigger = false;
+
+                //         if ($input.length <= 0) {
+                //             trigger = true;
+                //         } else {
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+                //         }
+
+                //         trigger ? $submitButton.addClass('disabled') : $submitButton
+                //             .removeClass(
+                //                 'disabled');
+
+                //         presentationDropzone.find('.file-metadata').delegate($input, 'keyup', function(
+                //             e) {
+                //             let trigger = false;
+
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+
+                //             trigger ? $submitButton.addClass('disabled') : $submitButton
+                //                 .removeClass(
+                //                     'disabled');
+                //         })
+
+                //         if (presentationDropzone.find('.file-row').length <= 0) {
+                //             presentationDropzone.find("#actions-presentation .cancel").addClass(
+                //                 'd-none')
+                //             presentationDropzone.find("#submit-resource-presentation").addClass(
+                //                 'd-none')
+                //         }
+                //     })
+
+                //     // Update the total progress bar
+                //     myDropzone.on("totaluploadprogress", function(progress) {
+                //         presentationDropzone.find('#total-progress-presentation .progress-bar').css(
+                //             'width',
+                //             progress + '%');
+                //     });
+
+                //     myDropzone.on("sending", function(file) {
+                //         // Show the total progress bar when upload starts
+                //         presentationDropzone.find('#total-progress-presentation').css('opacity', 1);
+                //         presentationDropzone.find('#total-progress-presentation .progress-bar').css(
+                //             'width',
+                //             '0%');
+
+                //         // And disable the start button
+                //         $(file.previewElement).find('.start').attr('disabled', 'disabled')
+                //     });
+
+                //     myDropzone.on("success", function(file) {
+                //         console.log('success')
+                //         $(file.previewElement).find('.file').val(file.xhr.responseText)
+                //         $(file.previewElement).find('.file-group').removeClass('d-none')
+                //         presentationDropzone.find("#actions-presentation .cancel").removeClass('d-none')
+
+                //         let $input = $(
+                //                 '#file-upload-container-presentation .dz-success .file-metadata :input'
+                //             ),
+                //             $submitButton = $('#presentationForm button[type="submit"]');
+
+                //         $submitButton.addClass('disabled')
+
+                //         $('.file-metadata').delegate($input, 'keyup', function(e) {
+                //             let trigger = false;
+
+                //             $input.each(function() {
+                //                 if (!$(this).val()) {
+                //                     trigger = true;
+                //                 }
+                //             });
+
+                //             trigger ? $submitButton.addClass('disabled') : $submitButton
+                //                 .removeClass(
+                //                     'disabled');
+                //         })
+
+                //         $("#submit-resource-presentation").removeClass('d-none')
+                //     });
+
+                //     // Hide the total progress bar when nothing's uploading anymore
+                //     myDropzone.on("queuecomplete", function(progress) {
+                //         presentationDropzone.find('#total-progress-presentation').css('opacity', 0);
+                //     });
+
+                //     presentationDropzone.find("#actions-presentation .cancel").click(function() {
+                //         presentationDropzone.find("#actions-presentation .cancel").addClass('d-none')
+                //         presentationDropzone.find("#submit-resource-presentation").addClass('d-none')
+                //         myDropzone.removeAllFiles(true);
+                //     });
+
+                //     /* UPLOAD RESOURCES AJAX */
+                //     $('#submit-resource-presentation').click(function(event) {
+                //         let files = [],
+                //             titles = [],
+                //             descriptions = []
+                //         $('#presentationForm [name="file[]"]').each(function(index, item) {
+                //             files.push($(item).val())
+                //         })
+                //         $('#presentationForm [name="title[]"]').each(function(index, item) {
+                //             titles.push($(item).val())
+                //         })
+                //         $('#presentationForm [name="description[]"]').each(function(index, item) {
+                //             descriptions.push($(item).val())
+                //         })
+
+                //         $('#presentation-iframe-container').html('')
+
+                //         $.ajax({
+                //                 method: "POST",
+                //                 url: "{{ route('presentations.upload') }}",
+                //                 data: {
+                //                     'file': files,
+                //                     'course_id': $('#syllabusForm [name="course_id"]').val(),
+                //                     'title': titles,
+                //                     'description': descriptions,
+                //                 }
+                //             })
+                //             .done(function(data) {
+                //                 presentationDropzone.find('.file-row').remove()
+                //                 myDropzone.files = []
+
+                //                 $('#presentation-iframe-container').append(
+                //                     '<ul id="presentation-slide-list"></ul>')
+
+                //                 if (data.status == 'ok') {
+                //                     $('#submit-resource-alert-presentation').parent().addClass(
+                //                         'show')
+                //                     $('#submit-resource-alert-presentation').text(data.message)
+                //                 } else {
+                //                     // let isMispelled = false
+                //                     $(data.texts).each(function(index, item) {
+                //                         // if(!dictionary.check(item)) {
+                //                         //     if(
+                //                         //         $.inArray('reference', dictionary.suggest(item))
+                //                         //         || $.inArray('references', dictionary.suggest(item))
+                //                         //     ) {
+                //                         //         isMispelled = true
+                //                         //         $('#presentation-slide-list').append(
+                //                         //             `<li>${item} (This may have been a mispelling of the word 'reference' or 'references')</li>`
+                //                         //         )
+                //                         //     } else {
+                //                         //         $('#presentation-slide-list').append(
+                //                         //             `<li>${item}</li>`
+                //                         //         )
+                //                         //     }
+                //                         // } else {
+                //                         //     $('#presentation-slide-list').append(
+                //                         //         `<li>${item}</li>`
+                //                         //     )
+                //                         // }
+                //                         $('#presentation-slide-list').append(
+                //                             `<li>${item}</li>`
+                //                         )
+                //                     })
+
+                //                     $('#presentation-iframe-container').prepend(
+                //                         ` <div class="h5 fw-bold">
+        //                                 These are the texts that were found on the last page of your uploaded presentation.
+        //                             </div>`
+                //                     )
+                //                     $('#presentation-iframe-container').prepend(
+                //                         `<div class="alert alert-danger h4">
+        //                                 The last slide/page of your presentation must contain a section labeled as <strong>reference/references.</strong>
+        //                             </div>`
+                //                     )
+                //                     // if (!isMispelled) {
+                //                     //     $('#presentation-iframe-container').prepend(
+                //                     //         ` <div class="alert alert-danger fade show" role="alert">
+        //             //              The last slide/page of your presentation must contain a section labeled as <strong>reference/references.</strong>
+        //             //           </div>`
+                //                     //     )
+                //                     // } else {
+                //                     //     $('#presentation-iframe-container').prepend(
+                //                     //         `<div class="h4">The <strong>reference page</strong> of your presentation must be correctly labeled <strong>reference or references</strong>.</div>`
+                //                     //     )
+                //                     // }
+                //                 }
+
+
+                //                 $('#presentation-iframe-container').append(data.embed)
+                //                 $('#actions-presentation .cancel').addClass('d-none')
+                //                 $('#submit-resource-presentation').addClass('d-none')
+                //                 // $('#resources-table').DataTable().draw('page')
+                //                 // $('#submit-resource-alert-presentation').parent().addClass('show')
+                //                 // $('#submit-resource-alert-presentation').text(data.message)
+
+                //             })
+                //             .fail(function() {
+                //                 alert("error");
+                //             })
+                //             .always(function() {
+                //                 $(event.target).removeClass('loading disabled')
+                //             });
+                //     })
+
+                //     let courseUrl = '{{ route('courses.index') }}'
+                //     courseUrl = `${courseUrl}/${$('[name="course_id"]').first().val()}`
+                //     $.ajax({
+                //             method: "GET",
+                //             url: courseUrl,
+                //         })
+                //         .done(function(data) {
+                //             if (data.presentationComplied) {
+                //                 $('#submit-presentation-tab-status').text('Fulfilled')
+                //                 $('#submit-presentation-tab-status').closest('.list-group-item')
+                //                     .removeClass('text-danger')
+                //                 $('#submit-presentation-tab-status').closest('.list-group-item')
+                //                     .addClass('text-success')
+                //             } else {
+                //                 $('#submit-presentation-tab-status').text('Unfulfilled')
+                //                 $('#submit-presentation-tab-status').closest('.list-group-item')
+                //                     .removeClass('text-success')
+                //                 $('#submit-presentation-tab-status').closest('.list-group-item')
+                //                     .addClass('text-danger')
+                //             }
+                //             $('#submit-presentation-tab-logs-count').text($(data.presentationLogs).length)
+                //             $('#submit-presentation-tab-logs').html('')
+                //             $(data.presentationLogs).each(function(index, item) {
+                //                 $('#submit-presentation-tab-logs').append(`
+        //                         <li class="logsRootList list-group-item d-flex justify-content-between align-items-center lh-sm">
+        //                             <span> ${item.media[0].file_name} </span>
+        //                             <span> ${new Date(item.created_at).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'})} </span>
+        //                             <div>
+        //                                 <div class="btn-group dropend">
+        //                                     <button class="btn" data-bs-toggle="dropdown" onclick="'${item.status}' != 'for approval' || ${!item.isOwner} ? event.target.closest('.btn-group').querySelector('.presentationLogsUnsubmit') != undefined ? event.target.closest('.btn-group').querySelector('.presentationLogsUnsubmit').remove() : '' : ''" data-bs-auto-close="outside" aria-expanded="false">
+        //                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        //                                     </button>
+        //                                     <ul class="dropdown-menu shadow border-0 p-0">
+        //                                         <li class="dropdown-item p-0">
+        //                                             <ul class="list-group" style="min-width: 300px">
+        //                                                 <li class="list-group-item">
+        //                                                     <div>
+        //                                                         <h6 class="my-0 fw-bold">
+        //                                                             ${item.user.username}
+        //                                                         </h6>
+        //                                                         <small class="text-muted">Submitter</small>
+        //                                                     </div>
+        //                                                 </li>
+        //                                                 <li class="list-group-item">
+        //                                                     <div>
+        //                                                         <h6 class="my-0 fw-bold">
+        //                                                             ${item.status}
+        //                                                         </h6>
+        //                                                         <small class="text-muted">Status</small>
+        //                                                     </div>
+        //                                                 </li>
+        //                                                 <li class="list-group-item">
+        //                                                     <div class="row">
+        //                                                         <div class="col-6">
+        //                                                             <button data-preview-id="${item.id}" class="submitPresentationPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+        //                                                                 Preview
+        //                                                             </button>
+        //                                                         </div>
+        //                                                         <div class="col-6">
+        //                                                             <button data-unsubmit-id="${item.id}" class="presentationLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+        //                                                                 Unsubmit
+        //                                                             </button>
+        //                                                         </div>
+        //                                                     </div>
+        //                                                 </li>
+        //                                             </ul>
+        //                                         </li>
+        //                                     </ul>
+        //                                 </div>
+        //                             </div>
+        //                         </li>
+        //                     `)
+                //             })
+
+                //             $('#submit-presentation-tab-logs').delegate('.presentationLogsUnsubmit',
+                //                 'click',
+                //                 function(event) {
+                //                     let deleteUrl = '{{ route('resources.index') }}'
+                //                     deleteUrl =
+                //                         `${deleteUrl}/${$(event.target).attr('data-unsubmit-id')}`
+
+                //                     $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
+        //                                 <div class="spinner-border text-primary" role="status"></div>
+        //                             </div>`)
+
+                //                     $.ajax({
+                //                             method: "POST",
+                //                             url: deleteUrl,
+                //                             data: {
+                //                                 '_method': 'DELETE'
+                //                             }
+                //                         })
+                //                         .done(function(data) {
+                //                             if (data.status == 'ok') {
+                //                                 $(event.target).closest('.logsRootList').remove()
+                //                                 let currentLogsCounter = parseInt($(
+                //                                         '#submit-presentation-tab-logs-count')
+                //                                     .text()) - 1
+                //                                 $('#submit-presentation-tab-logs-count').text(
+                //                                     currentLogsCounter)
+                //                             }
+                //                         })
+                //                         .fail(function() {
+                //                             alert("error");
+                //                         })
+                //                         .always(function() {
+                //                             $(event.target).html('Unsubmit')
+                //                         });
+                //                 })
+
+                //             const presentationSubmitPreviewTab = document.querySelector(
+                //                 '#presentationSubmitPreviewTab')
+                //             $('#submit-presentation-tab-logs').delegate('.submitPresentationPreviewBtns',
+                //                 'click',
+                //                 function(event) {
+                //                     $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
+        //                                 <div class="spinner-border text-primary" role="status"></div>
+        //                             </div>`)
+
+                //                     bootstrap.Tab.getOrCreateInstance(
+                //                         presentationSubmitPreviewTab).show()
+
+                //                     let previewUrl = '{{ route('presentations.index') }}'
+                //                     previewUrl =
+                //                         `${previewUrl}/preview/${$(event.target).attr('data-preview-id')}`
+
+                //                     $('#presentationSubmitPreviewContent').html('')
+                //                     $('#presentationSubmitPreviewContent')
+                //                         .html(`<div class="d-flex justify-content-center align-items-center">
+        //                     <div class="spinner-border text-primary" role="status">
+        //                       </div>
+        //                 </div>`)
+
+                //                     var thePdf = null;
+                //                     var scale = 1;
+                //                     pdfjsLib.getDocument(previewUrl).promise.then(pdf => {
+                //                         const downloadRoute =
+                //                             '{{ route('resources.index') }}'
+                //                         $('#presentationSubmitPreviewContent').html(
+                //                             `<a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>`
+                //                         )
+                //                         $('#presentationSubmitPreviewContent')
+                //                             .append(
+                //                                 `<a class="btn btn-secondary" id="presentationSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>`
+                //                             )
+
+                //                         thePdf = pdf;
+                //                         viewer = document.getElementById(
+                //                             'presentationSubmitPreviewContent');
+
+                //                         for (page = 1; page <= pdf
+                //                             .numPages; page++) {
+                //                             canvas = document.createElement(
+                //                                 "canvas");
+                //                             canvas.className = 'd-block w-100';
+                //                             viewer.appendChild(canvas);
+                //                             renderPage(page, canvas);
+                //                         }
+                //                         $(event.target).html(`Preview`)
+                //                     }).catch(err => {
+                //                         $(event.target).html(`Preview`)
+
+                //                         $('#generalSubmitPreviewContent').html(
+                //                             `<div class="alert alert-danger" role="alert">
+        //                             File was not able to be previewed due to certain error. Try again!
+        //                         </div>`
+                //                         )
+                //                     })
+
+                //                     function renderPage(pageNumber, canvas) {
+                //                         thePdf.getPage(pageNumber).then(function(page) {
+                //                             viewport = page.getViewport({
+                //                                 scale: scale
+                //                             });
+                //                             canvas.height = viewport.height;
+                //                             canvas.width = viewport.width;
+                //                             page.render({
+                //                                 canvasContext: canvas
+                //                                     .getContext('2d'),
+                //                                 viewport: viewport
+                //                             });
+                //                         });
+                //                     }
+
+                //                     let isFullscreen = false
+                //                     $('#presentationSubmitPreview').delegate(
+                //                         '#presentationSubmitPreviewFullscreen', 'click',
+                //                         (event) => {
+                //                             if (!isFullscreen) {
+                //                                 openFullscreen($(
+                //                                     '#presentationSubmitPreviewContent'
+                //                                 )[0])
+
+                //                                 $(event.target).text(
+                //                                     'Cancel fullscreen')
+                //                                 isFullscreen = true
+                //                             } else {
+                //                                 closeFullscreen($(
+                //                                     '#presentationSubmitPreviewContent'
+                //                                 )[0])
+
+                //                                 $(event.target).text('Fullscreen')
+                //                                 isFullscreen = false
+                //                             }
+                //                         })
+
+                //                     function openFullscreen(elem) {
+                //                         $(elem)
+                //                             .css('position', 'absolute')
+                //                             .css('width', '100%')
+                //                             .css('left', '0')
+                //                             .css('top', '0')
+                //                             .css('background-color', '#fff')
+                //                     }
+
+                //                     function closeFullscreen(elem) {
+                //                         $(elem)
+                //                             .css('position', '')
+                //                             .css('width', '')
+                //                             .css('left', '')
+                //                             .css('top', '')
+                //                             .css('background-color', '')
+                //                     }
+                //                 })
+                //             const presentationSubmitFormTab = document.querySelector(
+                //                 '#presentationSubmitFormTab')
+                //             $('#presentationSubmitPreviewReturn').click(function() {
+                //                 bootstrap.Tab.getOrCreateInstance(
+                //                     presentationSubmitFormTab).show()
+                //             })
+                //         })
+                //         .fail(function() {
+                //             alert("error");
+                //         })
+                //         .always(function() {
+                //             // $(event.target).removeClass('loading disabled')
+                //         });
+                // })
 
                 /* ON SHOW DETAILS TAB */
                 $('#resources-table').on('draw.dt', function() {

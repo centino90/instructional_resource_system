@@ -310,123 +310,132 @@ class SyllabusController extends Controller
               var totalFailedCounter = failedCourseOutcomesCounter + failedStudentOutcomesCounter;
               var totalSuccessCounter = successCourseOutcomesCounter + successStudentOutcomesCounter;
 
-              $("#result_msg").append(`
-              <table class="table">
-                  <tbody>
-                      <tr>
-                          <td></td>
-                          <td class="text-center"><b>Not appropriate</b></td>
-                          <td class="text-center"><b>Appropriate</b></td>
-                      </tr>
-
-                      <tr>
-                          <td>Course outcomes</td>
-                          <td class="text-center">${failedCourseOutcomesCounter}</td>
-                          <td class="text-center">${successCourseOutcomesCounter}</td>
-                      </tr>
-
-                      <tr>
-                          <td>Student learning outcomes</td>
-                          <td class="text-center">${failedStudentOutcomesCounter}</td>
-                          <td class="text-center">${successStudentOutcomesCounter}</td>
-                      </tr>
-
-
-                      <tr>
-                          <td></td>
-                          <td class="text-center"><b>Total: ${totalFailedCounter}</b></td>
-                          <td class="text-center"><b>Total: ${totalSuccessCounter}</b></td>
-                      </tr>
-                  </tbody>
-              </table>
-              `);
-
-              if(totalFailedCounter <= 0) {
-                  $("#syllabus-submit-submission").attr("disabled", false);
+              if(totalFailedCounter == 0 && totalSuccessCounter == 0) {
+                $("#wrapper").html("");
+                $("#wrapper").append(`
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="fw-bold">The submitted file is not a valid syllabus!</h5>
+                        <p>Use this <a href="#">syllabus</a> template so that we can appropriately validate your submission.</p>
+                    </div>
+                `)
               } else {
-                  $("#syllabus-submit-submission").attr("hidden", true);
+                $("#result_msg").append(`
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td class="text-center"><b>Not appropriate</b></td>
+                            <td class="text-center"><b>Appropriate</b></td>
+                        </tr>
+
+                        <tr>
+                            <td>Course outcomes</td>
+                            <td class="text-center">${failedCourseOutcomesCounter}</td>
+                            <td class="text-center">${successCourseOutcomesCounter}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Student learning outcomes</td>
+                            <td class="text-center">${failedStudentOutcomesCounter}</td>
+                            <td class="text-center">${successStudentOutcomesCounter}</td>
+                        </tr>
+
+
+                        <tr>
+                            <td></td>
+                            <td class="text-center"><b>Total: ${totalFailedCounter}</b></td>
+                            <td class="text-center"><b>Total: ${totalSuccessCounter}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+                `);
+
+                if(totalFailedCounter <= 0) {
+                    $("#syllabus-submit-submission").attr("disabled", false);
+                } else {
+                    $("#syllabus-submit-submission").attr("hidden", true);
+                }
               }
 
+                $("#syllabus-submit-submission").click(function(event) {
+                    $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
+                        <div class="spinner-border text-white" role="status"></div>
+                    </div>`)
 
-            $("#syllabus-submit-submission").click(function(event) {
-                $(event.target).html(`<div class="d-flex justify-content-center align-items-center">
-                    <div class="spinner-border text-white" role="status"></div>
-                </div>`)
-
-                $.ajax({
-                    method: "POST",
-                    url: "' . route('syllabi.store') . '",
-                    header: {"X-CSRF-TOKEN": "' . csrf_token() . '"},
-                    data: {
-                        courseId: "' . $request->course_id . '",
-                        folder: "' . $file . '",
-                        title: "' . $request->title[0] . '",
-                        description: "' . $request->description[0] . '",
-                    }
-                })
-                .done(function(data) {
-                    $("#syllabus-iframe-container").html("");
-                    $("#submit-resource-alert-syllabus").parent().addClass("show");
-                    $("#submit-resource-alert-syllabus").text("Syllabus was successfully submitted");
-                    $("#submit-syllabus-tab-logs").prepend(`
-                    <li class="logsRootList list-group-item d-flex justify-content-between lh-sm">
-                        <span> ${data.resource.media[0].file_name} </span>
-                        <span> ${new Date(data.resource.created_at).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "numeric", second: "numeric"})} </span>
-                        <div>
-                            <div class="btn-group dropend">
-                                <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                </button>
-                                <ul class="dropdown-menu shadow border-0 p-0">
-                                    <li class="dropdown-item p-0">
-                                        <ul class="list-group" style="min-width: 300px">
-                                            <li class="list-group-item">
-                                                <div>
-                                                    <h6 class="my-0 fw-bold">
-                                                        ${data.resource.user.username}
-                                                    </h6>
-                                                    <small class="text-muted">Submitter</small>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div>
-                                                    <h6 class="my-0 fw-bold">
-                                                        ${data.resource.status}
-                                                    </h6>
-                                                    <small class="text-muted">Status</small>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <button data-preview-id="${data.resource.id}" class="submitSyllabusPreviewBtns w-100 btn btn-light border text-primary fw-bold">
-                                                            Preview
-                                                        </button>
+                    $.ajax({
+                        method: "POST",
+                        url: "' . route('syllabi.store') . '",
+                        header: {"X-CSRF-TOKEN": "' . csrf_token() . '"},
+                        data: {
+                            courseId: "' . $request->course_id . '",
+                            folder: "' . $file . '",
+                            title: "' . $request->title[0] . '",
+                            description: "' . $request->description[0] . '",
+                        }
+                    })
+                    .done(function(data) {
+                        $("#syllabus-iframe-container").html("");
+                        $("#submit-resource-alert-syllabus").parent().addClass("show");
+                        $("#submit-resource-alert-syllabus").text("Syllabus was successfully submitted");
+                        $("#submit-syllabus-tab-logs").prepend(`
+                        <li class="logsRootList list-group-item d-flex justify-content-between lh-sm">
+                            <span> ${data.resource.media[0].file_name} </span>
+                            <span> ${new Date(data.resource.created_at).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "numeric", second: "numeric"})} </span>
+                            <div>
+                                <div class="btn-group dropend">
+                                    <button class="btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                    </button>
+                                    <ul class="dropdown-menu shadow border-0 p-0">
+                                        <li class="dropdown-item p-0">
+                                            <ul class="list-group" style="min-width: 300px">
+                                                <li class="list-group-item">
+                                                    <div>
+                                                        <h6 class="my-0 fw-bold">
+                                                            ${data.resource.user.username}
+                                                        </h6>
+                                                        <small class="text-muted">Submitter</small>
                                                     </div>
-                                                    <div class="col-6">
-                                                        <button data-unsubmit-id="${data.resource.id}" class="syllabusLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
-                                                            Unsubmit
-                                                        </button>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div>
+                                                        <h6 class="my-0 fw-bold">
+                                                            ${data.resource.status}
+                                                        </h6>
+                                                        <small class="text-muted">Status</small>
                                                     </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <button data-preview-id="${data.resource.id}" class="submitSyllabusPreviewBtns w-100 btn btn-light border text-primary fw-bold">
+                                                                Preview
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <button data-unsubmit-id="${data.resource.id}" class="syllabusLogsUnsubmit w-100 btn btn-light border-danger text-danger fw-bold">
+                                                                Unsubmit
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                `)
-                let currentLogsCounter = parseInt($("#submit-syllabus-tab-logs-count").text()) + 1;
-                $("#submit-syllabus-tab-logs-count").text(currentLogsCounter);
-                })
-                .fail(function() {
-                    alert("error");
-                })
-                .always(function() {
-                    $(event.target).removeClass("loading disabled");
+                        </li>
+                    `)
+                    let currentLogsCounter = parseInt($("#submit-syllabus-tab-logs-count").text()) + 1;
+                    $("#submit-syllabus-tab-logs-count").text(currentLogsCounter);
+                    })
+                    .fail(function() {
+                        alert("error");
+                    })
+                    .always(function() {
+                        $(event.target).removeClass("loading disabled");
+                    });
                 });
-            });
 
               $("#syllabus-cancel-submission").click(function() {
                 $("#syllabus-iframe-container").html("");
