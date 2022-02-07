@@ -12,7 +12,8 @@ $('.sidebar-menu-btn').click(function () {
 
 $('button[type="submit"]:not(".no-loading"), input[type="submit"]:not(".no-loading"), button.submit')
     .click(function () {
-        $(this).addClass('disabled loading');
+        $(this).addClass('disabled');
+        $(this).attr('disabled', true);
     });
 
 // let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

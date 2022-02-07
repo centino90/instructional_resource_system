@@ -61,6 +61,9 @@ class ResourcesDataTable extends DataTable
     public function html()
     {
         return $this->builder()
+            ->parameters([
+                'responsive' => true
+            ])
             ->setTableId('resources-table')
             ->columns($this->getColumns())
             ->dom('Bfrtip')

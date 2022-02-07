@@ -64,7 +64,7 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         /* ON SUBMIT GENERAL */
-        $resource = Resource::where('is_syllabus', false)->where('is_presentation', false)
+        $resource = Resource::with('media', 'user')->where('is_syllabus', false)->where('is_presentation', false)
             ->where('course_id', $course->id)
             ->whereNotNull('approved_at')
             ->whereNull('archived_at')
@@ -74,9 +74,12 @@ class CourseController extends Controller
             ->orderByDesc('created_at')
             ->limit(5)
             ->get();
+        $resourcesLogCount = Resource::where('is_syllabus', false)->where('is_presentation', false)
+            ->where('course_id', $course->id)
+            ->count();
 
         /* ON SUBMIT SYLLABUS */
-        $syllabus = Resource::where('is_syllabus', true)
+        $syllabus = Resource::with('media', 'user')->where('is_syllabus', true)
             ->where('course_id', $course->id)
             ->whereNotNull('approved_at')
             ->whereNull('archived_at')
@@ -86,9 +89,12 @@ class CourseController extends Controller
             ->orderByDesc('created_at')
             ->limit(5)
             ->get();
+        $syllabiLogCount = Resource::where('is_syllabus', true)
+            ->where('course_id', $course->id)
+            ->count();
 
         /* ON SUBMIT PRESENTATION */
-        $presentation = Resource::where('is_presentation', true)
+        $presentation = Resource::with('media', 'user')->where('is_presentation', true)
             ->where('course_id', $course->id)
             ->whereNotNull('approved_at')
             ->whereNull('archived_at')
@@ -98,6 +104,9 @@ class CourseController extends Controller
             ->orderByDesc('created_at')
             ->limit(5)
             ->get();
+        $presentationLogCount = Resource::where('is_presentation', true)
+            ->where('course_id', $course->id)
+            ->count();
 
         $newResourceLogs = collect();
         $resourcesLogs->each(function ($item, $key) use ($newResourceLogs) {
@@ -132,14 +141,24 @@ class CourseController extends Controller
         $course->resourceComplied = $resource ? true : false;
         $course->resourceSubmitter = $resource ? $resource->user->username : null;
         $course->resourceLogs = $newResourceLogs;
+        $course->resourceLogCount = $resourcesLogCount;
 
         $course->complied = $syllabus ? true : false;
         $course->submitter = $syllabus ? $syllabus->user->username : null;
         $course->logs = $newSyllabiLogs;
+        $course->syllabiLogCount = $syllabiLogCount;
 
         $course->presentationComplied = $presentation ? true : false;
         $course->presentationSubmitter = $presentation ? $presentation->user->username : null;
         $course->presentationLogs = $newPresentationLogs;
+        $course->presentationLogCount = $presentationLogCount;
+
+        $groupedLogs = collect([
+            $newResourceLogs, $newSyllabiLogs, $newPresentationLogs
+        ])->flatten();
+        $course->courseResourceLogs = $groupedLogs->sortByDesc('created_at')->values()->take(3)->all();
+        $course->totalSubmits = ($resourcesLogCount + $syllabiLogCount + $presentationLogCount);
+        $course->syllabus = $syllabus ?? null;
 
         return $course;
 

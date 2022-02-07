@@ -10,6 +10,8 @@ try {
     window.Popper = require('@popperjs/core').default;
     window.$ = window.jQuery = require('jquery');
     window.bs = window.Bootstrap = window.bootstrap = require('bootstrap');
+    window.moment = window.Moment = require('moment');
+    moment().format();
 } catch (e) { }
 
 /**

@@ -96,10 +96,18 @@ class ResourceController extends Controller
             $batchId = Str::uuid();
             $index = 0;
             $resources = collect();
+            $failes = collect();
             foreach ($request->file as $file) {
                 $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
 
                 if ($temporaryFile) {
+                    // exclude unexecutable files
+                    if(empty(pathinfo($temporaryFile->file_name, PATHINFO_EXTENSION))) {
+                        $temporaryFile->delete();
+                        $failes->push($temporaryFile->file_name);
+                        continue;
+                    }
+
                     $r = Resource::create([
                         'course_id' => $request->course_id,
                         'user_id' => auth()->id(),
@@ -131,7 +139,7 @@ class ResourceController extends Controller
 
             return response()->json([
                 'status' => 'ok',
-                'message' => sizeof($request->file) . ' resource(s) were successfully uploaded.',
+                'message' => sizeof($resources) . ' resource(s) were successfully uploaded and ' . sizeof($failes) . ' failed.',
                 'resources' => $resources
             ]);
 
@@ -145,10 +153,15 @@ class ResourceController extends Controller
             //     ->route('resources.index')
             //     ->with('success', 'Resource was created successfully');
         } catch (\Throwable $th) {
-            return response()->json([
+            $statusCode = in_array($th->getCode(), array_keys(Response::$statusTexts)) ? $th->getCode() : 500;
+            return response()->json(
+                [
                 'status' => 'fail',
                 'message' => $th->getMessage(),
-            ]);
+                'code' => $statusCode
+                ],
+                $statusCode
+            );
         }
     }
 
