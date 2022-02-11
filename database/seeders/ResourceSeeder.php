@@ -27,26 +27,26 @@ class ResourceSeeder extends Seeder
             ->count(30)
             ->create();
 
-        Resource::factory()
-            ->count(2)
-            ->state(new Sequence(
-                [
-                    'course_id' => Course::where('program_id', $nextUser->programs()->first()->id)->get()->random(),
-                    'user_id' => $user,
-                    'batch_id' => $faker->uuid(),
-                    'title' => $faker->word(),
-                    'description' => $faker->text(50),
-                    'deleted_at' => now(),
-                ],
-                [
-                    'course_id' => Course::where('program_id', $nextUser->programs()->first()->id)->get()->random(),
-                    'user_id' => $user,
-                    'batch_id' => $faker->uuid(),
-                    'title' => $faker->word(),
-                    'description' => $faker->text(50),
-                ]
-            ))
-            ->create();
+        // Resource::factory()
+        //     ->count(2)
+        //     ->state(new Sequence(
+        //         [
+        //             'course_id' => Course::where('program_id', $nextUser->programs()->first()->id)->get()->random(),
+        //             'user_id' => $user,
+        //             'batch_id' => $faker->uuid(),
+        //             'title' => $faker->word(),
+        //             'description' => $faker->text(50),
+        //             'deleted_at' => now(),
+        //         ],
+        //         [
+        //             'course_id' => Course::where('program_id', $nextUser->programs()->first()->id)->get()->random(),
+        //             'user_id' => $user,
+        //             'batch_id' => $faker->uuid(),
+        //             'title' => $faker->word(),
+        //             'description' => $faker->text(50),
+        //         ]
+        //     ))
+        //     ->create();
 
         foreach (Resource::withTrashed()->get() as $resource) {
             $resource->users()->attach($resource->user_id, ['batch_id' => $resource->batch_id, 'is_important' => rand(0, 1)]);

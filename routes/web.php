@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\PersonnelsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\ResourcesController;
 use App\Http\Controllers\PresentationResourceController;
+use App\Http\Controllers\StorageController;
 use App\Models\Course;
 use App\Models\Role;
 use App\Models\User;
@@ -57,11 +58,15 @@ Route::middleware('auth')->group(function () {
     Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
     Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
+
+    Route::post('syllabi/storeByUrl', [SyllabusController::class, 'storeByUrl'])->name('syllabi.storeByUrl');
+    Route::post('syllabi/uploadByUrl', [SyllabusController::class, 'uploadByUrl'])->name('syllabi.uploadByUrl');
     Route::get('syllabi/preview/{syllabus}', [SyllabusController::class, 'preview'])->name('syllabi.preview');
     Route::post('syllabi/upload', [SyllabusController::class, 'upload'])->name('syllabi.upload');
     Route::resource('syllabi', SyllabusController::class);
 
     Route::get('presentations/preview/{presentation}', [PresentationResourceController::class, 'preview'])->name('presentations.preview');
+    Route::post('presentations/uploadByUrl', [PresentationResourceController::class, 'uploadByUrl'])->name('presentations.uploadByUrl');
     Route::post('presentations/upload', [PresentationResourceController::class, 'upload'])->name('presentations.upload');
     Route::resource('presentations', PresentationResourceController::class);
 
@@ -69,6 +74,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('archive', ArchiveController::class);
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::put('notifications/{notification}', [NotificationController::class, 'update'])->name('notifications.update');
+
+    Route::resource('storage', StorageController::class);
+    Route::get('storage/{user}?leftPath=users/', [StorageController::class, 'show'])->name('storage.show');
 
     // saved resources
     Route::resource('saved-resources', SavedResourceController::class);

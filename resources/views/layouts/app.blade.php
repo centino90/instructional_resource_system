@@ -31,6 +31,8 @@
 
     <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
 
+    @yield('style')
+
     <!-- custom css -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 

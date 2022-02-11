@@ -93,12 +93,16 @@ class ResourcePolicy
     public function delete(User $user, Resource $resource)
     {
         if (!$user->belongsToProgram($resource->course->program_id)) {
-            return Response::deny('This resource cannot be temporarily deleted because it does not exist in your program.');
+            return Response::deny('This resource cannot be deleted because it does not exist in your program.');
+        }
+
+        if ($resource->approved_at) {
+            return Response::deny('This resource cannot be deleted because it already approved.');
         }
 
         return $user->isProgramDean() || $user->isSecretary() || $user->id === $resource->user_id
             ? Response::allow()
-            : Response::deny('Teachers who do not own this resource are not allowed to temporarily it');
+            : Response::deny('Users who did not created this resource are not allowed to delete');
     }
 
     /**

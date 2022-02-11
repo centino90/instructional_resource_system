@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Resource;
 use App\Models\TemporaryUpload;
 use App\Models\User;
+use App\Policies\ResourcePolicy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,7 @@ use Dompdf\Options;
 
 use Elibyy\TCPDF\Facades\TCPDF;
 use Error;
+use Illuminate\Http\File;
 use Illuminate\Http\Response;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use Throwable;
@@ -120,7 +122,10 @@ class ResourceController extends Controller
 
                     $tmpPath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
 
-                    Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name, $tmpPath);
+                    $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name);
+                    $newFilename = pathinfo($newFilePath, PATHINFO_FILENAME) . '.' . pathinfo($newFilePath, PATHINFO_EXTENSION);
+
+                    Storage::disk('public')->putFileAs('users/'. auth()->id() . '/resources', $tmpPath, $newFilename);
                     $r->addMedia($tmpPath)->toMediaCollection();
 
                     rmdir(storage_path('app/public/resource/tmp/' . $file));
@@ -173,21 +178,59 @@ class ResourceController extends Controller
         );
 
         $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
-        $filename = pathinfo($request->fileUrl, PATHINFO_FILENAME);
+        $filename = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
         $model = Resource::create($request->validated() + [
             'user_id' => auth()->id(),
             'batch_id' => Str::random(5),
             'approved_at' => now()
         ]);
 
-        $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
+        // dd($filePath);
+        // dd($this->filenameFormatter($filePath));
+        // Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name, $tmpPath);
+        // $r->addMedia($tmpPath)->toMediaCollection();
+
         Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $filename, storage_path('app/public/' . $filePath));
+        $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
+
+
+
+        // Storage::disk('public')->putFileAs('users/'. auth()->id() . '/resources', storage_path('app/public/' . $filePath), $filename);
+        // $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
 
         return response()->json([
             'status' => 'ok',
             'message' => 'resource was uploaded successfully.',
             'resources' => collect($model)
         ]);
+    }
+
+    private function filenameFormatter($filePath)
+    {
+        if (Storage::exists($filePath)) {
+            // Split filename into parts
+            $pathInfo = pathinfo($filePath);
+            $extension = isset($pathInfo['extension']) ? ('.' . $pathInfo['extension']) : '';
+
+            // Look for a number before the extension; add one if there isn't already
+            if (preg_match('/(.*?)(\d+)$/', $pathInfo['filename'], $match)) {
+                // Have a number; get it
+                $base = $match[1];
+                $number = intVal($match[2]);
+            } else {
+                // No number; pretend we found a zero
+                $base = $pathInfo['filename'];
+                $number = 0;
+            }
+
+            // Choose a name with an incremented number until a file with that name
+            // doesn't exist
+            do {
+                $filePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $base . '('.++$number . ')' . $extension;
+            } while (Storage::exists($filePath));
+        }
+
+        return $filePath;
     }
 
     /**
@@ -204,7 +247,7 @@ class ResourceController extends Controller
         $resource->filesize = $resource->getFirstMedia()->human_readable_size;
         $resource->uploader = $resource->user->username;
 
-        Gate::authorize('view', $resource);
+       $this->authorize('view', $resource);
 
         return $resource;
     }
@@ -212,9 +255,10 @@ class ResourceController extends Controller
     public function preview($id)
     {
         $resource = Resource::with('media', 'user')->findOrFail($id);
-        Gate::authorize('view', $resource);
 
-        $mediaFileExt = pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION);
+        $this->authorize('view', $resource);
+
+        $mediaFileExt = strtolower(pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION));
         try {
             if (!$mediaFileExt) {
                 throw new Error('Resource file not found.', 404);
@@ -227,6 +271,7 @@ class ResourceController extends Controller
                     array_values(config('app.video_filetypes')),
                     array_values(config('app.audio_filetypes'))
                 )) && $resource->getFirstMedia()->mime_type !== 'text/plain'
+                || $resource->getFirstMedia()->mime_type == 'application/x-empty'
             ) {
                 throw new Error('Resource filetype is not previewable.', 415);
             }
@@ -268,9 +313,9 @@ class ResourceController extends Controller
 
             /* PLAIN TEXTS */
             if ($resource->getFirstMedia()->mime_type === 'text/plain') {
-                if (!Storage::disk('public')->exists($resource->getFirstMedia()->file_name)) {
-                    throw new Error('Resource file not found', 404);
-                }
+                // if (!Storage::disk('public')->exists($resource->getFirstMedia()->file_name)) {
+                //     throw new Error('Resource file not found', 404);
+                // }
 
                 if (file_exists(storage_path('app/public/' . $newFilename . '.txt'))) {
                     unlink(storage_path('app/public/' . $newFilename . '.txt'));
@@ -345,10 +390,12 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Resource $resource)
+    public function destroy($id)
     {
         try {
-            Gate::authorize('delete', $resource);
+            $resource = Resource::with('media', 'user')->findOrFail($id);
+
+            $this->authorize('delete', $resource);
 
             $resource->delete();
             $fileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
@@ -359,21 +406,16 @@ class ResourceController extends Controller
                 'resource' => $resource
             ]);
         } catch (Throwable $th) {
-
-            return response()->json([
+            $statusCode = in_array($th->getCode(), array_keys(Response::$statusTexts)) ? $th->getCode() : 500;
+            return response()->json(
+                [
                 'status' => 'fail',
-                'message' => $th->getMessage()
-            ]);
+                'message' => $th->getMessage(),
+                'code' => $statusCode
+                ],
+                $statusCode
+            );
         }
-
-
-        // $fileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
-        // return redirect()->back()
-        //     ->with([
-        //         'status' => 'success-destroy-resource',
-        //         'message' => $fileName . ' was deleted sucessfully!',
-        //         'resource_id' => $resource->id
-        //     ]);
     }
 
     /**
@@ -421,7 +463,7 @@ class ResourceController extends Controller
 
             // Source file and watermark config
             $file = $resource->getFirstMedia()->name . '.pdf';
-            $text_image = storage_path('app/public/word-watermark.png');
+            $text_image = storage_path('app/public/images/word-watermark.png');
 
             // Set source PDF file
             $pdf = new Fpdi;

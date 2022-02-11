@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ResourceCreated;
+use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Course;
 use App\Models\Resource;
@@ -173,7 +174,7 @@ class PresentationResourceController extends Controller
 
                     $temporaryFile->delete();
 
-                    $resource = Resource::with('media, user')->findOrFail($r->id);
+                    $resource = Resource::with('media', 'user')->findOrFail($r->id);
 
                     return response()->json([
                         'status' => 'ok',
@@ -192,6 +193,111 @@ class PresentationResourceController extends Controller
 
             $index++;
         }
+    }
+
+    public function uploadByUrl(StoreResourceByUrlRequest $request)
+    {
+        abort_if(
+            $request->user()->cannot('create', Resource::class),
+            403
+        );
+
+        $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
+        $filename = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
+        $fileExt = pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
+
+        if(!in_array($fileExt, ['ppt', 'pptx'])) {
+            return response()->json([
+                'status' => 'fail',
+                'errors' =>  ['Presentation file types must be ppt or pptx.'],
+            ], 400);
+        }
+
+                $copiedTempFilePath = storage_path('app/public/resource/tmp/presentation.' . pathinfo($filePath, PATHINFO_EXTENSION));
+                if(file_exists($copiedTempFilePath)) {
+                    Storage::disk('public')->delete('resource/tmp/presentation.' . pathinfo($filePath, PATHINFO_EXTENSION));
+                }
+                Storage::disk('public')->copy($filePath, 'resource/tmp/presentation.' . pathinfo($filePath, PATHINFO_EXTENSION));
+
+                $reader = IOFactory::createReader('PowerPoint2007');
+                $presentation = $reader->load($copiedTempFilePath);
+
+                $lastSlide = $presentation->getSlide(count($presentation->getAllSlides()) - 1);
+                $shapes = $lastSlide->getShapeCollection();
+                $texts = collect();
+                foreach ($shapes as $key => $value) {
+                    $texts->push(trim($value->getParagraph()->getPlainText()));
+                }
+
+                $lowercased = $texts->map(function ($item, $key) {
+                    return strtolower($item);
+                });
+
+                foreach (get_resources() as $key => $value) {
+                    if($key == '525') {
+                        fclose($value);
+                    }
+                }
+
+                if ($lowercased->contains('references') || $lowercased->contains('reference')) {
+                    $batchId = Str::random(5);
+                    $model = Resource::create($request->validated() + [
+                        'user_id' => auth()->id(),
+                        'batch_id' => $batchId,
+                        'approved_at' => now(),
+                        'is_presentation' => true
+                    ]);
+
+                    $model->users()->attach($model->user_id, ['batch_id' => $batchId]);
+
+                    Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $filename, storage_path('app/public/' . $filePath));
+                    $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
+
+                    event(new ResourceCreated($model));
+
+                    $resource = Resource::with('media', 'user')->findOrFail($model->id);
+
+                    return response()->json([
+                        'status' => 'ok',
+                        'message' => 'presentation was successfully uploaded.',
+                        // 'texts' => $texts,
+                        'resources' => collect($resource)
+                    ]);
+                }
+
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'presentation was not successfully uploaded.',
+                'texts' => $texts
+            ]);
+    }
+
+    private function filenameFormatter($filePath)
+    {
+        if (Storage::exists($filePath)) {
+            // Split filename into parts
+            $pathInfo = pathinfo($filePath);
+            $extension = isset($pathInfo['extension']) ? ('.' . $pathInfo['extension']) : '';
+
+            // Look for a number before the extension; add one if there isn't already
+            if (preg_match('/(.*?)(\d+)$/', $pathInfo['filename'], $match)) {
+                // Have a number; get it
+                $base = $match[1];
+                $number = intVal($match[2]);
+            } else {
+                // No number; pretend we found a zero
+                $base = $pathInfo['filename'];
+                $number = 0;
+            }
+
+            // Choose a name with an incremented number until a file with that name
+            // doesn't exist
+            do {
+                $filePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $base . '('.++$number . ')' . $extension;
+            } while (Storage::exists($filePath));
+        }
+
+        return $filePath;
     }
 
     /**

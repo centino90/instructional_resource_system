@@ -17,13 +17,13 @@ class CreateResourcesTable extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->uuid('batch_id');
+            $table->uuid('batch_id')->nullable();
             $table->longText('title');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->boolean('is_syllabus')->default(0);
             $table->boolean('is_presentation')->default(0);
-            $table->integer('downloads');
-            $table->integer('views');
+            $table->integer('downloads')->default(0);
+            $table->integer('views')->default(0);
 
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('rejected_at')->nullable(); //temp
