@@ -46,6 +46,10 @@ class StorageController extends Controller
      */
     public function show($id, Request $request)
     {
+        $storageIdFromPath = explode('/', $request->leftPath)[1];
+
+        abort_if($id != auth()->id() || $storageIdFromPath != auth()->id(), 403, 'You cannot access someone\'s storage');
+
         $user = User::findOrFail($id);
 
         return view('pages.instructor.show-storage')->with('user', $user);

@@ -16,12 +16,10 @@
                 </div>
 
                 <small
-                    class="ps-2 py-1 bg-gradient w-100 @if (auth()->user()->isInstructor())
-bg-primary
+                    class="ps-2 py-1 bg-gradient w-100 @if (auth()->user()->isInstructor()) bg-primary
                     @elseif(auth()->user()->isProgramDean()) bg-success
                     @elseif(auth()->user()->isSecretary()) bg-secondary
-                    @elseif(auth()->user()->isAdmin()) bg-danger
-@endif">
+                    @elseif(auth()->user()->isAdmin()) bg-danger @endif">
                     <b>{{ auth()->user()->programs()->first()->title }} - [{{ auth()->user()->role->name }}]</b>
                 </small>
             </div>
@@ -135,12 +133,12 @@ bg-primary
                 </x-nav-link>
 
                 <x-nav-link href="storage.show"
-                    routeParams="{{auth()->id(), auth()->id()}}">
+                    :routeParams="[auth()->id(), 'leftPath' => 'users/' . auth()->id()]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home" aria-hidden="true">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        <polyline points="9 22 9 12  15 12 15 22"></polyline>
                     </svg>
                     <span>My storage</span>
                 </x-nav-link>

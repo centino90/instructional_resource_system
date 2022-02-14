@@ -771,6 +771,7 @@ class SyllabusController extends Controller
             'batch_id' => Str::uuid(),
             'description' => 'lorem',
             'is_syllabus' => 1,
+            'approved_at' => now()
         ]);
 
         $r->users()->attach($r->user_id, ['batch_id' => $r->batch_id]);

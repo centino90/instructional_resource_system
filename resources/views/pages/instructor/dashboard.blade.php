@@ -33,185 +33,16 @@
                 type="button" role="tab" aria-controls="fourth-year" aria-selected="false">Fourth year</button>
         </div>
     </nav>
+
     <div class="tab-content" id="nav-tabContent">
         <!-- FIRST YEAR -->
         <div class="tab-pane fade show active" id="first-year" role="tabpanel" aria-labelledby="first-year-tab">
             <div class="py-4">
                 <!-- FIRST SEMESTER -->
-                <section class="py-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <header class="fw-bold pb-2">First Semester</header>
-                        </div>
-                        <div class="col-6">
-                            <!-- FIRST TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">First Term</header>
-
-                                    <table class="table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($firstYear as $row)
-                                                @if ($row->semester == 1 && $row->term == 1)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <!-- SECOND TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">Second Term</header>
-
-                                    <table class="bg-white table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($firstYear as $row)
-                                                @if ($row->semester == 1 && $row->term == 2)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <x-real.dashb-semester-course :semester="1" :courses="$firstYear"></x-real.dashb-semester-course>
 
                 <!-- SECOND SEMESTER -->
-                <section class="py-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <header class="fw-bold pb-2">Second Semester</header>
-                        </div>
-                        <div class="col-6">
-                            <!-- FIRST TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">First Term</header>
-
-                                    <table class="table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($firstYear as $row)
-                                                @if ($row->semester == 2 && $row->term == 1)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <!-- SECOND TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">Second Term</header>
-
-                                    <table class="bg-white table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($firstYear as $row)
-                                                @if ($row->semester == 2 && $row->term == 2)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <x-real.dashb-semester-course :semester="2" :courses="$firstYear"></x-real.dashb-semester-course>
             </div>
         </div>
 
@@ -219,180 +50,10 @@
         <div class="tab-pane fade" id="second-year" role="tabpanel" aria-labelledby="second-year-tab">
             <div class="py-4">
                 <!-- FIRST SEMESTER -->
-                <section class="py-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <header class="fw-bold pb-2">First Semester</header>
-                        </div>
-                        <div class="col-6">
-                            <!-- FIRST TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">First Term</header>
-
-                                    <table class="table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($secondYear as $row)
-                                                @if ($row->semester == 1 && $row->term == 1)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <!-- SECOND TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">Second Term</header>
-
-                                    <table class="bg-white table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($secondYear as $row)
-                                                @if ($row->semester == 1 && $row->term == 2)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <x-real.dashb-semester-course :semester="1" :courses="$secondYear"></x-real.dashb-semester-course>
 
                 <!-- SECOND SEMESTER -->
-                <section class="py-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <header class="fw-bold pb-2">Second Semester</header>
-                        </div>
-                        <div class="col-6">
-                            <!-- FIRST TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">First Term</header>
-
-                                    <table class="table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($secondYear as $row)
-                                                @if ($row->semester == 2 && $row->term == 1)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <!-- SECOND TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">Second Term</header>
-
-                                    <table class="bg-white table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($secondYear as $row)
-                                                @if ($row->semester == 2 && $row->term == 2)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <x-real.dashb-semester-course :semester="2" :courses="$secondYear"></x-real.dashb-semester-course>
             </div>
         </div>
 
@@ -400,180 +61,10 @@
         <div class="tab-pane fade" id="third-year" role="tabpanel" aria-labelledby="third-year-tab">
             <div class="py-4">
                 <!-- FIRST SEMESTER -->
-                <section class="py-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <header class="fw-bold pb-2">First Semester</header>
-                        </div>
-                        <div class="col-6">
-                            <!-- FIRST TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">First Term</header>
-
-                                    <table class="table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($thirdYear as $row)
-                                                @if ($row->semester == 1 && $row->term == 1)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <!-- SECOND TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">Second Term</header>
-
-                                    <table class="bg-white table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($thirdYear as $row)
-                                                @if ($row->semester == 1 && $row->term == 2)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <x-real.dashb-semester-course :semester="1" :courses="$thirdYear"></x-real.dashb-semester-course>
 
                 <!-- SECOND SEMESTER -->
-                <section class="py-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <header class="fw-bold pb-2">Second Semester</header>
-                        </div>
-                        <div class="col-6">
-                            <!-- FIRST TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">First Term</header>
-
-                                    <table class="table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($thirdYear as $row)
-                                                @if ($row->semester == 2 && $row->term == 1)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <!-- SECOND TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">Second Term</header>
-
-                                    <table class="bg-white table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($thirdYear as $row)
-                                                @if ($row->semester == 2 && $row->term == 2)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <x-real.dashb-semester-course :semester="2" :courses="$thirdYear"></x-real.dashb-semester-course>
             </div>
         </div>
 
@@ -581,180 +72,10 @@
         <div class="tab-pane fade" id="fourth-year" role="tabpanel" aria-labelledby="fourth-yea-tab">
             <div class="py-4">
                 <!-- FIRST SEMESTER -->
-                <section class="py-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <header class="fw-bold pb-2">First Semester</header>
-                        </div>
-                        <div class="col-6">
-                            <!-- FIRST TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">First Term</header>
-
-                                    <table class="table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($fourthYear as $row)
-                                                @if ($row->semester == 1 && $row->term == 1)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <!-- SECOND TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">Second Term</header>
-
-                                    <table class="bg-white table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($fourthYear as $row)
-                                                @if ($row->semester == 1 && $row->term == 2)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <x-real.dashb-semester-course :semester="1" :courses="$fourthYear"></x-real.dashb-semester-course>
 
                 <!-- SECOND SEMESTER -->
-                <section class="py-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <header class="fw-bold pb-2">Second Semester</header>
-                        </div>
-                        <div class="col-6">
-                            <!-- FIRST TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">First Term</header>
-
-                                    <table class="table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($fourthYear as $row)
-                                                @if ($row->semester == 2 && $row->term == 1)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <!-- SECOND TERM -->
-                            <div class="card shadow">
-                                <div class="card-body">
-                                    <header class="text-center form-text fw-bold pb-2">Second Term</header>
-
-                                    <table class="bg-white table align-middle table-sm table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Action</th>
-                                                <th scope="col">Subject code</th>
-                                                <th scope="col">Subject title</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($fourthYear as $row)
-                                                @if ($row->semester == 2 && $row->term == 2)
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                data-bs-courseid="{{ $row->id }}"
-                                                                data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
-                                                        </td>
-                                                        <td>{{ $row->code }}</td>
-                                                        <td>{{ $row->title }}</td>
-                                                    </tr>
-                                                @endif
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4" class="text-center py-3">No data available in table
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <x-real.dashb-semester-course :semester="2" :courses="$fourthYear"></x-real.dashb-semester-course>
             </div>
         </div>
     </div>
@@ -1820,36 +1141,7 @@
         </div>
     </div>
 
-
-    <div class="modal" id="viewResourcesModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">View Course Resources</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse perferendis dignissimos ullam
-                        vitae hic doloribus!</small>
-                    <form action="{{ route('resources.downloadAllByCourse') }}" method="post">
-                        @csrf
-                        <ul class="resource-list nav flex-column mt-3">
-
-                        </ul>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                    <button type="button" class="btn btn-primary submit">Download all</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     @section('script')
-        {{-- {!! $dataTable->scripts() !!} --}}
-
         <script>
             $(document).ready(function() {
                 function submittedResourceLogItemGenerator(resources, selector, parentSelector = null, startFromEnd = true) {
@@ -2080,9 +1372,13 @@
                                                 <li class="list-group-item">
                                                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                                         <div class="btn-group" role="group" aria-label="First group">
-                                                            <a href="{{route('resources.index')}}/download/${data.syllabus.id}" class="p-1 btn btn-outline-secondary">
-                                                                <img title="download" alt="download icon" class="img-thumbnail" src="{{asset('images/icons/download.svg')}}" />
+                                                            <a href="{{route('resources.index')}}/download-original/${data.syllabus.id}" class="p-1 btn btn-outline-secondary">
+                                                                <img title="download original" alt="download original icon" class="img-thumbnail bg-primary" src="{{asset('images/icons/download.svg')}}" />
                                                             </a>
+                                                            <a href="{{route('resources.index')}}/download-pdf/${data.syllabus.id}" class="p-1 btn btn-outline-secondary">
+                                                                <img title="download as pdf" alt="download as pdf icon" class="img-thumbnail" src="{{asset('images/icons/download.svg')}}" />
+                                                            </a>
+
                                                             <button type="button" class="p-1 btn btn-outline-secondary">
                                                                 <img title="archives" alt="archive icon" class="img-thumbnail" src="{{asset('images/icons/archive.svg')}}" />
                                                             </button>
@@ -2099,7 +1395,7 @@
                                 $('#course-syllabus-card').addClass('text-center')
                                 $('#course-syllabus-card').html(`
                                     <img title="alert triangle" alt="alert triangle icon" class="img-thumbnail" src="{{asset('images/icons/alert-triangle.svg')}}" />
-                                    <h5 class="form-text fw-bold">This course has no syllabus yet.</h5>
+                                    <h5 class="form-text fw-bold">This course has no approved syllabus yet.</h5>
                                 `)
                             }
 
@@ -2108,7 +1404,8 @@
                                 $('#recent-resource-uploads-card').html(`<ul class="list-group"></ul>`)
                                 $(data.courseResourceLogs).each(function(index, item) {
                                     let fileSubmissionDate = moment(item.created_at).format('MM-DD-YYYY : LT')
-                                    let resourceType = item.isSyllabus ? 'Syllabus' : item.isPresentation ? 'Presentation' : 'General'
+                                    console.log(item)
+                                    let resourceType = item.is_syllabus ? 'Syllabus' : item.is_presentation ? 'Presentation' : 'General'
                                     let submitter = item.user ? item.user.username : 'unknown user'
                                     $('#recent-resource-uploads-card .list-group').append(`
                                         <li class="list-group-item hstack gap-3">
@@ -2648,8 +1945,8 @@
                                                 '{{ route('resources.index') }}'
                                             $dropzone.find('.resource-submit-preview-content').html(
                                                 `<div class="mb-4">
-                                            <a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>
-                                            <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
+                                                <a class="btn btn-primary" href="${downloadRoute}/download-original/${$(event.target).attr('data-preview-id')}">Download Original</a>
+                                                <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
                                         </div>`
                                             )
 
@@ -2715,7 +2012,8 @@
                                         $dropzone.find('.resource-submit-preview-content').html(
                                             `
                                             <div class="mb-4">
-                                                <a class="btn btn-primary" href="${downloadRoute}/download/${$(event.target).attr('data-preview-id')}">Download</a>
+                                                <a class="btn btn-primary" href="${downloadRoute}/download-original/${$(event.target).attr('data-preview-id')}">Download Original</a>
+                                                <a class="btn btn-danger" href="${downloadRoute}/download-pdf/${$(event.target).attr('data-preview-id')}">Download as PDF</a>
                                                 <a class="btn btn-secondary ms-2" id="generalSubmitPreviewFullscreen" href="javascript:void(0)">Fullscreen</a>
                                             </div>
                                             `

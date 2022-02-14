@@ -498,6 +498,61 @@ class ResourceController extends Controller
         );
     }
 
+    public function downloadOriginal($mediaItem, Request $request)
+    {
+        $resource = Resource::withTrashed()->find($mediaItem);
+
+        return response()->download(
+                 $resource->getFirstMediaPath(),
+                 $resource->getFirstMedia()->file_name
+        );
+    }
+
+    public function downloadAsPdf($mediaItem, Request $request)
+    {
+        $resource = Resource::withTrashed()->find($mediaItem);
+
+        if (in_array(pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION), config('app.pdf_convertible_filetypes'))) {
+            $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
+            $converter->convertTo($resource->getFirstMedia()->name . '.pdf'); //generates pdf file in same directory as test-file.docx
+
+            // Source file and watermark config
+            $file = $resource->getFirstMedia()->name . '.pdf';
+            $text_image = storage_path('app/public/images/word-watermark.png');
+
+            // Set source PDF file
+            $pdf = new Fpdi;
+            if (file_exists(storage_path('app/public/' . $file))) {
+                $pagecount = $pdf->setSourceFile(storage_path('app/public/' . $file));
+            } else {
+                die('Source PDF not found!');
+            }
+
+            // Add watermark image to PDF pages
+            for ($i = 1; $i <= $pagecount; $i++) {
+                $tpl = $pdf->importPage($i);
+                $size = $pdf->getTemplateSize($tpl);
+                $pdf->SetPrintHeader(false);
+                $pdf->SetPrintFooter(false);
+                $pdf->addPage($size['width'] > $size['height'] ? 'P' : 'L');
+                // $pdf->setPrintHeader(false);
+                $pdf->useTemplate($tpl, 0, 0, $size['width'], $size['height'], TRUE);
+
+                //Put the watermark
+                $pdf->Image($text_image, 5, 0, 35, 35, 'png');
+            }
+
+            // Output PDF with watermark
+            unlink(storage_path('app/public/' . $file));
+            $pdf->Output($file, 'D');
+        }
+
+        return response()->download(
+            $resource->getFirstMediaPath(),
+            $resource->getFirstMedia()->file_name
+        );
+    }
+
     public function downloadAllByCourse(Request $request)
     {
         $zipFileName = Course::findOrFail($request->course_id)->title . '-files-' . time() . '.zip';

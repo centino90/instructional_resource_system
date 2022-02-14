@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::post('resources/storeByUrl', [ResourceController::class, 'storeByUrl'])->name('resources.storeByUrl');
     Route::resource('resources', ResourceController::class);
     Route::get('resources/preview/{resource}', [ResourceController::class, 'preview'])->name('resources.preview');
+    Route::get('resources/download-original/{resource}', [ResourceController::class, 'downloadOriginal'])->name('resources.downloadOriginal');
+    Route::get('resources/download-pdf/{resource}', [ResourceController::class, 'downloadAsPdf'])->name('resources.downloadAsPdf');
     Route::get('resources/download/{resource}', [ResourceController::class, 'download'])->name('resources.download');
     Route::post('resources/download-all-by-course', [ResourceController::class, 'downloadAllByCourse'])->name('resources.downloadAllByCourse');
     Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
@@ -76,7 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::put('notifications/{notification}', [NotificationController::class, 'update'])->name('notifications.update');
 
     Route::resource('storage', StorageController::class);
-    Route::get('storage/{user}?leftPath=users/', [StorageController::class, 'show'])->name('storage.show');
+    Route::get('storage/{user}', [StorageController::class, 'show'])->name('storage.show');
 
     // saved resources
     Route::resource('saved-resources', SavedResourceController::class);
