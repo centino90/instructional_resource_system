@@ -93,7 +93,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('deleted-resources', DeletedResourceController::class);
 
-    Route::resource('comments', CommentController::class);
+    // Route::resource('comments', CommentController::class);
 
     Route::resource('upload-temporary-file', UploadTemporaryFileController::class);
 

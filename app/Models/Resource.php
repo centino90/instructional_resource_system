@@ -10,10 +10,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Models\Activity;
+use Laravelista\Comments\Commentable;
 
 class Resource extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes, InteractsWithMedia, LogsActivity;
+    use HasFactory, SoftDeletes, InteractsWithMedia, LogsActivity, Commentable;
 
     protected $fillable = [
         'course_id', 'user_id', 'batch_id', 'title', 'description', 'is_syllabus', 'is_presentation', 'downloads', 'views', 'approved_at', 'rejected_at', 'archived_at'
@@ -29,6 +30,15 @@ class Resource extends Model implements HasMedia
         //     $activity->properties = null;
         // }
     }
+
+    public function setDescriptionForEvent($callback)
+    {
+        // if ($eventName != 'updated') {
+        //     $activity->properties = null;
+        // }
+    }
+
+
 
     public function user()
     {
@@ -59,10 +69,10 @@ class Resource extends Model implements HasMedia
         return $this->hasOne(Syllabus::class);
     }
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
+    // public function comments()
+    // {
+    //     return $this->hasMany(Comment::class);
+    // }
 
     public function downloads()
     {

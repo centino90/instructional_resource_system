@@ -350,7 +350,7 @@ class SyllabusController extends Controller
                     .done(function(data) {
                         $("#submit-resource-alert-syllabus").parent().addClass("show");
                         $("#submit-resource-alert-syllabus").text("Syllabus was successfully submitted");
-                        $("#syllabus-iframe-container").parent().remove();
+                        $("#syllabus-iframe-container").html("");
                         $("#exampleModal").trigger("courseModal:refresh");
                     })
                     .fail(function(error) {
@@ -822,6 +822,7 @@ class SyllabusController extends Controller
             'user_id' => auth()->id(),
             'batch_id' => Str::uuid(),
             'is_syllabus' => 1,
+            'approved_at' => now()
         ]);
 
         $r->users()->attach($r->user_id, ['batch_id' => $r->batch_id]);

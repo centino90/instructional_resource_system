@@ -36,12 +36,12 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $comment = Comment::create([
-            'user_id' => auth()->id(),
-            'resource_id' => $request->resource_id,
-            'comment' => $request->comment,
-            'comment_type' => $request->comment_type
-        ]);
+        // $comment = Comment::create([
+        //     'user_id' => auth()->id(),
+        //     'resource_id' => $request->resource_id,
+        //     'comment' => $request->comment,
+        //     'comment_type' => $request->comment_type
+        // ]);
 
         return redirect()->back();
     }

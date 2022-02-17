@@ -64,72 +64,45 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         /* ON SUBMIT GENERAL */
-        $resource = Resource::with('media', 'user')->where('is_syllabus', false)->where('is_presentation', false)
-            ->where('course_id', $course->id)
-            ->whereNotNull('approved_at')
-            ->whereNull('archived_at')
-            ->first();
-        $resourcesLogs = Resource::with('media', 'user')->where('is_syllabus', false)->where('is_presentation', false)
+        $generalLogs = Resource::with('media', 'user')->where('is_syllabus', false)->where('is_presentation', false)
             ->where('course_id', $course->id)
             ->orderByDesc('created_at')
-            ->limit(5)
             ->get();
-        $resourcesLogCount = Resource::where('is_syllabus', false)->where('is_presentation', false)
-            ->where('course_id', $course->id)
-            ->count();
 
         /* ON SUBMIT SYLLABUS */
-        $syllabus = Resource::with('media', 'user')->where('is_syllabus', true)
-            ->where('course_id', $course->id)
-            ->whereNotNull('approved_at')
-            ->whereNull('archived_at')
-            ->first();
-        $syllabiLogs = Resource::with('media', 'user')->where('is_syllabus', true)
+        $syllabusLogs = Resource::with('media', 'user')->where('is_syllabus', true)
             ->where('course_id', $course->id)
             ->orderByDesc('created_at')
-            ->limit(5)
             ->get();
-        $syllabiLogCount = Resource::where('is_syllabus', true)
-            ->where('course_id', $course->id)
-            ->count();
 
         /* ON SUBMIT PRESENTATION */
-        $presentation = Resource::with('media', 'user')->where('is_presentation', true)
-            ->where('course_id', $course->id)
-            ->whereNotNull('approved_at')
-            ->whereNull('archived_at')
-            ->first();
         $presentationLogs = Resource::with('media', 'user')->where('is_presentation', true)
             ->where('course_id', $course->id)
             ->orderByDesc('created_at')
-            ->limit(5)
             ->get();
-        $presentationLogCount = Resource::where('is_presentation', true)
-            ->where('course_id', $course->id)
-            ->count();
 
-        $newResourceLogs = collect();
-        $resourcesLogs->each(function ($item, $key) use ($newResourceLogs) {
+        $newGeneralLogs = collect();
+        $generalLogs->take(5)->each(function ($item, $key) use ($newGeneralLogs) {
             $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
             $item->status = $status;
             $isOwner = $item->user_id == auth()->id() ? true : false;
             $item->isOwner = $isOwner;
             $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
-            $newResourceLogs->push($item);
+            $newGeneralLogs->push($item);
         });
 
-        $newSyllabiLogs = collect();
-        $syllabiLogs->each(function ($item, $key) use ($newSyllabiLogs) {
+        $newSyllabusLogs = collect();
+        $syllabusLogs->take(5)->each(function ($item, $key) use ($newSyllabusLogs) {
             $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
             $item->status = $status;
             $isOwner = $item->user_id == auth()->id() ? true : false;
             $item->isOwner = $isOwner;
             $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
-            $newSyllabiLogs->push($item);
+            $newSyllabusLogs->push($item);
         });
 
         $newPresentationLogs = collect();
-        $presentationLogs->each(function ($item, $key) use ($newPresentationLogs) {
+        $presentationLogs->take(5)->each(function ($item, $key) use ($newPresentationLogs) {
             $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
             $item->status = $status;
             $isOwner = $item->user_id == auth()->id() ? true : false;
@@ -138,41 +111,40 @@ class CourseController extends Controller
             $newPresentationLogs->push($item);
         });
 
-        $course->resourceComplied = $resource ? true : false;
-        $course->resourceSubmitter = $resource ? $resource->user->username : null;
-        $course->resourceLogs = $newResourceLogs;
-        $course->resourceLogCount = $resourcesLogCount;
-
-        $course->complied = $syllabus ? true : false;
-        $course->submitter = $syllabus ? $syllabus->user->username : null;
-        $course->logs = $newSyllabiLogs;
-        $course->syllabiLogCount = $syllabiLogCount;
-
-        $course->presentationComplied = $presentation ? true : false;
-        $course->presentationSubmitter = $presentation ? $presentation->user->username : null;
+        $course->generalLogs = $newGeneralLogs;
+        $course->syllabusLogs = $newSyllabusLogs;
         $course->presentationLogs = $newPresentationLogs;
-        $course->presentationLogCount = $presentationLogCount;
 
-        $groupedLogs = collect([
-            $newResourceLogs, $newSyllabiLogs, $newPresentationLogs
-        ])->flatten();
-        $course->courseResourceLogs = $groupedLogs->sortByDesc('created_at')->values()->take(3)->all();
-        $course->totalSubmits = ($resourcesLogCount + $syllabiLogCount + $presentationLogCount);
-        $course->syllabus = $syllabus ?? null;
+        $course->courseResourceLogs = collect([
+            [$newGeneralLogs],
+            [$newSyllabusLogs],
+            [$newPresentationLogs]
+        ])->flatten()->sortByDesc('created_at')->values()->take(3);
+
+        $course->resourceUploads = [
+            'total' => ($newGeneralLogs->count() + $newSyllabusLogs->count()+ $newPresentationLogs->count()),
+            'general' => $newGeneralLogs->count(),
+            'syllabus' => $newSyllabusLogs->count(),
+            'presentation' => $newPresentationLogs->count()
+        ];
+
+        $course->resourceDownloads = [
+            'total' => ($newGeneralLogs->sum('downloads') + $newSyllabusLogs->sum('downloads') + $newPresentationLogs->sum('downloads')),
+            'general' => $newGeneralLogs->sum('downloads'),
+            'syllabus' => $newSyllabusLogs->sum('downloads'),
+            'presentation' => $newPresentationLogs->sum('downloads')
+        ];
+
+        $course->resourceViews = [
+            'total' => ($newGeneralLogs->sum('views') + $newSyllabusLogs->sum('views') + $newPresentationLogs->sum('views')),
+            'general' => $newGeneralLogs->sum('views'),
+            'syllabus' => $newSyllabusLogs->sum('views'),
+            'presentation' => $newPresentationLogs->sum('views')
+        ];
+
+        $course->latestSyllabus = $newSyllabusLogs->whereNotNull('approved_at')->first() ?? null;
 
         return $course;
-
-        // $r = Resource::withTrashed()->get();
-        // $resources = $r->map(function ($resource) use ($course) {
-        //     return $resource->course_id == $course->id ? $resource : null;
-        // })->reject(function ($resource) {
-        //     return empty($resource);
-        // });
-        // $activities = $resources->map(function ($item, $key) {
-        //     return $item->activities;
-        // })->flatten()->sortByDesc('created_at');
-
-        // return view('show-course', compact(['course', 'resources', 'activities']));
     }
 
     /**

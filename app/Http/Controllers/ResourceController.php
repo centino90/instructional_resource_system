@@ -33,6 +33,7 @@ use Elibyy\TCPDF\Facades\TCPDF;
 use Error;
 use Illuminate\Http\File;
 use Illuminate\Http\Response;
+use LDAP\Result;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use Throwable;
 
@@ -502,6 +503,9 @@ class ResourceController extends Controller
     {
         $resource = Resource::withTrashed()->find($mediaItem);
 
+        $resource->downloads = $resource->downloads + 1;
+        $resource->save();
+
         return response()->download(
                  $resource->getFirstMediaPath(),
                  $resource->getFirstMedia()->file_name
@@ -545,12 +549,15 @@ class ResourceController extends Controller
             // Output PDF with watermark
             unlink(storage_path('app/public/' . $file));
             $pdf->Output($file, 'D');
-        }
 
-        return response()->download(
-            $resource->getFirstMediaPath(),
-            $resource->getFirstMedia()->file_name
-        );
+            $resource->downloads = $resource->downloads + 1;
+            $resource->save();
+
+            return response()->download(
+                $resource->getFirstMediaPath(),
+                $resource->getFirstMedia()->file_name
+            );
+        }
     }
 
     public function downloadAllByCourse(Request $request)

@@ -25,8 +25,8 @@
     </x-slot>
 
     <div class="row">
-        <div class="col-12">
-            <div class="mt-5" id="fm"></div>
+        <div class="col-12" style="height: 600px">
+            <div class="mt-5" id="fm" ></div>
         </div>
     </div>
 

@@ -60,7 +60,7 @@ class ResourcePolicy
      */
     public function create(User $user)
     {
-        return $user->isInstructor() || $user->isSecretary();
+        return $user->isInstructor() || $user->isSecretary() || $user->isProgramDean();
     }
 
     /**

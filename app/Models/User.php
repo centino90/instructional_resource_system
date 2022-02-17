@@ -9,10 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
 use Spatie\Activitylog\Traits\CausesActivity;
+use Laravelista\Comments\Commenter;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, CausesActivity;
+    use HasFactory, Notifiable, CausesActivity, Commenter;
 
     /**
      * The attributes that are mass assignable.

@@ -160,14 +160,47 @@
                                 </div>
 
                                 <div class="col-12 col-lg-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Summary of uploads
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                              Summary of uploads
+                                            </button>
+                                          </h2>
+                                          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div id="resource-uploads-card" class="course-resource-card text-center">
+                                                </div>
+                                            </div>
+                                          </div>
                                         </div>
-
-                                        <div id="resource-uploads-card" class="course-resource-card card-body text-center">
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header" id="headingTwo">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Summary of downloads
+                                            </button>
+                                          </h2>
+                                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div id="resource-downloads-card" class="course-resource-card text-center">
+                                                </div>
+                                            </div>
+                                          </div>
                                         </div>
-                                    </div>
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header" id="headingThree">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Summary of views
+                                            </button>
+                                          </h2>
+                                          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div id="resource-views-card" class="course-resource-card text-center">
+                                                </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                 </div>
 
                                 <div class="col-12 mt-5">
@@ -504,7 +537,7 @@
                                         </li>
                                         <li
                                             class="list-group-item d-flex flex-wrap justify-content-between bg-light text-success">
-                                            <span> Submit logs </span>
+                                            <span> Recent submissions </span>
                                             <strong id="submit-syllabus-log-count"></strong>
                                             <ul id="submit-syllabus-log" class="submit-resource-log w-100 list-group mt-3">
                                             </ul>
@@ -776,7 +809,7 @@
                                     <ul class="shadow list-group mt-3">
                                         <li
                                             class="list-group-item d-flex flex-wrap justify-content-between bg-light text-success">
-                                            <span> Submit logs </span>
+                                            <span> Recent submissions </span>
                                             <strong id="submit-presentation-log-count"></strong>
                                             <ul id="submit-presentation-log" class="submit-resource-log w-100 list-group mt-3">
                                             </ul>
@@ -1144,7 +1177,7 @@
     @section('script')
         <script>
             $(document).ready(function() {
-                function submittedResourceLogItemGenerator(resources, selector, parentSelector = null, startFromEnd = true) {
+                function submittedResourceLogItemGenerator(selector, resources, parentSelector = null, startFromEnd = true) {
                     const $selector = parentSelector ? $(parentSelector).find(selector) : $(selector)
 
                     $selector.html('')
@@ -1226,31 +1259,47 @@
                     })
                 }
 
-                /* CUSTOM EVENTS */
-                $(document).on('resourceSubmitStart', function(event) {
-                    // disable submit btn/form
-                    // add loading spinner
-                })
+                function resourceSummaryCardGenerator(selector, total, general, syllabus, presentation, parentSelector = null) {
+                    const $selector = parentSelector ? $(parentSelector).find(selector) : $(selector)
 
-                $(document).on('resourceSubmittedSuccessful', function(event) {
-                    // fetch current list of resources
-                    // update log list
-                    // add log item
-                    // increase log count
-                    // show success popup
-                })
+                    $selector.html(`
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <h4 class="my-0 fw-bold">${total}</h4>
+                                <small class="text-muted">Total</small>
+                            </li>
+                            <li class="list-group-item hstack justify-content-between">
+                                <div>
+                                    <h6 class="my-0 d-block">${general}</h6>
+                                    <small class="text-muted">General</small>
+                                </div>
+                                <div>
+                                    <h4>${general ? ((general / total) * 100).toFixed(2) : 0} %</h4>
+                                </div>
+                            </li>
+                            <li class="list-group-item hstack justify-content-between">
+                                <div>
+                                    <h6 class="my-0 d-block">${syllabus}</h6>
+                                    <small class="text-muted">Syllabus</small>
+                                </div>
+                                <div>
+                                    <h4>${syllabus ? ((syllabus / total) * 100).toFixed(2) : 0} %</h4>
+                                </div>
+                            </li>
+                            <li class="list-group-item hstack justify-content-between">
+                                <div>
+                                    <h6 class="my-0 d-block">${presentation}</h6>
+                                    <small class="text-muted">Presentations</small>
+                                </div>
+                                <div>
+                                    <h4>${presentation ? ((presentation / total) * 100).toFixed(2) : 0} %</h4>
+                                </div>
+                            </li>
+                        </ul>
+                    `)
+                }
 
-                $(document).on('resourceSubmittedFail', function(event) {
-                    // show error alert
-                    // main error message
-                    // list of errors
-                })
-
-                $(document).on('resourceSubmitEnd', function(event) {
-                    // enable submit btn/form
-                    // remove loading spinner
-                })
-
+                // open window storage
                 let fmWindow;
                 $('.openStorageBtn').click(function(event) {
                     fmWindow = window.open('/file-manager/summernote?leftPath=users/{{ auth()->id() }}',
@@ -1349,7 +1398,7 @@
                         .done(function(data) {
 
                             // syllabus card
-                            if(data.syllabus) {
+                            if(data.latestSyllabus != null) {
                                 $('#course-syllabus-card').html(`
                                 <div>
                                     <div class="row">
@@ -1357,25 +1406,25 @@
                                             <ul class="list-group">
                                                 <li class="list-group-item hstack justify-content-between">
                                                         <div>
-                                                            <h6 class="my-0 fw-bold">${data.syllabus.title}</h6>
+                                                            <h6 class="my-0 fw-bold">${data.latestSyllabus.title}</h6>
                                                             <small class="text-muted">Title</small>
                                                         </div>
                                                 </li>
                                                 <li class="list-group-item">
-                                                        <h6 class="my-0 fw-bold">${data.syllabus.user.username}</h6>
+                                                        <h6 class="my-0 fw-bold">${data.latestSyllabus.user.username}</h6>
                                                         <small class="text-muted">Submitter</small>
                                                 </li>
                                                 <li class="list-group-item">
-                                                        <h6 class="my-0 fw-bold">${data.syllabus.created_at}</h6>
+                                                        <h6 class="my-0 fw-bold">${data.latestSyllabus.created_at}</h6>
                                                         <small class="text-muted">Submitted on</small>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                                         <div class="btn-group" role="group" aria-label="First group">
-                                                            <a href="{{route('resources.index')}}/download-original/${data.syllabus.id}" class="p-1 btn btn-outline-secondary">
+                                                            <a href="{{route('resources.index')}}/download-original/${data.latestSyllabus.id}" class="p-1 btn btn-outline-secondary">
                                                                 <img title="download original" alt="download original icon" class="img-thumbnail bg-primary" src="{{asset('images/icons/download.svg')}}" />
                                                             </a>
-                                                            <a href="{{route('resources.index')}}/download-pdf/${data.syllabus.id}" class="p-1 btn btn-outline-secondary">
+                                                            <a href="{{route('resources.index')}}/download-pdf/${data.latestSyllabus.id}" class="p-1 btn btn-outline-secondary">
                                                                 <img title="download as pdf" alt="download as pdf icon" class="img-thumbnail" src="{{asset('images/icons/download.svg')}}" />
                                                             </a>
 
@@ -1432,55 +1481,45 @@
                                 `)
                             }
 
-                            // total submissions card
-                            $('#resource-uploads-card').html(`
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <h4 class="my-0 fw-bold">${data.totalSubmits}</h4>
-                                        <small class="text-muted">Total</small>
-                                    </li>
-                                    <li class="list-group-item hstack justify-content-between">
-                                        <div>
-                                            <h6 class="my-0 d-block">${data.resourceLogCount}</h6>
-                                            <small class="text-muted">General</small>
-                                        </div>
-                                        <div>
-                                            <h4>${data.resourceLogCount ? ((data.resourceLogCount / data.totalSubmits) * 100).toFixed(2) : 0} %</h4>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item hstack justify-content-between">
-                                        <div>
-                                            <h6 class="my-0 d-block">${data.syllabiLogCount}</h6>
-                                            <small class="text-muted">Syllabus</small>
-                                        </div>
-                                        <div>
-                                            <h4>${data.syllabiLogCount ? ((data.syllabiLogCount / data.totalSubmits) * 100).toFixed(2) : 0} %</h4>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item hstack justify-content-between">
-                                        <div>
-                                            <h6 class="my-0 d-block">${data.presentationLogCount}</h6>
-                                            <small class="text-muted">Presentations</small>
-                                        </div>
-                                        <div>
-                                            <h4>${data.presentationLogCount ? ((data.presentationLogCount / data.totalSubmits) * 100).toFixed(2) : 0} %</h4>
-                                        </div>
-                                    </li>
-                                </ul>
-                            `)
+                            // total uploads accordion
+                            resourceSummaryCardGenerator(
+                                $('#resource-uploads-card'),
+                                data.resourceUploads.total,
+                                data.resourceUploads.general,
+                                data.resourceUploads.syllabus,
+                                data.resourceUploads.presentation
+                            )
 
-                            // syllabus status
+                            // total downloads accordion
+                            resourceSummaryCardGenerator(
+                                $('#resource-downloads-card'),
+                                data.resourceDownloads.total,
+                                data.resourceDownloads.general,
+                                data.resourceDownloads.syllabus,
+                                data.resourceDownloads.presentation
+                            )
+
+                            // total views accordion
+                            resourceSummaryCardGenerator(
+                                $('#resource-views-card'),
+                                data.resourceViews.total,
+                                data.resourceViews.general,
+                                data.resourceViews.syllabus,
+                                data.resourceViews.presentation
+                            )
+
+                            // recent general submissions
+                            submittedResourceLogItemGenerator('#submit-general-log', data.generalLogs)
+
+                            // recent syllabus submissions
+                            submittedResourceLogItemGenerator('#submit-syllabus-log', data.syllabusLogs)
                             $('#submit-syllabus-tab-status')
-                                .text(`${data.complied ? 'Fulfilled' : 'Unfulfilled'}`)
-                                .addClass(`${data.complied ? 'text-primary' : 'text-danger'}`)
+                                .text(`${data.latestSyllabus != null ? 'Fulfilled' : 'Unfulfilled'}`)
+                                .addClass(`${data.latestSyllabus != null ? 'text-primary' : 'text-danger'}`)
+                                .removeClass(`${data.latestSyllabus == null ? 'text-primary' : 'text-danger'}`)
 
-                            // resource submit logs
-                            submittedResourceLogItemGenerator(data.resourceLogs,'#submit-general-log')
-                            submittedResourceLogItemGenerator(data.logs,'#submit-syllabus-log')
-                            data.complied
-                            ?   $('#submit-syllabus-tab-status').addClass('text-primary').removeClass('text-danger').text('Fulfilled')
-                            :   $('#submit-syllabus-tab-status').addClass('text-danger').removeClass('text-primary').text('Unfulfilled')
-                            submittedResourceLogItemGenerator(data.presentationLogs,'#submit-presentation-log')
+                            // recent presentation submissions
+                            submittedResourceLogItemGenerator('#submit-presentation-log', data.presentationLogs)
                         })
                         .fail(function(error) {
                             const errorResponse = error.responseJSON
@@ -1567,6 +1606,7 @@
                         let DropzoneInstance = new Dropzone($dropzone[0], dropzoneParams);
 
                         DropzoneInstance.on("addedfile", function(file) {
+                            $dropzone.find("#syllabus-iframe-container").html("");
                             $dropzone.find('.submit-resource-alert').parent('.alert').removeClass('show')
                         });
 
@@ -2161,7 +2201,10 @@
                     $('#resource-modal-body').scrollTop(0)
                 })
 
-                /* DROPDOWN EVENT */
+                /* DROPDOWN EVENT
+                    - Change dropdown label according
+                    to the current selected item
+                */
                 $('#submit-resource-dropdown').on('shown.bs.dropdown', function(event) {
                     const dd = this
                     const ddlink = event.target

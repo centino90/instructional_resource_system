@@ -26,8 +26,10 @@
     {{-- <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.css"> --}}
 
     <!-- summernote css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css" integrity="sha512-ngQ4IGzHQ3s/Hh8kMyG4FC74wzitukRMIcTOoKT3EyzFZCILOPF0twiXOQn75eDINUfKBYmzYn2AA8DkAk8veQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.css" integrity="sha512-m52YCZLrqQpQ+k+84rmWjrrkXAUrpl3HK0IO4/naRwp58pyr7rf5PO1DbI2/aFYwyeIH/8teS9HbLxVyGqDv/A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css" rel="stylesheet"> --}}
+
+
 
     <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
 
@@ -39,6 +41,15 @@
     {{-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script> --}}
 
+    <style>
+        .note-editor {
+            background-color: #fff;
+        }
+        .comment-section img {
+            object-fit: cover;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased">
@@ -95,13 +106,42 @@
     {{-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script> --}}
     {{-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script> --}}
 
+    {{-- <!-- turndown script -->
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script> --}}
+
     <!-- summernote script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js" integrity="sha512-6F1RVfnxCprKJmfulcxxym1Dar5FsT/V2jiEUvABiaEiFWoQ8yHvqRM/Slf0qJKiwin6IDQucjXuolCfCKnaJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.js" integrity="sha512-6rE6Bx6fCBpRXG/FWpQmvguMWDLWMQjPycXMr35Zx/HRD9nwySZswkkLksgyQcvrpYMx0FELLJVBvWFtubZhDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js" integrity="sha512-6F1RVfnxCprKJmfulcxxym1Dar5FsT/V2jiEUvABiaEiFWoQ8yHvqRM/Slf0qJKiwin6IDQucjXuolCfCKnaJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
     @yield('script')
     <script>
         $(function() {
+
+            $('.notification-show-link').click(function(event) {
+                event.preventDefault();
+                let href = $(this).attr('href')
+                let notifId = $(this).attr('data-passover')
+                let formRoute = '{{ route('notifications.update', '') }}'
+
+                $.ajax({
+                    url: `${formRoute}/${notifId}`,
+                    type: 'POST',
+                    data: {
+                        notifId: notifId,
+                        _token: '{{ csrf_token() }}',
+                        _method: 'PUT'
+                    },
+                    success: function(result) {
+                        if (result.status === 200) {
+                            location.href = href
+                        }
+                    },
+                    error: function() {
+                        alert('error');
+                    },
+                })
+            })
+
             // let dataTable = new simpleDatatables.DataTable("table", {
             //     searchable: true,
             //     fixedHeight: true
