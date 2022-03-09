@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -18,7 +20,7 @@
 
     <!-- datatable css dependencies -->
     <link rel="stylesheet" type="text/css"
-    href="https://cdn.datatables.net/v/bs5/dt-1.11.3/kt-2.6.4/r-2.2.9/sr-1.1.0/datatables.min.css" />
+        href="https://cdn.datatables.net/v/bs5/dt-1.11.3/kt-2.6.4/r-2.2.9/sr-1.1.0/datatables.min.css" />
 
 
     <!-- codemirror css -->
@@ -45,14 +47,16 @@
         .note-editor {
             background-color: #fff;
         }
+
         .comment-section img {
             object-fit: cover;
             width: 100%;
         }
+
     </style>
 </head>
 
-<body class="font-sans antialiased">
+<body>
     <button class="d-lg-none btn btn-dark position-fixed start-0 bottom-0 ms-3 mb-3 sidebar-menu-btn"
         style="z-index: 100" type="button" role="button" aria-controls="offcanvasExample">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -67,16 +71,14 @@
     <!-- Page Heading -->
 
     <div class="bg-light d-flex">
-        @include('layouts.leftnav')
+        @include('layouts.sidenav')
 
-        <main class="container-fluid pb-5 pt-2 px-3">
+        <main class="container-fluid pb-5 px-0">
             @include('layouts.topnav')
 
-            <section class="mt-3">
-                {{ $header }}
+            <section class="mt-3 px-3">
+                {{ $slot }}
             </section>
-
-            {{ $slot }}
         </main>
     </div>
 
@@ -98,7 +100,9 @@
         src="https://cdn.datatables.net/v/bs5/dt-1.11.3/kt-2.6.4/r-2.2.9/sr-1.1.0/datatables.min.js"></script>
     {{-- <script src="https://cdn.zingchart.com/zingchart.min.js"></script> --}}
     <!-- pdfjs script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js" integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
+        integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js"></script>
 
     <!-- codemirror scripts -->
@@ -116,6 +120,28 @@
     @yield('script')
     <script>
         $(function() {
+            let tooltips = $('#sidebar [data-bs-toggle="tooltip"]')
+            let bsTooltips = $([])
+            tooltips.each(function(index, tooltip) {
+                console.log(tooltip)
+                bsTooltips.push(bootstrap.Tooltip.getInstance(tooltip))
+            })
+
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+
+                bsTooltips.each(function(index, tooltip) {
+                    if ($('#sidebar').hasClass('active')) {
+                        tooltip.enable()
+                        $('#navbar__header .title-wide').removeClass('d-block').addClass('d-none')
+                        $('#navbar__header .title-narrow').removeClass('d-none').addClass('d-block')
+                    } else {
+                        tooltip.disable()
+                        $('#navbar__header .title-wide').removeClass('d-none').addClass('d-block')
+                        $('#navbar__header .title-narrow').removeClass('d-block').addClass('d-none')
+                    }
+                })
+            })
 
             $('.notification-show-link').click(function(event) {
                 event.preventDefault();

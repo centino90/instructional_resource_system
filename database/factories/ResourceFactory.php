@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\Resource;
 use App\Models\User;
 use App\Models\Role;
@@ -28,6 +29,7 @@ class ResourceFactory extends Factory
         $subMonths = [2, 3, 4, 5, 6];
         return [
             'course_id' => Course::where('program_id', $randomUser->programs()->first()->id)->get()->random(),
+            'lesson_id' => Lesson::all()->random()->id,
             'user_id' => $randomUser,
             'batch_id' => $this->faker->uuid(),
             'title' => $this->faker->word(),

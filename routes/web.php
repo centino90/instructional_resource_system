@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\PersonnelsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\ResourcesController;
+use App\Http\Controllers\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\Instructor\ResourceController as InstructorResourceController;
 use App\Http\Controllers\PresentationResourceController;
 use App\Http\Controllers\StorageController;
 use App\Models\Course;
@@ -121,6 +123,10 @@ Route::middleware('auth')->group(function () {
 
     // Instructor
     Route::prefix('instructor')->name('instructor.')->middleware(['auth.instructor'])->group(function () {
+
+        Route::resource('course', InstructorCourseController::class);
+        Route::get('resource/preview/{resource}', [InstructorResourceController::class, 'preview'])->name('resource.preview');
+        Route::resource('resource', InstructorResourceController::class);
     });
 });
 

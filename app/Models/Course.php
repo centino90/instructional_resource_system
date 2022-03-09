@@ -22,6 +22,11 @@ class Course extends Model
             ->as('course_subscriptions');
     }
 
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
     public function resources()
     {
         return $this->hasMany(Resource::class);

@@ -17,7 +17,7 @@ class Resource extends Model implements HasMedia
     use HasFactory, SoftDeletes, InteractsWithMedia, LogsActivity, Commentable;
 
     protected $fillable = [
-        'course_id', 'user_id', 'batch_id', 'title', 'description', 'is_syllabus', 'is_presentation', 'downloads', 'views', 'approved_at', 'rejected_at', 'archived_at'
+        'course_id', 'user_id', 'lesson_id', 'batch_id', 'title', 'description', 'is_syllabus', 'is_presentation', 'downloads', 'views', 'approved_at', 'rejected_at', 'archived_at'
     ];
 
     protected static $logAttributes = ['course_id', 'user_id', 'batch_id', 'is_syllabus'];
@@ -49,6 +49,11 @@ class Resource extends Model implements HasMedia
         return $this->belongsToMany(User::class)
             ->withPivot(['batch_id', 'is_important'])
             ->withTimestamps();
+    }
+
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class);
     }
 
     public function auth()

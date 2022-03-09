@@ -1,16 +1,10 @@
 <x-app-layout>
-    <x-slot name="breadcrumb">
-        <x-breadcrumb>
-            <li class="breadcrumb-item invisible">Dashboard</li>
-        </x-breadcrumb>
+    <x-slot name="header">
+        Home
     </x-slot>
 
-    <x-slot name="header">
-        <div class="d-flex mt-4">
-            <small class="h4 font-weight-bold align-middle">
-                {{ __('Home') }}
-            </small>
-        </div>
+    <x-slot name="breadcrumb">
+        <li class="breadcrumb-item invisible">Home</li>
     </x-slot>
 
     @if (session()->exists('status'))
@@ -22,7 +16,7 @@
     @endif
 
     <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <div class="nav nav-pills persist-default" id="nav-tab" role="tablist">
             <button class="nav-link active" id="first-year-tab" data-bs-toggle="tab" data-bs-target="#first-year"
                 type="button" role="tab" aria-controls="first-year" aria-selected="true">First year</button>
             <button class="nav-link" id="nsecond-year-tab" data-bs-toggle="tab" data-bs-target="#second-year"

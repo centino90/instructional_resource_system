@@ -6,6 +6,7 @@ use App\Events\ResourceCreated;
 use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\Resource;
 use App\Models\TemporaryUpload;
 use App\Models\User;
@@ -113,6 +114,7 @@ class ResourceController extends Controller
 
                     $r = Resource::create([
                         'course_id' => $request->course_id,
+                        'lesson_id' => Lesson::all()->random()->id,
                         'user_id' => auth()->id(),
                         'batch_id' => $batchId,
                         'description' => $request->description[$index],

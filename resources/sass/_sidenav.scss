@@ -1,0 +1,21 @@
+#sidebar {
+    min-width: 230px;
+    max-width: 230px;
+    transition: all 0.3s;
+    &.active {
+        min-width: 80px;
+        max-width: 80px;
+        text-align: center;
+        .nav-link {
+            padding: 0;
+            .material-icons {
+                display: block;
+                width: 100%;
+            }
+            .text {
+                display: none;
+            }
+        }
+    }
+
+}

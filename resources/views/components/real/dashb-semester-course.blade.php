@@ -14,13 +14,13 @@ $semesters = collect([
 @endphp
 
 <section class="py-4">
-    <div class="row">
+    <div class="row g-3">
         <div class="col-12">
             <header class="fw-bold pb-2">{{ $semesters->firstWhere('key', $semester)['label'] }}</header>
         </div>
 
         <!-- FIRST TERM -->
-        <div class="col-6">
+        <div class="col-lg-6">
             <div class="card shadow">
                 <div class="card-body">
                     <header class="text-center form-text fw-bold pb-2">First Term</header>
@@ -37,9 +37,12 @@ $semesters = collect([
                             @forelse ($courses->where('semester', $semester)->where('term', 1) as $row)
                                 <tr>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                        <a href="{{route('instructor.course.show', $row->id)}}" class="btn btn-light">
+                                            View
+                                        </a>
+                                        {{-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal" data-bs-courseid="{{ $row->id }}"
-                                            data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button>
+                                            data-bs-coursetitle="{{ $row->title }} [{{ $row->code }}]">Resources</button> --}}
                                     </td>
                                     <td>{{ $row->code }}</td>
                                     <td>{{ $row->title }}</td>
@@ -62,7 +65,7 @@ $semesters = collect([
         </div>
 
         <!-- SECOND TERM -->
-        <div class="col-6">
+        <div class="col-lg-6">
             <div class="card shadow">
                 <div class="card-body">
                     <header class="text-center form-text fw-bold pb-2">Second Term</header>

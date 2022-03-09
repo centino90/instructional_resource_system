@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             CourseSeeder::class,
+            LessonSeeder::class,
             ResourceSeeder::class,
             // ResourceDownloadSeeder::class
             // DogSeeder::class,

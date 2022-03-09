@@ -42,7 +42,7 @@
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
   --bs-body-rgb: 33, 37, 41;
-  --bs-font-sans-serif: "Nunito", sans-serif;
+  --bs-font-sans-serif: "Inter", sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
@@ -11267,6 +11267,62 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+/* Rules for sizing the icon. */
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.material-icons.md-24 {
+  font-size: 24px;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light {
+  color: white;
+}
+
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+#sidebar {
+  min-width: 230px;
+  max-width: 230px;
+  transition: all 0.3s;
+}
+#sidebar.active {
+  min-width: 80px;
+  max-width: 80px;
+  text-align: center;
+}
+#sidebar.active .nav-link {
+  padding: 0;
+}
+#sidebar.active .nav-link .material-icons {
+  display: block;
+  width: 100%;
+}
+#sidebar.active .nav-link .text {
+  display: none;
+}
+
 .progress {
   width: 10rem;
 }
@@ -11336,10 +11392,6 @@ div.table .file-row:nth-child(odd) {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.font-sans {
-  font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
 /*
  * Dropdown Menu Animation for Bootstrap Navbar
  * https://startbootstrap.com/snippets/animated-navbar-dropdown
@@ -11400,13 +11452,13 @@ div.table .file-row:nth-child(odd) {
   font-size: 0.875rem !important;
 }
 
-.nav-pills .nav-link {
+.nav-pills:not(.persist-default) .nav-link {
   color: #D0DED8;
 }
-.nav-pills .nav-link:hover {
+.nav-pills:not(.persist-default) .nav-link:hover {
   border-bottom: 5px solid #024dbc !important;
 }
-.nav-pills .nav-link.active {
+.nav-pills:not(.persist-default) .nav-link.active {
   background-color: unset !important;
   border-bottom: 5px solid #0d6efd !important;
 }
@@ -11472,4 +11524,14 @@ div.table .file-row:nth-child(odd) {
   display: inline-block;
   -webkit-animation: spinner-border 1.5s linear infinite;
           animation: spinner-border 1.5s linear infinite;
+}
+
+.thumbnail-sm {
+  width: 32px;
+  height: 32px;
+}
+
+.thumbnail-md {
+  width: 40px;
+  height: 40px;
 }

@@ -1,3 +1,5 @@
+
+
 // Custom style...
 
   #actions, #actions-syllabus {
@@ -68,12 +70,6 @@
 .antialiased {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-.font-sans {
-    font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
 }
 
 /*
@@ -165,14 +161,18 @@
 }
 
 // bs nav pill
-.nav-pills .nav-link {
-    color: $green-1;
-    &:hover {
-        border-bottom: 5px solid darken($primary, 15) !important;
-    }
-    &.active {
-        background-color: unset !important;
-        border-bottom: 5px solid $primary !important;
+.nav-pills {
+    &:not(.persist-default) {
+        .nav-link {
+            color: $green-1;
+            &:hover {
+                border-bottom: 5px solid darken($primary, 15) !important;
+            }
+            &.active {
+                background-color: unset !important;
+                border-bottom: 5px solid $primary !important;
+            }
+        }
     }
 }
 
@@ -282,3 +282,13 @@
 // .opacity {
 //     opacity: 0.5;
 // }
+
+.thumbnail-sm {
+    width: 32px;
+    height: 32px;
+}
+
+.thumbnail-md {
+    width: 40px;
+    height: 40px;
+}

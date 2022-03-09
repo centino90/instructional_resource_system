@@ -15,6 +15,7 @@ class CreateResourcesTable extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('lesson_id')->constrained();
             $table->foreignId('course_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->uuid('batch_id')->nullable();
