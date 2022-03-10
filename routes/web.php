@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\PersonnelsController;
 use App\Http\Controllers\Admin\ProgramsController;
 use App\Http\Controllers\Admin\ResourcesController;
 use App\Http\Controllers\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\Instructor\LessonController as InstructorLessonController;
 use App\Http\Controllers\Instructor\ResourceController as InstructorResourceController;
 use App\Http\Controllers\PresentationResourceController;
 use App\Http\Controllers\StorageController;
@@ -126,7 +127,9 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('course', InstructorCourseController::class);
         Route::get('resource/preview/{resource}', [InstructorResourceController::class, 'preview'])->name('resource.preview');
-        Route::resource('resource', InstructorResourceController::class);
+        Route::get('resource/create/{lesson}', [InstructorResourceController::class, 'create'])->name('resource.create');
+        Route::resource('resource', InstructorResourceController::class)->except(['create']);
+        Route::resource('lesson', InstructorLessonController::class);
     });
 });
 

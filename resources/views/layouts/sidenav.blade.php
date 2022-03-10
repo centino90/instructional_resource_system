@@ -23,7 +23,7 @@
             <a href="#" class="rounded-0 nav-link py-2 border-bottom" title="" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Lessons">
                 <span class="material-icons md-18 align-middle">menu_book</span>
-                <span class="text align-middle">Lessons</span>
+                <span class="text align-middle">My lessons</span>
             </a>
         </li>
         <li class="nav-item">

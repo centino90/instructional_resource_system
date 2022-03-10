@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\Resource;
 use Error;
 use Illuminate\Http\Request;
@@ -27,9 +29,11 @@ class ResourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Lesson $lesson)
     {
-        //
+        return view('pages.instructor.course-resource-create')->with([
+            'lesson' => $lesson
+        ]);
     }
 
     /**

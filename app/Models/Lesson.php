@@ -9,8 +9,21 @@ class Lesson extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'course_id',
+        'resource_id',
+        'title',
+        'description'
+    ];
+
     public function resources()
     {
         return $this->hasMany(Resource::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 }

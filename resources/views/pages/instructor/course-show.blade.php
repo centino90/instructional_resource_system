@@ -4,23 +4,85 @@
     </x-slot>
 
     <x-slot name="breadcrumb">
+        <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('dashboard') }}">
+                <- Go back</a>
+        </li>
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('courses.index') }}">Courses</a></li>
         <li class="breadcrumb-item active">
             {{ $course->code }}
         </li>
     </x-slot>
 
+    <div class="modal modal-sheet bg-secondary py-5" tabindex="-1" role="dialog" id="newResourceModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-6 shadow py-5 px-5">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title">Choose or create a lesson</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-0">
+                    <form action="{{ route('instructor.lesson.store') }}" method="POST" class="row g-3">
+                        @method('POST')
+                        @csrf
+                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+
+                        <div class="col-12">
+                            <div class="form-floating mb-3">
+                                <input list="lessons" type="text" name="title" class="form-control rounded-4" id="floatingInput"
+                                    placeholder="_">
+                                <label for="floatingInput">Lesson</label>
+
+                                @if($course->lessons->isEmpty())
+                                    <small class="form-text">There are no lessons yet. Create one.</small>
+                                @else
+                                    <small class="form-text">Search all items in the datalist by typing their values.</small>
+
+                                    <datalist id="lessons">
+                                        @foreach ($course->lessons as $lesson)
+                                            <option value="{{$lesson->id}}">{{$lesson->title}}</option>
+                                        @endforeach
+                                    </datalist>
+                                @endunless
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-grid gap-2 w-100">
+                                <button type="submit" class="btn btn-lg btn-primary mx-0 rounded-4">Continue
+                                    submission</button>
+                                <button type="button" class="btn btn-lg btn-light mx-0 rounded-4"
+                                    data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row g-3">
+        @if ($errors->any())
+        <div class="col-12">
+            <div class="alert alert-danger my-0">
+                <ul class="nav flex-column">
+                    @foreach ($errors->all() as $error)
+                        <li class="nav-item">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
+
         <div class="col-md-6">
             <div class="row g-3">
                 <div class="col-12">
                     <div class="hstack justify-content-end">
-                        <a href="" class="btn btn-primary ms-auto">
+                        {{-- href="{{route('instructor.resource.create', $course->id)}}" --}}
+                        <a data-bs-toggle="modal" data-bs-target="#newResourceModal" class="btn btn-primary ms-auto">
                             <span class="material-icons align-middle md-18">
                                 upload_file
                             </span>
-                            Submit new resource
+                            New resource
                         </a>
                     </div>
                 </div>
@@ -111,6 +173,10 @@
                                 @endforeach
                             </div>
                         </div>
+
+                        <small class="d-block text-end mt-3">
+                            <a href="#">Show more >></a>
+                        </small>
                     </div>
                 </div>
             </div>
@@ -130,13 +196,21 @@
                                     fill="#007bff" dy=".3em">32x32</text>
                             </svg>
 
-                            <p class="pb-3 mb-0 small lh-sm border-bottom">
-                                <strong class="d-block text-gray-dark">@username</strong>
-                                Some representative placeholder content, with some information about this user. Imagine
-                                this
-                                being
-                                some sort of status update, perhaps?
-                            </p>
+                            <div class="pb-3 mb-0 small lh-sm border-bottom">
+                                <div class="hstack gap-3 align-items-center mb-2">
+                                    <strong class="d-block text-gray-dark">@username</strong>
+
+                                    <a href="#"><small>View more >></small></a>
+                                </div>
+
+                                <div class="hstack gap-3">
+                                    <div class="">resource type</div>
+                                    <div class="vr"></div>
+                                    <div class="ms-auto">lesson</div>
+                                    <div class="vr"></div>
+                                    <div class="">datetime</div>
+                                  </div>
+                            </div>
                         </div>
                         <div class="d-flex text-muted pt-3">
                             <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
