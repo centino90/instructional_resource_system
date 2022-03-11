@@ -25,9 +25,10 @@ class StoreResourceRequest extends FormRequest
     {
         return [
             'course_id' => 'required|string',
-            'file.*' => 'required',
-            'title.*' => 'required|string',
-            'description.*' => 'string|nullable'
+            'lesson_id' => 'required|string',
+            'file' => 'required|array',
+            'title' => 'required|array',
+            'description' => 'array'
         ];
     }
 }

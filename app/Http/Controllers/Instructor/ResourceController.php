@@ -44,7 +44,7 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd('yes');
     }
 
     /**

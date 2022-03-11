@@ -96,6 +96,7 @@ class ResourceController extends Controller
         );
 
         Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
+
         try {
             $batchId = Str::uuid();
             $index = 0;
@@ -105,8 +106,13 @@ class ResourceController extends Controller
                 $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
 
                 if ($temporaryFile) {
+                    //exclude first item because its from the template
+                    if($index == 0) {
+                        $index++;
+                        continue;
+                    }
                     // exclude unexecutable files
-                    if(empty(pathinfo($temporaryFile->file_name, PATHINFO_EXTENSION))) {
+                    if (empty(pathinfo($temporaryFile->file_name, PATHINFO_EXTENSION))) {
                         $temporaryFile->delete();
                         $failes->push($temporaryFile->file_name);
                         continue;
@@ -114,7 +120,7 @@ class ResourceController extends Controller
 
                     $r = Resource::create([
                         'course_id' => $request->course_id,
-                        'lesson_id' => Lesson::all()->random()->id,
+                        'lesson_id' => $request->lesson_id,
                         'user_id' => auth()->id(),
                         'batch_id' => $batchId,
                         'description' => $request->description[$index],
@@ -128,7 +134,7 @@ class ResourceController extends Controller
                     $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name);
                     $newFilename = pathinfo($newFilePath, PATHINFO_FILENAME) . '.' . pathinfo($newFilePath, PATHINFO_EXTENSION);
 
-                    Storage::disk('public')->putFileAs('users/'. auth()->id() . '/resources', $tmpPath, $newFilename);
+                    Storage::disk('public')->putFileAs('users/' . auth()->id() . '/resources', $tmpPath, $newFilename);
                     $r->addMedia($tmpPath)->toMediaCollection();
 
                     rmdir(storage_path('app/public/resource/tmp/' . $file));
@@ -136,7 +142,7 @@ class ResourceController extends Controller
                     event(new ResourceCreated($r));
                     $temporaryFile->delete();
 
-                    $r = Resource::with('media', 'user')->findOrFail($r->id);
+                    $r = Resource::with('media', 'user', 'lesson')->findOrFail($r->id);
                     $r->mimetype = $r->getFirstMedia() ? $r->getFirstMedia()->mime_type : null;
 
                     $resources->push($r);
@@ -145,31 +151,21 @@ class ResourceController extends Controller
                 }
             }
 
-            return response()->json([
-                'status' => 'ok',
-                'message' => sizeof($resources) . ' resource(s) were successfully uploaded and ' . sizeof($failes) . ' failed.',
-                'resources' => $resources
-            ]);
 
-            // if ($request->check_stay) {
-            //     return redirect()
-            //         ->route('resources.create')
-            //         ->with('success', 'Resource was created successfully');
-            // }
-
-            // return redirect()
-            //     ->route('resources.index')
-            //     ->with('success', 'Resource was created successfully');
+            return redirect()
+                ->route('instructor.resource.create', $request->lesson_id)
+                ->with([
+                    'message' => sizeof($resources) . ' resource(s) were successfully uploaded and ' . sizeof($failes) . ' failed.',
+                    'resources' => $resources
+                ]);
         } catch (\Throwable $th) {
             $statusCode = in_array($th->getCode(), array_keys(Response::$statusTexts)) ? $th->getCode() : 500;
-            return response()->json(
-                [
-                'status' => 'fail',
-                'message' => $th->getMessage(),
-                'code' => $statusCode
-                ],
-                $statusCode
-            );
+
+            return redirect()
+                ->route('instructor.resource.create', $request->lesson_id)
+                ->withErrors([
+                    'message' => $th->getMessage()
+                ]);
         }
     }
 
@@ -229,7 +225,7 @@ class ResourceController extends Controller
             // Choose a name with an incremented number until a file with that name
             // doesn't exist
             do {
-                $filePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $base . '('.++$number . ')' . $extension;
+                $filePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $base . '(' . ++$number . ')' . $extension;
             } while (Storage::exists($filePath));
         }
 
@@ -250,7 +246,7 @@ class ResourceController extends Controller
         $resource->filesize = $resource->getFirstMedia()->human_readable_size;
         $resource->uploader = $resource->user->username;
 
-       $this->authorize('view', $resource);
+        $this->authorize('view', $resource);
 
         return $resource;
     }
@@ -412,9 +408,9 @@ class ResourceController extends Controller
             $statusCode = in_array($th->getCode(), array_keys(Response::$statusTexts)) ? $th->getCode() : 500;
             return response()->json(
                 [
-                'status' => 'fail',
-                'message' => $th->getMessage(),
-                'code' => $statusCode
+                    'status' => 'fail',
+                    'message' => $th->getMessage(),
+                    'code' => $statusCode
                 ],
                 $statusCode
             );
@@ -509,8 +505,8 @@ class ResourceController extends Controller
         $resource->save();
 
         return response()->download(
-                 $resource->getFirstMediaPath(),
-                 $resource->getFirstMedia()->file_name
+            $resource->getFirstMediaPath(),
+            $resource->getFirstMedia()->file_name
         );
     }
 
