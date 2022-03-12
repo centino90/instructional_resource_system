@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
 
+    Route::post('syllabi/lessonCreation', [SyllabusController::class, 'lessonCreation'])->name('syllabi.lessonCreation');
     Route::post('syllabi/storeByUrl', [SyllabusController::class, 'storeByUrl'])->name('syllabi.storeByUrl');
     Route::post('syllabi/uploadByUrl', [SyllabusController::class, 'uploadByUrl'])->name('syllabi.uploadByUrl');
     Route::get('syllabi/preview/{syllabus}', [SyllabusController::class, 'preview'])->name('syllabi.preview');

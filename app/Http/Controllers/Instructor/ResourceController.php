@@ -141,12 +141,13 @@ class ResourceController extends Controller
                 ]);
             }
         } catch (\Throwable $th) {
-            return response()->json(
-                [
-                    'message' => $th->getMessage()
-                ],
-                in_array($th->getCode(), array_keys(Response::$statusTexts)) ? $th->getCode() : 500
-            );
+            return view('pages.instructor.resource-preview')
+            ->with([
+                'resource' => $resource
+            ])
+            ->withErrors([
+                'message' => $th->getMessage()
+            ]);
         }
     }
 
