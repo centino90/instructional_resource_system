@@ -60,7 +60,8 @@ class SyllabusController extends Controller
 
     public function upload(Request $request)
     {
-        Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
+        // Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
+
         $index = 0;
 
         foreach ($request->file as $file) {
@@ -326,7 +327,7 @@ class SyllabusController extends Controller
             //     'message' => 'syllabus was successfully uploaded.',
             //     'embed' => $html
             // ]);
-                // dd($request->all());
+            // dd($request->all());
             // return redirect()
             //     ->route('syllabi.searchTable')
             //     ->with([
@@ -355,7 +356,20 @@ class SyllabusController extends Controller
 
     public function lessonCreation(Request $request)
     {
-        dd($request->all());
+        collect($request->lesson)->each(function ($lesson) use ($request) {
+            Lesson::create(
+                [
+                    'title' => $lesson,
+                    'user_id' => auth()->id(),
+                    'course_id' => $request->course_id
+                ]
+            );
+        });
+
+        return response()->json([
+            'statusCode' => 200,
+            'message' => sizeof($request->lesson) . " lesson(s) were successfully created."
+        ]);
     }
 
     public function uploadByUrl(StoreResourceByUrlRequest $request)

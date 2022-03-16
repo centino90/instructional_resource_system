@@ -1,20 +1,22 @@
-<div class="d-flex align-items-center px-3 bg-white">
-    <header class="vstack">
-        <x-breadcrumb>
-            {{ $breadcrumb }}
-        </x-breadcrumb>
-
+<div class="d-flex align-items-center px-3 bg-white border-2 border-bottom" style="min-height: 60px; max-height: 60px">
+    <header class="hstack gap-3">
         <div class="overflow-hidden">
             <h3 class="text-truncate d-block my-0 fw-bolder ">{{ $header }}</h3>
 
             @empty($headerTitle)
             @else
-            <small class="text-muted">{{$headerTitle}}</small>
+                <small class="text-muted">{{ $headerTitle }}</small>
             @endunless
         </div>
+
+        <div class="vr"></div>
+
+        <x-breadcrumb>
+            {{ $breadcrumb }}
+        </x-breadcrumb>
     </header>
 
-    <nav class="navbar navbar-expand navbar-light ms-auto py-0">
+    <nav class="navbar navbar-expand navbar-light ms-auto py-2">
         <div class="container-fluid px-0">
             <div class="btn-group dropstart">
 

@@ -136,7 +136,8 @@
                                         Verb Checking
                                     </a>
 
-                                    <a data-bs-toggle="modal" data-bs-target="#newResourceModal" class="btn btn-primary">
+                                    <a data-bs-toggle="modal" data-bs-target="#createLessonsModal"
+                                        class="btn btn-primary">
                                         <span class="material-icons align-middle md-18">
                                             upload_file
                                         </span>
@@ -157,7 +158,7 @@
         </div>
     </div>
 
-    <div class="modal modal-sheet bg-secondary py-5" tabindex="-1" role="dialog" id="newResourceModal">
+    <div class="modal modal-sheet bg-secondary py-5" tabindex="-1" role="dialog" id="createLessonsModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-6 shadow py-5 px-5">
                 <div class="modal-header border-bottom-0">
@@ -170,14 +171,13 @@
                         @csrf
                         {{-- <input type="hidden" name="course_id" value="{{ $course->id }}"> --}}
 
-                        <h6>Are you sure of this decision?</h6>
+
+                        <div class="alert alert-primary mb-0">
+                            <b>Do you want to include all of these lessons?</b>
+                        </div>
 
                         <div class="col-12">
-                            <ul class="nav">
-                                <li class="nav-item">Lorem, ipsum.</li>
-                                <li class="nav-item">Lorem, ipsum.</li>
-                                <li class="nav-item">Lorem, ipsum.</li>
-                                <li class="nav-item">Lorem, ipsum.</li>
+                            <ul class="" id="lessonConfirmList">
                             </ul>
                         </div>
 
@@ -200,6 +200,7 @@
         <script>
             $(document).ready(function() {
                 let verbs2 = $.parseJSON(`{!! json_encode($verbs) !!}`)
+                const courseId = '{{$lesson->course->id}}'
 
                 var failedCourseOutcomesCounter = 0;
                 var successCourseOutcomesCounter = 0;
@@ -351,15 +352,54 @@
                             }
 
                             $("#lessons").append(`
-                            <li class="list-group-item">
-                                ${txtContent}
-                                <input type="checkbox" class="form-check-input" checked/>
+                            <li class="list-group-item hstack gap-3">
+                                <input id="lessonCheck${index}" type="checkbox" class="form-check-input p-2" checked/>
+                                <div class="vr"></div>
+                                <span class="lessonContent">${txtContent}</span>
                             </li>
                             `);
                             lessonsArr.push(txtContent)
                         })
                         $('[name=lessons]').val(lessonsArr)
                     }
+                })
+
+                $("#createLessonsModal").on("shown.bs.modal", function() {
+                    let $modal = $(this)
+                    let formData = new FormData()
+                    $('#lessonConfirmList').html('')
+
+                    formData.append("course_id", courseId)
+                    $("#lessons").find("input").each(function(index, item) {
+                        if ($(item).prop("checked")) {
+                            let lesson = $(item).siblings(".lessonContent")
+                            formData.append("lesson[]", removeBreaklinesAndSpaces(lesson.text()))
+                            $('#lessonConfirmList').append(
+                                `<li class="nav-item">${lesson.text()}</li>`
+                            )
+                        }
+                    })
+
+                    function removeBreaklinesAndSpaces(text) {
+                        return $.trim(text.replace(/(\r\n|\n|\r)/gm,""))
+                    }
+
+                    $modal.find("form").submit(function(event) {
+                        event.preventDefault()
+
+                        $.ajax({
+                            url: "{{ route('syllabi.lessonCreation') }}",
+                            method: "POST",
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            data: formData
+                        }).done(function(data) {
+                            if(data.statusCode == 200) {
+                                window.location.href = "{{ route('instructor.resource.create', $lesson->course->id) }}"
+                            }
+                        })
+                    })
                 })
             })
         </script>

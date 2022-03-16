@@ -1,67 +1,66 @@
-
-
 // Custom style...
 
-  #actions, #actions-syllabus {
+#actions,
+#actions-syllabus {
     // margin: 2em 0;
-  }
-  .progress {
+}
+.progress {
     width: 10rem;
-  }
+}
 
-  /* Mimic table appearance */
-  div.table {
+/* Mimic table appearance */
+div.table {
     display: table;
-  }
+}
 
-  div.table .file-row {
+div.table .file-row {
     display: table-row;
-  }
-  div.table .file-row > div {
+}
+div.table .file-row > div {
     display: table-cell;
     vertical-align: top;
     border-top: 1px solid #ddd;
     padding: 8px;
-  }
+}
 
-  div.table .file-row:nth-child(odd) {
+div.table .file-row:nth-child(odd) {
     background: #f9f9f9;
-  }
+}
 
-  /* The total progress gets shown by event listeners */
-  .fileupload-process .progress {
+/* The total progress gets shown by event listeners */
+.fileupload-process .progress {
     opacity: 0;
     transition: opacity 0.3s linear;
-  }
+}
 
-  .previews .file-row .badge.bg-success {
+.previews .file-row .badge.bg-success {
     opacity: 0;
     transition: opacity 0.3s linear;
-  }
+}
 
-  /* Hide the progress bar when finished */
-  .previews .file-row.dz-success .progress {
+/* Hide the progress bar when finished */
+.previews .file-row.dz-success .progress {
     display: none;
-  }
-  .previews .file-row.dz-success .badge.bg-success {
+}
+.previews .file-row.dz-success .badge.bg-success {
     opacity: 1;
-  }
+}
 
-  /* Hide the delete button initially */
-  .previews .file-row .delete {
+/* Hide the delete button initially */
+.previews .file-row .delete {
     display: none;
-  }
+}
 
-  /* Hide the start and cancel buttons and show the delete button */
-  .previews .file-row.dz-success .start,
-  .previews .file-row.dz-error .start,
-  .previews .file-row.dz-success .cancel {
+/* Hide the start and cancel buttons and show the delete button */
+.previews .file-row.dz-success .start,
+.previews .file-row.dz-error .start,
+.previews .file-row.dz-success .cancel {
     display: none;
-  }
+}
 
-  .previews .file-row.dz-success .delete {
+.previews .file-row.dz-success .delete {
     display: block;
-  }
+}
 
 #error {
     color: red;
@@ -137,10 +136,6 @@
     }
 }
 
-.bg-light {
-    background: #f3f4f6 !important;
-}
-
 .card {
     // border-radius: 0.475rem;
     // border: 0;
@@ -165,12 +160,17 @@
     &:not(.persist-default) {
         .nav-link {
             color: $green-1;
+            border-width: 3px !important;
+            border-color: transparent;
+            border-style: solid !important;
             &:hover {
-                border-bottom: 5px solid darken($primary, 15) !important;
+                border-radius: $btn-border-radius !important;
+                background-color: $nav-link-hover-white !important;
             }
             &.active {
                 background-color: unset !important;
-                border-bottom: 5px solid $primary !important;
+                border-radius: 0 !important;
+                border-color: transparent transparent $primary transparent !important;
             }
         }
     }

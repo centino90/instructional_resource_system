@@ -30,7 +30,7 @@ class ResourceFactory extends Factory
         $subMonths = [2, 3, 4, 5, 6];
         return [
             'course_id' => $course,
-            'lesson_id' => Lesson::where('course_id', $course->pluck('id'))->get()->random(),
+            'lesson_id' => Lesson::where('course_id', $course->first()->id)->get()->random(),
             'user_id' => $randomUser,
             'batch_id' => $this->faker->uuid(),
             'title' => $this->faker->word(),

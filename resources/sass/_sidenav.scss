@@ -2,19 +2,33 @@
     min-width: 230px;
     max-width: 230px;
     transition: all 0.3s;
+    text-align: right;
+    .nav-link {
+        &:hover {
+            background-color: $nav-link-hover-light;
+        }
+    }
+
     &.active {
         min-width: 80px;
         max-width: 80px;
         text-align: center;
+        .nav {
+            gap: .6rem;
+        }
         .nav-link {
-            padding: 0;
             .material-icons {
                 display: block;
                 width: 100%;
+                font-size: 1.7rem;
             }
             .text {
                 display: none;
             }
+        }
+        .alert {
+            padding-left: 0;
+            padding-right: 0;
         }
     }
 
