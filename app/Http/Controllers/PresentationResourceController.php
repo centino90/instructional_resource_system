@@ -121,7 +121,7 @@ class PresentationResourceController extends Controller
 
     public function upload(Request $request)
     {
-        Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
+        // Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
         // dd($request);
         $batchId = Str::uuid();
         $index = 0;

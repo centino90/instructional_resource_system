@@ -149,6 +149,7 @@
                 <div class="submit-resource-tabpane tab-pane fade show active"
                     id="resource-modal-tabcontent-submit-general" role="tabpanel"
                     aria-labelledby="resource-modal-tabcontent-submit-general-tab">
+
                     <x-real.card :variant="'secondary'">
                         <x-slot name="header">
                             General Upload

@@ -95,7 +95,7 @@ class ResourceController extends Controller
             403
         );
 
-        Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
+        // Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
 
         try {
             $batchId = Str::uuid();

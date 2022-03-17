@@ -38,7 +38,7 @@ class CreateCommentsTable extends Migration
             $table->timestamps();
 
             // custom
-            $table->string('comment_type');
+            $table->string('comment_type')->nullable();
         });
     }
 
