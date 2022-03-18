@@ -23,9 +23,9 @@ class DashboardController extends Controller
     public function index(ResourcesDataTable $dataTable)
     {
 
-        if (auth()->user()->isAdmin()) {
-            return view('pages.admin.dashboard');
-        }
+        // if (auth()->user()->isAdmin()) {
+        //     return view('pages.admin.dashboard');
+        // }
 
         $courses = Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))
             ->with('resources')
@@ -45,7 +45,7 @@ class DashboardController extends Controller
 
         // return view('pages.instructor.dashboard', compact('firstYear', 'secondYear', 'thirdYear', 'fourthYear'));
         return $dataTable
-            ->render('pages.instructor.dashboard', compact('firstYear', 'secondYear', 'thirdYear', 'fourthYear'));
+            ->render('pages.dashboard', compact('firstYear', 'secondYear', 'thirdYear', 'fourthYear'));
     }
 
     public function resourceDatatable(ResourcesDataTable $dataTable)

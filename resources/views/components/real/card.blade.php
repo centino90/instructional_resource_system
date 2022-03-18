@@ -9,7 +9,6 @@
         @break
     @default @endswitch
 ">
-    {{-- mx-3 px-0 pt-3 pb-2 --}}
     @isset($header)
         <div class="card-header py-0 d-flex justify-content-between align-items-{{$vertical}} @if (!$defaultHeader) bg-transparent @endif">
             <h6 class="mb-0 py-3">{{ $header }}</h6>

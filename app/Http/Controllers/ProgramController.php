@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lesson;
-use App\Http\Requests\StoreLessonRequest;
-use App\Http\Requests\UpdateLessonRequest;
-use App\Models\Course;
+use App\Models\Program;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-class LessonController extends Controller
-{
 
+class ProgramController extends Controller
+{
     public function __construct()
     {
-        $this->authorizeResource(Lesson::class, 'lesson');
+        $this->authorizeResource(Program::class, 'program');
     }
 
     /**
@@ -42,23 +38,9 @@ class LessonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLessonRequest $request)
+    public function store(Request $request)
     {
-        [$dirname, $basename, $filename] = array_values(pathinfo(url()->previous()));
-
-        if(Str::contains($dirname, '/course')) {
-            $course = Course::findOrFail(Str::before($basename, '?'));
-
-            if($lesson = Lesson::find($request->title)) {
-                return redirect()->route('resource.create', $lesson->id);
-            }
-
-            $lesson = Lesson::create(['user_id' => auth()->id()] + $request->validated());
-            return redirect()->route('resource.create', $lesson->id);
-        }
-
-
-        dd(pathinfo(url()->previous()));
+        //
     }
 
     /**
@@ -67,7 +49,7 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Lesson $lesson)
+    public function show(Program $program)
     {
         //
     }
@@ -78,7 +60,7 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lesson $lesson)
+    public function edit(Program $program)
     {
         //
     }
@@ -90,7 +72,7 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update(Request $request, Program $program)
     {
         //
     }
@@ -101,9 +83,8 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lesson $lesson)
+    public function destroy(Program $program)
     {
         //
     }
 }
-

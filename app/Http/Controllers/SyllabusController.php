@@ -336,7 +336,7 @@ class SyllabusController extends Controller
             //     ]);
             preg_match('/<body>(.*?)<\/body>/s', $html, $match);
 
-            return view('pages.instructor.syllabus-validation')->with([
+            return view('pages.syllabus-validation')->with([
                 'lesson' => Lesson::findOrFail($request->lesson_id),
                 'formData' => [
                     'file' => $request->file[$index],

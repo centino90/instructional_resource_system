@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class InstructorPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -57,7 +57,7 @@ class InstructorPolicy
     {
         return $user->isAdmin() || $user->isProgramDean()
         ? Response::allow()
-        : Response::deny('You are not allowed to create this instructor');
+        : Response::deny('You are not allowed to create this user');
     }
 
     /**
@@ -72,7 +72,7 @@ class InstructorPolicy
         return $user->isAdmin()
         || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
         ? Response::allow()
-        : Response::deny('You are not allowed to update this instructor');
+        : Response::deny('You are not allowed to update this user');
     }
 
     /**
@@ -87,7 +87,7 @@ class InstructorPolicy
         return $user->isAdmin()
         || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
         ? Response::allow()
-        : Response::deny('You are not allowed to delete this instructor');
+        : Response::deny('You are not allowed to delete this user');
     }
 
     /**
@@ -102,7 +102,7 @@ class InstructorPolicy
         return $user->isAdmin()
         || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
         ? Response::allow()
-        : Response::deny('You are not allowed to restore this instructor');
+        : Response::deny('You are not allowed to restore this user');
     }
 
     /**
@@ -116,6 +116,6 @@ class InstructorPolicy
     {
         // return $user->isAdmin()
         // ? Response::allow()
-        // : Response::deny('You are not allowed to permanently delete an instructor');
+        // : Response::deny('You are not allowed to permanently delete an user');
     }
 }

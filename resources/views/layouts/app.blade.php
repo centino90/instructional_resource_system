@@ -64,7 +64,13 @@
             @include('layouts.topnav')
 
             <section class="mt-3 px-3">
-                {{ $slot }}
+                @include('layouts.placeholder')
+
+                <div class="show-after-load" style="display: none">
+                    @include('layouts.status-message')
+
+                    {{ $slot }}
+                </div>
             </section>
         </main>
     </div>
@@ -106,7 +112,10 @@
 
     @yield('script')
     <script>
-        $(function() {
+        $(document).ready(function() {
+            $('.show-before-load').hide()
+            $('.show-after-load').show()
+
             let tooltips = $('#sidebar [data-bs-toggle="tooltip"]')
             let bsTooltips = $([])
             tooltips.each(function(index, tooltip) {
@@ -217,7 +226,7 @@
             //     console.log('Upload complete! We’ve uploaded these files:', result.successful)
             // })
 
-        });
+        })
     </script>
 </body>
 

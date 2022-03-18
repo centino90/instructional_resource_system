@@ -17,11 +17,13 @@ use App\Http\Controllers\UploadTemporaryFileController;
 use App\Http\Controllers\Admin\InstructorsController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\PersonnelsController;
-use App\Http\Controllers\Admin\ProgramsController;
+use App\Http\Controllers\Admin\ProgramsController as AdminProgramController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\Admin\ResourcesController;
 use App\Http\Controllers\Instructor\CourseController as InstructorCourseController;
 use App\Http\Controllers\Instructor\LessonController as InstructorLessonController;
 use App\Http\Controllers\Instructor\ResourceController as InstructorResourceController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PresentationResourceController;
 use App\Http\Controllers\StorageController;
 use App\Models\Course;
@@ -52,6 +54,13 @@ Route::middleware('auth')->group(function () {
     Route::post('dashboard/resourceDatatable', [DashboardController::class, 'resourceDatatable'])->name('dashboard.resourceDatatable');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::resource('program', ProgramController::class);
+
+    Route::resource('course', CourseController::class);
+    Route::get('resource/preview/{resource}', [ResourceController::class, 'preview'])->name('resource.preview');
+    Route::get('resource/create/{lesson}', [ResourceController::class, 'create'])->name('resource.create');
+    Route::resource('resource', ResourceController::class)->except(['create']);
+    Route::resource('lesson', LessonController::class);
 
     Route::post('resources/storeByUrl', [ResourceController::class, 'storeByUrl'])->name('resources.storeByUrl');
     Route::resource('resources', ResourceController::class);
@@ -106,8 +115,8 @@ Route::middleware('auth')->group(function () {
         ->middleware(['auth.admin'])->group(function () {
             Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-            Route::get('/programs/list', [ProgramsController::class, 'list'])->name('programs.list');
-            Route::resource('/programs', ProgramsController::class);
+            Route::get('/programs/list', [AdminProgramController::class, 'list'])->name('programs.list');
+            Route::resource('/programs', AdminProgramController::class);
             Route::resource('/courses', CoursesController::class);
             Route::resource('/resources', ResourcesController::class);
             Route::resource('/personnels', PersonnelsController::class);
@@ -126,11 +135,11 @@ Route::middleware('auth')->group(function () {
     // Instructor
     Route::prefix('instructor')->name('instructor.')->middleware(['auth.instructor'])->group(function () {
 
-        Route::resource('course', InstructorCourseController::class);
-        Route::get('resource/preview/{resource}', [InstructorResourceController::class, 'preview'])->name('resource.preview');
-        Route::get('resource/create/{lesson}', [InstructorResourceController::class, 'create'])->name('resource.create');
-        Route::resource('resource', InstructorResourceController::class)->except(['create']);
-        Route::resource('lesson', InstructorLessonController::class);
+        // Route::resource('course', InstructorCourseController::class);
+        // Route::get('resource/preview/{resource}', [InstructorResourceController::class, 'preview'])->name('resource.preview');
+        // Route::get('resource/create/{lesson}', [InstructorResourceController::class, 'create'])->name('resource.create');
+        // Route::resource('resource', InstructorResourceController::class)->except(['create']);
+        // Route::resource('lesson', InstructorLessonController::class);
     });
 });
 

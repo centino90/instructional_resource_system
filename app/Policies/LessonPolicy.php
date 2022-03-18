@@ -5,10 +5,25 @@ namespace App\Policies;
 use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Http\Response;
 
 class LessonPolicy
 {
     use HandlesAuthorization;
+
+    /**
+     * Perform pre-authorization checks.
+     *
+     * @param  \App\Models\User  $user
+     * @param  string  $ability
+     * @return void|bool
+     */
+    public function before(User $user, $ability)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
 
     /**
      * Determine whether the user can view any models.
@@ -18,7 +33,7 @@ class LessonPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +45,7 @@ class LessonPolicy
      */
     public function view(User $user, Lesson $lesson)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +56,7 @@ class LessonPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +68,14 @@ class LessonPolicy
      */
     public function update(User $user, Lesson $lesson)
     {
-        //
+        if (!$user->belongsToProgram($lesson->course->program_id)) {
+            return Response::deny('You are not allowed to update this lesson because it does not exist in your program.');
+        }
+
+        return $user->id == $lesson->user_id
+            || $user->isProgramDean()
+            ? Response::allow()
+            : Response::deny('You are not allowed to update this lesson.');
     }
 
     /**
@@ -65,7 +87,14 @@ class LessonPolicy
      */
     public function delete(User $user, Lesson $lesson)
     {
-        //
+        if (!$user->belongsToProgram($lesson->course->program_id)) {
+            return Response::deny('You are not allowed to delete this lesson because it does not exist in your program.');
+        }
+
+        return $user->id == $lesson->user_id
+            || $user->isProgramDean()
+            ? Response::allow()
+            : Response::deny('You are not allowed to delete this lesson.');
     }
 
     /**
@@ -77,7 +106,14 @@ class LessonPolicy
      */
     public function restore(User $user, Lesson $lesson)
     {
-        //
+        if (!$user->belongsToProgram($lesson->course->program_id)) {
+            return Response::deny('You are not allowed to restore this lesson because it does not exist in your program.');
+        }
+
+        return $user->id == $lesson->user_id
+            || $user->isProgramDean()
+            ? Response::allow()
+            : Response::deny('You are not allowed to restore this lesson.');
     }
 
     /**

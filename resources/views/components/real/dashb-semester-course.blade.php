@@ -40,7 +40,7 @@ $semesters = collect([
                             @forelse ($courses->where('semester', $semester)->where('term', 1) as $row)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('instructor.course.show', $row->id) }}"
+                                        <a href="{{ route('course.show', $row->id) }}"
                                             class="btn btn-sm btn-primary">
                                             View
                                         </a>

@@ -42,6 +42,12 @@ use Throwable;
 
 class ResourceController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Resource::class, 'resource');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -60,12 +66,19 @@ class ResourceController extends Controller
         return view('resources', compact(['resources', 'activities']));
     }
 
+    public function create(Lesson $lesson)
+    {
+        return view('pages.course-resource-create')->with([
+            'lesson' => $lesson
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create2(Request $request)
     {
         if ($request->user()->cannot('create', Resource::class)) {
             abort(403);
@@ -153,7 +166,7 @@ class ResourceController extends Controller
 
 
             return redirect()
-                ->route('instructor.resource.create', $request->lesson_id)
+                ->route('resource.create', $request->lesson_id)
                 ->with([
                     'message' => sizeof($resources) . ' resource(s) were successfully uploaded and ' . sizeof($failes) . ' failed.',
                     'resources' => $resources
@@ -162,7 +175,7 @@ class ResourceController extends Controller
             $statusCode = in_array($th->getCode(), array_keys(Response::$statusTexts)) ? $th->getCode() : 500;
 
             return redirect()
-                ->route('instructor.resource.create', $request->lesson_id)
+                ->route('resource.create', $request->lesson_id)
                 ->withErrors([
                     'message' => $th->getMessage()
                 ]);
@@ -184,24 +197,12 @@ class ResourceController extends Controller
             'approved_at' => now()
         ]);
 
-        // dd($filePath);
-        // dd($this->filenameFormatter($filePath));
-        // Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name, $tmpPath);
-        // $r->addMedia($tmpPath)->toMediaCollection();
-
         Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $filename, storage_path('app/public/' . $filePath));
         $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
 
-
-
-        // Storage::disk('public')->putFileAs('users/'. auth()->id() . '/resources', storage_path('app/public/' . $filePath), $filename);
-        // $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
-
-        return response()->json([
-            'status' => 'ok',
-            'message' => 'resource was uploaded successfully.',
-            'resources' => collect($model)
-        ]);
+        $request->session()->flash('status', 'success');
+        $request->session()->flash('message', $model->title . ' was uploaded successfully.');
+        return redirect()->route('resource.create', $request->lesson_id);
     }
 
     private function filenameFormatter($filePath)
@@ -232,13 +233,18 @@ class ResourceController extends Controller
         return $filePath;
     }
 
+    public function show(Resource $resource)
+    {
+        return view('pages.resource-show')
+        ->with('resource', $resource);
+    }
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Resource $resource)
+    public function show2(Resource $resource)
     {
         /* ON DETAILS */
         $resource->filename = $resource->getFirstMedia()->file_name;
@@ -252,6 +258,113 @@ class ResourceController extends Controller
     }
 
     public function preview($id)
+    {
+        $resource = Resource::with('media', 'user')->findOrFail($id);
+
+        // $this->authorize('view', $resource);
+
+        $mediaFileExt = strtolower(pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION));
+        try {
+            if (!$mediaFileExt) {
+                throw new Error('Resource file not found.', 404);
+            }
+            if (
+                !in_array($mediaFileExt, array_merge(
+                    array_values(config('app.pdf_convertible_filetypes')),
+                    array_values(config('app.img_filetypes')),
+                    array_values(config('app.video_filetypes')),
+                    array_values(config('app.audio_filetypes'))
+                )) && $resource->getFirstMedia()->mime_type !== 'text/plain'
+                || $resource->getFirstMedia()->mime_type == 'application/x-empty'
+            ) {
+                throw new Error('Resource filetype is not previewable.', 415);
+            }
+
+            /* IMAGE, VIDEO, AUDIO */
+            if (
+                in_array($mediaFileExt, config('app.img_filetypes'))
+                || in_array($mediaFileExt, config('app.video_filetypes'))
+                || in_array($mediaFileExt, config('app.audio_filetypes'))
+            ) {
+
+                return view('pages.resource-preview')->with([
+                    'resource' => $resource,
+                    'message' => 'Resource is previewable',
+                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
+                    'fileMimeType' => mime_content_type($resource->getFirstMediaPath()),
+                    'resourceUrl' => 'data:' . $resource->getFirstMedia()->mime_type . ';base64,' . base64_encode(file_get_contents($resource->getFirstMediaPath()))
+                ]);
+            }
+
+            $newFilename = auth()->user()->username . '-preview-resource';
+            $newFileExt = 'pdf';
+
+            /* PDF CONVERTIBLES */
+            if (in_array($mediaFileExt, config('app.pdf_convertible_filetypes'))) {
+                if (file_exists(storage_path('app/public/' . $newFilename . '.pdf'))) {
+                    unlink(storage_path('app/public/' . $newFilename . '.pdf'));
+                }
+
+                $newFileExt = 'pdf';
+                $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
+                $converter->convertTo($newFilename . '.' . $newFileExt);
+
+
+                return response()->download(
+                    storage_path('app/public/' . $newFilename . '.' . $newFileExt),
+                    $newFilename . $newFileExt
+                );
+            }
+
+            /* PLAIN TEXTS */
+            if ($resource->getFirstMedia()->mime_type === 'text/plain') {
+
+                if (file_exists(storage_path('app/public/' . $newFilename . '.txt'))) {
+                    unlink(storage_path('app/public/' . $newFilename . '.txt'));
+                }
+
+                $newFileExt = 'txt';
+                $resourcePath = $resource->getFirstMediaPath();
+
+                if (Storage::disk('public')->exists($newFilename . '.' . $newFileExt)) {
+                    Storage::disk('public')->put($newFilename . '.' . $newFileExt, '');
+                }
+
+                $txt = nl2br(file_get_contents($resourcePath));
+
+                return view('pages.resource-preview')->with([
+                    'resource' => $resource,
+                    'fileType' => 'text_filetypes',
+                    'resourceText' => $txt
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return view('pages.resource-preview')
+            ->with([
+                'resource' => $resource
+            ])
+            ->withErrors([
+                'message' => $th->getMessage()
+            ]);
+        }
+    }
+
+    private function getFileTypeGroup($fileExtension)
+    {
+        if (in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
+            return 'pdf_convertible_filetypes';
+        } else if (in_array($fileExtension, config('app.img_filetypes'))) {
+            return 'img_filetypes';
+        } else if (in_array($fileExtension, config('app.video_filetypes'))) {
+            return 'video_filetypes';
+        } else if (in_array($fileExtension, config('app.audio_filetypes'))) {
+            return 'audio_filetypes';
+        }
+
+        return false;
+    }
+
+    public function preview2($id)
     {
         $resource = Resource::with('media', 'user')->findOrFail($id);
 
@@ -345,7 +458,7 @@ class ResourceController extends Controller
         }
     }
 
-    private function getFileTypeGroup($fileExtension)
+    private function getFileTypeGroup2($fileExtension)
     {
         if (in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
             return 'pdf_convertible_filetypes';
@@ -366,7 +479,7 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Resource $resource)
     {
         //
     }
@@ -378,7 +491,7 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Resource $resource)
     {
         //
     }
@@ -389,10 +502,10 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Resource $resource)
     {
         try {
-            $resource = Resource::with('media', 'user')->findOrFail($id);
+            $resource->with('media', 'user');
 
             $this->authorize('delete', $resource);
 

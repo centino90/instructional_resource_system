@@ -9,12 +9,12 @@
 
     <x-slot name="breadcrumb">
         <li class="breadcrumb-item">
-            <a class="fw-bold" href="{{ route('instructor.course.show', $lesson->course->id) }}">
+            <a class="fw-bold" href="{{ route('course.show', $lesson->course->id) }}">
                 <- Go back </a>
         </li>
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
         <li class="breadcrumb-item"><a
-                href="{{ route('instructor.course.show', $lesson->course->id) }}">{{ $lesson->course->code }}</a>
+                href="{{ route('course.show', $lesson->course->id) }}">{{ $lesson->course->code }}</a>
         </li>
 
         <li class="breadcrumb-item " aria-current="page">{{ $lesson->title }}</li>

@@ -6,6 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreResourceByUrlRequest extends FormRequest
 {
+    protected $redirect = '';
+
+    public function __construct()
+    {
+        $this->redirect = route(
+            'instructor.resource.create',
+            [request()->get('lesson_id'), 'submitType' => request()->routeIs('syllabi.storeByUrl') ? 'syllabus' : (request()->routeIs('presentations.uploadByUrl') ? 'presentation' : 'general'), 'uploadTab' => 'storage']
+        );
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,6 +36,7 @@ class StoreResourceByUrlRequest extends FormRequest
         return [
             'fileUrl' => 'required|string',
             'course_id' => 'required|string',
+            'lesson_id' => 'required|string',
             'title' => 'required|string',
             // 'description' => 'required|string'
         ];
