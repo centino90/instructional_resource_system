@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ $resource->title }}
+        Preview
     </x-slot>
 
     <x-slot name="headerTitle">
-        Resource title
+        Page action
     </x-slot>
 
     <x-slot name="breadcrumb">
@@ -38,7 +38,7 @@
         <div class="col-lg-9">
             <div class="bg-white shadow-sm overflow-auto p-3" style="min-height: 500px">
                 <header class="pb-2 overflow-hidden border-bottom">
-                    <h6 class="text-truncate d-block my-0 fw-bolder">{{ $resource->getFirstMedia()->file_name }}</h6>
+                    <h6 class="text-truncate d-block my-0 fw-bolder">{{ $resource->getMedia()->sortByDesc('order_column')->first()->file_name }}</h6>
 
                     <small class="text-muted">File name</small>
                 </header>
@@ -53,7 +53,7 @@
         <script>
             $(document).ready(function() {
                 let previewFiletype = '{{ $fileType ?? '' }}'
-                let previewResourceUrl = '{{ $resourceUrl ?? '' }}'
+                let previewResourceUrl = `{!! $resourceUrl ?? '' !!}`
                 let previewResourceText = `{{ $resourceText ?? '' }}`
                 let hasErrors = `{{ $errors->any() }}`
                 let errorMsg = `{{ $errors->first('message') }}`
@@ -84,6 +84,19 @@
                     if (previewFiletype === 'img_filetypes') {
                         $('#previewContainer').append(
                             `<img style="width: 100%" src="${previewResourceUrl}" />`
+                        )
+                    }
+
+                    if (previewFiletype === 'pdf_filetypes') {
+                        $('#previewContainer').append(
+                            `<iframe src="${previewResourceUrl}" class="w-100" height="600"></iframe>`
+                        )
+                    }
+
+                    if (previewFiletype === 'word_filetypes') {
+                        console.log('nani')
+                        $('#previewContainer').append(
+                            `<iframe src="${previewResourceUrl}" class="w-100" height="600"></iframe>`
                         )
                     }
 

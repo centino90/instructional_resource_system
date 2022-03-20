@@ -206,7 +206,7 @@ class PresentationResourceController extends Controller
                 //     'texts' => $texts
                 // ]);
 
-                return view('pages.instructor.presentation-validation')->with([
+                return view('pages.presentation-validation')->with([
                     'lesson' => Lesson::findOrFail($request->lesson_id),
                     'formData' => [
                         'file' => $request->file[$index],

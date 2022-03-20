@@ -144,11 +144,6 @@
                                 <ul class="list-group" style="min-width: 300px">
                                     <li class="list-group-item">
                                         <button class="w-100 btn btn-light border text-primary fw-bold">
-                                            Submit Another
-                                        </button>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <button class="w-100 btn btn-light border text-primary fw-bold">
                                             Save to Draft
                                         </button>
                                     </li>
@@ -198,9 +193,14 @@
                                 <li class="dropdown-item p-0">
                                     <ul class="list-group" style="min-width: 300px">
                                         <li class="list-group-item">
-                                            <button class="w-100 btn btn-light border text-primary fw-bold">
+                                            <a href="{{route('resource.createNewVersion', $resource->id)}}" class="w-100 btn btn-light border text-primary fw-bold">
+                                                Submit new version
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="{{route('resource.viewVersions', $resource->id)}}" class="w-100 btn btn-light border text-primary fw-bold">
                                                 View all versions
-                                            </button>
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>

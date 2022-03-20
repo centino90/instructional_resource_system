@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ResourceCreated;
+use App\Http\Requests\StoreNewResourceVersionRequest;
 use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
 use App\Models\Course;
@@ -32,10 +33,12 @@ use Dompdf\Options;
 
 use Elibyy\TCPDF\Facades\TCPDF;
 use Error;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\File;
 use Illuminate\Http\Response;
 use LDAP\Result;
 use setasign\Fpdi\Tcpdf\Fpdi;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
 
 // use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -66,11 +69,21 @@ class ResourceController extends Controller
         return view('resources', compact(['resources', 'activities']));
     }
 
+    public function viewVersions(Resource $resource)
+    {
+        return view('pages.resource-versions', compact('resource'));
+    }
+
     public function create(Lesson $lesson)
     {
         return view('pages.course-resource-create')->with([
             'lesson' => $lesson
         ]);
+    }
+
+    public function createNewVersion(Resource $resource)
+    {
+        return view('pages.resource-show-create-version', compact('resource'));
     }
 
     /**
@@ -103,10 +116,6 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request)
     {
-        abort_if(
-            $request->user()->cannot('create', Resource::class),
-            403
-        );
 
         // Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
 
@@ -120,7 +129,7 @@ class ResourceController extends Controller
 
                 if ($temporaryFile) {
                     //exclude first item because its from the template
-                    if($index == 0) {
+                    if ($index == 0) {
                         $index++;
                         continue;
                     }
@@ -182,6 +191,60 @@ class ResourceController extends Controller
         }
     }
 
+    public function storeNewVersion(StoreNewResourceVersionRequest $request, Resource $resource)
+    {
+        $temporaryFile = TemporaryUpload::firstWhere('folder_name', $request->file);
+
+        if (!$temporaryFile) {
+            dd('no file');
+        }
+
+        // exclude unexecutable files
+        if (empty(pathinfo($temporaryFile->file_name, PATHINFO_EXTENSION))) {
+            $temporaryFile->delete();
+            // $failes->push($temporaryFile->file_name);
+            dd('file not exceutable');
+        }
+
+
+        $tmpPath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
+        $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name);
+        $newFilename = pathinfo($newFilePath, PATHINFO_FILENAME) . '.' . pathinfo($newFilePath, PATHINFO_EXTENSION);
+
+        Storage::disk('public')->putFileAs('users/' . auth()->id() . '/resources', $tmpPath, $newFilename);
+        $resource->addMedia($tmpPath)->toMediaCollection();
+
+        rmdir(storage_path('app/public/resource/tmp/' . $request->file));
+
+        // event(new ResourceCreated($r)); // ResourceVersionCreated
+        $temporaryFile->delete();
+
+        $resource = Resource::with('media', 'user', 'lesson')->findOrFail($resource->id);
+        $resource->mimetype = $resource->getFirstMedia() ? $resource->getFirstMedia()->mime_type : null;
+
+        $request->session()->flash('status', 'success');
+        $request->session()->flash('message', $resource->getMedia()->last()->file_name . ' was added as the new version successfully.');
+
+        return redirect()->route('resource.createNewVersion', compact('resource'));
+    }
+    public function storeNewVersionByUrl(StoreResourceByUrlRequest $request)
+    {
+        $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
+        $filename = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
+        $model = Resource::create($request->validated() + [
+            'user_id' => auth()->id(),
+            'batch_id' => Str::random(5),
+            'approved_at' => now()
+        ]);
+
+        Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $filename, storage_path('app/public/' . $filePath));
+        $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
+
+        $request->session()->flash('status', 'success');
+        $request->session()->flash('message', $model->title . ' was uploaded successfully.');
+
+        return redirect()->route('resource.createNewVersion', $request->lesson_id);
+    }
     public function storeByUrl(StoreResourceByUrlRequest $request)
     {
         abort_if(
@@ -202,6 +265,7 @@ class ResourceController extends Controller
 
         $request->session()->flash('status', 'success');
         $request->session()->flash('message', $model->title . ' was uploaded successfully.');
+
         return redirect()->route('resource.create', $request->lesson_id);
     }
 
@@ -236,7 +300,7 @@ class ResourceController extends Controller
     public function show(Resource $resource)
     {
         return view('pages.resource-show')
-        ->with('resource', $resource);
+            ->with('resource', $resource);
     }
     /**
      * Display the specified resource.
@@ -257,14 +321,22 @@ class ResourceController extends Controller
         return $resource;
     }
 
-    public function preview($id)
+    public function preview(Request $request, Resource $resource)
     {
-        $resource = Resource::with('media', 'user')->findOrFail($id);
+        $resource->with('media', 'user');
 
-        // $this->authorize('view', $resource);
-
-        $mediaFileExt = strtolower(pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION));
         try {
+            if (!empty($request->mediaId)) {
+                if (!$specifiedMedia = $resource->getMedia()->firstWhere('id', $request->mediaId)) {
+                    throw new Error('Resource file not found.', 404);
+                } else {
+                    $mediaFileExt = strtolower(pathinfo($specifiedMedia->getPath(), PATHINFO_EXTENSION));
+                }
+            } else {
+                $specifiedMedia = $resource->getMedia()->sortByDesc('order_column')->first();
+                $mediaFileExt = strtolower(pathinfo($specifiedMedia->getPath(), PATHINFO_EXTENSION));
+            }
+
             if (!$mediaFileExt) {
                 throw new Error('Resource file not found.', 404);
             }
@@ -291,40 +363,85 @@ class ResourceController extends Controller
                     'resource' => $resource,
                     'message' => 'Resource is previewable',
                     'fileType' => $this->getFileTypeGroup($mediaFileExt),
-                    'fileMimeType' => mime_content_type($resource->getFirstMediaPath()),
-                    'resourceUrl' => 'data:' . $resource->getFirstMedia()->mime_type . ';base64,' . base64_encode(file_get_contents($resource->getFirstMediaPath()))
+                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
+                    'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
                 ]);
             }
 
             $newFilename = auth()->user()->username . '-preview-resource';
             $newFileExt = 'pdf';
 
-            /* PDF CONVERTIBLES */
-            if (in_array($mediaFileExt, config('app.pdf_convertible_filetypes'))) {
-                if (file_exists(storage_path('app/public/' . $newFilename . '.pdf'))) {
-                    unlink(storage_path('app/public/' . $newFilename . '.pdf'));
-                }
+            /* PDF */
+            if (in_array($mediaFileExt, ['pdf'])) {
 
-                $newFileExt = 'pdf';
-                $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
-                $converter->convertTo($newFilename . '.' . $newFileExt);
+                return view('pages.resource-preview')->with([
+                    'resource' => $resource,
+                    'message' => 'Resource is previewable',
+                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
+                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
+                    'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
+                ]);
+            }
+
+            /* DOC */
+            if (in_array($mediaFileExt, ['doc', 'docx'])) {
+                $temporaryFile = $specifiedMedia;
+                $filePath = $temporaryFile->getPath();
+
+                $phpWord = IOFactory::load($filePath);
+                $section = $phpWord->addSection();
+
+                $origname = pathinfo($temporaryFile->file_name, PATHINFO_FILENAME);
+                $source = storage_path('app/public/') . $origname . '.html';
+
+                // Saving the doc as html
+                $objWriter = IOFactory::createWriter($phpWord, 'HTML');
+                $html = $objWriter->getContent($source);
 
 
-                return response()->download(
-                    storage_path('app/public/' . $newFilename . '.' . $newFileExt),
-                    $newFilename . $newFileExt
-                );
+                return view('pages.resource-preview')->with([
+                    'resource' => $resource,
+                    'message' => 'Resource is previewable',
+                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
+                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
+                    // 'resourceUrl' => $html
+                    'resourceUrl' => 'data:' . 'text/html' . ';base64,' . base64_encode($html)
+                ]);
+            }
+
+            /* SPREADSHEET */
+            if (in_array($mediaFileExt, ['xlx', 'xlxx', 'csv'])) {
+
+                return view('pages.resource-preview')->with([
+                    'resource' => $resource,
+                    'message' => 'Resource is previewable',
+                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
+                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
+                    'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
+                ]);
+            }
+
+            /* PPT */
+            if (in_array($mediaFileExt, ['ppt', 'pptx'])) {
+
+                return view('pages.resource-preview')->with([
+                    'resource' => $resource,
+                    'message' => 'Resource is previewable',
+                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
+                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
+                    'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
+                ]);
             }
 
             /* PLAIN TEXTS */
-            if ($resource->getFirstMedia()->mime_type === 'text/plain') {
+            if ($specifiedMedia->mime_type === 'text/plain') {
 
                 if (file_exists(storage_path('app/public/' . $newFilename . '.txt'))) {
                     unlink(storage_path('app/public/' . $newFilename . '.txt'));
                 }
 
                 $newFileExt = 'txt';
-                $resourcePath = $resource->getFirstMediaPath();
+                $resourcePath = $specifiedMedia->getPath();
 
                 if (Storage::disk('public')->exists($newFilename . '.' . $newFileExt)) {
                     Storage::disk('public')->put($newFilename . '.' . $newFileExt, '');
@@ -340,26 +457,38 @@ class ResourceController extends Controller
             }
         } catch (\Throwable $th) {
             return view('pages.resource-preview')
-            ->with([
-                'resource' => $resource
-            ])
-            ->withErrors([
-                'message' => $th->getMessage()
-            ]);
+                ->with([
+                    'resource' => $resource
+                ])
+                ->withErrors([
+                    'message' => $th->getMessage()
+                ]);
         }
     }
 
     private function getFileTypeGroup($fileExtension)
     {
-        if (in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
-            return 'pdf_convertible_filetypes';
-        } else if (in_array($fileExtension, config('app.img_filetypes'))) {
+        // if (in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
+        //     return 'pdf_convertible_filetypes';
+        // } else
+        if (in_array($fileExtension, config('app.img_filetypes'))) {
             return 'img_filetypes';
         } else if (in_array($fileExtension, config('app.video_filetypes'))) {
             return 'video_filetypes';
         } else if (in_array($fileExtension, config('app.audio_filetypes'))) {
             return 'audio_filetypes';
+        } else if (in_array($fileExtension, ['pdf'])) {
+            return 'pdf_filetypes';
+        } else if (in_array($fileExtension, ['ppt', 'pptx'])) {
+            return 'presentation_filetypes';
+        } else if (in_array($fileExtension, ['doc', 'docx'])) {
+            return 'word_filetypes';
+        } else if (in_array($fileExtension, ['xlx', 'xlxx', 'csv'])) {
+            return 'spreadsheet_filetypes';
         }
+        // else if (in_array($fileExtension, ['ppt', 'pptx'])) {
+        //     return 'audio_filetypes';
+        // }
 
         return false;
     }
@@ -496,6 +625,18 @@ class ResourceController extends Controller
         //
     }
 
+    public function toggleCurrentVersion(Request $request, Resource $resource, Media $media)
+    {
+        $medias = $resource->media;
+        $unselectedMedias = $medias->whereNotIn('id', $media->id)->sortBy('order_column')->pluck('id');
+        $unselectedMedias->push($media->id);
+
+        Media::setNewOrder($unselectedMedias->toArray());
+
+        // dd($resource->media);
+        return redirect()->back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -506,8 +647,6 @@ class ResourceController extends Controller
     {
         try {
             $resource->with('media', 'user');
-
-            $this->authorize('delete', $resource);
 
             $resource->delete();
             $fileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
@@ -536,97 +675,66 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function download($mediaItem, Request $request)
+    public function download(Request $request, Resource $resource)
     {
-        // if ($mediaItem == 'all') {
-        //     $zipFileName = Course::findOrFail($request->course_id)->title . '-files-' . time() . '.zip';
-        //     $resources = Resource::withTrashed()->get();
+        // if (in_array(pathinfo($mediaFileExt, PATHINFO_EXTENSION), config('app.pdf_convertible_filetypes'))) {
+        //     $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
+        //     $converter->convertTo($resource->getFirstMedia()->name . '.pdf'); //generates pdf file in same directory as test-file.docx
 
-        //     $resourcesWithinCourse = $resources->map(function ($resource) use ($request) {
-        //         return $resource->course_id == $request->course_id ? $resource->getMedia()[0] : null;
-        //     })->reject(function ($resource) {
-        //         return empty($resource);
-        //     });
+        //     // Source file and watermark config
+        //     $file = $resource->getFirstMedia()->name . '.pdf';
+        //     $text_image = storage_path('app/public/images/word-watermark.png');
 
-        //     return MediaStream::create($zipFileName)
-        //         ->addMedia($resourcesWithinCourse);
+        //     // Set source PDF file
+        //     $pdf = new Fpdi;
+        //     if (file_exists(storage_path('app/public/' . $file))) {
+        //         $pagecount = $pdf->setSourceFile(storage_path('app/public/' . $file));
+        //     } else {
+        //         die('Source PDF not found!');
+        //     }
+
+        //     // Add watermark image to PDF pages
+        //     for ($i = 1; $i <= $pagecount; $i++) {
+        //         $tpl = $pdf->importPage($i);
+        //         $size = $pdf->getTemplateSize($tpl);
+        //         $pdf->SetPrintHeader(false);
+        //         $pdf->SetPrintFooter(false);
+        //         $pdf->addPage($size['width'] > $size['height'] ? 'P' : 'L');
+        //         // $pdf->setPrintHeader(false);
+        //         $pdf->useTemplate($tpl, 0, 0, $size['width'], $size['height'], TRUE);
+
+        //         //Put the watermark
+        //         $pdf->Image($text_image, 5, 0, 35, 35, 'png');
+        //     }
+
+        //     // Output PDF with watermark
+        //     unlink(storage_path('app/public/' . $file));
+        //     $pdf->Output($file, 'D');
         // }
-        // $resource = Resource::withTrashed()->find($mediaItem);
-        // $phpWord = IOFactory::load($resource->getFirstMediaPath());
-        // $section = $phpWord->addSection();
-        // $header = $section->addHeader();
-        // $header->addWatermark(storage_path('app/public/word-watermark.jpg'), array('marginTop' => 200, 'marginLeft' => 55));
-        // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        // $t = time();
-        // $objWriter->save('helloWorld-' . $t . '-.docx');
 
-        // $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
-        // $converter->convertTo('output-file.pdf'); //generates pdf file in same directory as test-file.docx
-        // $converter->convertTo('output-file.html'); //generates html file in same directory as test-file.docx
-
-        //to specify output directory, specify it as the second argument to the constructor
-        // $converter = new OfficeConverter('test-file.docx', 'path-to-outdir');
-
-        $resource = Resource::withTrashed()->find($mediaItem);
-
-        if (in_array(pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION), config('app.pdf_convertible_filetypes'))) {
-            $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
-            $converter->convertTo($resource->getFirstMedia()->name . '.pdf'); //generates pdf file in same directory as test-file.docx
-
-            // Source file and watermark config
-            $file = $resource->getFirstMedia()->name . '.pdf';
-            $text_image = storage_path('app/public/images/word-watermark.png');
-
-            // Set source PDF file
-            $pdf = new Fpdi;
-            if (file_exists(storage_path('app/public/' . $file))) {
-                $pagecount = $pdf->setSourceFile(storage_path('app/public/' . $file));
+        try {
+            if (!empty($request->mediaId)) {
+                if (!$mediaFile = $resource->getMedia()->firstWhere('id', $request->mediaId)) {
+                    throw new FileNotFoundException();
+                } else {
+                }
             } else {
-                die('Source PDF not found!');
+                $mediaFile = $resource->media->sortByDesc('order_column')->first();
             }
 
-            // Add watermark image to PDF pages
-            for ($i = 1; $i <= $pagecount; $i++) {
-                $tpl = $pdf->importPage($i);
-                $size = $pdf->getTemplateSize($tpl);
-                $pdf->SetPrintHeader(false);
-                $pdf->SetPrintFooter(false);
-                $pdf->addPage($size['width'] > $size['height'] ? 'P' : 'L');
-                // $pdf->setPrintHeader(false);
-                $pdf->useTemplate($tpl, 0, 0, $size['width'], $size['height'], TRUE);
-
-                //Put the watermark
-                $pdf->Image($text_image, 5, 0, 35, 35, 'png');
-            }
-
-            // Output PDF with watermark
-            unlink(storage_path('app/public/' . $file));
-            $pdf->Output($file, 'D');
+            return response()->download(
+                $mediaFile->getPath(),
+                $mediaFile->getCustomName()
+            );
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors([
+                'message' => $th->getMessage()
+            ]);
         }
-
-        return response()->download(
-            $resource->getFirstMediaPath(),
-            $resource->getFirstMedia()->file_name
-        );
     }
 
-    public function downloadOriginal($mediaItem, Request $request)
+    public function downloadAsPdf(Request $request, Resource $resource)
     {
-        $resource = Resource::withTrashed()->find($mediaItem);
-
-        $resource->downloads = $resource->downloads + 1;
-        $resource->save();
-
-        return response()->download(
-            $resource->getFirstMediaPath(),
-            $resource->getFirstMedia()->file_name
-        );
-    }
-
-    public function downloadAsPdf($mediaItem, Request $request)
-    {
-        $resource = Resource::withTrashed()->find($mediaItem);
-
         if (in_array(pathinfo($resource->getFirstMediaPath(), PATHINFO_EXTENSION), config('app.pdf_convertible_filetypes'))) {
             $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
             $converter->convertTo($resource->getFirstMedia()->name . '.pdf'); //generates pdf file in same directory as test-file.docx
@@ -669,6 +777,19 @@ class ResourceController extends Controller
                 $resource->getFirstMedia()->file_name
             );
         }
+    }
+
+    public function downloadOriginal($mediaItem, Request $request)
+    {
+        $resource = Resource::withTrashed()->find($mediaItem);
+
+        $resource->downloads = $resource->downloads + 1;
+        $resource->save();
+
+        return response()->download(
+            $resource->getFirstMediaPath(),
+            $resource->getFirstMedia()->file_name
+        );
     }
 
     public function downloadAllByCourse(Request $request)

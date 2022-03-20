@@ -4,8 +4,9 @@
     </x-slot>
 
     <x-slot name="breadcrumb">
-        <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('dashboard') }}">
-                <- Go back</a>
+        <li class="breadcrumb-item">
+            <a class="fw-bold" href="{{ route('dashboard') }}">
+                <- Go back </a>
         </li>
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
         <li class="breadcrumb-item active">
@@ -74,7 +75,7 @@
         </div>
     @endif
 
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="row g-3">
             <div class="col-12">
                 <div class="hstack justify-content-end">
@@ -182,7 +183,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="row g-3">
             <div class="col-12">
                 <div class="p-3 bg-white rounded shadow-sm">
@@ -222,60 +223,44 @@
                     @endforelse
                 </div>
             </div>
-
             <div class="col-12">
                 <div class="p-3 bg-white rounded shadow-sm">
                     <h6 class="border-bottom pb-2 mb-0">Most active instructors</h6>
 
-                    @php
-                        $instructorBySubmissions = $course
-                            ->resources()
-                            ->with('user')
-                            ->get()
-                            ->groupBy('user_id');
+                    @forelse ($course->program->users->where('role_id', App\Models\Role::INSTRUCTOR)->take(4) as $instructor)
+                        <div class="d-flex align-items-start gap-3 text-muted overflow-hidden py-3">
+                            <div
+                                class="{{ $loop->iteration > 1 ? 'bg-secondary' : 'bg-primary' }} bg-gradient text-white rounded px-3 py-2">
+                                <b>{{ $loop->iteration }}</b>
+                            </div>
 
-                        $instructorByComments = collect();
-                        foreach (
-                            $course->program
-                                ->users()
-                                ->with('comments')
-                                ->get()
-                            as $user
-                        ) {
-                            if (sizeof($user->comments) >= 1) {
-                                $instructorByComments->put($user->id, $user->comments);
-                            }
-                        }
+                            <div class="row border-bottom py-2">
+                                <div class="col-12">
+                                    <div class="hstack gap-3 align-items-center mb-2">
+                                        <strong
+                                            class="d-block text-gray-dark">{{ $instructor->username }}</strong>
 
-                        $merged = $instructorBySubmissions->zip($instructorByComments);
-                        $grouped = $merged->mapWithKeys(function ($item, $key) {
-                            return [$item->flatten(1)->first()->user_id => sizeof($item->flatten(1))];
-                        });
-
-                        $mostActiveInstructors = $grouped->sortDesc();
-                    @endphp
-
-                    @forelse ($mostActiveInstructors->take(4) as $instructorId)
-                        <div class="d-flex text-muted pt-3">
-                            <div class="pb-3 mb-0 small lh-sm border-bottom">
-                                <div class="hstack gap-3 align-items-center mb-2">
-                                    <div
-                                        class="{{ $loop->count > 1 ? 'bg-secondary' : 'bg-primary' }} bg-gradient text-white rounded px-3 py-2">
-                                        <b>{{ $loop->count }}</b>
+                                        <a href="#"><small>View profile >></small></a>
                                     </div>
-                                    <strong
-                                        class="d-block text-gray-dark">{{ App\Models\User::find($instructorId)->username }}</strong>
-
-                                    <a href="#"><small>View more >></small></a>
                                 </div>
 
-                                <div class="hstack gap-3">
-                                    <div class="">resource type</div>
-                                    <div class="vr"></div>
-                                    <div class="ms-auto">lesson</div>
-                                    <div class="vr"></div>
-                                    <div class="">datetime</div>
-                                </div>
+                                <x-real.text-with-subtitle :class="'text-center col-4'">
+                                    <x-slot name="text">
+                                        {{-- {{ $activeCount }} --}}
+                                    </x-slot>
+                                    <x-slot name="subtitle">
+                                        Submissions
+                                    </x-slot>
+                                </x-real.text-with-subtitle>
+
+                                <x-real.text-with-subtitle :class="'text-center col-4'">
+                                    <x-slot name="text">
+                                        {{-- {{ $activeCount }} --}}
+                                    </x-slot>
+                                    <x-slot name="subtitle">
+                                        Comments
+                                    </x-slot>
+                                </x-real.text-with-subtitle>
                             </div>
                         </div>
 

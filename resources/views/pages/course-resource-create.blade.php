@@ -109,7 +109,15 @@
                             <ul class="submit-resource-log submit-resource-logs-list submitResourceLogsList w-100 list-group mt-3"
                                 id="submit-general-log">
                                 @forelse ($lesson->course->resources()->orderByDesc('created_at')->limit(5)->get() as $resource)
-                                    <li class="list-group-item">{{ $resource->created_at }}</li>
+                                    <li class="list-group-item py-0">
+                                        <div class="hstack">
+                                            <span class="text-secondary fw-bold">{{ $resource->created_at }}</span>
+                                            <div class="vr"></div>
+                                            <span class="text-secondary fw-bold">{{ $resource->created_at }}</span>
+                                            <div class="vr"></div>
+                                            <span class="text-secondary fw-bold">{{ $resource->created_at }}</span>
+                                        </div>
+                                    </li>
                                 @empty
                                     <x-real.no-rows :variant="'light'">
                                         <x-slot name="label">No submitted resources yet</x-slot>

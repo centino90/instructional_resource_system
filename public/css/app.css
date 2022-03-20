@@ -11357,6 +11357,10 @@ div.table .file-row:nth-child(odd) {
   background: #f9f9f9;
 }
 
+.dz-default.dz-message {
+  display: none !important;
+}
+
 /* The total progress gets shown by event listeners */
 .fileupload-process .progress {
   opacity: 0;

@@ -57,6 +57,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('program', ProgramController::class);
 
     Route::resource('course', CourseController::class);
+
+    Route::post('resource/{resource}/create-new-version-url', [ResourceController::class, 'storeNewVersionByUrl'])->name('resource.storeNewVersionByUrl');
+    Route::put('resource/{resource}/versions/{media}/update', [ResourceController::class, 'toggleCurrentVersion'])->name('resource.toggleCurrentVersion');
+    Route::get('resource/{resource}/versions', [ResourceController::class, 'viewVersions'])->name('resource.viewVersions');
+    Route::post('resource/{resource}/create-new-version', [ResourceController::class, 'storeNewVersion'])->name('resource.storeNewVersion');
+    Route::get('resource/{resource}/create-new-version', [ResourceController::class, 'createNewVersion'])->name('resource.createNewVersion');
     Route::get('resource/preview/{resource}', [ResourceController::class, 'preview'])->name('resource.preview');
     Route::get('resource/create/{lesson}', [ResourceController::class, 'create'])->name('resource.create');
     Route::resource('resource', ResourceController::class)->except(['create']);

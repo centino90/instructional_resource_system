@@ -10,9 +10,22 @@ class StoreResourceByUrlRequest extends FormRequest
 
     public function __construct()
     {
+        if (request()->routeIs('resource.storeNewVersionByUrl')) {
+            $this->redirect = route(
+                'resource.createNewVersion',
+                [request()->get('resource_id'), 'uploadTab' => 'storage']
+            );
+            return;
+        }
+
         $this->redirect = route(
-            'instructor.resource.create',
-            [request()->get('lesson_id'), 'submitType' => request()->routeIs('syllabi.storeByUrl') ? 'syllabus' : (request()->routeIs('presentations.uploadByUrl') ? 'presentation' : 'general'), 'uploadTab' => 'storage']
+            'resource.create',
+            [
+                request()->get('lesson_id'), 'submitType' => request()->routeIs('syllabi.storeByUrl')
+                    ? 'syllabus' : (request()->routeIs('presentations.uploadByUrl')
+                        ? 'presentation'
+                        :  'general'), 'uploadTab' => 'storage'
+            ]
         );
     }
 
