@@ -6,6 +6,7 @@ use App\Events\ResourceCreated;
 use App\Http\Requests\StoreNewResourceVersionRequest;
 use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
+use App\Imports\ResourceImport;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Resource;
@@ -37,6 +38,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\File;
 use Illuminate\Http\Response;
 use LDAP\Result;
+use Maatwebsite\Excel\Facades\Excel;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
@@ -340,14 +342,21 @@ class ResourceController extends Controller
             if (!$mediaFileExt) {
                 throw new Error('Resource file not found.', 404);
             }
+
+
+            $newFilename = auth()->user()->username . '-preview-resource';
+            $newFileExt = 'pdf';
+
             if (
                 !in_array($mediaFileExt, array_merge(
+                    array_values(config('app.text_filetypes')),
+                    array_values(config('app.spreadsheet_convertible_filetypes')),
                     array_values(config('app.pdf_convertible_filetypes')),
                     array_values(config('app.img_filetypes')),
                     array_values(config('app.video_filetypes')),
                     array_values(config('app.audio_filetypes'))
-                )) && $resource->getFirstMedia()->mime_type !== 'text/plain'
-                || $resource->getFirstMedia()->mime_type == 'application/x-empty'
+                ))
+                || $resource->getMedia()->sortByDesc('order_column')->first()->mime_type == 'application/x-empty'
             ) {
                 throw new Error('Resource filetype is not previewable.', 415);
             }
@@ -361,6 +370,7 @@ class ResourceController extends Controller
 
                 return view('pages.resource-preview')->with([
                     'resource' => $resource,
+                    'media' => $specifiedMedia,
                     'message' => 'Resource is previewable',
                     'fileType' => $this->getFileTypeGroup($mediaFileExt),
                     'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
@@ -368,97 +378,112 @@ class ResourceController extends Controller
                 ]);
             }
 
-            $newFilename = auth()->user()->username . '-preview-resource';
-            $newFileExt = 'pdf';
+            if (in_array($mediaFileExt, config('app.pdf_convertible_filetypes'))) {
+                if (file_exists(storage_path('app/public/' . $newFilename . '.pdf'))) {
+                    unlink(storage_path('app/public/' . $newFilename . '.pdf'));
+                }
+
+                $newFileExt = 'pdf';
+                $converter = new OfficeConverter($specifiedMedia->getPath(), storage_path('app/public'));
+                $converter->convertTo($newFilename . '.' . $newFileExt);
+
+                $nf = storage_path('app/public/' . $newFilename . '.' . $newFileExt);
+
+                return view('pages.resource-preview')->with([
+                    'resource' => $resource,
+                    'media' => $specifiedMedia,
+                    'message' => 'Resource is previewable',
+                    'fileType' => $this->getFileTypeGroup(pathinfo($nf, PATHINFO_EXTENSION)),
+                    'fileMimeType' => mime_content_type($nf),
+                    'resourceUrl' => 'data:' . mime_content_type($nf) . ';base64,' . base64_encode(file_get_contents($nf))
+                ]);
+            }
 
             /* PDF */
-            if (in_array($mediaFileExt, ['pdf'])) {
+            // if (in_array($mediaFileExt, ['pdf'])) {
 
-                return view('pages.resource-preview')->with([
-                    'resource' => $resource,
-                    'message' => 'Resource is previewable',
-                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
-                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
-                    'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
-                ]);
-            }
+            //     return view('pages.resource-preview')->with([
+            //         'resource' => $resource,
+            //         'message' => 'Resource is previewable',
+            //         'fileType' => $this->getFileTypeGroup($mediaFileExt),
+            //         'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
+            //         'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
+            //     ]);
+            // }
 
             /* DOC */
-            if (in_array($mediaFileExt, ['doc', 'docx'])) {
-                $temporaryFile = $specifiedMedia;
-                $filePath = $temporaryFile->getPath();
+            // if (in_array($mediaFileExt, ['doc', 'docx', 'odt'])) {
+            //     $temporaryFile = $specifiedMedia;
+            //     $filePath = $temporaryFile->getPath();
 
-                $phpWord = IOFactory::load($filePath);
-                $section = $phpWord->addSection();
+            //     $phpWord = IOFactory::load($filePath);
+            //     $section = $phpWord->addSection();
 
-                $origname = pathinfo($temporaryFile->file_name, PATHINFO_FILENAME);
-                $source = storage_path('app/public/') . $origname . '.html';
+            //     $origname = pathinfo($temporaryFile->file_name, PATHINFO_FILENAME);
+            //     $source = storage_path('app/public/') . $origname . '.html';
 
-                // Saving the doc as html
-                $objWriter = IOFactory::createWriter($phpWord, 'HTML');
-                $html = $objWriter->getContent($source);
+            //     // Saving the doc as html
+            //     $objWriter = IOFactory::createWriter($phpWord, 'HTML');
+            //     $html = $objWriter->getContent($source);
 
 
-                return view('pages.resource-preview')->with([
-                    'resource' => $resource,
-                    'message' => 'Resource is previewable',
-                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
-                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
-                    // 'resourceUrl' => $html
-                    'resourceUrl' => 'data:' . 'text/html' . ';base64,' . base64_encode($html)
-                ]);
-            }
+            //     return view('pages.resource-preview')->with([
+            //         'resource' => $resource,
+            //         'message' => 'Resource is previewable',
+            //         'fileType' => $this->getFileTypeGroup($mediaFileExt),
+            //         'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
+            //         // 'resourceUrl' => $html
+            //         'resourceUrl' => 'data:' . 'text/html' . ';base64,' . base64_encode($html)
+            //     ]);
+            // }
 
             /* SPREADSHEET */
-            if (in_array($mediaFileExt, ['xlx', 'xlxx', 'csv'])) {
+            if (in_array($mediaFileExt, config('app.spreadsheet_convertible_filetypes'))) {
+                $r = (new ResourceImport)->toCollection($specifiedMedia->getPath(), null);
 
                 return view('pages.resource-preview')->with([
                     'resource' => $resource,
+                    'media' => $specifiedMedia,
                     'message' => 'Resource is previewable',
                     'fileType' => $this->getFileTypeGroup($mediaFileExt),
-                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
-                    'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
+                    'fileMimeType' => null,
+                    'resourceUrl' => $r
                 ]);
             }
 
-            /* PPT */
-            if (in_array($mediaFileExt, ['ppt', 'pptx'])) {
+            // /* PPT */
+            // if (in_array($mediaFileExt, ['ppt', 'pptx', 'odp'])) {
 
-                return view('pages.resource-preview')->with([
-                    'resource' => $resource,
-                    'message' => 'Resource is previewable',
-                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
-                    'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
-                    'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
-                ]);
-            }
+            //     return view('pages.resource-preview')->with([
+            //         'resource' => $resource,
+            //         'message' => 'Resource is previewable',
+            //         'fileType' => $this->getFileTypeGroup($mediaFileExt),
+            //         'fileMimeType' => mime_content_type($specifiedMedia->getPath()),
+            //         'resourceUrl' => 'data:' . $specifiedMedia->mime_type . ';base64,' . base64_encode(file_get_contents($specifiedMedia->getPath()))
+            //     ]);
+            // }
 
             /* PLAIN TEXTS */
-            if ($specifiedMedia->mime_type === 'text/plain') {
+            if (in_array($mediaFileExt, config('app.text_filetypes'))) {
 
-                if (file_exists(storage_path('app/public/' . $newFilename . '.txt'))) {
-                    unlink(storage_path('app/public/' . $newFilename . '.txt'));
-                }
-
-                $newFileExt = 'txt';
                 $resourcePath = $specifiedMedia->getPath();
 
-                if (Storage::disk('public')->exists($newFilename . '.' . $newFileExt)) {
-                    Storage::disk('public')->put($newFilename . '.' . $newFileExt, '');
-                }
+                $txt = mb_convert_encoding(file_get_contents($resourcePath), 'HTML-ENTITIES', "UTF-8");
 
-                $txt = nl2br(file_get_contents($resourcePath));
+                $txt = str_ireplace('`', '\`', $txt); // escape (`) to avoid conflict with javascript template literals
 
                 return view('pages.resource-preview')->with([
                     'resource' => $resource,
-                    'fileType' => 'text_filetypes',
+                    'media' => $specifiedMedia,
+                    'fileType' => $this->getFileTypeGroup($mediaFileExt),
                     'resourceText' => $txt
                 ]);
             }
         } catch (\Throwable $th) {
             return view('pages.resource-preview')
                 ->with([
-                    'resource' => $resource
+                    'resource' => $resource,
+                    'media' => $specifiedMedia
                 ])
                 ->withErrors([
                     'message' => $th->getMessage()
@@ -468,10 +493,13 @@ class ResourceController extends Controller
 
     private function getFileTypeGroup($fileExtension)
     {
-        // if (in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
-        //     return 'pdf_convertible_filetypes';
-        // } else
-        if (in_array($fileExtension, config('app.img_filetypes'))) {
+        if (in_array($fileExtension, config('app.pdf_convertible_filetypes'))) {
+            return 'pdf_convertible_filetypes';
+        } else if (in_array($fileExtension, config('app.spreadsheet_convertible_filetypes'))) {
+            return 'spreadsheet_filetypes';
+        } else if (in_array($fileExtension, config('app.text_filetypes'))) {
+            return 'text_filetypes';
+        } else if (in_array($fileExtension, config('app.img_filetypes'))) {
             return 'img_filetypes';
         } else if (in_array($fileExtension, config('app.video_filetypes'))) {
             return 'video_filetypes';
@@ -479,12 +507,6 @@ class ResourceController extends Controller
             return 'audio_filetypes';
         } else if (in_array($fileExtension, ['pdf'])) {
             return 'pdf_filetypes';
-        } else if (in_array($fileExtension, ['ppt', 'pptx'])) {
-            return 'presentation_filetypes';
-        } else if (in_array($fileExtension, ['doc', 'docx'])) {
-            return 'word_filetypes';
-        } else if (in_array($fileExtension, ['xlx', 'xlxx', 'csv'])) {
-            return 'spreadsheet_filetypes';
         }
         // else if (in_array($fileExtension, ['ppt', 'pptx'])) {
         //     return 'audio_filetypes';
@@ -554,10 +576,6 @@ class ResourceController extends Controller
 
             /* PLAIN TEXTS */
             if ($resource->getFirstMedia()->mime_type === 'text/plain') {
-                // if (!Storage::disk('public')->exists($resource->getFirstMedia()->file_name)) {
-                //     throw new Error('Resource file not found', 404);
-                // }
-
                 if (file_exists(storage_path('app/public/' . $newFilename . '.txt'))) {
                     unlink(storage_path('app/public/' . $newFilename . '.txt'));
                 }

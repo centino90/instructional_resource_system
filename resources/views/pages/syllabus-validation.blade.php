@@ -166,11 +166,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body py-0">
-                    <form action="{{ route('lesson.store') }}" method="POST" class="row g-3">
+                    <form id="lessonForm" action="" method="POST" class="row g-3">
                         @method('POST')
                         @csrf
-                        {{-- <input type="hidden" name="course_id" value="{{ $course->id }}"> --}}
-
+                        <input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
+                        <input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
+                        <input type="hidden" name="title" value="{{ $formData['title'] }}">
+                        <input type="hidden" name="description" value="{{ $formData['description'] }}">
+                        <input type="hidden" name="filePath" value="{{ $formData['file'] }}">
 
                         <div class="alert alert-primary mb-0">
                             <b>Do you want to include all of these lessons?</b>
@@ -201,6 +204,16 @@
             $(document).ready(function() {
                 let verbs2 = $.parseJSON(`{!! json_encode($verbs) !!}`)
                 const courseId = '{{$lesson->course->id}}'
+                const lessonId = '{{$lesson->id}}'
+                const relayedFormData = $.parseJSON(`{!! json_encode($formData) !!}`);
+                const submitType = relayedFormData.type
+
+                let submitSyllabusRoute = ''
+                if(submitType == 'file') {
+                    submitSyllabusRoute = '{{ route('syllabi.store') }}'
+                } else if(submitType == 'url') {
+                    submitSyllabusRoute = '{{ route('syllabi.storeByUrl') }}'
+                }
 
                 var failedCourseOutcomesCounter = 0;
                 var successCourseOutcomesCounter = 0;
@@ -370,12 +383,18 @@
                     $('#lessonConfirmList').html('')
 
                     formData.append("course_id", courseId)
+                    formData.append("lesson_id", lessonId)
+                    formData.append("title", courseId)
+                    formData.append("description", courseId)
+                    formData.append("filePath", relayedFormData.file)
                     $("#lessons").find("input").each(function(index, item) {
                         if ($(item).prop("checked")) {
                             let lesson = $(item).siblings(".lessonContent")
                             formData.append("lesson[]", removeBreaklinesAndSpaces(lesson.text()))
                             $('#lessonConfirmList').append(
-                                `<li class="nav-item">${lesson.text()}</li>`
+                                `<li class="nav-item">
+                                    <input readonly class="form-control-plaintext" type="text" name="lesson[]" value="${lesson.text()}">
+                                </li>`
                             )
                         }
                     })
@@ -384,22 +403,8 @@
                         return $.trim(text.replace(/(\r\n|\n|\r)/gm,""))
                     }
 
-                    $modal.find("form").submit(function(event) {
-                        event.preventDefault()
-
-                        $.ajax({
-                            url: "{{ route('syllabi.lessonCreation') }}",
-                            method: "POST",
-                            processData: false,
-                            contentType: false,
-                            cache: false,
-                            data: formData
-                        }).done(function(data) {
-                            if(data.statusCode == 200) {
-                                window.location.href = "{{ route('resource.create', $lesson->course->id) }}"
-                            }
-                        })
-                    })
+                    $('#lessonForm').attr('action', submitSyllabusRoute)
+                    $modal.find("form").submit()
                 })
             })
         </script>

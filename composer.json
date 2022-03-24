@@ -21,6 +21,7 @@
         "laravel/tinker": "^2.5",
         "laravelista/comments": "^4.5",
         "league/html-to-markdown": "^5.0",
+        "maatwebsite/excel": "^3.1",
         "ncjoes/office-converter": "^1.0",
         "paquettg/php-html-parser": "^3.1",
         "phpoffice/phppresentation": "dev-master",

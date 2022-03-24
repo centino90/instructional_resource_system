@@ -3145,6 +3145,11 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 (dropzone__WEBPACK_IMPORTED_MODULE_0___default().autoDiscover) = false;
 
+window.getExtension = function (filename) {
+  var ext = /\.([^.]+)$/.exec(filename);
+  return ext == null ? "" : ext[1];
+};
+
 window.errorAlertGenerator = function (selector, errorMsg) {
   var parentSelector = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   var $selector = parentSelector ? $(parentSelector).find(selector) : $(selector);

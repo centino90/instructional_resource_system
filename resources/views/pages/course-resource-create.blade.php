@@ -599,7 +599,7 @@
                                         </x-form-post>
                                     </div>
                                     <div class="tab-pane fade" id="syllabusSubmitUrlTabpane" role="tabpanel">
-                                        <x-form-post action="{{ route('syllabi.storeByUrl') }}" id="storeByUrlForm"
+                                        <x-form-post action="{{ route('syllabi.uploadByUrl') }}" id="storeByUrlForm"
                                             class="storeByUrlForm">
                                             <x-input type="hidden" name="course_id"
                                                 value="{{ $lesson->course->id }}">
@@ -609,12 +609,14 @@
 
                                             <div class="row">
                                                 <x-input hidden type="url" name="fileUrl" id="fileUrlInput"
-                                                    class="alexusmaiFileUrlInput"></x-input>
+                                                    class="alexusmaiFileUrlInput" value="{{ old('fileUrl') }}">
+                                                </x-input>
 
                                                 <div class="col-12 mt-3">
                                                     <label class="form-text">Filename</label>
                                                     <span class="alexusmaiFileText h5 text-secondary fw-bold"
                                                         id="fileText">
+                                                        {{ old('fileUrl') }}
                                                     </span>
                                                     <a href="javascript:void(0)" class="openStorageBtn btn btn-link"
                                                         id="openStorageBtn">Open storage</a>
@@ -622,22 +624,18 @@
 
                                                 <div class="col-12 mt-3">
                                                     <x-label>Title</x-label>
-                                                    <x-input name="title"></x-input>
+                                                    <x-input name="title" value="{{ old('title') }}"></x-input>
                                                 </div>
 
                                                 <div class="col-12 mt-3">
                                                     <x-label>Description</x-label>
                                                     <x-input-textarea name="description">
+                                                        {{ old('description') }}
                                                     </x-input-textarea>
                                                 </div>
 
                                                 <div class="col-12 my-5">
                                                     <button class="btn btn-success" type="submit">Submit</button>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <div class="alert alert-danger fade">
-                                                    </div>
                                                 </div>
                                             </div>
                                         </x-form-post>
@@ -973,8 +971,7 @@
                         dropzoneParams['maxFiles'] = 5,
                             dropzoneParams['accept'] = function(file, done) {
                                 if (
-                                    file.type
-                                ) {
+                                    getExtension(file.name)) {
                                     done();
                                 } else {
                                     done("Error! Valid files should have a file extension.");
@@ -984,9 +981,9 @@
                         dropzoneParams['maxFiles'] = 1
                         dropzoneParams['accept'] = function(file, done) {
                             if (
-                                file.type ==
+                                getExtension(file.name) ==
                                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-                                file.type == "application/msword"
+                                getExtension(file.name) == "application/msword"
                             ) {
                                 done();
                             } else {
@@ -997,9 +994,9 @@
                         dropzoneParams['maxFiles'] = 1
                         dropzoneParams['accept'] = function(file, done) {
                             if (
-                                file.type ==
+                                getExtension(file.name) ==
                                 "application/vnd.ms-powerpoint" ||
-                                file.type ==
+                                getExtension(file.name) ==
                                 "application/vnd.openxmlformats-officedocument.presentationml.presentation"
                             ) {
                                 done();

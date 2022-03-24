@@ -21,7 +21,7 @@ class StoreResourceByUrlRequest extends FormRequest
         $this->redirect = route(
             'resource.create',
             [
-                request()->get('lesson_id'), 'submitType' => request()->routeIs('syllabi.storeByUrl')
+                request()->get('lesson_id'), 'submitType' => request()->routeIs('syllabi.uploadByUrl')
                     ? 'syllabus' : (request()->routeIs('presentations.uploadByUrl')
                         ? 'presentation'
                         :  'general'), 'uploadTab' => 'storage'
@@ -47,7 +47,7 @@ class StoreResourceByUrlRequest extends FormRequest
     public function rules()
     {
         return [
-            'fileUrl' => 'required|string',
+            'fileUrl' => 'required|url',
             'course_id' => 'required|string',
             'lesson_id' => 'required|string',
             'title' => 'required|string',

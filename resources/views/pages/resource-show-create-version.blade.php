@@ -27,8 +27,10 @@
                 <h6 class="pb-2 border-bottom">Some actions</h6>
 
                 <div class="gap-2 d-lg-grid">
-                    <a href="{{route('resource.preview', $resource->id)}}" class="btn btn-secondary">Preview Current Version</a>
-                    <a href="{{route('resource.viewVersions', $resource->id)}}" class="btn btn-primary">View All Versions</a>
+                    <a href="{{ route('resource.preview', $resource->id) }}" class="btn btn-secondary">Preview Current
+                        Version</a>
+                    <a href="{{ route('resource.viewVersions', $resource->id) }}" class="btn btn-primary">View All
+                        Versions</a>
                 </div>
             </div>
         </div>
@@ -60,8 +62,8 @@
                     <div class="dropzone">
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
-                                <x-form-post action="{{ route('resource.storeNewVersion', $resource) }}" class="submit-resource-form"
-                                    id="resourceForm">
+                                <x-form-post action="{{ route('resource.storeNewVersion', $resource) }}"
+                                    class="submit-resource-form" id="resourceForm">
                                     <x-input type="hidden" name="course_id" value="{{ $resource->course->id }}">
                                     </x-input>
                                     <x-input type="hidden" name="lesson_id" value="{{ $resource->lesson->id }}">
@@ -155,8 +157,8 @@
                                                                     </div>
                                                                     <div class="file-metadata">
                                                                         <div class="row g-2">
-                                                                            <x-input name="file"
-                                                                                class="file" hidden>
+                                                                            <x-input name="file" class="file"
+                                                                                hidden>
                                                                             </x-input>
 
                                                                             <div class="file-group d-none col-12">
@@ -171,8 +173,7 @@
 
                                                                             <div class="file-group d-none col-12">
                                                                                 <div class="form-floating mb-3">
-                                                                                    <x-input-textarea
-                                                                                        name="description"
+                                                                                    <x-input-textarea name="description"
                                                                                         placeholder="_">
                                                                                     </x-input-textarea>
                                                                                     <x-label>Description
@@ -228,15 +229,14 @@
                                 </x-form-post>
                             </div>
                             <div class="tab-pane fade" id="pills-profile" role="tabpanel">
-                                <x-form-post action="{{ route('resource.storeNewVersionByUrl', $resource->id) }}" id="storeByUrlForm"
-                                    class="storeByUrlForm">
+                                <x-form-post action="{{ route('resource.storeNewVersionByUrl', $resource->id) }}"
+                                    id="storeByUrlForm" class="storeByUrlForm">
                                     <x-input type="hidden" name="course_id" value="{{ $resource->course->id }}">
                                     </x-input>
                                     <x-input type="hidden" name="lesson_id"
                                         value="{{ $resource->lesson->course->id }}">
                                     </x-input>
-                                    <x-input type="hidden" name="resource_id"
-                                    value="{{ $resource->id }}">
+                                    <x-input type="hidden" name="resource_id" value="{{ $resource->id }}">
                                     </x-input>
 
                                     <div class="row">
@@ -310,8 +310,9 @@
                 if ($targetTabpaneLabel === 'general') {
                     dropzoneParams['maxFiles'] = 1,
                         dropzoneParams['accept'] = function(file, done) {
+                            console.log(file.name.split('.').pop())
                             if (
-                                file.type
+                                getExtension(file.name)
                             ) {
                                 done();
                             } else {
@@ -322,9 +323,9 @@
                     dropzoneParams['maxFiles'] = 1
                     dropzoneParams['accept'] = function(file, done) {
                         if (
-                            file.type ==
+                            getExtension(file.name) ==
                             "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-                            file.type == "application/msword"
+                            getExtension(file.name) == "application/msword"
                         ) {
                             done();
                         } else {
@@ -335,9 +336,9 @@
                     dropzoneParams['maxFiles'] = 1
                     dropzoneParams['accept'] = function(file, done) {
                         if (
-                            file.type ==
+                            getExtension(file.name) ==
                             "application/vnd.ms-powerpoint" ||
-                            file.type ==
+                            getExtension(file.name) ==
                             "application/vnd.openxmlformats-officedocument.presentationml.presentation"
                         ) {
                             done();
@@ -351,7 +352,7 @@
                 let DropzoneInstance = new Dropzone($dropzone[0], dropzoneParams);
 
                 // remove first input instance
-               $('#template').find(':input').attr('disabled', true)
+                $('#template').find(':input').attr('disabled', true)
 
                 DropzoneInstance.on("addedfile", function(file) {
                     $dropzone.find('.submit-resource-alert').parent('.alert').removeClass('show')

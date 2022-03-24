@@ -2,6 +2,11 @@ require('./bootstrap');
 import Dropzone from "dropzone";
 Dropzone.autoDiscover = false;
 
+window.getExtension = function (filename){
+    var ext = /\.([^.]+)$/.exec(filename);
+    return ext == null ? "" : ext[1];
+}
+
 window.errorAlertGenerator = function(selector, errorMsg, parentSelector = null)
 {
     const $selector = parentSelector ? $(parentSelector).find(selector) : $(selector)

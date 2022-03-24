@@ -296,3 +296,15 @@ div.table .file-row:nth-child(odd) {
     width: 40px;
     height: 40px;
 }
+
+.CodeMirror {
+    width: fit-content();
+}
+.CodeMirror-scroll {
+    // max-width: auto;
+}
+
+.CodeMirror pre {
+    word-break: break-word !important;
+}
+

@@ -54,6 +54,17 @@
         }
 
     </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" />
+
+
+    <script defer type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js">
+    </script>
+    <script defer type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js">
+  </script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/mode/simple.min.js" integrity="sha512-9YoNYsegWvbA5aiSshQ2BNW2FAq3CQVLqpg2r6urw9Tfl1GklM9PNgrMRVz8fhEtjM+uZfO/1X3RURkMcil8wg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
