@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Laravelista\Comments\Commenter;
+use Spatie\Activitylog\Models\Activity;
 
 class User extends Authenticatable
 {
@@ -29,6 +31,8 @@ class User extends Authenticatable
         'role_id'
     ];
 
+    protected $appends = ['name', 'name_tag'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -46,6 +50,75 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            Storage::makeDirectory("users/{$user->id}");
+            Storage::makeDirectory("deleted/users/{$user->id}");
+
+            activity()
+                ->causedBy($user)
+                ->useLog('user-created')
+                ->performedOn($user)
+                ->withProperties($user->all())
+                ->log("{$user->nameTag} is created");
+        });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    |
+    | ...
+    |
+    */
+
+    public function getNameAttribute()
+    {
+        return "{$this->fname} {$this->lname}";
+    }
+
+    public function getNameTagAttribute()
+    {
+        return "{$this->fname} {$this->lname} ({$this->role->name})";
+    }
+
+    public function getActivitiesByLogNameAttribute()
+    {
+        return $this->activityLogs()->get()
+            ->groupBy('log_name');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Local Scopes
+    |--------------------------------------------------------------------------
+    |
+    | ...
+    |
+    */
+
+    public function scopeAdmins($query)
+    {
+        return $query->where('role_id', Role::ADMIN);
+    }
+
+    public function scopeDeans($query)
+    {
+        return $query->where('role_id', Role::PROGRAM_DEAN);
+    }
+
+    public function scopeSecretaries($query)
+    {
+        return $query->where('role_id', Role::SECRETARY);
+    }
+
+    public function scopeInstructors($query)
+    {
+        return $query->where('role_id', Role::INSTRUCTOR);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -78,16 +151,14 @@ class User extends Authenticatable
 
     public function belongsToProgram($programId)
     {
-        if(!is_array($programId)) {
+        if (!is_array($programId)) {
             $programId = Arr::add([], '0', $programId);
         }
-        return $this->whereHas('programs', function (Builder $query) use($programId) {
+        return $this->whereHas('programs', function (Builder $query) use ($programId) {
             $query->whereIn('program_id', $programId)
                 ->where('user_id', auth()->id());
         })->exists();
     }
-
-
 
     // public function belongsToProgram($programId)
     // {
@@ -131,6 +202,11 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -150,5 +226,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Program::class)
             ->withTimestamps();
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(Activity::class, 'causer_id');
     }
 }

@@ -8,17 +8,34 @@
     </x-slot>
 
     <x-slot name="breadcrumb">
-        <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('resource.show', $resource->id) }}">
-                <- Go back</a>
-        </li>
-        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('course.index') }}">Courses</a></li>
-        <li class="breadcrumb-item"><a
-                href="{{ route('course.show', $resource->course->id) }}">{{ $resource->course->code }}</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page"><a
-                href="{{ route('resource.show', $resource->id) }}">{{ $resource->title }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">preview</li>
+        @if ($resource->is_syllabus)
+            <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('resource.show', $resource) }}">
+                    <- Go back</a>
+            </li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a
+                    href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('resource.show', $resource) }}">{{ $resource->title }}</a>
+            </li>
+
+            <li class="breadcrumb-item active" aria-current="page">preview</li>
+        @else
+            <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('resource.show', $resource) }}">
+                    <- Go back</a>
+            </li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a
+                    href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('course.showLessons', $resource->course) }}">Course
+                    lessons</a>
+            </li>
+            <li class="breadcrumb-item"><a
+                    href="{{ route('lesson.show', $resource->lesson) }}">{{ $resource->lesson->title }}</a></li>
+            <li class="breadcrumb-item"><a
+                    href="{{ route('resource.show', $resource) }}">{{ $resource->title }}</a></li>
+
+            <li class="breadcrumb-item active" aria-current="page">preview</li>
+        @endif
     </x-slot>
 
     <div class="row">
@@ -30,9 +47,7 @@
 
                 <x-slot name="body">
                     <div class="gap-2 d-lg-grid">
-                        <button class="btn btn-secondary">Fullscreen</button>
-                        <button class="btn btn-primary">Download Original</button>
-                        <button class="btn btn-danger">Download as PDF</button>
+                        <x-real.download-types :resource="$resource" :mediaFromUri="request()->get('mediaId')"></x-real.download-types>
                     </div>
                 </x-slot>
             </x-real.card>
@@ -49,7 +64,29 @@
                 </x-slot>
 
                 <x-slot name="body">
-                    <div id="previewContainer" class="col-12 mt-2"></div>
+                    <ul class="nav nav-pills mb-3 persist-default d-none px-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                                aria-selected="true">Text Format</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                                aria-selected="false">Layout Format</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                            aria-labelledby="pills-home-tab">
+                            <div id="previewContainer" class="overflow-auto col-12 mt-2"></div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                            aria-labelledby="pills-profile-tab">
+                            <div id="previewContainerLayout" class="overflow-auto col-12 mt-2"></div>
+                        </div>
+                    </div>
                 </x-slot>
             </x-real.card>
         </div>
@@ -60,6 +97,7 @@
         <script>
             $(document).ready(function() {
                 let previewFiletype = '{{ $fileType ?? '' }}'
+                let previewFileExtension = '{{ $fileExtension ?? '' }}'
                 let previewResourceUrl = `{!! $resourceUrl ?? '' !!}`
                 let previewResourceText = `{!! $resourceText ?? '' !!}`
                 let hasErrors = `{{ $errors->any() }}`
@@ -171,6 +209,13 @@
                         }, 1)
                         $('#previewContainer .CodeMirror').addClass('h-auto')
                         $('#previewContainer').closest('.card-body').addClass('px-0')
+
+                        if (previewFileExtension == 'html') {
+                            $('#previewContainerLayout').append(
+                                previewResourceText
+                            )
+                            $('#pills-tab').removeClass('d-none')
+                        }
                     }
 
                     if (previewFiletype === 'img_filetypes') {
@@ -178,9 +223,8 @@
                             `<img style="width: 100%" src="${previewResourceUrl}" />`
                         )
                     }
-
-                    if (previewFiletype === 'pdf_convertible_filetypes') {
-                        console.log()
+                    console.log(previewFiletype, 1)
+                    if ($.inArray(previewFiletype, ['pdf_convertible_filetypes', 'pdf_filetypes']) != false) {
                         $('#previewContainer').append(
                             `<iframe src="${previewResourceUrl}" class="w-100" height="600"></iframe>`
                         )

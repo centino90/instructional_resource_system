@@ -19,8 +19,10 @@
     <link href="https://releases.transloadit.com/uppy/v2.1.1/uppy.min.css" rel="stylesheet">
 
     <!-- datatable css dependencies -->
+    {{-- <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs5/dt-1.11.3/kt-2.6.4/r-2.2.9/sr-1.1.0/datatables.min.css" /> --}}
     <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/v/bs5/dt-1.11.3/kt-2.6.4/r-2.2.9/sr-1.1.0/datatables.min.css" />
+        href="https://cdn.datatables.net/v/bs5/dt-1.11.5/af-2.3.7/b-2.2.2/cr-1.5.5/date-1.1.2/fc-4.0.2/fh-3.2.2/kt-2.6.4/r-2.2.9/rg-1.1.4/rr-1.2.8/sc-2.0.5/sb-1.3.2/sp-2.0.0/sr-1.1.0/datatables.min.css" />
 
 
     <!-- codemirror css -->
@@ -38,10 +40,16 @@
     @yield('style')
 
     <!-- custom css -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @if (auth()->user()->isProgramDean())
+        <link rel="stylesheet" href="{{ asset('css/dean.css') }}">
+    @elseif (auth()->user()->isAdmin())
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    @elseif (auth()->user()->isSecretary())
+        <link rel="stylesheet" href="{{ asset('css/secretary.css') }}">
+    @else
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @endif
 
-    {{-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script> --}}
 
     <style>
         .note-editor {
@@ -58,13 +66,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" />
 
 
-    <script defer type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js">
+    <script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js">
     </script>
     <script defer type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js">
-  </script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/mode/simple.min.js" integrity="sha512-9YoNYsegWvbA5aiSshQ2BNW2FAq3CQVLqpg2r6urw9Tfl1GklM9PNgrMRVz8fhEtjM+uZfO/1X3RURkMcil8wg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js">
+    </script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/mode/simple.min.js"
+        integrity="sha512-9YoNYsegWvbA5aiSshQ2BNW2FAq3CQVLqpg2r6urw9Tfl1GklM9PNgrMRVz8fhEtjM+uZfO/1X3RURkMcil8wg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -100,8 +109,12 @@
         });
     </script>
     <!-- jquerydatatable dependencies script -->
+    {{-- <script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs5/dt-1.11.3/kt-2.6.4/r-2.2.9/sr-1.1.0/datatables.min.js"></script> --}}
+
     <script type="text/javascript"
-        src="https://cdn.datatables.net/v/bs5/dt-1.11.3/kt-2.6.4/r-2.2.9/sr-1.1.0/datatables.min.js"></script>
+        src="https://cdn.datatables.net/v/bs5/dt-1.11.5/af-2.3.7/b-2.2.2/cr-1.5.5/date-1.1.2/fc-4.0.2/fh-3.2.2/kt-2.6.4/r-2.2.9/rg-1.1.4/rr-1.2.8/sc-2.0.5/sb-1.3.2/sp-2.0.0/sr-1.1.0/datatables.min.js">
+    </script>
     {{-- <script src="https://cdn.zingchart.com/zingchart.min.js"></script> --}}
     <!-- pdfjs script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
@@ -127,10 +140,14 @@
             $('.show-before-load').hide()
             $('.show-after-load').show()
 
+            if (location.hash) {
+                const $scrolledToElement = $(`#${location.hash.substr(1)}`)
+                $scrolledToElement.addClass('scrolled-focus')
+            }
+
             let tooltips = $('#sidebar [data-bs-toggle="tooltip"]')
             let bsTooltips = $([])
             tooltips.each(function(index, tooltip) {
-                console.log(tooltip)
                 bsTooltips.push(bootstrap.Tooltip.getInstance(tooltip))
             })
 
@@ -150,30 +167,31 @@
                 })
             })
 
-            $('.notification-show-link').click(function(event) {
-                event.preventDefault();
-                let href = $(this).attr('href')
-                let notifId = $(this).attr('data-passover')
-                let formRoute = '{{ route('notifications.update', '') }}'
+            // $('.notification-show-link').click(function(event) {
+            //     event.preventDefault();
+            //     let href = $(this).attr('href')
+            //     let notifId = $(this).attr('data-passover')
+            //     let formRoute = '{{ route('notifications.update', '') }}'
 
-                $.ajax({
-                    url: `${formRoute}/${notifId}`,
-                    type: 'POST',
-                    data: {
-                        notifId: notifId,
-                        _token: '{{ csrf_token() }}',
-                        _method: 'PUT'
-                    },
-                    success: function(result) {
-                        if (result.status === 200) {
-                            location.href = href
-                        }
-                    },
-                    error: function() {
-                        alert('error');
-                    },
-                })
-            })
+            //     $.ajax({
+            //         url: `${formRoute}/${notifId}`,
+            //         type: 'POST',
+            //         data: {
+            //             notifId: notifId,
+            //             _token: '{{ csrf_token() }}',
+            //             _method: 'PUT'
+            //         },
+            //         success: function(result) {
+            //             if (result.status === 200) {
+            //                 location.href = href
+            //             }
+            //         },
+            //         error: function() {
+            //             alert('error');
+            //         },
+            //     })
+            // })
+
 
             // let dataTable = new simpleDatatables.DataTable("table", {
             //     searchable: true,

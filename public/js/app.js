@@ -3200,6 +3200,18 @@ $(buttonSelectors()).click(function () {
 [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]')).forEach(function (el) {
   return new bootstrap.Popover(el);
 });
+$('table').each(function (index, item) {
+  if ($.fn.DataTable.isDataTable(item)) {
+    $.extend(true, $.fn.dataTable.defaults, {
+      "bsort": false,
+      "bStateSave": true,
+      "stateSaveParams": function stateSaveParams(settings, data) {
+        data.search.search = "";
+        data.order = [[]];
+      }
+    });
+  }
+});
 
 /***/ }),
 
@@ -29602,6 +29614,45 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/dean.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/dean.scss ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/admin.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/admin.scss ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/secretary.scss":
+/*!***************************************!*\
+  !*** ./resources/sass/secretary.scss ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/moment/locale/af.js":
 /*!******************************************!*\
   !*** ./node_modules/moment/locale/af.js ***!
@@ -51159,6 +51210,9 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
+/******/ 			"css/secretary": 0,
+/******/ 			"css/admin": 0,
+/******/ 			"css/dean": 0,
 /******/ 			"css/app": 0
 /******/ 		};
 /******/ 		
@@ -51209,8 +51263,11 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/secretary","css/admin","css/dean","css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/secretary","css/admin","css/dean","css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/secretary","css/admin","css/dean","css/app"], () => (__webpack_require__("./resources/sass/dean.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/secretary","css/admin","css/dean","css/app"], () => (__webpack_require__("./resources/sass/admin.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/secretary","css/admin","css/dean","css/app"], () => (__webpack_require__("./resources/sass/secretary.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

@@ -25,12 +25,12 @@ class ResourceFactory extends Factory
      */
     public function definition()
     {
-        $randomUser = User::where('role_id', Role::INSTRUCTOR)->get()->random();
-        $course = Course::where('program_id', $randomUser->programs()->first()->id)->get()->random();
+        $randomUser = User::where('role_id', Role::INSTRUCTOR)->first();
+        $course = Course::where('program_id', $randomUser->programs()->first()->id)->first();
         $subMonths = [2, 3, 4, 5, 6];
         return [
             'course_id' => $course,
-            'lesson_id' => Lesson::where('course_id', $course->first()->id)->get()->random(),
+            'lesson_id' => Lesson::where('course_id', $course->first()->id)->first(),
             'user_id' => $randomUser,
             'batch_id' => $this->faker->uuid(),
             'title' => $this->faker->word(),

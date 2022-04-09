@@ -22,26 +22,22 @@ class DashboardController extends Controller
      */
     public function index(ResourcesDataTable $dataTable)
     {
-
-        // if (auth()->user()->isAdmin()) {
-        //     return view('pages.admin.dashboard');
-        // }
-
         $courses = Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))
             ->with('resources')
             ->get()
             ->sortBy(['year_level', 'semester', 'term', 'title'])
             ->groupBy('year_level');
 
-        $firstYear = $courses[1] ?? [];
-        $secondYear = $courses[2] ?? [];
-        $thirdYear = $courses[3] ?? [];
-        $fourthYear = $courses[4] ?? [];
+        $firstYear = $courses[1] ?? collect();
+        $secondYear = $courses[2] ?? collect();
+        $thirdYear = $courses[3] ?? collect();
+        $fourthYear = $courses[4] ?? collect();
+
+        //    dd($firstYear);
 
         // ->groupBy(['year_level', function ($item) {
         //     return $item['semester'];
         // }], $preserveKeys = false);
-
 
         // return view('pages.instructor.dashboard', compact('firstYear', 'secondYear', 'thirdYear', 'fourthYear'));
         return $dataTable

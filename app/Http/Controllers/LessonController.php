@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\LessonsDataTable;
 use App\Models\Lesson;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\Course;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+
+use function PHPUnit\Framework\isNull;
+
 class LessonController extends Controller
 {
 
     public function __construct()
     {
-        $this->authorizeResource(Lesson::class, 'lesson');
+        // $this->authorizeResource(Lesson::class, 'lesson');
     }
 
     /**
@@ -21,9 +28,9 @@ class LessonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(LessonsDataTable $dataTable)
     {
-        //
+        // return $dataTable->render('pages.');
     }
 
     /**
@@ -44,21 +51,29 @@ class LessonController extends Controller
      */
     public function store(StoreLessonRequest $request)
     {
-        [$dirname, $basename, $filename] = array_values(pathinfo(url()->previous()));
+        if ($request->mode == 'old') {
+            $createRoute = 'resource.createOld';
+        } else {
+            $createRoute = 'resource.create';
+        }
 
-        if(Str::contains($dirname, '/course')) {
-            $course = Course::findOrFail(Str::before($basename, '?'));
-
-            if($lesson = Lesson::find($request->title)) {
-                return redirect()->route('resource.create', $lesson->id);
+        if (in_array(matchUrlToRoute()->action['as'], ['course.show'])) {
+            if ($lesson = Lesson::find($request->title)) {
+                return redirect()->route($createRoute, $lesson->id);
             }
 
             $lesson = Lesson::create(['user_id' => auth()->id()] + $request->validated());
-            return redirect()->route('resource.create', $lesson->id);
+            return redirect()->route($createRoute, $lesson->id);
+        } else {
+            $lesson = Lesson::create(['user_id' => auth()->id()] + $request->validated());
+
+            return redirect()->back()->with([
+                'subjectInstructor' => $lesson->user_id,
+                'subjectLesson' => $lesson->id,
+                'status' => 'success',
+                'message' => "Lesson ({$lesson->title}) was successfully created"
+            ]);
         }
-
-
-        dd(pathinfo(url()->previous()));
     }
 
     /**
@@ -69,7 +84,7 @@ class LessonController extends Controller
      */
     public function show(Lesson $lesson)
     {
-        //
+        return view('pages.lesson-show', compact('lesson'));
     }
 
     /**
@@ -80,7 +95,7 @@ class LessonController extends Controller
      */
     public function edit(Lesson $lesson)
     {
-        //
+        dd('yes');
     }
 
     /**
@@ -90,9 +105,45 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
-        //
+        $lesson->update([
+            'title' => $request->title,
+            'description' => $request->description
+        ]);
+        $message = $lesson->title . '\'s fields were successfully updated!';
+
+        return redirect()->back()
+            ->with([
+                'subjectInstructor' => $lesson->user_id,
+                'subjectLesson' => $lesson->id,
+                'status' => 'success',
+                'message' => $message
+            ]);
+    }
+
+    public function archive(Lesson $lesson)
+    {
+        // dd($lesson);
+        if (!empty($lesson->archived_at)) {
+            $message = $lesson->title . ' was successfully removed from archive!';
+            $lesson->update([
+                'archived_at' => null
+            ]);
+        } else {
+            $message = $lesson->title . ' was successfully archived!';
+            $lesson->update([
+                'archived_at' => now()
+            ]);
+        }
+
+        return redirect()->back()
+            ->with([
+                'subjectInstructor' => $lesson->user_id,
+                'subjectLesson' => $lesson->id,
+                'status' => 'success',
+                'message' => $message
+            ]);
     }
 
     /**
@@ -101,9 +152,24 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lesson $lesson)
+    public function destroy(Request $request, $id)
     {
-        //
+        $lesson = Lesson::withTrashed()->findOrFail($id);
+
+        if ($lesson->trashed()) {
+            $message = $lesson->title . ' was successfully restored!';
+            $lesson->restore();
+        } else {
+            $message = $lesson->title . ' was successfully trashed!';
+            $lesson->delete();
+        }
+
+        return redirect()->back()
+            ->with([
+                'subjectInstructor' => $lesson->user_id,
+                'subjectLesson' => $lesson->id,
+                'status' => 'success',
+                'message' => $message
+            ]);
     }
 }
-

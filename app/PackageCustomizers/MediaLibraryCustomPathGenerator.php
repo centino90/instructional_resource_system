@@ -20,7 +20,7 @@ class MediaLibraryCustomPathGenerator implements PathGenerator
         if ($media->model_type === User::class) {
             $user = User::withTrashed()->findOrFail($media->model_id);
 
-            return 'users/' . $user->id . '/'. $media->id . '/';
+            return 'users/' . $user->id . '/' . $media->id . '/';
         }
 
         return $media->id;

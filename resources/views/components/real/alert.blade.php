@@ -1,6 +1,21 @@
-@props(['variant' => 'success'])
+@props(['variant' => 'success', 'priority' => 'primary', 'dismiss' => true])
 
-<div {{ $attributes->merge(['class' => 'hstack align-items-start gap-3 alert alert-dismissible my-0 alert-' . $variant]) }} role="alert">
+@php
+$hideClass = '';
+if ($priority == 'secondary') {
+    if ($errors->any() || !empty(session()->get('status'))) {
+        $hideClass = 'd-none';
+    }
+}
+
+$dismissClass = '';
+if ($dismiss) {
+    $dismissClass = 'alert-dismissible';
+}
+@endphp
+
+<div {{ $attributes->merge(['class' => "hstack align-items-start gap-3 alert {$dismissClass} my-0 alert-{$variant} {$hideClass}"]) }}
+    role="alert">
     @switch($variant)
         @case('success')
             <span class="material-icons align-middle">
@@ -35,5 +50,7 @@
 
     {{ $slot }}
 
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    @if ($dismiss)
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    @endif
 </div>

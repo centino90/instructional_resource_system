@@ -20,9 +20,13 @@ class CreateLessonsTable extends Migration
             $table->foreignId('resource_id')->nullable();
             $table->string('title')->nullable();
             $table->longText('description')->nullable();
+
+            $table->timestamp('archived_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
         });
+
     }
 
     /**

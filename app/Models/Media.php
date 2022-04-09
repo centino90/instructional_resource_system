@@ -21,4 +21,8 @@ class Media extends BaseMedia
         return 'acd-' . $this->created_at . '-' . $this->file_name;
     }
 
+    public function resource()
+    {
+        return $this->belongsTo(Resource::class, 'model_id');
+    }
 }

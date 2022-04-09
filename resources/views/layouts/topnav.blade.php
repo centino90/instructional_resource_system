@@ -30,7 +30,7 @@
                         <span class="material-icons md-24 align-middle">
                             notifications_active
                         </span>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ $notifications->count() }}
                         </span>
                     @endempty
@@ -39,22 +39,19 @@
 
                 <ul class="dropdown-menu shadow border-0 p-0" aria-labelledby="dropdownMenu2">
                     <li class="dropdown-item p-0">
-                        <ul class="list-group" style="min-width: 300px">
+                        <ul class="list-group" style="min-width: 300px;max-width: 300px">
                             @forelse ($notifications->take(5) as $notification)
-                                <li class="list-group-item">
-                                    <a href="{{ route('pending-resources.show', $notification->data['resource_id']) }}"
-                                        data-passover="{{ $notification->id }}"
-                                        class="notification-show-link btn text-start w-100 overflow-hidden">
-                                        <h6>{{ $notification->data['user'] }} submitted a resource</h6>
-
-                                        <span class="form-text">{{ $notification->created_at }}</span>
-                                    </a>
+                                <li class="list-group-item list-group-item-action" onclick="$(event.target).find('form').submit()">
+                                    <h6 class="whitespace-wrap text-wrap pe-none">{{ $notification->data['message'] }}</h6>
+                                    <span class="form-text pe-none">{{ $notification->created_at->diffForHumans() }}</span>
+                                    <x-real.form action="{{route('notifications.read', $notification)}}" :method="'PUT'">
+                                    </x-real.form>
                                 </li>
 
                                 @if ($loop->iteration == 5)
                                     <li class="list-group-item">
-                                        <a href="{{ route('notifications.index') }}"
-                                            class="btn btn-link w-100 overflow-hidden">
+                                        <a href="{{ route('activities.showUserActivities', auth()->user()) }}"
+                                            class="w-100 overflow-hidden text-center">
                                             <h6>Click here to view all notifications</h6>
                                         </a>
                                     </li>
@@ -73,7 +70,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="dropdown dropstart">
                     <button class="btn" type="button" id="dropdownMenuButton1" data-bs-display="static"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         <span class="material-icons md-24 align-middle">
                             settings
                         </span>
@@ -82,9 +79,14 @@
 
                     <ul class="dropdown-menu mx-0 shadow" style="width: 240px">
                         <li class="bg-light">
-                            <a class="dropdown-item vstack gap-2 align-items-center" href="#">
-                                <img src="#" class="img-thumbnail rounded-pill thumbnail-md" alt="User Avatar">
-                                <span class="d-block small fw-bold">Anthony Jay Ansit</span>
+                            <a class="dropdown-item vstack gap-2 align-items-center py-3" href="#">
+                                <img src="#" class="img-thumbnail rounded-pill thumbnail-md" alt="Avatar">
+                                <span class="d-block small fw-bold">{{auth()->user()->nameTag}}</span>
+                            </a>
+                        </li>
+                        <li >
+                            <a class="dropdown-item hstack gap-2 align-items-center py-2" href="#">
+                                <small>Program:</small>    <span class="d-block small fw-bold">{{auth()->user()->programs->first()->code}}</span>
                             </a>
                         </li>
 

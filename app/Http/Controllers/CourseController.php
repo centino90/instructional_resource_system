@@ -4,8 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
+use App\Models\Lesson;
+use App\Models\Program;
 use App\Models\Resource;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
@@ -70,6 +76,48 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         return view('pages.course-show')->with('course', $course);
+    }
+
+    public function showUserLessons(Course $course, User $user)
+    {
+        $lessons = $user->lessons()->where(['course_id' => $course->id])->withoutArchived()->get();
+        $archivedLessons = $user->lessons()->where(['course_id' => $course->id])->onlyArchived()->get();
+        $trashedLessons = $user->lessons()->where(['course_id' => $course->id])->onlyTrashed()->get();
+
+        $userLessons = Lesson::where(['course_id' => $course->id, 'user_id' => $user->id])->get();
+
+        return view('pages.course-user-lessons', compact('user', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
+    }
+
+    public function showLessons(Course $course)
+    {
+        $lessons = Lesson::where(['course_id' => $course->id])->withoutArchived()->get();
+        $archivedLessons = Lesson::where(['course_id' => $course->id])->onlyArchived()->get();
+        $trashedLessons = Lesson::where(['course_id' => $course->id])->onlyTrashed()->get();
+
+        $instructors = $course->program->users()->instructors()->get();
+
+        return view('pages.course-lessons', compact('instructors', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
+    }
+
+    public function showRecentSubmissions(Course $course)
+    {
+        $activities = Activity::whereHasMorph(
+            'subject',
+            [Resource::class],
+            function (Builder $query) use($course){
+                $query->where('course_id', $course->id);
+            }
+        )->whereIn('log_name', ['resource-created', 'resource-versioned'])->latest()->get();
+
+        return view('pages.course-recentsubmissions', compact('activities', 'course'));
+    }
+
+    public function showMostActiveInstructors(Course $course)
+    {
+        $activeInstructors = $course->program->users()->instructors()->withCount('resources')->orderByDesc('resources_count')->get();
+
+        return view('pages.course-mostactiveinstructors', compact('activeInstructors', 'course'));
     }
 
     /**

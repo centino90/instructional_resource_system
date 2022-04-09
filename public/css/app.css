@@ -11533,14 +11533,6 @@ div.table .file-row:nth-child(odd) {
   color: #0d6efd;
 }
 
-[type=submit].loading::before,
-.submit.loading::before {
-  content: "⥁";
-  display: inline-block;
-  -webkit-animation: spinner-border 1.5s linear infinite;
-          animation: spinner-border 1.5s linear infinite;
-}
-
 .thumbnail-sm {
   width: 32px;
   height: 32px;
@@ -11557,4 +11549,41 @@ div.table .file-row:nth-child(odd) {
 
 .CodeMirror pre {
   word-break: break-word !important;
+}
+
+.scrolled-focus {
+  color: #0d6efd;
+  border-color: #0d6efd;
+  background: rgba(13, 110, 253, 0.1);
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+          animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0;
+  }
+  to {
+    text-shadow: 0 0 0.5px #0d6efd, 0 0 5px rgba(13, 110, 253, 0.2);
+  }
+}
+.dataTables_empty {
+  padding: 1.5rem 0.8rem !important;
+  color: #6c757d;
+  text-align: center;
+  vertical-align: middle;
+}
+.dataTables_empty::before {
+  font-size: 1.575rem;
+  font-family: "Material Icons";
+  content: "\e002";
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

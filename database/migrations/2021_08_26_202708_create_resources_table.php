@@ -15,7 +15,7 @@ class CreateResourcesTable extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lesson_id')->constrained();
+            $table->foreignId('lesson_id')->nullable();
             $table->foreignId('course_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->uuid('batch_id')->nullable();
@@ -25,12 +25,15 @@ class CreateResourcesTable extends Migration
             $table->boolean('is_presentation')->default(0);
             $table->integer('downloads')->default(0);
             $table->integer('views')->default(0);
+            $table->longText('note')->nullable();
 
             $table->timestamp('approved_at')->nullable();
-            $table->timestamp('rejected_at')->nullable(); //temp
             $table->timestamp('archived_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            // $table->timestamp('cancelled_at')->nullable();
+            // $table->timestamp('rejected_at')->nullable();
         });
     }
 

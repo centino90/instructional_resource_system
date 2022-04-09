@@ -2,12 +2,18 @@
 
 namespace App\DataTables;
 
+use App\Models\Course;
 use App\Models\Resource;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\ColumnDefinition;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
+use Yajra\DataTables\Html\SearchPane;
 use Yajra\DataTables\Services\DataTable;
 
 class ResourcesDataTable extends DataTable
@@ -22,19 +28,26 @@ class ResourcesDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->setRowId('id')
             ->addColumn('action', function ($row) {
-                // ' . route('resources.show', $row->id) . '
                 $btn = '<div class="d-flex gap-2">';
-                $btn .= '<a href="' . route('resources.download', $row->id) . '" data-id="' . $row->id . '" class="btn btn-sm btn-primary">Download</a>';
-                $btn .= '<a href="#" data-id="' . $row->id . '" class="btn btn-sm btn-secondary resource-modal-tabcontent-resource-details-tab">Details</a>';
+                $btn .= '<a href="' . route('resource.addViewCountThenRedirectToShow', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+                $btn .= '<a href="' . route('resource.addViewCountThenRedirectToPreview', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Preview</a>';
+                $btn .= '<a href="' . route('resources.downloadOriginal', $row->currentMediaVersion) . '" class="btn btn-sm btn-primary fw-bold border">Download</a>';
                 $btn .= '</div>';
                 return $btn;
             })
-            ->addColumn('media', function ($row) {
-                return $row->getFirstMedia() ? $row->getFirstMedia()->name . ' (' . $row->getFirstMedia()->mime_type . ') ' : 'unknown file';
+            ->addColumn('course', function ($row) {
+                return "{$row->course->title} ({$row->course->code})";
             })
-            ->addColumn('date_uploaded', function ($row) {
-                return Carbon::create($row->created_at)->toFormattedDateString();
+            ->addColumn('lesson', function ($row) {
+                return $row->lesson ? $row->lesson->title : '';
+            })
+            ->addColumn('media', function ($row) {
+                return $row->currentMediaVersion ? $row->currentMediaVersion->file_name : 'unknown file';
+            })
+            ->editColumn('created_at', function ($data) {
+                return $data->created_at->format('Y-m-d H:i:s');
             });
     }
 
@@ -47,10 +60,13 @@ class ResourcesDataTable extends DataTable
     public function query(Resource $model)
     {
         return $model
-            ->where('course_id', $this->request->course_id)
+            ->whereHas('course', function (Builder $query) {
+                $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
+            })
             ->whereNotNull('approved_at')
-            ->with(['media', 'course'])
-            ->orderBy('created_at', 'desc');
+            ->withoutArchived()
+            ->with(['media', 'course', 'lesson'])
+            ->orderBy('resources.created_at', 'desc');
     }
 
     /**
@@ -61,13 +77,21 @@ class ResourcesDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->parameters([
-                'responsive' => true
-            ])
-            ->setTableId('resources-table')
+            ->responsive(true)
+            ->setTableId('users-table')
             ->columns($this->getColumns())
-            ->dom('Bfrtip')
-            ->orderBy(1);
+            ->minifiedAjax()
+            ->dom('frtip') // remove P
+            ->orderBy(1)
+            ->selectStyleMulti();
+            // ->searchPanes(true)
+            // ->addColumnDef([
+            //     'searchPanes' => ['show' => true],
+            //     'targets' => [3]
+            // ]);
+            // ->buttons(
+            //     Button::make('searchPanes')
+            // );
     }
 
     /**
@@ -78,14 +102,16 @@ class ResourcesDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('action')
+            Column::make('title')->searchable(),
+            Column::make('media')->searchable(),
+            Column::make('description')->searchable(),
+            Column::make('course', 'course.title')->searchable(),
+            Column::make('lesson', 'lesson.title')->searchable(),
+            Column::make('created_at')->searchable(),
+            Column::computed('action', '')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60),
-
-            Column::make('media'),
-            Column::make('description'),
-            Column::make('date_uploaded')->sortable(false),
+                ->width(60)
         ];
     }
 

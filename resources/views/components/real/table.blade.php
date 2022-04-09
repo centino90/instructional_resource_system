@@ -1,6 +1,6 @@
-@props(['size' => 'sm', 'variant' => ''])
+@props(['size' => 'table-sm', 'variant' => ''])
 
-<table class="table align-middle table-hover {{$variant}} {{ $size }}">
+<table {{ $attributes->merge(['class' => 'w-100 table align-middle table-hover ' . ' ' . $variant . ' ' . $size]) }}>
     <thead class="text-muted">
         <tr>
             {{ $headers }}
@@ -9,4 +9,12 @@
     <tbody>
         {{ $rows }}
     </tbody>
+
+    @isset($footers)
+        <tfoot class="text-muted">
+            <tr>
+                {{ $footers }}
+            </tr>
+        </tfoot>
+    @endisset
 </table>

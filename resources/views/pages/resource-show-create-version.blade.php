@@ -3,36 +3,41 @@
         New version
     </x-slot>
 
-    <x-slot name="headerTitle">
-        Page action
-    </x-slot>
-
     <x-slot name="breadcrumb">
-        <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('resource.show', $resource->id) }}">
-                <- Go back</a>
+        <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('resource.show', $resource) }}">
+            <- Go back</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+    <li class="breadcrumb-item"><a
+            href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
+    @if (!$resource->is_syllabus)
+        <li class="breadcrumb-item"><a href="{{ route('course.showLessons', $resource->course) }}">Course
+                lessons</a>
         </li>
-        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('course.index') }}">Courses</a></li>
+
         <li class="breadcrumb-item"><a
-                href="{{ route('course.show', $resource->course->id) }}">{{ $resource->course->code }}</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page"><a
-                href="{{ route('resource.show', $resource->id) }}">{{ $resource->title }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">New version</li>
+                href="{{ route('lesson.show', $resource->lesson) }}">{{ $resource->lesson->title }}</a></li>
+    @endif
+    <li class="breadcrumb-item"><a href="{{ route('resource.show', $resource) }}">{{ $resource->title }}</a></li>
+
+    <li class="breadcrumb-item active" aria-current="page">New version</li>
     </x-slot>
 
     <div class="row">
         <div class="col-lg-3">
-            <div class="p-3 bg-white rounded shadow-sm">
-                <h6 class="pb-2 border-bottom">Some actions</h6>
-
-                <div class="gap-2 d-lg-grid">
-                    <a href="{{ route('resource.preview', $resource->id) }}" class="btn btn-secondary">Preview Current
-                        Version</a>
-                    <a href="{{ route('resource.viewVersions', $resource->id) }}" class="btn btn-primary">View All
-                        Versions</a>
-                </div>
-            </div>
+            <x-real.card>
+                <x-slot name="header">Some actions</x-slot>
+                <x-slot name="body">
+                    <div class="gap-2 d-lg-grid">
+                        <a href="{{ route('resource.preview', $resource->id) }}" class="btn btn-secondary">Preview
+                            Current
+                            Version</a>
+                        <a href="{{ route('resource.viewVersions', $resource->id) }}" class="btn btn-primary">View
+                            All
+                            Versions</a>
+                    </div>
+                </x-slot>
+            </x-real.card>
         </div>
 
         <div class="col-lg-9">
@@ -64,9 +69,7 @@
                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
                                 <x-form-post action="{{ route('resource.storeNewVersion', $resource) }}"
                                     class="submit-resource-form" id="resourceForm">
-                                    <x-input type="hidden" name="course_id" value="{{ $resource->course->id }}">
-                                    </x-input>
-                                    <x-input type="hidden" name="lesson_id" value="{{ $resource->lesson->id }}">
+                                    <x-input type="hidden" name="course_id" value="{{ $resource->course_id }}">
                                     </x-input>
                                     <div id="fileMaster">
                                         <div class="row-group align-items-start" id="file-g">
@@ -75,8 +78,7 @@
                                                     <!-- The fileinput-button span is used to style the file input field as button -->
                                                     <div class="d-flex align-items-start">
                                                         <div class="w-100 text-center">
-                                                            <x-button
-                                                                :class="'border-primary hstack gap-3 active btn-light fileinput-button dz-clickable w-100'"
+                                                            <x-button :class="'border-primary hstack gap-3 active btn-light fileinput-button dz-clickable w-100'"
                                                                 style="height: 140px; border-style: dashed !important;">
                                                                 <span
                                                                     class="material-icons align-middle md-48 text-primary">
@@ -97,8 +99,7 @@
                                                 </div>
 
                                                 <div class="mt-4 col-lg-5 d-flex gap-3">
-                                                    <x-button type="submit" :class="'w-100 btn-primary d-none'"
-                                                        id="submit-resource">
+                                                    <x-button type="submit" :class="'w-100 btn-primary d-none'" id="submit-resource">
                                                         <span>Submit</span>
                                                     </x-button>
 
@@ -133,9 +134,9 @@
                                                 <div class="">
                                                     <h6 class="border-bottom pb-2 mb-3">Uploaded files</h6>
 
-                                                    <div class="d-none">
+                                                    <div class="d-none templateContainer">
                                                         <div id="template"
-                                                            class="list-group gap-3 dropzone-template file-row">
+                                                            class="template list-group gap-3 dropzone-template file-row">
                                                             <!-- This is used as the file preview template -->
                                                             <div
                                                                 class="list-group-item border-0 d-flex align-items-start gap-3 text-muted pt-3">
@@ -192,13 +193,11 @@
                                                                             </div>
                                                                         </div>
 
-                                                                        <x-button
-                                                                            :class="'btn-light text-primary start'">
+                                                                        <x-button :class="'btn-light text-primary start'">
                                                                             <span>Start</span>
                                                                         </x-button>
 
-                                                                        <x-button data-dz-remove
-                                                                            :class="'btn-light text-primary cancel'">
+                                                                        <x-button data-dz-remove :class="'btn-light text-primary cancel'">
                                                                             <span
                                                                                 class="material-icons md-18 align-middle">
                                                                                 block
@@ -207,8 +206,7 @@
                                                                             Cancel
                                                                         </x-button>
 
-                                                                        <x-button data-dz-remove
-                                                                            :class="'btn-light text-primary delete'">
+                                                                        <x-button data-dz-remove :class="'btn-light text-primary delete'">
                                                                             <span
                                                                                 class="material-icons md-18 align-middle">
                                                                                 close
@@ -231,10 +229,7 @@
                             <div class="tab-pane fade" id="pills-profile" role="tabpanel">
                                 <x-form-post action="{{ route('resource.storeNewVersionByUrl', $resource->id) }}"
                                     id="storeByUrlForm" class="storeByUrlForm">
-                                    <x-input type="hidden" name="course_id" value="{{ $resource->course->id }}">
-                                    </x-input>
-                                    <x-input type="hidden" name="lesson_id"
-                                        value="{{ $resource->lesson->course->id }}">
+                                    <x-input type="hidden" name="course_id" value="{{ $resource->course_id }}">
                                     </x-input>
                                     <x-input type="hidden" name="resource_id" value="{{ $resource->id }}">
                                     </x-input>
@@ -284,6 +279,18 @@
     @section('script')
         <script>
             $(document).ready(function() {
+                let fmWindow;
+                $('.openStorageBtn').click(function(event) {
+                    fmWindow = window.open('/file-manager/summernote?leftPath=users/{{ auth()->id() }}',
+                        'fm',
+                        'width=1400,height=800');
+
+                    fm.$store.commit('fm/setFileCallBack', function(fileUrl) {
+                        window.opener.fmSetLink(fileUrl);
+                        fmWindow.close();
+                    });
+                });
+
                 const $targetTabpaneLabel =
                     "{{ $resource->is_presentation ? 'presentation' : ($resource->is_syllabus ? 'syllabus' : 'general') }}"
 
@@ -307,6 +314,8 @@
                     maxFilesize: 5000
                 }
 
+                $newfileForm = $('#pills-home form')
+                $storageForm = $('#pills-profile form')
                 if ($targetTabpaneLabel === 'general') {
                     dropzoneParams['maxFiles'] = 1,
                         dropzoneParams['accept'] = function(file, done) {
@@ -320,12 +329,15 @@
                             }
                         }
                 } else if ($targetTabpaneLabel === 'syllabus') {
+                    $newfileForm.attr('action', '{{ route('syllabi.storeNewVersion', $resource) }}')
+                    $storageForm.attr('action', '{{ route('syllabi.storeNewVersionByUrl', $resource) }}')
+
                     dropzoneParams['maxFiles'] = 1
                     dropzoneParams['accept'] = function(file, done) {
                         if (
                             getExtension(file.name) ==
-                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-                            getExtension(file.name) == "application/msword"
+                            "docx" ||
+                            getExtension(file.name) == "doc"
                         ) {
                             done();
                         } else {
@@ -333,13 +345,16 @@
                         }
                     }
                 } else if ($targetTabpaneLabel === 'presentation') {
+                    $newfileForm.attr('action', '{{ route('presentations.storeNewVersion', $resource) }}')
+                    $storageForm.attr('action', '{{ route('presentations.storeNewVersionByUrl', $resource) }}')
+
                     dropzoneParams['maxFiles'] = 1
                     dropzoneParams['accept'] = function(file, done) {
                         if (
                             getExtension(file.name) ==
-                            "application/vnd.ms-powerpoint" ||
+                            "ppt" ||
                             getExtension(file.name) ==
-                            "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                            "pptx"
                         ) {
                             done();
                         } else {
@@ -456,7 +471,20 @@
                 $(".submit-resource-form-actions .cancel").click(function() {
                     DropzoneInstance.removeAllFiles(true);
                 });
+
+                $dropzone.find('form').submit(function(event) {
+                    event.preventDefault()
+                    $(this).find('.templateContainer :input').attr('disabled', true)
+                    this.submit()
+                })
             })
+
+            function fmSetLink(url) {
+                let filename = url.split('/').pop();
+                console.log(url)
+                $('.alexusmaiFileUrlInput').val(url)
+                $('.alexusmaiFileText').text(filename)
+            }
         </script>
     @endsection
 </x-app-layout>

@@ -4,6 +4,8 @@
     @csrf
     @method($method)
 
+    {{ $slot }}
+
     @isset($submit)
         {{ $submit }}
     @endisset

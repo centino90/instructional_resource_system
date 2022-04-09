@@ -9,7 +9,7 @@
 
     <x-slot name="breadcrumb">
         <li class="breadcrumb-item">
-            <a class="fw-bold" href="{{ route('course.show', $lesson->course->id) }}">
+            <a class="fw-bold" href="{{ route('lesson.show', $lesson) }}">
                 <- Go back </a>
         </li>
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
@@ -17,7 +17,7 @@
                 href="{{ route('course.show', $lesson->course->id) }}">{{ $lesson->course->code }}</a>
         </li>
 
-        <li class="breadcrumb-item " aria-current="page">{{ $lesson->title }}</li>
+        <li class="breadcrumb-item " aria-current="page"><a href="{{route('lesson.show', $lesson)}}">{{ $lesson->title }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">New resource</li>
     </x-slot>
 
@@ -45,28 +45,6 @@
                                             <div>
                                                 <h6 class="mb-0">General</h6>
                                                 <p class="mb-0 opacity-75">No specific checking method</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item rounded overflow-hidden">
-                                    <a href="#"
-                                        class="submit-resource-tab list-group-item list-group-item-action d-flex gap-3 py-3"
-                                        aria-current="true" id="resource-modal-tabcontent-submit-syllabus-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#resource-modal-tabcontent-submit-syllabus"
-                                        data-label="syllabus"
-                                        data-active="{{ request()->submitType == 'syllabus' ? true : false }}">
-                                        <span class="material-icons">
-                                            history_edu
-                                        </span>
-
-                                        <div class="d-flex gap-2 w-100 justify-content-between">
-                                            <div>
-                                                <h6 class="mb-0">Syllabus</h6>
-                                                <p class="mb-0 opacity-75">Checks the use of verbs in both course and
-                                                    learning outcomes</p>
                                             </div>
                                         </div>
                                     </a>
@@ -108,14 +86,22 @@
                         <x-slot name="body">
                             <ul class="submit-resource-log submit-resource-logs-list submitResourceLogsList w-100 list-group mt-3"
                                 id="submit-general-log">
-                                @forelse ($lesson->course->resources()->orderByDesc('created_at')->limit(5)->get() as $resource)
-                                    <li class="list-group-item py-0">
+                                @forelse ($resourceActivities->take(5) as $activity)
+                                    <li class="list-group-item py-1">
                                         <div class="hstack">
-                                            <span class="text-secondary fw-bold">{{ $resource->created_at }}</span>
-                                            <div class="vr"></div>
-                                            <span class="text-secondary fw-bold">{{ $resource->created_at }}</span>
-                                            <div class="vr"></div>
-                                            <span class="text-secondary fw-bold">{{ $resource->created_at }}</span>
+                                            <div class="col">
+                                                <span
+                                                    class="text-secondary fw-bold d-block">{{ $activity->description }}</span>
+                                                <div class="hstack">
+                                                    <span class="text-muted">{{ $activity->created_at }}</span>
+                                                    @if (isset($activity->subject))
+                                                        <a href="{{ route('resource.show', $activity->subject) }}"
+                                                            class="btn btn-link">View resource</a>
+                                                    @else
+                                                        <small class="small text-danger italic">Cannot Find</small>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                     </li>
                                 @empty
@@ -124,10 +110,6 @@
                                     </x-real.no-rows>
                                 @endforelse
                             </ul>
-
-                            <small class="d-block text-end mt-3">
-                                <a href="#">Show more >></a>
-                            </small>
                         </x-slot>
                     </x-real.card>
                 </div>
@@ -167,7 +149,7 @@
                             <div class="dropzone">
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
-                                        <x-form-post action="{{ route('resources.store') }}"
+                                        <x-form-post action="{{ route('resource.store') }}"
                                             class="submit-resource-form" id="resourceForm">
                                             <x-input type="hidden" name="course_id"
                                                 value="{{ $lesson->course->id }}">
@@ -241,9 +223,9 @@
                                                         <div class="">
                                                             <h6 class="border-bottom pb-2 mb-3">Uploaded files</h6>
 
-                                                            <div class="d-none">
+                                                            <div class="d-none templateContainer">
                                                                 <div id="template"
-                                                                    class="list-group gap-3 dropzone-template file-row">
+                                                                    class="template list-group gap-3 dropzone-template file-row">
                                                                     <!-- This is used as the file preview template -->
                                                                     <div
                                                                         class="list-group-item border-0 d-flex align-items-start gap-3 text-muted pt-3">
@@ -391,261 +373,6 @@
                     </x-real.card>
                 </div>
 
-                <!-- SUBMIT SYLLABUS RESOURCE TAB -->
-                <div class="submit-resource-tabpane tab-pane fade" id="resource-modal-tabcontent-submit-syllabus"
-                    role="tabpanel" aria-labelledby="resource-modal-tabcontent-submit-syllabus-tab">
-                    <x-real.card :variant="'secondary'">
-                        <x-slot name="header">
-                            Syllabus Upload
-                        </x-slot>
-
-                        <x-slot name="action">
-                            <ul class="nav nav-pills justify-content-end gap-3" id="syllabusSubmitTab" role="tablist">
-                                <li class="nav-item p-0" role="presentation">
-                                    <button class="nav-link py-0 text-dark rounded-0 active" id="syllabusSubmitFormTab"
-                                        data-bs-toggle="pill" data-bs-target="#syllabusSubmitFormTabpane" type="button"
-                                        role="tab">New
-                                        file(s)</button>
-                                </li>
-                                <li class="nav-item p-0" role="presentation">
-                                    <button class="storageUploadStandaloneBtn nav-link py-0 text-dark rounded-0"
-                                        id="syllabusSubmitUrlTab" data-bs-toggle="pill"
-                                        data-bs-target="#syllabusSubmitUrlTabpane" type="button" role="tab">
-                                        Storage
-                                    </button>
-                                </li>
-                            </ul>
-                        </x-slot>
-
-                        <x-slot name="body">
-                            <div class="dropzone">
-                                <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="syllabusSubmitFormTabpane"
-                                        role="tabpanel">
-                                        <x-form-post action="{{ route('syllabi.upload') }}"
-                                            class="submit-resource-form" id="syllabusForm">
-                                            <x-input type="hidden" name="course_id"
-                                                value="{{ $lesson->course->id }}">
-                                            </x-input>
-                                            <x-input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
-                                            </x-input>
-                                            <div id="fileMaster">
-                                                <div class="row-group align-items-start" id="file-g">
-                                                    <div class="submit-resource-form-actions row g-0" id="actions">
-                                                        <div class="col-12">
-                                                            <!-- The fileinput-button span is used to style the file input field as button -->
-                                                            <div class="d-flex align-items-start">
-                                                                <div class="w-100 text-center">
-                                                                    <x-button
-                                                                        :class="'border-primary hstack gap-3 active btn-light fileinput-button dz-clickable w-100'"
-                                                                        style="height: 140px; border-style: dashed !important;">
-                                                                        <span
-                                                                            class="material-icons align-middle md-48 text-primary">
-                                                                            file_upload
-                                                                        </span>
-
-                                                                        <div
-                                                                            class="d-flex flex-column align-items-start gap-1">
-                                                                            <span>Drop files here or click to
-                                                                                upload</span>
-
-                                                                            <small class="text-primary">Upload 1 file
-                                                                                at
-                                                                                a time</small>
-                                                                        </div>
-                                                                    </x-button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="mt-4 col-lg-5 d-flex gap-3">
-                                                            <x-button type="submit" :class="'w-100 btn-primary d-none'"
-                                                                id="submit-resource">
-                                                                <span>Submit</span>
-                                                            </x-button>
-
-                                                            <x-button :class="'w-100 btn-danger cancel d-none'">
-                                                                <span>Cancel upload</span>
-                                                            </x-button>
-                                                        </div>
-
-                                                        <div class="col-12">
-                                                            <!-- The global file processing state -->
-                                                            <span class="fileupload-process w-100">
-                                                                <div id="total-progress" class="progress active w-100"
-                                                                    aria-valuemin="0" aria-valuemax="100"
-                                                                    aria-valuenow="0">
-                                                                    <div class="progress-bar progress-bar-striped progress-bar-success"
-                                                                        role="progressbar" style="width: 0%;"
-                                                                        data-dz-uploadprogress="">
-                                                                    </div>
-                                                                </div>
-                                                            </span>
-                                                        </div>
-
-                                                        <div class="col-12 mt-3">
-                                                            <div class="alert alert-success fade" role="alert">
-                                                                <strong class="submit-resource-alert"
-                                                                    id="submit-resource-alert"></strong>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="file-upload-container table-responsive overflow-auto"
-                                                        id="file-upload-container">
-                                                        <div class="">
-                                                            <h6 class="border-bottom pb-2 mb-3">Uploaded files</h6>
-
-                                                            <div class="d-none">
-                                                                <div id="template"
-                                                                    class="list-group gap-3 dropzone-template file-row">
-                                                                    <!-- This is used as the file preview template -->
-                                                                    <div
-                                                                        class="list-group-item border-0 d-flex align-items-start gap-3 text-muted pt-3">
-                                                                        <div class="preview bg-light">
-                                                                            <img style="width: 110px; height: 110px"
-                                                                                data-dz-thumbnail />
-                                                                        </div>
-                                                                        <div
-                                                                            class="hstack align-items-start gap-3 pb-3 mb-0 small lh-sm border-bottom w-100">
-                                                                            <div class="overflow-hidden "
-                                                                                style="width: 180px">
-                                                                                <p class="name text-wrap" data-dz-name>
-                                                                                </p>
-                                                                                <p class="size" data-dz-size>
-                                                                                </p>
-                                                                                <strong class="error text-danger"
-                                                                                    data-dz-errormessage></strong>
-                                                                                <span class="badge bg-success">Uploaded
-                                                                                    successfully</span>
-                                                                            </div>
-                                                                            <div class="file-metadata">
-                                                                                <div class="row g-2">
-                                                                                    <x-input name="file[]"
-                                                                                        class="file" hidden>
-                                                                                    </x-input>
-
-                                                                                    <div
-                                                                                        class="file-group d-none col-12">
-                                                                                        <div
-                                                                                            class="form-floating mb-3">
-                                                                                            <x-input name="title[]"
-                                                                                                placeholder="_">
-                                                                                            </x-input>
-                                                                                            <x-label>Name
-                                                                                            </x-label>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div
-                                                                                        class="file-group d-none col-12">
-                                                                                        <div
-                                                                                            class="form-floating mb-3">
-                                                                                            <x-input-textarea
-                                                                                                name="description[]"
-                                                                                                placeholder="_">
-                                                                                            </x-input-textarea>
-                                                                                            <x-label>Description
-                                                                                            </x-label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="d-grid gap-2">
-                                                                                <div class="progress progress-striped active"
-                                                                                    role="progressbar" aria-valuemin="0"
-                                                                                    aria-valuemax="100"
-                                                                                    aria-valuenow="0">
-                                                                                    <div class="progress-bar progress-bar-success"
-                                                                                        style="width:0%;"
-                                                                                        data-dz-uploadprogress>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <x-button
-                                                                                    :class="'btn-light text-primary start'">
-                                                                                    <span>Start</span>
-                                                                                </x-button>
-
-                                                                                <x-button data-dz-remove
-                                                                                    :class="'btn-light text-primary cancel'">
-                                                                                    <span
-                                                                                        class="material-icons md-18 align-middle">
-                                                                                        block
-                                                                                    </span>
-
-                                                                                    Cancel
-                                                                                </x-button>
-
-                                                                                <x-button data-dz-remove
-                                                                                    :class="'btn-light text-primary delete'">
-                                                                                    <span
-                                                                                        class="material-icons md-18 align-middle">
-                                                                                        close
-                                                                                    </span>
-
-                                                                                    Remove
-                                                                                </x-button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="dropzone-preview previews" id="previews"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </x-form-post>
-                                    </div>
-                                    <div class="tab-pane fade" id="syllabusSubmitUrlTabpane" role="tabpanel">
-                                        <x-form-post action="{{ route('syllabi.uploadByUrl') }}" id="storeByUrlForm"
-                                            class="storeByUrlForm">
-                                            <x-input type="hidden" name="course_id"
-                                                value="{{ $lesson->course->id }}">
-                                            </x-input>
-                                            <x-input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
-                                            </x-input>
-
-                                            <div class="row">
-                                                <x-input hidden type="url" name="fileUrl" id="fileUrlInput"
-                                                    class="alexusmaiFileUrlInput" value="{{ old('fileUrl') }}">
-                                                </x-input>
-
-                                                <div class="col-12 mt-3">
-                                                    <label class="form-text">Filename</label>
-                                                    <span class="alexusmaiFileText h5 text-secondary fw-bold"
-                                                        id="fileText">
-                                                        {{ old('fileUrl') }}
-                                                    </span>
-                                                    <a href="javascript:void(0)" class="openStorageBtn btn btn-link"
-                                                        id="openStorageBtn">Open storage</a>
-                                                </div>
-
-                                                <div class="col-12 mt-3">
-                                                    <x-label>Title</x-label>
-                                                    <x-input name="title" value="{{ old('title') }}"></x-input>
-                                                </div>
-
-                                                <div class="col-12 mt-3">
-                                                    <x-label>Description</x-label>
-                                                    <x-input-textarea name="description">
-                                                        {{ old('description') }}
-                                                    </x-input-textarea>
-                                                </div>
-
-                                                <div class="col-12 my-5">
-                                                    <button class="btn btn-success" type="submit">Submit</button>
-                                                </div>
-                                            </div>
-                                        </x-form-post>
-                                    </div>
-                                </div>
-                            </div>
-                        </x-slot>
-                    </x-real.card>
-                </div>
-
                 <!-- SUBMIT PRESENTATION RESOURCE TAB -->
                 <div class="submit-resource-tabpane tab-pane fade" id="resource-modal-tabcontent-submit-presentation"
                     role="tabpanel" aria-labelledby="resource-modal-tabcontent-submit-presentation-tab">
@@ -706,7 +433,8 @@
                                                                             <span>Drop files here or click to
                                                                                 upload</span>
 
-                                                                            <small class="text-primary">Upload 1 file
+                                                                            <small class="text-primary">Upload 10
+                                                                                files
                                                                                 at
                                                                                 a time</small>
                                                                         </div>
@@ -753,9 +481,9 @@
                                                         <div class="">
                                                             <h6 class="border-bottom pb-2 mb-3">Uploaded files</h6>
 
-                                                            <div class="d-none">
+                                                            <div class="d-none templateContainer">
                                                                 <div id="template"
-                                                                    class="list-group gap-3 dropzone-template file-row">
+                                                                    class="template list-group gap-3 dropzone-template file-row">
                                                                     <!-- This is used as the file preview template -->
                                                                     <div
                                                                         class="list-group-item border-0 d-flex align-items-start gap-3 text-muted pt-3">
@@ -911,14 +639,7 @@
 
     @section('script')
         <script>
-            $('.submit-resource-tab[data-bs-toggle="pill"]').each(function(index, tab) {
-                if ($(tab).attr('data-active')) {
-                    bootstrap.Tab.getOrCreateInstance($(tab)[0]).show()
-                }
-            })
-
             function fmSetLink(url) {
-                console.log(url)
                 let filename = url.split('/').pop();
 
                 $('.submit-resource-tabpane.tab-pane.active .alexusmaiFileUrlInput').val(url)
@@ -938,6 +659,13 @@
                         fmWindow.close();
                     });
                 });
+
+                $('.submit-resource-tab[data-bs-toggle="pill"]').each(function(index, tab) {
+                    if ($(tab).attr('data-active')) {
+                        bootstrap.Tab.getOrCreateInstance($(tab)[0]).show()
+                    }
+                })
+
 
                 /* ON SHOW SUBMIT TABS */
                 $('.submit-resource-tab').each(function(index, tab) {
@@ -977,27 +705,14 @@
                                     done("Error! Valid files should have a file extension.");
                                 }
                             }
-                    } else if ($targetTabpaneLabel === 'syllabus') {
-                        dropzoneParams['maxFiles'] = 1
-                        dropzoneParams['accept'] = function(file, done) {
-                            if (
-                                getExtension(file.name) ==
-                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-                                getExtension(file.name) == "application/msword"
-                            ) {
-                                done();
-                            } else {
-                                done("Error! You have to submit a docx or doc file.");
-                            }
-                        }
                     } else if ($targetTabpaneLabel === 'presentation') {
-                        dropzoneParams['maxFiles'] = 1
+                        dropzoneParams['maxFiles'] = 10
                         dropzoneParams['accept'] = function(file, done) {
                             if (
                                 getExtension(file.name) ==
-                                "application/vnd.ms-powerpoint" ||
+                                "pptx" ||
                                 getExtension(file.name) ==
-                                "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                                "ppt"
                             ) {
                                 done();
                             } else {
@@ -1024,7 +739,6 @@
                         let trigger = false;
 
                         if ($input.length <= 0) {
-                            console.log($input.length)
                             trigger = true;
                         } else {
                             $input.each(function() {
@@ -1112,6 +826,14 @@
                     $(".submit-resource-form-actions .cancel").click(function() {
                         DropzoneInstance.removeAllFiles(true);
                     });
+
+                    $dropzone.find('form').submit(function(event) {
+                        event.preventDefault()
+
+                        $(this).find('.templateContainer :input').attr('disabled', true)
+
+                        this.submit()
+                    })
                 })
             })
         </script>

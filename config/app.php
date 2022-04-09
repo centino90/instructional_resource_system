@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Elibyy\TCPDF\ServiceProvider::class,
+        Barryvdh\Elfinder\ElfinderServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -236,7 +237,9 @@ return [
         'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Carbon' => Carbon\Carbon::class,
+        'Builder' => Illuminate\Database\Eloquent\Builder::class,
     ],
 
     'pdf_convertible_mimetypes' => [
@@ -252,10 +255,10 @@ return [
     'pdf_convertible_filetypes' => [
         'pptx',
         'ppt',
-        'pdf',
         'docx',
         'doc',
-        'odt'
+        'odt',
+        // 'pdf',
         // 'xlsx',
         // 'xls'
     ],

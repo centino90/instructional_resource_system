@@ -18,13 +18,19 @@ class StoreResourceByUrlRequest extends FormRequest
             return;
         }
 
+        if (request()->routeIs('syllabi.create')) {
+            $this->redirect = route(
+                'syllabi.create',
+                [request()->get('course'), 'uploadTab' => 'storage']
+            );
+            return;
+        }
+
         $this->redirect = route(
             'resource.create',
             [
-                request()->get('lesson_id'), 'submitType' => request()->routeIs('syllabi.uploadByUrl')
-                    ? 'syllabus' : (request()->routeIs('presentations.uploadByUrl')
-                        ? 'presentation'
-                        :  'general'), 'uploadTab' => 'storage'
+                request()->get('lesson_id'), 'submitType' => request()->routeIs('presentations.uploadByUrl')
+                    ? 'presentation' : 'general', 'uploadTab' => 'storage'
             ]
         );
     }
@@ -47,11 +53,10 @@ class StoreResourceByUrlRequest extends FormRequest
     public function rules()
     {
         return [
+            'course_id' => 'nullable|string',
+            'description' => 'nullable|string',
             'fileUrl' => 'required|url',
-            'course_id' => 'required|string',
-            'lesson_id' => 'required|string',
-            'title' => 'required|string',
-            // 'description' => 'required|string'
+            'title' => 'required|string'
         ];
     }
 }

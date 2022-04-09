@@ -1,14 +1,23 @@
 @props(['variant' => 'primary', 'defaultHeader' => false, 'vertical' => 'end', 'paddingX' => '', 'paddingY' => ''])
 
-<div
-    class="card shadow-sm
-@switch($variant) @case('primary')
-        @break
+@php
+$cardClass = collect(['card', 'shadow-sm']);
+@endphp
+
+@switch($variant)
+    @case('primary')
+    @break
+
     @case('secondary')
-        border-0
-        @break
-    @default @endswitch
-">
+        @php $cardClass->push('border-0') @endphp
+    @break
+
+    @default
+@endswitch
+
+<div {{ $attributes->merge([
+    'class' => $cardClass->join(' '),
+]) }}>
     @isset($header)
         <div
             class="card-header py-0 d-flex justify-content-between align-items-{{ $vertical }} @if (!$defaultHeader) bg-transparent @endif">
@@ -21,12 +30,14 @@
             </header>
 
             @isset($action)
-                {{ $action }}
+                <div class="hstack gap-2 align-items-{{ $vertical }}">
+                    {{ $action }}
+                </div>
             @endisset
         </div>
     @endisset
 
-    <div class="card-body px-{{$paddingX}} py-{{$paddingY}}">
+    <div class="card-body px-{{ $paddingX }} py-{{ $paddingY }} h-10=">
         {{ $body }}
     </div>
 </div>

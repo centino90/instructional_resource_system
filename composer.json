@@ -11,13 +11,16 @@
         "php": "^7.3|^8.0",
         "alexusmai/laravel-file-manager": "^2.5",
         "barryvdh/laravel-dompdf": "^0.9.0",
+        "barryvdh/laravel-elfinder": "^0.4.7",
         "elibyy/tcpdf-laravel": "^8.1",
         "emanueleminotto/simple-html-dom": "^1.5",
         "fabpot/goutte": "^4.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "initred/laravel-tabula": "^3.0",
         "laravel/framework": "^8.12",
+        "laravel/nexmo-notification-channel": "^2.5",
         "laravel/tinker": "^2.5",
         "laravelista/comments": "^4.5",
         "league/html-to-markdown": "^5.0",
@@ -29,8 +32,10 @@
         "setasign/fpdi": "^2.3",
         "spatie/laravel-activitylog": "^3.17",
         "spatie/laravel-medialibrary": "^9.0.0",
+        "spatie/pdf-to-text": "^1.51",
         "sunra/php-simple-html-dom-parser": "^1.5",
         "tecnickcom/tcpdf": "^6.4",
+        "thiagoalessio/tesseract_ocr": "^2.12",
         "tonchik-tm/pdf-to-html": "^1",
         "venturecraft/revisionable": "^1.38",
         "voku/simple_html_dom": "^4.7",
@@ -61,7 +66,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/custom.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

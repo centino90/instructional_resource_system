@@ -14,6 +14,9 @@ const purgecss = require('@fullhuman/postcss-purgecss')
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/sass/dean.scss', 'public/css')
+    .sass('resources/sass/admin.scss', 'public/css')
+    .sass('resources/sass/secretary.scss', 'public/css')
     .webpackConfig(require('./webpack.config'));
 
 if (mix.inProduction()) {

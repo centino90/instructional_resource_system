@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Events\ResourceCreated;
+use App\Http\Requests\StoreNewResourceVersionRequest;
 use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
 use App\Http\Requests\StoreSyllabusRequest;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Media;
 use App\Models\Resource;
 use App\Models\Syllabus;
 use App\Models\TemporaryUpload;
+use App\Models\TypologyStandard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -25,163 +28,115 @@ use PhpOffice\PhpWord\IOFactory;
 
 class SyllabusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $typologyVerbs = [];
+
+    public function __construct()
     {
-        dd('yes');
+        $this->typologyVerbs = TypologyStandard::where('enabled', true)->first()->verbs;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function create(Course $course)
     {
-        return view('create-syllabus')->with([
-            // 'courseDescriptionParagraphs' => $request->courseDescriptionParagraphs ?? 1,
-            // 'courseOutcomesParagraphs' => $request->courseOutcomesParagraphs ?? 1,
-            // 'courseOutcomesLists' => $request->courseOutcomesLists ?? 1,
-            // 'learningOutcomesParagraphs' => $request->learningOutcomesParagraphs ?? 1,
-            // 'learningOutcomesLists' => $request->learningOutcomesLists ?? 1,
-            // 'learningPlanLo' => $request->learningPlanLo ?? 1,
-            // 'learningPlanTopic' => $request->learningPlanTopic ?? 1,
-            // 'learningPlanActivities' => $request->learningPlanActivities ?? 1,
-            // 'learningPlanResources' => $request->learningPlanResources ?? 1,
-            // 'learningPlanAssessmentTools' => $request->learningPlanAssessmentTools ?? 1,
-            // 'studentOutputsParagraphs' => $request->studentOutputsParagraphs ?? 1,
-            // 'studentOutputsLists' => $request->studentOutputsLists ?? 1
-        ]);
+        $resourceActivities = $course->resources()->with('activityLogs')->where('is_syllabus', true)->get()->map(function ($item, $key) {
+            return $item->activityLogs->filter(function ($value, $key) {
+                return Str::contains($value->log_name, ['resource-created', 'resource-versioned']);
+            });
+        })->flatten()->sortByDesc('created_at');
+
+        return view('pages.course-syllabus-create', compact('course', 'resourceActivities'));
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request, Course $course)
     {
-        // Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
+        $file = $request->file;
+        $temporaryFile = TemporaryUpload::where('folder_name', $file)->first();
 
-        $index = 0;
+        $courseSyllabus = $course->latestSyllabus;
 
-        foreach ($request->file as $file) {
-            if (empty($file)) {
-                $index++;
-                continue;
+        if (!$temporaryFile) {
+            $temporaryFile = $courseSyllabus->currentMediaVersion;
+            $filePath = $temporaryFile->getPath();
+            $resource = $courseSyllabus;
+        } else {
+            if (!$courseSyllabus) {
+                // dd('nono', $courseSyllabus);
+                $batchId = Str::uuid();
+                $resource = Resource::create([
+                    'title' => $request->title,
+                    'lesson_id' => $request->lesson_id ?? null,
+                    'course_id' => $request->course_id,
+                    'user_id' => auth()->id(),
+                    'description' => $request->description,
+                    'approved_at' => null,
+                    'batch_id' => $batchId,
+                    'is_syllabus' => 1,
+                ]);
+                $resource->users()->attach($resource->user_id, ['batch_id' => $batchId]);
+
+                event(new ResourceCreated($resource));
+            } else {
+                $resource = $courseSyllabus;
+
+                // event(new ResourceCreated($resource)); new version added
             }
 
-            $temporaryFile = TemporaryUpload::where('folder_name', $file)->firstOrFail();
             $filePath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
+            $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name);
+            $newFilename = pathinfo($newFilePath, PATHINFO_FILENAME) . '.' . pathinfo($newFilePath, PATHINFO_EXTENSION);
 
-            $phpWord = IOFactory::load($filePath);
-            $section = $phpWord->addSection();
+            Storage::disk('public')->putFileAs('users/' . auth()->id() . '/resources', $filePath, $newFilename);
+            $resource->addMedia($filePath)->toMediaCollection();
+            Storage::deleteDirectory("app/public/resource/tmp/{$temporaryFile->folder_name}");
+            $temporaryFile->delete();
 
-            // $filename = explode('.', $temporaryFile->file_name);
-            $origname = pathinfo($temporaryFile->file_name, PATHINFO_FILENAME);
-            $source = storage_path('app/public/') . $origname . '.html';
+            // override pending media
+            $t = $resource->currentMediaVersion->id;
+            if ($resource->verificationStatus == 'Pending' && !empty($courseSyllabus)) {
+                Media::find($resource->currentMediaVersion->id)->delete();
 
-            // Saving the doc as html
-            $objWriter = IOFactory::createWriter($phpWord, 'HTML');
-            $html = $objWriter->getContent($source);
+                $resource->refresh();
+            } else {
+                $resource->update([
+                    'approved_at' => null
+                ]);
 
-            $verbs = [
-                'REMEMBER' => [
-                    'DEFINE', 'DESCRIBE', 'LABEL', 'LIST', 'MATCH', 'RECALL', 'RECOGNIZE', 'STATE'
-                ],
-                'UNDERSTAND' => [
-                    'CLASSIFY', 'COMPARE', 'DISCUSS', 'EXEMPLIFY', 'EXPLAIN', 'IDENTIFY', 'ILLUSTRATE', 'INFER', 'INTERPRET', 'PREDICT', 'REPORT', 'REVIEW', 'SUMMARIZE', 'TRANSLATE'
-                ],
-                'APPLY' => [
-                    'CHANGE', 'CHOOSE', 'DEMONSTRATE', 'EXECUTE', 'IMPLEMENT', 'PREPARE', 'SOLVE', 'USE'
-                ],
-                'ANALYZE' => [
-                    'ATTRIBUTE', 'DEBATE', 'DIFFERENTIATE', 'DISTINGUISH', 'EXAMINE', 'ORGANIZE', 'RESEARCH'
-                ],
-                'EVALUATE' => [
-                    'APPRAISE', 'CHECK', 'CRITIQUE', 'JUDGE'
-                ],
-                'CREATE' => [
-                    'COMPOSE', 'CONSTRUCT', 'DESIGN', 'DEVELOP', 'FORMULATE', 'GENERATE', 'INVENT', 'MAKE', 'ORGANIZE', 'PLAN', 'PRODUCE', 'PROPOSE'
-                ],
-                'PERCEIVE' => [
-                    'DETECT', 'DIFFERENTIATE', 'DISTINGUISH', 'IDENTIFY', 'OBSERVE', 'RECOGNIZE', 'RELATE'
-                ],
-                'SET' => [
-                    'ASSUME A STANCE', 'DISPLAY', 'PERFORM MOTOR SKILLS', 'POSITION THE BODY', 'PROCEED', 'SHOW'
-                ],
-                'RESPOND AS GUIDED' => [
-                    'COPY', 'DUPLICATE', 'MITATE', 'OPERATE UNDER SUPERVISION', 'PRACTICE', 'REPEAT', 'REPRODUCE'
-                ],
-                'ACT' => [
-                    'ASSEMBLE', 'CALIBRATE', 'COMPLETE WITH CONFIDENCE', 'CONDUCT', 'CONSTRUCT', 'DEMONSTRATE', 'DISMANTLE', 'FIX', 'EXECUTE', 'IMPROVE EFFICIENCY', 'MAKE', 'MANIPULATE', 'MEASURE', 'MEND', 'ORGANIZE', 'PRODUCE'
-                ],
-                'RESPOND OVERTLY' => [
-                    'ACT HABITUALLY', 'CONTROL', 'DIRECT', 'GUIDE', 'MANAGE', 'PERFORM'
-                ],
-                'ADAPT' => [
-                    'ALTER', 'CHANGE', 'REARRANGE', 'REORGANIZE', 'REVISES'
-                ],
-                'RECEIVE' => [
-                    'ACKNOWLEDGE', 'CHOOSE', 'DEMONSTRATE AWARENESS', 'DEMONSTRATE TOLERANCE', 'LOCATE', 'SELECT'
-                ],
-                'RESPOND' => [
-                    'ANSWER', 'COMMUNICATE', 'COMPLY', 'CONTRIBUTE', 'COOPERATE', 'DISCUSS', 'PARTICIPATE WILLINGLY', 'VOLUNTEER'
-                ],
-                'VALUE' => [
-                    'ADOPT', 'ASSUME RESPONSIBILITY', 'BEHAVE ACCORDING TO', 'CHOOSE', 'COMMIT', 'EXPRESS', 'INITIATE', 'JUSTIFY', 'PROPOSE', 'SHOW CONCERN', 'USE RESOURCES TO'
-                ],
-                'ORGANIZE' => [
-                    'BUILD', 'COMPOSE', 'CONSTRUCT', 'CREATE', 'DESIGN', 'ORIGINATE', 'MAKE', 'ADAPT', 'ADJUST', 'ARRANGE', 'BALANCE', 'CLASSIFY', 'CONCEPTUALIZE', 'FORMULATE', 'PREPARE', 'RANK', 'THEORIZE'
-                ],
-                'CHARACTERIZE' => [
-                    'ACT UPON', 'ADVOCATE', 'DEFEND', 'EXEMPLIFY', 'INFLUENCE', 'PERFORM', 'PRACTICE', 'SERVE', 'SUPPORT'
-                ],
-            ];
+                $resource->refresh();
+            }
 
-            preg_match('/<body>(.*?)<\/body>/s', $html, $match);
-
-            return view('pages.syllabus-validation')->with([
-                'lesson' => Lesson::findOrFail($request->lesson_id),
-                'formData' => [
-                    'type' => 'file',
-                    'file' => $request->file[$index],
-                    'title' => $request->title[$index],
-                    'description' => $request->description[$index],
-                ],
-                'syllabusHtml' => trim($match[1]),
-                'verbs' => $verbs
-            ]);
+            $filePath = $resource->currentMediaVersion->getPath();
         }
 
-        return response()->json([
-            'status' => 'fail',
-            'message' =>  'upload was unsuccessful.',
+        // load converter
+        $phpWord = IOFactory::load($filePath);
+
+        // set word filename and srcpath
+        $origname = pathinfo($temporaryFile->file_name, PATHINFO_FILENAME);
+        $source = storage_path('app/public/') . $origname . '.html';
+
+        // Writing and Saving the doc as html
+        $objWriter = IOFactory::createWriter($phpWord, 'HTML');
+        $html = $objWriter->getContent($source);
+
+        // dd('nonono', $resource);
+
+        // set verb checking standard
+        $verbs = $this->typologyVerbs;
+
+        // remove default style
+        /* preg_match('/<body>(.*?)<\/body>/s', $html, $match); */
+
+        $resource->html = $html;
+
+
+        return view('pages.syllabus-validation')->with([
+            'course' => $resource->course,
+            'resource' => $resource,
+            'verbs' => $verbs
         ]);
     }
 
-    public function lessonCreation(Request $request)
+    public function uploadByUrl(Request $request, Course $course)
     {
-        collect($request->lesson)->each(function ($lesson) use ($request) {
-            Lesson::create(
-                [
-                    'title' => $lesson,
-                    'user_id' => auth()->id(),
-                    'course_id' => $request->course_id
-                ]
-            );
-        });
-
-        return response()->json([
-            'statusCode' => 200,
-            'message' => sizeof($request->lesson) . " lesson(s) were successfully created."
-        ]);
-    }
-
-    public function uploadByUrl(StoreResourceByUrlRequest $request)
-    {
-        // dd('nani');
-        // Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->findOrFail($request->course_id);
-
         $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
         $fileName = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
         $fileExt = pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
@@ -193,96 +148,61 @@ class SyllabusController extends Controller
                 ])->withInput();
         }
 
-        $request->file = [
-            'filePath' => storage_path('app/public/' . $filePath),
-            'file_name' => $fileName
-        ];
+        $courseSyllabus = $course->latest_syllabus;
 
+        if (!$courseSyllabus) {
+            $batchId = Str::uuid();
+            $resource = Resource::create([
+                'title' => $request->title,
+                'lesson_id' => $request->lesson_id ?? null,
+                'course_id' => $request->course_id,
+                'user_id' => auth()->id(),
+                'description' => $request->description,
+                'approved_at' => null,
+                'batch_id' => $batchId,
+                'is_syllabus' => 1,
+            ]);
+            $resource->users()->attach($resource->user_id, ['batch_id' => $batchId]);
 
-        $temporaryFile = $request->file;
-        $filePath = $temporaryFile['filePath'];
+            event(new ResourceCreated($resource));
+        } else {
+            $resource = $courseSyllabus;
+
+            // event(new ResourceCreated($resource)); new version added
+        }
+        $filePath = storage_path('app/public/' . $filePath);
+        $resource->addMedia($filePath)->preservingOriginal()->toMediaCollection();
+
+        // override pending media
+        if ($resource->verificationStatus == 'Pending' && !empty($courseSyllabus)) {
+            Media::find($resource->currentMediaVersion->id)->delete();
+        } else {
+            $resource->update([
+                'approved_at' => null
+            ]);
+
+            $resource->refresh();
+        }
 
         $phpWord = IOFactory::load($filePath);
-        $section = $phpWord->addSection();
 
-        $origname = pathinfo($temporaryFile['file_name'], PATHINFO_FILENAME);
+        $origname = pathinfo($fileName, PATHINFO_FILENAME);
         $source = storage_path('app/public/') . $origname . '.html';
 
         // Saving the doc as html
         $objWriter = IOFactory::createWriter($phpWord, 'HTML');
         $html = $objWriter->getContent($source);
 
-        $verbs = [
-            'REMEMBER' => [
-                'DEFINE', 'DESCRIBE', 'LABEL', 'LIST', 'MATCH', 'RECALL', 'RECOGNIZE', 'STATE'
-            ],
-            'UNDERSTAND' => [
-                'CLASSIFY', 'COMPARE', 'DISCUSS', 'EXEMPLIFY', 'EXPLAIN', 'IDENTIFY', 'ILLUSTRATE', 'INFER', 'INTERPRET', 'PREDICT', 'REPORT', 'REVIEW', 'SUMMARIZE', 'TRANSLATE'
-            ],
-            'APPLY' => [
-                'CHANGE', 'CHOOSE', 'DEMONSTRATE', 'EXECUTE', 'IMPLEMENT', 'PREPARE', 'SOLVE', 'USE'
-            ],
-            'ANALYZE' => [
-                'ATTRIBUTE', 'DEBATE', 'DIFFERENTIATE', 'DISTINGUISH', 'EXAMINE', 'ORGANIZE', 'RESEARCH'
-            ],
-            'EVALUATE' => [
-                'APPRAISE', 'CHECK', 'CRITIQUE', 'JUDGE'
-            ],
-            'CREATE' => [
-                'COMPOSE', 'CONSTRUCT', 'DESIGN', 'DEVELOP', 'FORMULATE', 'GENERATE', 'INVENT', 'MAKE', 'ORGANIZE', 'PLAN', 'PRODUCE', 'PROPOSE'
-            ],
-            'PERCEIVE' => [
-                'DETECT', 'DIFFERENTIATE', 'DISTINGUISH', 'IDENTIFY', 'OBSERVE', 'RECOGNIZE', 'RELATE'
-            ],
-            'SET' => [
-                'ASSUME A STANCE', 'DISPLAY', 'PERFORM MOTOR SKILLS', 'POSITION THE BODY', 'PROCEED', 'SHOW'
-            ],
-            'RESPOND AS GUIDED' => [
-                'COPY', 'DUPLICATE', 'MITATE', 'OPERATE UNDER SUPERVISION', 'PRACTICE', 'REPEAT', 'REPRODUCE'
-            ],
-            'ACT' => [
-                'ASSEMBLE', 'CALIBRATE', 'COMPLETE WITH CONFIDENCE', 'CONDUCT', 'CONSTRUCT', 'DEMONSTRATE', 'DISMANTLE', 'FIX', 'EXECUTE', 'IMPROVE EFFICIENCY', 'MAKE', 'MANIPULATE', 'MEASURE', 'MEND', 'ORGANIZE', 'PRODUCE'
-            ],
-            'RESPOND OVERTLY' => [
-                'ACT HABITUALLY', 'CONTROL', 'DIRECT', 'GUIDE', 'MANAGE', 'PERFORM'
-            ],
-            'ADAPT' => [
-                'ALTER', 'CHANGE', 'REARRANGE', 'REORGANIZE', 'REVISES'
-            ],
-            'RECEIVE' => [
-                'ACKNOWLEDGE', 'CHOOSE', 'DEMONSTRATE AWARENESS', 'DEMONSTRATE TOLERANCE', 'LOCATE', 'SELECT'
-            ],
-            'RESPOND' => [
-                'ANSWER', 'COMMUNICATE', 'COMPLY', 'CONTRIBUTE', 'COOPERATE', 'DISCUSS', 'PARTICIPATE WILLINGLY', 'VOLUNTEER'
-            ],
-            'VALUE' => [
-                'ADOPT', 'ASSUME RESPONSIBILITY', 'BEHAVE ACCORDING TO', 'CHOOSE', 'COMMIT', 'EXPRESS', 'INITIATE', 'JUSTIFY', 'PROPOSE', 'SHOW CONCERN', 'USE RESOURCES TO'
-            ],
-            'ORGANIZE' => [
-                'BUILD', 'COMPOSE', 'CONSTRUCT', 'CREATE', 'DESIGN', 'ORIGINATE', 'MAKE', 'ADAPT', 'ADJUST', 'ARRANGE', 'BALANCE', 'CLASSIFY', 'CONCEPTUALIZE', 'FORMULATE', 'PREPARE', 'RANK', 'THEORIZE'
-            ],
-            'CHARACTERIZE' => [
-                'ACT UPON', 'ADVOCATE', 'DEFEND', 'EXEMPLIFY', 'INFLUENCE', 'PERFORM', 'PRACTICE', 'SERVE', 'SUPPORT'
-            ],
-        ];
+        $verbs = $this->typologyVerbs;
 
-        preg_match('/<body>(.*?)<\/body>/s', $html, $match);
+        $resource->html = $html;
+
+        // preg_match('/<body>(.*?)<\/body>/s', $html, $match);
 
         return view('pages.syllabus-validation')->with([
-            'lesson' => Lesson::findOrFail($request->lesson_id),
-            'formData' => [
-                'type' => 'url',
-                'file' => $request->file['filePath'],
-                'title' => $request->title,
-                'description' => $request->description,
-            ],
-            'syllabusHtml' => trim($match[1]),
+            'course' => $resource->course,
+            'resource' => $resource,
             'verbs' => $verbs
-        ]);
-
-        return response()->json([
-            'status' => 'fail',
-            'message' =>  'upload was unsuccessful.',
         ]);
     }
 
@@ -314,45 +234,20 @@ class SyllabusController extends Controller
         return $filePath;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function confirmValidation(Request $request, Resource $resource)
     {
-
-        $temporaryFile = TemporaryUpload::firstWhere('folder_name', $request->filePath);
-
-        $newFileName = 'syllabus-' . date('Y') . '-' . $temporaryFile->file_name;
-        $r = Resource::create([
-            'lesson_id' => $request->lesson_id,
-            'course_id' => $request->course_id,
-            'title' => $request->title,
-            'user_id' => auth()->id(),
-            'description' => $request->description,
-            'batch_id' => Str::uuid(),
-            'is_syllabus' => 1,
+        $resource->update([
             'approved_at' => now()
         ]);
 
-        $r->users()->attach($r->user_id, ['batch_id' => $r->batch_id]);
-
-        $r->addMedia(storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name))
-            ->usingFileName($newFileName)
-            ->toMediaCollection();
-
-        rmdir(storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name));
-
-        event(new ResourceCreated($r));
-
-        $syllabus = Resource::with('media', 'user')->findOrFail($r->id);
-
-        $status = !empty($syllabus->approved_at) ? 'approved' : (!empty($syllabus->rejected_at) ? 'rejected' : 'for approval');
-        $syllabus->status = $status;
-        $isOwner = $syllabus->user_id == auth()->id() ? true : false;
-        $syllabus->isOwner = $isOwner;
+        if ($resource->hasMultipleMedia) {
+            activity()
+                ->causedBy($resource->user)
+                ->useLog('resource-versioned')
+                ->performedOn($resource)
+                ->withProperties($resource->toArray())
+                ->log("{$resource->user->nameTag} created a new version of {$resource->title} (id: {$resource->id})");
+        }
 
         collect($request->lesson)->each(function ($lesson) use ($request) {
             Lesson::create(
@@ -364,133 +259,123 @@ class SyllabusController extends Controller
             );
         });
 
-        // $request->flash('status', 'Success');
-        // $request->flash('message', 'Syllabus was successfully validated and ' . sizeof($request->lesson) . ' lesson(s) were successfully created');
-
-        return redirect()->route('resource.create', ['submitType' => 'syllabus'])->with([
+        return redirect()->route('syllabi.create', $resource->course)->with([
             'status' => 'success',
-            'message' => 'Syllabus was successfully validated and ' . sizeof($request->lesson) . " lesson(s) were successfully created."
+            'message' => $resource->currentMediaVersion->file_name . ' (Syllabus) was successfully validated and ' . sizeof($request->lesson) . " lesson(s) were successfully created."
         ]);
     }
 
-    public function storeByUrl(StoreResourceByUrlRequest $request)
+    public function storeNewVersion(Request $request, Resource $resource)
     {
-        $filePath = str_replace(url('storage') . '/', "", $request->filePath);
-        $filename = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
+        $temporaryFile = TemporaryUpload::firstWhere('folder_name', $request->file);
 
-        $newFileName = 'syllabus-' . date('Y') . '-' . $filename;
-        $r = Resource::create([
-            'lesson_id' => $request->lesson_id,
-            'course_id' => $request->course_id,
-            'title' => $request->title,
-            'user_id' => auth()->id(),
-            'description' => $request->description,
-            'batch_id' => Str::uuid(),
-            'is_syllabus' => 1,
-            'approved_at' => now()
-        ]);
+        if ($temporaryFile) {
+            $tempFilePath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
+            $copiedTempFilePath = storage_path('app/public/resource/tmp/presentation.' . pathinfo($tempFilePath, PATHINFO_EXTENSION));
+            if (file_exists($copiedTempFilePath)) {
+                Storage::disk('public')->delete('resource/tmp/presentation.' . pathinfo($tempFilePath, PATHINFO_EXTENSION));
+            }
 
-        $r->users()->attach($r->user_id, ['batch_id' => $r->batch_id]);
+            if ($resource->verificationStatus == 'Pending' && $resource->hasMultipleMedia) {
+                Media::find($resource->currentMediaVersion->id)->delete();
+            } else {
+                $resource->update([
+                    'approved_at' => null,
+                    'archived_at' => null
+                ]);
+            }
 
-        $r->addMediaFromDisk($filePath, 'public')
-            ->usingFileName($newFileName)
-            ->preservingOriginal()
-            ->toMediaCollection();
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($resource)
+                ->useLog('resource-attempt-versioned')
+                ->withProperties($resource->getChanges())
+                ->log(auth()->user()->nameTag . " submitted a new version (resource: {$resource->title}) ({id: $resource->id})");
 
-        event(new ResourceCreated($r));
+            Storage::disk('public')->copy('resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name, 'resource/tmp/presentation.' . pathinfo($tempFilePath, PATHINFO_EXTENSION));
+            $resource->addMedia($tempFilePath)->toMediaCollection();
+            $temporaryFile->delete();
 
-        $syllabus = Resource::with('media', 'user')->findOrFail($r->id);
+            $resource->refresh();
+        }
+        $filePath = $resource->currentMediaVersion->getPath();
 
-        $status = !empty($syllabus->approved_at) ? 'approved' : (!empty($syllabus->rejected_at) ? 'rejected' : 'for approval');
-        $syllabus->status = $status;
-        $isOwner = $syllabus->user_id == auth()->id() ? true : false;
-        $syllabus->isOwner = $isOwner;
+        // load converter
+        $phpWord = IOFactory::load($filePath);
 
-        return response()->json([
-            'statusCode' => 200,
-            'message' => 'Syllabus was successfully validated and ' . sizeof($request->lesson) . " lesson(s) were successfully created."
+        // set word filename and srcpath
+        $origname = pathinfo($resource->currentMediaVersion->file_name, PATHINFO_FILENAME);
+        $source = storage_path('app/public/') . $origname . '.html';
+
+        // Writing and Saving the doc as html
+        $objWriter = IOFactory::createWriter($phpWord, 'HTML');
+        $html = $objWriter->getContent($source);
+
+        // delete temp file
+        Storage::delete($source);
+
+        // set verb checking standard
+        $verbs = $this->typologyVerbs;
+
+        // remove default style
+        /* preg_match('/<body>(.*?)<\/body>/s', $html, $match); */
+
+        $resource->html = $html;
+
+        return view('pages.syllabus-validation')->with([
+            'course' => $resource->course,
+            'resource' => $resource,
+            'verbs' => $verbs
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Syllabus  $syllabus
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function storeNewVersionByUrl(StoreResourceByUrlRequest $request, Resource $resource)
     {
-        return view('show-syllabus');
-    }
+        $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
+        $fileName = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
+        $fileExt = pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
 
-    public function preview($id)
-    {
-        $resource = Resource::findOrFail($id);
-        Gate::authorize('view', $resource);
+        if ($resource->verificationStatus == 'Pending' && $resource->hasMultipleMedia) {
+            Media::find($resource->currentMediaVersion->id)->delete();
+        } else {
+            $resource->update([
+                'approved_at' => null,
+                'archived_at' => null
+            ]);
+        }
 
-        $phpWord = IOFactory::load($resource->getFirstMediaPath());
-        $section = $phpWord->addSection();
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($resource)
+            ->useLog('resource-attempt-versioned')
+            ->withProperties($resource->getChanges())
+            ->log(auth()->user()->nameTag . " submitted a new version (resource: {$resource->title}) ({id: $resource->id})");
 
-        $source = storage_path('app/public/') . $resource->getFirstMedia()->name . '.html';
+        $filePath = storage_path('app/public/' . $filePath);
+        $resource->addMedia($filePath)->preservingOriginal()->toMediaCollection();
+
+        $resource->refresh();
+        $filePath = $resource->currentMediaVersion->getPath();
+
+        $phpWord = IOFactory::load($filePath);
+
+        $origname = pathinfo($fileName, PATHINFO_FILENAME);
+        $source = storage_path('app/public/') . $origname . '.html';
 
         // Saving the doc as html
         $objWriter = IOFactory::createWriter($phpWord, 'HTML');
         $html = $objWriter->getContent($source);
 
+        $verbs = $this->typologyVerbs;
+
         $resource->html = $html;
 
-        return $resource;
-    }
+        // preg_match('/<body>(.*?)<\/body>/s', $html, $match);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Syllabus  $syllabus
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Syllabus $syllabus)
-    {
-        return view('edit-syllabus')->with('syllabus', $syllabus);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Syllabus  $syllabus
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreSyllabusRequest $request, Syllabus $syllabus)
-    {
-        if (isset($request->syllabus_preview)) {
-            $pdf = PDF::loadView('pdf.invoice', ['data' => $request->all()]);
-
-            return $pdf->download('invoice.pdf');
-        }
-
-        $syllabus->update(
-            $request->validated()
-        );
-
-        if ($request->check_stay) {
-            return redirect()
-                ->route('syllabi.edit', $syllabus->resource_id)
-                ->with('success', 'Syllabus was updated successfully');
-        }
-
-        return redirect()
-            ->route('resources.index')
-            ->with('success', 'Syllabus was updated successfully');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Syllabus  $syllabus
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Syllabus $syllabus)
-    {
-        //
+        return view('pages.syllabus-validation')->with([
+            'course' => $resource->course,
+            'resource' => $resource,
+            'verbs' => $verbs
+        ]);
     }
 }

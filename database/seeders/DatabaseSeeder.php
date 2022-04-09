@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CourseSeeder::class,
             LessonSeeder::class,
-            ResourceSeeder::class,
+            TypologyStandardSeeder::class
+            // ResourceSeeder::class,
             // ResourceDownloadSeeder::class
-            // DogSeeder::class,
             // SyllabusSeeder::class
         ]);
 

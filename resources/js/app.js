@@ -73,3 +73,21 @@ $(buttonSelectors()).click(function () {
 
 [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
   .forEach(el => new bootstrap.Popover(el))
+
+
+
+  $('table').each(function(index, item) {
+    if($.fn.DataTable.isDataTable(item)) {
+        $.extend(true, $.fn.dataTable.defaults, {
+            "bsort": false,
+            "bStateSave": true,
+            "stateSaveParams": function(settings, data) {
+                data.search.search = ""
+                data.order = [
+                    []
+                ]
+            }
+        });
+    }
+  })
+

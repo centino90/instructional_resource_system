@@ -54,7 +54,6 @@ div.table .file-row:nth-child(odd) {
     display: none;
 }
 
-
 /* Hide the start and cancel buttons and show the delete button */
 .previews .file-row.dz-success .start,
 .previews .file-row.dz-error .start,
@@ -246,16 +245,6 @@ div.table .file-row:nth-child(odd) {
     }
 }
 
-// loading
-[type="submit"].loading,
-.submit.loading {
-    &::before {
-        content: "⥁";
-        display: inline-block;
-        animation: spinner-border 1.5s linear infinite;
-    }
-}
-
 // .pagination {
 //     max-width: 400px;
 //     min-width: 300px;
@@ -308,3 +297,42 @@ div.table .file-row:nth-child(odd) {
     word-break: break-word !important;
 }
 
+.scrolled-focus {
+    color: $primary;
+    border-color: $primary;
+    background: rgba($primary, 0.1);
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+
+@-webkit-keyframes glow {
+    from {
+        text-shadow: 0;
+    }
+    to {
+        text-shadow: 0 0 .5px $primary, 0 0 5px rgba($primary, .2);
+    }
+}
+
+
+.dataTables_empty {
+    padding: 1.5rem .8rem !important;
+    color: $text-muted;
+    text-align: center;
+    vertical-align: middle;
+
+    &::before {
+        font-size: $h3-font-size;
+        font-family: 'Material Icons';
+        content: "\e002";
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+}
+
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
