@@ -11,6 +11,7 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Resource;
+use App\Models\ResourceType;
 use App\Models\Syllabus;
 use App\Models\TemporaryUpload;
 use App\Models\TypologyStandard;
@@ -59,17 +60,17 @@ class SyllabusController extends Controller
             $resource = $courseSyllabus;
         } else {
             if (!$courseSyllabus) {
-                // dd('nono', $courseSyllabus);
                 $batchId = Str::uuid();
                 $resource = Resource::create([
                     'title' => $request->title,
                     'lesson_id' => $request->lesson_id ?? null,
                     'course_id' => $request->course_id,
+                    // 'resource_type_id' => ResourceType::TYPE_SYLLABUS,
                     'user_id' => auth()->id(),
                     'description' => $request->description,
                     'approved_at' => null,
                     'batch_id' => $batchId,
-                    'is_syllabus' => 1,
+                    'is_syllabus' => true,
                 ]);
                 $resource->users()->attach($resource->user_id, ['batch_id' => $batchId]);
 

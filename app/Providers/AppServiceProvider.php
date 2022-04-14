@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use League\HTMLToMarkdown\HtmlConverter;
 use League\HTMLToMarkdown\Converter\TableConverter;
+use ConsoleTVs\Charts\Registrar as Charts;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,8 +33,29 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Charts $charts)
     {
+        $charts->register([
+            \App\Charts\ResourcesWeeklyChart::class
+        ]);
+        $charts->register([
+            \App\Charts\ResourcesMonthlyChart::class
+        ]);
+        $charts->register([
+            \App\Charts\ResourcesYearlyChart::class
+        ]);
 
+        $charts->register([
+            \App\Charts\OnTimeDelayedSyllabusChart::class
+        ]);
+        $charts->register([
+            \App\Charts\CoursesWithOldSyllabusChart::class
+        ]);
+        $charts->register([
+            \App\Charts\CoursesWithOldSyllabusChart::class
+        ]);
+        $charts->register([
+            \App\Charts\PercentageByResourceTypeChart::class
+        ]);
     }
 }

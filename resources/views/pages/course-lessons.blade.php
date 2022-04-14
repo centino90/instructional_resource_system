@@ -149,7 +149,7 @@
                                         </x-slot>
                                         <x-slot name="rows">
                                             @foreach ($course->lessons()->withoutArchived()->get() as $lesson)
-                                                <tr id="lesson{{ $lesson->id }}">
+                                                <tr id="tableRow{{ $lesson->id }}">
                                                     <td class="lessonTitle">
                                                         {{ $lesson->title }}
                                                     </td>
@@ -197,7 +197,7 @@
                                         </x-slot>
                                         <x-slot name="rows">
                                             @foreach ($course->lessons()->onlyArchived()->get() as $lesson)
-                                                <tr id="lesson{{ $lesson->id }}">
+                                                <tr id="tableRow{{ $lesson->id }}">
                                                     <td>{{ $lesson->title }}</td>
                                                     <td>
                                                         <div class="line-clamp">
@@ -241,7 +241,7 @@
                                         </x-slot>
                                         <x-slot name="rows">
                                             @foreach ($course->lessons()->onlyTrashed()->get() as $lesson)
-                                                <tr id="lesson{{ $lesson->id }}">
+                                                <tr id="tableRow{{ $lesson->id }}">
                                                     <td>{{ $lesson->title }}</td>
                                                     <td>
                                                         <div class="line-clamp">
@@ -276,62 +276,6 @@
     @section('script')
         <script>
             $(document).ready(function() {
-                const subjectLesson = `{{session()->get('subjectLesson')}}`;
-                if (subjectLesson) {
-                    const $scrolledToElement = $(`#lesson${subjectLesson}`)
-                    $scrolledToElement.addClass('scrolled-focus')
-                }
-
-                $('.allCourseLessonsTable').DataTable({
-                    "order": [
-                        [2, "desc"]
-                    ],
-                    "bStateSave": true,
-                    "stateSaveParams": function(settings, data) {
-                        data.search.search = ""
-                        data.order = [
-                            [2, "desc"]
-                        ]
-                    },
-                    language: {
-                        emptyTable: 'No lessons available in this table'
-                    }
-                })
-
-                $('.archivedCourseLessonsTable').DataTable({
-                    "order": [
-                        [2, "desc"]
-                    ],
-                    "bStateSave": true,
-                    "stateSaveParams": function(settings, data) {
-                        data.search.search = ""
-                        data.order = [
-                            [2, "desc"]
-                        ]
-                    },
-                    language: {
-                        emptyTable: 'No lessons available in this table'
-                    }
-                })
-
-
-                $('.trashedCourseLessonsTable').DataTable({
-                    "order": [
-                        [2, "desc"]
-                    ],
-                    "bStateSave": true,
-                    "stateSaveParams": function(settings, data) {
-                        data.search.search = ""
-                        data.order = [
-                            [2, "desc"]
-                        ]
-                    },
-                    language: {
-                        emptyTable: 'No lessons available in this table'
-                    }
-                })
-
-
                 const exampleModal = document.getElementById('courseLessonModal')
                 exampleModal.addEventListener('show.bs.modal', function(event) {
                     const $button = $(event.relatedTarget)

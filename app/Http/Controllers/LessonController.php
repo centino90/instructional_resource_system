@@ -117,6 +117,7 @@ class LessonController extends Controller
             ->with([
                 'subjectInstructor' => $lesson->user_id,
                 'subjectLesson' => $lesson->id,
+                'updatedSubject' => "tableRow{$lesson->id}",
                 'status' => 'success',
                 'message' => $message
             ]);
@@ -141,6 +142,7 @@ class LessonController extends Controller
             ->with([
                 'subjectInstructor' => $lesson->user_id,
                 'subjectLesson' => $lesson->id,
+                'updatedSubject' => "tableRow{$lesson->id}",
                 'status' => 'success',
                 'message' => $message
             ]);
@@ -168,6 +170,7 @@ class LessonController extends Controller
             ->with([
                 'subjectInstructor' => $lesson->user_id,
                 'subjectLesson' => $lesson->id,
+                'updatedSubject' => "tableRow{$lesson->id}",
                 'status' => 'success',
                 'message' => $message
             ]);

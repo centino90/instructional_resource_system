@@ -1,7 +1,7 @@
-@props(['type' => 'text', 'size' => 'md'])
+@props(['type' => 'text', 'size' => 'md', 'marginBottom' => '3'])
 
 
-<div class="{{ $type == 'check' ? 'form-check' : 'form-floating' }} mb-3">
+<div class="{{ $type == 'check' ? 'form-check' : 'form-floating' }} mb-{{$marginBottom}}">
     @switch($type)
         @case('textarea')
             <textarea autocomplete="off" placeholder="_" style="height: 120px" {{ $attributes->merge(['class' => 'form-control form-control-' . $size]) }}>@isset($oldValue){{ $oldValue }}@endisset</textarea>

@@ -1,11 +1,6 @@
 <?php
 
-use App\HelperClass\PdfToHtmlHelper;
 use App\Http\Controllers\ActivitiesController;
-use App\Http\Controllers\Admin\CoursesController;
-use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\ArchiveController;
-use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeletedResourceController;
@@ -16,29 +11,19 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\UploadTemporaryFileController;
-use App\Http\Controllers\Admin\InstructorsController;
-use App\Http\Controllers\Admin\NotificationsController;
-use App\Http\Controllers\Admin\PersonnelsController;
-use App\Http\Controllers\Admin\ProgramsController as AdminProgramController;
 use App\Http\Controllers\ProgramController;
-use App\Http\Controllers\Admin\ResourcesController;
-use App\Http\Controllers\Instructor\CourseController as InstructorCourseController;
-use App\Http\Controllers\Instructor\LessonController as InstructorLessonController;
-use App\Http\Controllers\Instructor\ResourceController as InstructorResourceController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PresentationResourceController;
-use App\Http\Controllers\ProgramDean\SubmissionsController;
+use App\Http\Controllers\ProgramDean\ContentManagementController;
+use App\Http\Controllers\ProgramDean\InstructorsController as ProgramDeanInstructorsController;
+use App\Http\Controllers\ProgramDean\ReportsController;
+use App\Http\Controllers\ProgramDean\ResourceController as ProgramDeanResourceController;
 use App\Http\Controllers\StorageController;
+use App\Http\Controllers\ProgramDean\TypologyStandardController;
 use App\Http\Controllers\UsersController;
-use App\Models\Course;
 use App\Models\Role;
-use App\Models\TypologyStandard;
-use App\Models\User;
-use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Spatie\PdfToText\Pdf;
-use Symfony\Component\CssSelector\Node\FunctionNode;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,7 +49,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('program', ProgramController::class);
 
-    Route::get('course/{course}/recent-submissions', [CourseController::class, 'showRecentSubmissions'])->name('course.showRecentSubmissions');
+    Route::get('course/{course}/resources', [CourseController::class, 'showResources'])->name('course.showResources');
     Route::get('course/{course}/most-active-instructors', [CourseController::class, 'showMostActiveInstructors'])->name('course.showMostActiveInstructors');
     Route::get('course/{course}/lessons', [CourseController::class, 'showLessons'])->name('course.showLessons');
     Route::get('course/{course}/user-lessons/{user}', [CourseController::class, 'showUserLessons'])->name('course.showUserLessons');
@@ -123,7 +108,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('presentations', PresentationResourceController::class);
 
     Route::resource('courses', CourseController::class);
-    Route::resource('archive', ArchiveController::class);
+
 
     Route::put('notifications/{notification}/read', [NotificationController::class, 'read'])->name('notifications.read');
     Route::put('notifications/{notification}', [NotificationController::class, 'update'])->name('notifications.update');
@@ -162,7 +147,7 @@ Route::middleware('auth')->group(function () {
     // Admin
     Route::prefix('admin')->name('admin.')
         ->middleware(['auth.admin'])->group(function () {
-            // Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+            // Route::resource('/dashboard', AdminDashboardController::class);
 
             // Route::get('/programs/list', [AdminProgramController::class, 'list'])->name('programs.list');
             // Route::resource('/programs', AdminProgramController::class);
@@ -174,8 +159,23 @@ Route::middleware('auth')->group(function () {
         });
 
     // Program dean
-    Route::prefix('dean')->name('dean.')->middleware(['auth.programdean'])->group(function () {
-        Route::resource('/submissions', SubmissionsController::class);
+    Route::prefix('dean')->name('dean.')->as('dean.')->middleware(['auth.programdean'])->group(function () {
+        Route::resource('resource', ProgramDeanResourceController::class);
+        Route::resource('typology', TypologyStandardController::class);
+
+        Route::get('content-management/watermarks', [ContentManagementController::class, 'watermarks'])->name('cms.watermarks');
+        Route::get('content-management/typology', [ContentManagementController::class, 'typology'])->name('cms.typology');
+        Route::get('content-management/lessons', [ContentManagementController::class, 'lessons'])->name('cms.lessons');
+        Route::get('content-management/courses', [ContentManagementController::class, 'courses'])->name('cms.courses');
+        Route::get('content-management/personnels', [ContentManagementController::class, 'personnels'])->name('cms.personnels');
+        Route::get('content-management/resources', [ContentManagementController::class, 'resources'])->name('cms.resources');
+
+        Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
+        Route::get('reports/submissions', [ReportsController::class, 'submissions'])->name('reports.submissions');
+        Route::get('reports/syllabus', [ReportsController::class, 'syllabus'])->name('reports.syllabus');
+        Route::get('reports/courses', [ReportsController::class, 'courses'])->name('reports.courses');
+        Route::get('reports/instructors', [ReportsController::class, 'instructors'])->name('reports.instructors');
+        Route::get('reports/lessons', [ReportsController::class, 'lessons'])->name('reports.lessons');
     });
 
     // Secretary

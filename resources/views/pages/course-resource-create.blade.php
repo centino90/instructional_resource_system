@@ -177,7 +177,7 @@
                                                                                 upload</span>
 
                                                                             <small class="text-primary">Upload up to
-                                                                                10
+                                                                                20
                                                                                 files at a time</small>
                                                                         </div>
                                                                     </x-button>
@@ -433,7 +433,7 @@
                                                                             <span>Drop files here or click to
                                                                                 upload</span>
 
-                                                                            <small class="text-primary">Upload 10
+                                                                            <small class="text-primary">Upload up to 10
                                                                                 files
                                                                                 at
                                                                                 a time</small>
@@ -696,7 +696,7 @@
                     }
 
                     if ($targetTabpaneLabel === 'general') {
-                        dropzoneParams['maxFiles'] = 5,
+                        dropzoneParams['maxFiles'] = 20,
                             dropzoneParams['accept'] = function(file, done) {
                                 if (
                                     getExtension(file.name)) {

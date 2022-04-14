@@ -50,22 +50,14 @@
             @if (auth()->user()->isProgramDean() ||
     auth()->user()->isAdmin())
                 <li class="nav-item px-2">
-                    <a href="{{ route('user.lessons', auth()->id()) }}" class="nav-link py-2 " title=""
-                        data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Submission Report">
-                        <span class="material-icons md-18 align-middle">signal_cellular_alt</span>
-                        <span class="text align-middle">Submission Report</span>
+                    <a href="{{ route('dean.reports.index') }}" class="nav-link py-2 " title=""
+                        data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Reports">
+                        <span class="material-icons md-18 align-middle">bar_chart</span>
+                        <span class="text align-middle">Reports</span>
                     </a>
                 </li>
                 <li class="nav-item px-2">
-                    <a href="{{ route('user.submissions', auth()->id()) }}" class="nav-link py-2 " title=""
-                        data-bs-toggle="tooltip" data-bs-placement="right"
-                        data-bs-original-title="Instructor Activities">
-                        <span class="material-icons md-18 align-middle">settings_accessibility</span>
-                        <span class="text align-middle">Instructor Activities</span>
-                    </a>
-                </li>
-                <li class="nav-item px-2">
-                    <a href="{{ route('storage.show', [auth()->id(), 'leftPath' => 'users/' . auth()->id()]) }}"
+                    <a href="{{ route('dean.resource.index', ['accessType' => auth()->user()->role_id])}}"
                         class="nav-link py-2 " title="" data-bs-toggle="tooltip" data-bs-placement="right"
                         data-bs-original-title="Content Management">
                         <span class="material-icons md-18 align-middle">tune</span>
@@ -112,9 +104,9 @@
             @endif
 
             <li class="nav-item px-2">
-                <a href="{{ route('user.notifications', auth()->id()) }}" class="nav-link py-2" title=""
+                <a href="{{ route('user.notifications', auth()->id()) }}" class="nav-link py-2 position-relative" title=""
                     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="My notifications">
-                    <span class="position-relative">
+                    <span>
                         @empty($notifications->count())
                             <span class="material-icons md-18 align-middle">
                                 notifications_none
@@ -123,13 +115,13 @@
                             <span class="material-icons md-18 align-middle">
                                 notifications_active
                             </span>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{ $notifications->count() }}
-                            </span>
                         @endempty
                     </span>
 
                     <span class="text align-middle">My notifications</span>
+                    <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">
+                        {{ $notifications->count() }}
+                    </span>
                 </a>
             </li>
 

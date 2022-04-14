@@ -286,10 +286,8 @@
                     <x-real.card :variant="'secondary'" :vertical="'center'">
                         <x-slot name="header">Recent submissions</x-slot>
                         <x-slot name="action">
-                            @if ($course->resources()->count() > 3)
-                                <a href="{{ route('course.showRecentSubmissions', $course) }}"
-                                    class="btn btn-light btn-sm text-primary border fw-bold">View More</a>
-                            @endif
+                            <a href="{{ route('course.showResources', $course) }}"
+                            class="btn btn-light btn-sm text-primary border fw-bold">View More</a>
                         </x-slot>
                         <x-slot name="body">
                             @forelse ($course->resources()->latest()->limit(4)->get() as $submission)
@@ -301,6 +299,7 @@
                                     <div>
                                         <small>Submitted by <b>{{ $submission->user->name }}</b></small>
                                     </div>
+                                    <a href="{{route('resource.addViewCountThenRedirectToShow', $submission)}}"><small>View resource >></small></a>
                                 </div>
                             @empty
                                 <x-real.no-rows>
@@ -333,11 +332,9 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="hstack gap-3 align-items-center py-3">
+                                            <div class="hstack gap-3 align-items-center">
                                                 <strong
                                                     class="d-block text-gray-dark">{{ $instructor->username }}</strong>
-
-                                                <a href="#"><small>View profile >></small></a>
                                             </div>
                                         </div>
 
@@ -345,9 +342,9 @@
                                             <small>Total activities:
                                                 <b> {{ $instructor->activityLogs->count() }}</b>
                                             </small>
-
-                                            <a href="#"><small>Expand activities</small></a>
                                         </div>
+
+                                        <a href="{{route('user.show', $instructor)}}"><small>View profile >></small></a>
                                     </div>
                                 </div>
                             @empty

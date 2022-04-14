@@ -100,7 +100,7 @@ class CourseController extends Controller
         return view('pages.course-lessons', compact('instructors', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
     }
 
-    public function showRecentSubmissions(Course $course)
+    public function showResources(Course $course)
     {
         $activities = Activity::whereHasMorph(
             'subject',
@@ -110,7 +110,7 @@ class CourseController extends Controller
             }
         )->whereIn('log_name', ['resource-created', 'resource-versioned'])->latest()->get();
 
-        return view('pages.course-recentsubmissions', compact('activities', 'course'));
+        return view('pages.course-resources', compact('activities', 'course'));
     }
 
     public function showMostActiveInstructors(Course $course)

@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Lesson;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -20,34 +21,70 @@ class LessonsDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
+        $accessType = request()->get('accessType');
+
+        $dataTables = datatables()
             ->eloquent($query)
-            ->addColumn('course', function ($row) {
+            ->editColumn('course', function ($row) {
                 return "{$row->course->title} ({$row->course->code})";
             })
-            ->addColumn('submitter', function ($row) {
+            ->editColumn('submitter', function ($row) {
                 return $row->user->name;
             })
-            ->addColumn('resource_count', function ($row) {
+            ->addColumn('resources_count', function ($row) {
                 return $row->resources_count;
             });
+
+        if ($accessType == Role::PROGRAM_DEAN) {
+            return $dataTables->addColumn('action', function ($row) {
+                $btn = '<div class="d-flex gap-2">';
+                $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+                $btn .= '<a href="' . route('lesson.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
+                if ($row->storage_status == 'Trashed') {
+                    $trashTitle = 'Remove';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+                } else if ($row->storage_status == 'Archived') {
+                    $archiveTitle = 'Remove';
+                    $trashTitle = 'Trash';
+                    $btn .= '<a  data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+                } elseif ($row->storage_status == 'Current') {
+                    $archiveTitle = 'Archive';
+                    $trashTitle = 'Trash';
+
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+                }
+
+                $btn .= '</div>';
+
+                return $btn;
+            });
+        } else {
+            return $dataTables->addColumn('action', function ($row) {
+                $btn = '<div class="d-flex gap-2">';
+                $btn .= '<a href="' . route('resource.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+                $btn .= '</div>';
+
+                return $btn;
+            });
+        }
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\LessonsDataTable $model
+     * @param \App\Models\Lesson $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(LessonsDataTable $model)
+    public function query(Lesson $model)
     {
         return $model
             ->whereHas('course', function (Builder $query) {
                 $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
             })
             ->with(['course', 'user', 'resources'])
-            ->withCount('resources')
-            ->orderBy('resources.created_at', 'desc');
+            ->withCount('resources');
     }
 
     /**
@@ -57,15 +94,36 @@ class LessonsDataTable extends DataTable
      */
     public function html()
     {
-        return $this->builder()
-            ->parameters([
-                'responsive' => true
-            ])
+        $accessType = request()->get('accessType');
+
+        $builder = $this->builder()
+            ->pageLength(5)
+            ->lengthMenu([5, 10, 20, 50, 100])
+            ->responsive(true)
             ->setTableId('lessons-table')
             ->columns($this->getColumns())
+            ->fixedColumnsLeftColumns(1)
+            ->fixedColumnsRightColumns(1)
             ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1);
+            ->selectStyleMulti()
+            ->stateSave(true)
+            ->stateSaveParams('function(settings, data) {
+            data.search.search = ""
+        }')
+            ->dom('Bplfrtipl');
+
+        if ($accessType == Role::PROGRAM_DEAN) {
+            return $builder
+                ->dom('Bplfrtipl')
+                ->buttons(
+                    Button::make(['extend' => 'export', 'className' => 'border btn text-primary', 'init' => 'function(api, node, config) {$(node).removeClass("btn-secondary")}']),
+                    Button::make(['extend' => 'print', 'className' => 'border btn text-primary', 'init' => 'function(api, node, config) {$(node).removeClass("btn-secondary")}']),
+                    Button::make(['extend' => 'reset', 'className' => 'border btn text-primary', 'init' => 'function(api, node, config) {$(node).removeClass("btn-secondary")}']),
+                    Button::make(['extend' => 'reload', 'className' => 'border btn text-primary', 'init' => 'function(api, node, config) {$(node).removeClass("btn-secondary")}']),
+                );
+        } else {
+            return $builder->dom('plfrtipl');
+        }
     }
 
     /**
@@ -76,17 +134,16 @@ class LessonsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            // Column::computed('action')
-            //     ->exportable(false)
-            //     ->printable(false)
-            //     ->width(60)
-            //     ->addClass('text-center'),
             Column::make('title'),
             Column::make('description'),
-            Column::make('course', 'course.title')->searchable(),
-            Column::make('submitter', 'user.name')->searchable(),
+            Column::make('course', 'course.title'),
+            Column::make('submitter', 'user.fname'),
             Column::make('resources_count', 'resources_count'),
-            Column::make('created_at')
+            Column::make('created_at'),
+            Column::computed('action', '')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60),
         ];
     }
 

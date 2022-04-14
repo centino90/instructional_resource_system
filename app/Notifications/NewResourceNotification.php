@@ -48,7 +48,7 @@ class NewResourceNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => "{$this->resource->user->nameTag} submitted a resource ({$this->resource->title}) to {$this->resource->course->code}",
+            'message' => "{$this->resource->user->nameTag} submitted a {$this->resource->resource_type} resource ({$this->resource->title}) to {$this->resource->course->code}",
             'causer' => $this->resource->user,
             'subjectName' => 'resource',
             'subject' => $this->resource,

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        Recent Submissions
+        Course Resources
     </x-slot>
 
     <x-slot name="breadcrumb">
@@ -11,7 +11,7 @@
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="{{ route('course.show', $course) }}">{{ $course->code }}</a></li>
         <li class="breadcrumb-item active">
-            Recent Submissions by course
+            Course Resources
         </li>
     </x-slot>
 
@@ -20,7 +20,7 @@
             <div class="row g-3">
                 <div class="col-12">
                     <x-real.card>
-                        <x-slot name="header">Submissions</x-slot>
+                        <x-slot name="header">Resources</x-slot>
                         <x-slot name="action">
 
                         </x-slot>
@@ -46,7 +46,7 @@
                                             <td>
                                                 @isset($activity->subject)
                                                     <x-real.btn :size="'sm'" :tag="'a'"
-                                                        href="{{ route('resource.show', $activity->subject) }}">
+                                                        href="{{ route('resource.addViewCountThenRedirectToShow', $activity->subject) }}">
                                                         Show more
                                                     </x-real.btn>
                                                 @endisset

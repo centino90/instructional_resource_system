@@ -5,9 +5,11 @@ namespace Database\Factories;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Resource;
+use App\Models\ResourceType;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 class ResourceFactory extends Factory
 {

@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Resource;
+use App\Models\ResourceType;
 use App\Models\TemporaryUpload;
 use Exception;
 use Illuminate\Http\Request;
@@ -135,6 +136,7 @@ class PresentationResourceController extends Controller
                     'lesson_id' => $request->lesson_id,
                     'course_id' => $request->course_id,
                     'user_id' => auth()->id(),
+                    // 'resource_type_id' => ResourceType::TYPE_PRESENTATION,
                     'batch_id' => $batchId,
                     'description' => $request->description[$index],
                     'title' => $request->title[$index],

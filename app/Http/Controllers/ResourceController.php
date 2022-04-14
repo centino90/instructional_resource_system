@@ -14,6 +14,7 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Resource;
+use App\Models\ResourceType;
 use App\Models\TemporaryUpload;
 use App\Models\User;
 use App\Policies\ResourcePolicy;
@@ -82,38 +83,9 @@ class ResourceController extends Controller
         return view('pages.course-resource-create', compact('lesson', 'resourceActivities'));
     }
 
-    public function createOld(Lesson $lesson)
-    {
-        return view('pages.course-resource-create-old')->with([
-            'lesson' => $lesson
-        ]);
-    }
-
     public function createNewVersion(Resource $resource)
     {
         return view('pages.resource-show-create-version', compact('resource'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create2(Request $request)
-    {
-        if ($request->user()->cannot('create', Resource::class)) {
-            abort(403);
-        }
-
-        // dd(auth()->user()->belongsToProgram(1));
-
-        $courses = Course::whereIn('program_id', auth()->user()->programs()->pluck('id'))->get();
-
-        return view('create-resource')->with([
-            'resourceLists' => $request->resourceLists ?? 1,
-            'notifications' => auth()->user()->unreadNotifications,
-            'courses' => $courses
-        ]);
     }
 
     /**
@@ -144,6 +116,7 @@ class ResourceController extends Controller
                         'course_id' => $request->course_id,
                         'lesson_id' => $request->lesson_id,
                         'user_id' => auth()->id(),
+                        // 'resource_type_id' => ResourceType::TYPE_REGULAR,
                         'batch_id' => $batchId,
                         'description' => $request->description[$index],
                         'title' => $request->title[$index],
@@ -300,65 +273,6 @@ class ResourceController extends Controller
             ]);
     }
 
-
-    public function uploadOldPdf(Request $request)
-    {
-        $index = 0;
-        $batchId = Str::uuid();
-        $resources = collect([]);
-        $converts = collect([]);
-
-        foreach ($request->file as $file) {
-            $temporaryFile = TemporaryUpload::where('folder_name', $file)->firstOrFail();
-
-            $resource = Resource::create([
-                'title' => $request->title[$index],
-                'lesson_id' => $request->lesson_id,
-                'course_id' => $request->course_id,
-                'user_id' => auth()->id(),
-                'description' => $request->description[$index],
-                'approved_at' => null,
-                'batch_id' => $batchId,
-                'is_syllabus' => 1,
-            ]);
-
-            // $resource->users()->attach($resource->user_id, ['batch_id' => $batchId]);
-
-            $filePath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
-
-            $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name);
-            $newFilename = pathinfo($newFilePath, PATHINFO_FILENAME) . '.' . pathinfo($newFilePath, PATHINFO_EXTENSION);
-
-            Storage::disk('public')->putFileAs('users/' . auth()->id() . '/resources', $filePath, $newFilename);
-            $resource->addMedia($filePath)->preservingOriginal()->toMediaCollection();
-
-            event(new ResourceCreated($resource));
-
-            $media = $resource->currentMediaVersion;
-
-            $pdftohtml = new PdfToHtmlHelper($media->getPath());
-            $pdftohtml->convert();
-
-            $tempFileName = time() . 'test.html';
-            Storage::put($tempFileName, $pdftohtml->output());
-            $resource->addMedia(storage_path('app/public/' . $tempFileName))->usingName("{$media->name}.html")->toMediaCollection();
-
-            $resource->html = $pdftohtml->output();
-            $resources->push($resource);
-        }
-
-        return view('pages.resource-old-validation')->with([
-            'resources' => $resources,
-            'lesson' => Lesson::findOrFail($request->lesson_id),
-            'formData' => [
-                'type' => 'file',
-                'file' => $request->file[$index],
-                'title' => $request->title[$index],
-                'description' => $request->description[$index],
-            ]
-        ]);
-    }
-
     public function uploadOldImages(Request $request)
     {
         if (!extension_loaded('imagick')) {
@@ -427,8 +341,6 @@ class ResourceController extends Controller
             ]
         ]);
     }
-
-
 
     private function filenameFormatter($filePath)
     {
@@ -655,7 +567,8 @@ class ResourceController extends Controller
         if ($resource->isDirty()) {
             $resource->save();
 
-            return redirect()->route('resource.show', $resource)->with([
+            return redirect()->back()->with([
+                'updatedSubject' => $resource->id,
                 'status' => 'success',
                 'message' => 'Resource was successfully updated!'
             ]);
@@ -750,6 +663,7 @@ class ResourceController extends Controller
         }
 
         return redirect()->back()->with([
+            'updatedSubject' => $resource->id,
             'status' => 'success',
             'message' => $message
         ]);
@@ -761,30 +675,41 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Resource $resource)
+    public function destroy($id)
     {
-        try {
-            $resource->with('media', 'user');
+        $resource = Resource::withTrashed()->findOrFail($id) ;
 
+        $userName = auth()->user()->name;
+
+        if ($resource->trashed()) {
+            $resource->restore();
+
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($resource)
+                ->useLog('resource-restored')
+                ->withProperties($resource->getChanges())
+                ->log("{$userName} restored a resource (id: {$resource->id})");
+
+            $message = 'Resource was successfully restored';
+        } else {
             $resource->delete();
-            $fileName = $resource->getMedia()[0]->file_name ?? 'unknown file';
 
-            return response()->json([
-                'status' => 'ok',
-                'message' => $fileName . 'was deleted sucessfully!',
-                'resource' => $resource
-            ]);
-        } catch (Throwable $th) {
-            $statusCode = in_array($th->getCode(), array_keys(Response::$statusTexts)) ? $th->getCode() : 500;
-            return response()->json(
-                [
-                    'status' => 'fail',
-                    'message' => $th->getMessage(),
-                    'code' => $statusCode
-                ],
-                $statusCode
-            );
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($resource)
+                ->useLog('resource-deleted')
+                ->withProperties($resource->getChanges())
+                ->log("{$userName} deleted a resource (id: {$resource->id})");
+
+            $message = 'Resource was successfully deleted';
         }
+
+        return redirect()->back()->with([
+            'updatedSubject' => $resource->id,
+            'status' => 'success',
+            'message' => $message
+        ]);
     }
 
     public function downloadAsPdf(Media $media)

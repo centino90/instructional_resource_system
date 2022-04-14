@@ -16,7 +16,7 @@ class Lesson extends Model
         'resource_id',
         'title',
         'description',
-        'archived_at'
+        'archived_at',
     ];
 
     /*
@@ -31,6 +31,33 @@ class Lesson extends Model
     public function scopeWithoutArchived($query)
     {
         return $query->whereNull('archived_at');
+    }
+
+    public function getStorageStatusAttribute()
+    {
+        $status = '';
+        if ($this->deleted_at == null) {
+            if ($this->archived_at == null) {
+                $status = 'Current';
+            } else {
+                $status = 'Archived';
+            }
+        } else {
+            $status = 'Trashed';
+        }
+
+        return $status;
+    }
+    public function getArchiveStatusAttribute()
+    {
+        $status = '';
+        if ($this->archived_at == null) {
+            $status = 'Current';
+        } else {
+            $status = 'Archived';
+        }
+
+        return $status;
     }
 
 
@@ -50,6 +77,6 @@ class Lesson extends Model
 
     public function user()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,5 +1,7 @@
 require('./bootstrap');
 import Dropzone from "dropzone";
+window.moment = require('moment');
+
 Dropzone.autoDiscover = false;
 
 window.getExtension = function (filename){
@@ -63,10 +65,6 @@ $(buttonSelectors()).click(function () {
     spinnerGenerator(this, null, false, 'text-white')
 });
 
-// let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-// let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-//     return new Bootstrap.Tooltip(tooltipTriggerEl)
-// })
 
 [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
   .forEach(el => new bootstrap.Tooltip(el));
@@ -75,19 +73,9 @@ $(buttonSelectors()).click(function () {
   .forEach(el => new bootstrap.Popover(el))
 
 
-
-  $('table').each(function(index, item) {
-    if($.fn.DataTable.isDataTable(item)) {
-        $.extend(true, $.fn.dataTable.defaults, {
-            "bsort": false,
-            "bStateSave": true,
-            "stateSaveParams": function(settings, data) {
-                data.search.search = ""
-                data.order = [
-                    []
-                ]
-            }
-        });
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
-  })
+});
 

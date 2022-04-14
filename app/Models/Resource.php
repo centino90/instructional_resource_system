@@ -19,10 +19,10 @@ class Resource extends Model implements HasMedia
     use HasFactory, SoftDeletes, InteractsWithMedia, Commentable;
 
     protected $fillable = [
-        'course_id', 'user_id', 'lesson_id', 'batch_id', 'title', 'description', 'is_syllabus', 'is_presentation', 'downloads', 'views', 'approved_at', 'rejected_at', 'archived_at'
+        'course_id', 'user_id', 'lesson_id', 'resource_type_id', 'batch_id', 'title', 'description', 'is_syllabus', 'is_presentation', 'downloads', 'views', 'approved_at', 'rejected_at', 'archived_at'
     ];
 
-        /*
+    /*
         Local Scopes
     */
 
@@ -39,6 +39,14 @@ class Resource extends Model implements HasMedia
     /*
         Accessors
     */
+    public function getArchivedAttribute()
+    {
+        return $this->archived_at == null ? false : true;
+    }
+    public function getIsDelayedAttribute()
+    {
+        return $this->created_at > $this->course->created_at->addWeeks(2);
+    }
     public function getCurrentMediaVersionAttribute()
     {
         return $this->media->sortByDesc('order_column')->first();
@@ -57,11 +65,23 @@ class Resource extends Model implements HasMedia
         if ($this->approved_at != null) {
             $status = 'Approved';
         } else {
-            if ($this->rejected_at != null) {
-                $status = 'Rejected';
+            $status = 'Pending';
+        }
+
+        return $status;
+    }
+
+    public function getStorageStatusAttribute()
+    {
+        $status = '';
+        if ($this->deleted_at == null) {
+            if ($this->archived_at == null) {
+                $status = 'Current';
             } else {
-                $status = 'Pending';
+                $status = 'Archived';
             }
+        } else {
+            $status = 'Trashed';
         }
 
         return $status;
@@ -83,6 +103,9 @@ class Resource extends Model implements HasMedia
     {
         return sizeof($this->getMedia()) > 1;
     }
+
+
+    //  relationships
 
     public function user()
     {

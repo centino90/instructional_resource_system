@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ProgramDean;
 
+use App\DataTables\TypologyStandardDataTable;
+use App\Http\Controllers\Controller;
 use App\Models\TypologyStandard;
 use App\Http\Requests\StoreTypologyStandardRequest;
 use App\Http\Requests\UpdateTypologyStandardRequest;
@@ -13,9 +15,9 @@ class TypologyStandardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(TypologyStandardDataTable $dataTable)
     {
-        //
+        return $dataTable->render('pages.dean.typology.index');
     }
 
     /**

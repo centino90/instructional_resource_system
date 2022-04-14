@@ -14,14 +14,14 @@ class LessonObserver
      */
     public function created(Lesson $lesson)
     {
-        $auth = $lesson->user->nameTag;
+        $auth = $lesson->user->name;
 
         activity()
             ->causedBy($lesson->user)
             ->performedOn($lesson)
             ->useLog('lesson-created')
             ->withProperties($lesson->getChanges())
-            ->log("{$auth} created (resource: {$lesson->title}) ({id: $lesson->id})");
+            ->log("{$auth} created a lesson titled: {$lesson->title} ({id: $lesson->id})");
     }
 
     /**
@@ -32,14 +32,14 @@ class LessonObserver
      */
     public function updated(Lesson $lesson)
     {
-        $auth = $lesson->user->nameTag;
+        $auth = $lesson->user->name;
 
         activity()
             ->causedBy($lesson->user)
             ->performedOn($lesson)
             ->useLog('lesson-updated')
             ->withProperties($lesson->getChanges())
-            ->log("{$auth} updated (resource: {$lesson->title}) (id: {$lesson->id})");
+            ->log("{$auth} updated a lesson titled: {$lesson->title} ({id: $lesson->id})");
     }
 
     /**
@@ -50,14 +50,14 @@ class LessonObserver
      */
     public function deleted(Lesson $lesson)
     {
-        $auth = $lesson->user->nameTag;
+        $auth = $lesson->user->name;
 
         activity()
             ->causedBy($lesson->user)
             ->performedOn($lesson)
             ->useLog('lesson-trashed')
             ->withProperties($lesson->getChanges())
-            ->log("{$auth} trashed (resource: {$lesson->title}) (id: {$lesson->id})");
+            ->log("{$auth} trashed a lesson titled: {$lesson->title} ({id: $lesson->id})");
     }
 
     /**
@@ -68,14 +68,14 @@ class LessonObserver
      */
     public function restored(Lesson $lesson)
     {
-        $auth = $lesson->user->nameTag;
+        $auth = $lesson->user->name;
 
         activity()
             ->causedBy($lesson->user)
             ->performedOn($lesson)
             ->useLog('lesson-restored')
             ->withProperties($lesson->getChanges())
-            ->log("{$auth} restored (resource: {$lesson->title}) (id: {$lesson->id})");
+            ->log("{$auth} restored a lesson titled: {$lesson->title} ({id: $lesson->id})");
     }
 
     /**
@@ -86,13 +86,13 @@ class LessonObserver
      */
     public function forceDeleted(Lesson $lesson)
     {
-        $auth = $lesson->user->nameTag;
+        $auth = $lesson->user->name;
 
         activity()
             ->causedBy($lesson->user)
             ->performedOn($lesson)
             ->useLog('lesson-deleted')
             ->withProperties($lesson->getChanges())
-            ->log("{$auth} deleted (resource: {$lesson->title}) (id: {$lesson->id})");
+            ->log("{$auth} deleted a lesson titled: {$lesson->title} ({id: $lesson->id})");
     }
 }

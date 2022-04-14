@@ -1,32 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\ProgramDean;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Resource;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class SubmissionsController extends Controller
+class WatermarkController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $specifiedDate = $request->specifiedDate ?? now();
-
-        $submissions = Resource::whereHas('course', function (Builder $query) {
-            return $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
-        })->get();
-
-        $specifiedByDay = $submissions->filter(function ($resource) use ($specifiedDate) {
-            return $resource->created_at->isSameDay($specifiedDate);
-        });
-
-        dd($specifiedByDay);
+        //
     }
 
     /**
