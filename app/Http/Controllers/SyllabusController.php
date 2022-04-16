@@ -72,8 +72,6 @@ class SyllabusController extends Controller
                     'batch_id' => $batchId,
                     'is_syllabus' => true,
                 ]);
-                $resource->users()->attach($resource->user_id, ['batch_id' => $batchId]);
-
                 event(new ResourceCreated($resource));
             } else {
                 $resource = $courseSyllabus;
@@ -163,8 +161,6 @@ class SyllabusController extends Controller
                 'batch_id' => $batchId,
                 'is_syllabus' => 1,
             ]);
-            $resource->users()->attach($resource->user_id, ['batch_id' => $batchId]);
-
             event(new ResourceCreated($resource));
         } else {
             $resource = $courseSyllabus;

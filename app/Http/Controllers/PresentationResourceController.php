@@ -95,8 +95,6 @@ class PresentationResourceController extends Controller
                         'title' => $request->title[$index]
                     ]);
 
-                    $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
-
                     $r->addMedia(storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name))
                         ->toMediaCollection();
                     rmdir(storage_path('app/public/resource/tmp/' . $file));
@@ -245,7 +243,6 @@ class PresentationResourceController extends Controller
             'batch_id' => $batchId,
             'is_presentation' => 1,
         ]);
-        $resource->users()->attach($resource->user_id, ['batch_id' => $batchId]);
 
         event(new ResourceCreated($resource));
 
