@@ -1,5 +1,6 @@
 <?php
 
+use app\HelperClass\OfficeToPdfHelper;
 use App\Http\Controllers\ActivitiesController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
