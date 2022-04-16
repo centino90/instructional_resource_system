@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\Lesson;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -11,7 +11,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class LessonsDataTable extends DataTable
+class PersonnelDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -28,42 +28,35 @@ class LessonsDataTable extends DataTable
             ->setRowId(function ($row) {
                 return "subject{$row->id}";
             })
-            ->addColumn('title', function ($row) {
-                return $row->title;
+            ->addColumn('first_name', function ($row) {
+                return $row->fname;
             })
-            ->addColumn('description', function ($row) {
-                return $row->description;
+            ->addColumn('last_name', function ($row) {
+                return $row->lname;
             })
-            ->addColumn('course', function ($row) {
-                return "{$row->course->title} ({$row->course->code})";
+            ->addColumn('email', function ($row) {
+                return $row->email;
             })
-            ->addColumn('submitter', function ($row) {
-                return $row->user->name;
+            ->addColumn('program', function ($row) {
+                return $row->programs->first()->code;
             })
-            ->addColumn('resources_count', function ($row) {
-                return $row->resources_count ?? 0;
+            ->addColumn('created_at', function ($row) {
+                return $row->created_at->format('Y-m-d H:i:s');
             })
             ->rawColumns(['action']);
 
         if ($accessType == Role::PROGRAM_DEAN) {
             return $dataTables->addColumn('action', function ($row) {
                 $btn = '<div class="d-flex gap-2">';
-                $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
-                $btn .= '<a href="' . route('lesson.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
-                if ($row->storage_status == 'Trashed') {
+                $btn .= '<a href="' . route('user.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+                $btn .= '<a href="' . route('user.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
+                if ($row->trashed() == 'Trashed') {
                     $trashTitle = 'Remove';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
-                } else if ($row->storage_status == 'Archived') {
-                    $archiveTitle = 'Remove';
-                    $trashTitle = 'Trash';
-                    $btn .= '<a  data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
-                } elseif ($row->storage_status == 'Current') {
-                    $archiveTitle = 'Archive';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('user.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+                } else {
                     $trashTitle = 'Trash';
 
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('user.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
                 }
 
                 $btn .= '</div>';
@@ -84,26 +77,25 @@ class LessonsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Lesson $model
+     * @param \App\Models\User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Lesson $model)
+    public function query(User $model)
     {
-        $model
-            ->whereHas('course', function (Builder $query) {
-                $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
+        $model = $model
+            ->whereHas('programs', function (Builder $query) {
+                $query->whereIn('id', auth()->user()->programs->pluck('id'));
             })
-            ->with(['course', 'user', 'resources'])
-            ->withCount('resources');
+            ->instructors()
+            ->with(['lessons', 'resources', 'activityLogs'])
+            ->withCount('resources', 'activityLogs', 'lessons');
 
-        if ($this->storeType == 'archived') {
-            return $model->onlyArchived();
-        } else if ($this->storeType == 'trashed') {
+        if ($this->storeType == 'trashed') {
             return $model->onlyTrashed();
         } else if ($this->storeType == 'all') {
             return $model->withTrashed();
-        } else {
-            return $model->withoutArchived();
+        } {
+            return $model;
         }
     }
 
@@ -120,7 +112,7 @@ class LessonsDataTable extends DataTable
             ->pageLength(5)
             ->lengthMenu([5, 10, 20, 50, 100])
             ->responsive(true)
-            ->setTableId('lessons-table')
+            ->setTableId('personnel-table')
             ->columns($this->getColumns())
             ->fixedColumnsLeftColumns(1)
             ->fixedColumnsRightColumns(1)
@@ -154,11 +146,10 @@ class LessonsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('title'),
-            Column::make('description'),
-            Column::make('course',),
-            Column::make('submitter'),
-            Column::make('resources_count'),
+            Column::make('first_name'),
+            Column::make('last_name'),
+            Column::make('email',),
+            Column::make('program'),
             Column::make('created_at'),
             Column::computed('action', '')
                 ->exportable(false)
@@ -174,6 +165,6 @@ class LessonsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Lessons_' . date('YmdHis');
+        return 'Personnel_' . date('YmdHis');
     }
 }

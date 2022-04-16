@@ -9,6 +9,8 @@ class TypologyStandard extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['verbs', 'enabled'];
+
     protected $casts = [
         'verbs' => 'array'
     ];

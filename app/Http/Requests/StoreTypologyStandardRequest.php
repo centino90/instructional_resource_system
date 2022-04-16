@@ -13,7 +13,7 @@ class StoreTypologyStandardRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreTypologyStandardRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'checked_verb' => 'required|string',
+            'recommended_verb' => 'nullable|array'
         ];
     }
 }

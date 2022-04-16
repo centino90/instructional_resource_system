@@ -116,7 +116,7 @@
                         </div>
                         <div class="col-12">
                            <div class="hstack gap-3">
-                              <x-real.btn :size="'lg'">Filter</x-real.btn>
+                            <x-real.btn :size="'lg'" type="submit">Filter</x-real.btn>
                               <x-real.btn :size="'lg'" type="reset">Reset</x-real.btn>
                            </div>
                         </div>

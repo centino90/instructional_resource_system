@@ -85,7 +85,7 @@
                         </div>
                         <div class="col-12">
                            <div class="hstack gap-3">
-                              <x-real.btn :size="'lg'">Filter</x-real.btn>
+                              <x-real.btn :size="'lg'" type="submit">Filter</x-real.btn>
                               <x-real.btn :size="'lg'" type="reset">Reset</x-real.btn>
                            </div>
                         </div>
@@ -94,33 +94,66 @@
                </x-real.card>
             </div>
             <div class="col-8">
-               <x-real.card>
-                  <x-slot name="header">Most Active Instructors</x-slot>
+               <x-real.card class="mb-3">
+                  <x-slot name="header">Most Active Submitters</x-slot>
                   <x-slot name="body">
                      <ul class="list-group">
                         @foreach ($fiveMostActiveSubmitters as $submitter)
                            <li class="list-group-item">
                               <div class="hstack justify-content-between">
                                  <h6 class="m-0">{{ $submitter->name }}</h6>
-                                 <span>{{ $submitter->activityLogs->count() }}</span>
-                                 <div class="btn-group">
-                                    <x-real.btn :size="'sm'" class="dropdown-toggle" data-bs-toggle="dropdown"
-                                       data-bs-auto-close="outside" aria-expanded="false"> View more</x-real.btn>
-                                    <ul class="dropdown-menu shadow-lg p-0 border-0" style="min-width: 400px"
-                                       id="dropdownMega">
-                                       <li class="dropdown-item p-0">
-                                          <ul class="list-group p-0">
-                                             @foreach ($submitter->activityLogs->groupBy('log_name')->forget('user-created') as $key => $activity)
+                                 <h6 class="fw-bold m-0">{{ $submitter->activityLogs->count() }}</h6>
+                              </div>
+                           </li>
+                        @endforeach
+                        <li class="list-group-item">
+                           <div class="hstack justify-content-between">
+                              <small class="text-muted">Total Submissions</small>
+                              <h5 class="m-0 fw-bold">{{ $submissionsActivities->count() }}</h5>
+                           </div>
+                        </li>
+                     </ul>
+                  </x-slot>
+               </x-real.card>
+
+               <x-real.card>
+                  <x-slot name="header">Most Active Instructors (Overall)</x-slot>
+                  <x-slot name="body">
+                     <ul class="list-group">
+                        @foreach ($fiveMostActiveInstructors as $submitter)
+                           <li class="list-group-item">
+                              <div class="hstack justify-content-between">
+                                 <h6 class="m-0">{{ $submitter->name }}</h6>
+                                 <div class="hstack align-items-center gap-3">
+                                    <div class="btn-group">
+                                       <a href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                          aria-expanded="false">
+                                          <span class="material-icons">
+                                             more_horiz
+                                          </span>
+                                       </a>
+                                       <ul class="dropdown-menu shadow-lg p-0 border-0" style="min-width: 400px"
+                                          id="dropdownMega">
+                                          <li class="dropdown-item p-0">
+                                             <ul class="list-group p-0">
+                                                @foreach ($submitter->activityLogs->groupBy('log_name')->forget('user-created') as $key => $activity)
+                                                   <li class="list-group-item">
+                                                      <div class="hstack justify-content-between">
+                                                         <h6>{{ str_replace('-', ' ', $key) }}</h6>
+                                                         <span>{{ $activity->count() }}</span>
+                                                      </div>
+                                                   </li>
+                                                @endforeach
                                                 <li class="list-group-item">
-                                                   <div class="hstack justify-content-between">
-                                                      <h6>{{ str_replace('-', ' ', $key) }}</h6>
-                                                      <span>{{ $activity->count() }}</span>
-                                                   </div>
+                                                   <x-real.btn :size="'sm'" :tag="'a'"
+                                                      href="{{ route('user.show', $submitter) }}">View profile
+                                                   </x-real.btn>
                                                 </li>
-                                             @endforeach
-                                          </ul>
-                                       </li>
-                                    </ul>
+                                             </ul>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <h6 class="fw-bold m-0">{{ $submitter->activityLogs->count() }}</h6>
                                  </div>
                               </div>
                            </li>

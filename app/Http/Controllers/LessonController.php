@@ -70,6 +70,7 @@ class LessonController extends Controller
             return redirect()->back()->with([
                 'subjectInstructor' => $lesson->user_id,
                 'subjectLesson' => $lesson->id,
+                'updatedSubject' => $lesson->id,
                 'status' => 'success',
                 'message' => "Lesson ({$lesson->title}) was successfully created"
             ]);
@@ -117,7 +118,7 @@ class LessonController extends Controller
             ->with([
                 'subjectInstructor' => $lesson->user_id,
                 'subjectLesson' => $lesson->id,
-                'updatedSubject' => "tableRow{$lesson->id}",
+                'updatedSubject' => $lesson->id,
                 'status' => 'success',
                 'message' => $message
             ]);
@@ -125,7 +126,6 @@ class LessonController extends Controller
 
     public function archive(Lesson $lesson)
     {
-        // dd($lesson);
         if (!empty($lesson->archived_at)) {
             $message = $lesson->title . ' was successfully removed from archive!';
             $lesson->update([
@@ -142,7 +142,7 @@ class LessonController extends Controller
             ->with([
                 'subjectInstructor' => $lesson->user_id,
                 'subjectLesson' => $lesson->id,
-                'updatedSubject' => "tableRow{$lesson->id}",
+                'updatedSubject' => $lesson->id,
                 'status' => 'success',
                 'message' => $message
             ]);
@@ -170,7 +170,7 @@ class LessonController extends Controller
             ->with([
                 'subjectInstructor' => $lesson->user_id,
                 'subjectLesson' => $lesson->id,
-                'updatedSubject' => "tableRow{$lesson->id}",
+                'updatedSubject' => $lesson->id,
                 'status' => 'success',
                 'message' => $message
             ]);

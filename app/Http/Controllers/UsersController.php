@@ -121,7 +121,21 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::withTrashed()->findOrFail($id);
+
+        if($user->trashed()) {
+            $user->restore();
+            $message = 'User was successfully restored';
+        } else {
+            $user->delete();
+            $message = 'User was successfully deleted';
+        }
+
+        return redirect()->back()->with([
+            'status' => 'success',
+            'updatedSubject' => $id,
+            'message' => $message
+        ]);
     }
 
     public function submissions(User $user)

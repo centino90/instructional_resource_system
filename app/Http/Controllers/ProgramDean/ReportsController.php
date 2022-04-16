@@ -114,16 +114,27 @@ class ReportsController extends Controller
             ->whereIn('log_name', $type)
             ->whereYear('created_at', $year)->get();
 
-        $fiveMostActiveSubmitters = auth()->user()->programs()->first()->users()->instructors()
+        $fiveMostActiveInstructors = auth()->user()->programs()->first()->users()->instructors()->distinct('id')
             ->with(['activityLogs' => function ($query) use ($type, $year) {
                 $query->whereIn('log_name', $type)->whereYear('created_at', $year);
             }])
             ->whereHas('activityLogs', function (Builder $query) use ($type, $year) {
                 return $query->whereIn('log_name', $type)->whereYear('created_at', $year);
             })
-            ->limit(5)->get();
+            ->limit(5)->get()->unique('id');
 
-        return $dataTable->with('storeType', $request->storeType)->render('pages.dean.reports-instructors', compact('fiveMostActiveSubmitters', 'activities', 'activityTypes'));
+        $fiveMostActiveSubmitters = auth()->user()->programs()->first()->users()->instructors()->distinct('id')
+            ->with(['activityLogs' => function ($query) use ($type, $year) {
+                $query->where('log_name', 'resource-created')->whereYear('created_at', $year);
+            }])
+            ->whereHas('activityLogs', function (Builder $query) use ($type, $year) {
+                return $query->where('log_name', 'resource-created')->whereYear('created_at', $year);
+            })
+            ->limit(5)->get()->unique('id');
+
+        $submissionsActivities = $activities->where('log_name', 'resource-created');
+
+        return $dataTable->with('storeType', $request->storeType)->render('pages.dean.reports-instructors', compact('fiveMostActiveSubmitters', 'fiveMostActiveInstructors', 'submissionsActivities', 'activities', 'activityTypes'));
     }
 
     public function courses(Request $request)

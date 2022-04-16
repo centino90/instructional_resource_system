@@ -111,7 +111,7 @@
                            }
                         }
                      },
-                     ajax: `{{ route('dean.resource.index') }}?storeType=${tableId}&accessType=${accessType}`,
+                     ajax: `{{ route('dean.cms.resources') }}?storeType=${tableId}&accessType=${accessType}`,
                      columns: [{
                            data: 'title',
                            name: 'Title'

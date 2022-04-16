@@ -28,6 +28,42 @@ class Course extends Model
     }
 
     /* Local scope */
+    public function scopeOnlyArchived($query)
+    {
+        return $query->whereNotNull('archived_at');
+    }
+
+    public function scopeWithoutArchived($query)
+    {
+        return $query->whereNull('archived_at');
+    }
+
+    public function getStorageStatusAttribute()
+    {
+        $status = '';
+        if ($this->deleted_at == null) {
+            if ($this->archived_at == null) {
+                $status = 'Current';
+            } else {
+                $status = 'Archived';
+            }
+        } else {
+            $status = 'Trashed';
+        }
+
+        return $status;
+    }
+    public function getArchiveStatusAttribute()
+    {
+        $status = '';
+        if ($this->archived_at == null) {
+            $status = 'Current';
+        } else {
+            $status = 'Archived';
+        }
+
+        return $status;
+    }
 
 
     public function users()

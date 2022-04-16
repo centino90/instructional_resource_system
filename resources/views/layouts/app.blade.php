@@ -43,6 +43,7 @@
    </style>
 
    <script src="{{ asset('js/app.js') }}"></script>
+   <script defer src="{{ asset('js/setup.js') }}"></script>
 </head>
 
 <body>

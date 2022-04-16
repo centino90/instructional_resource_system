@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('program', ProgramController::class);
 
+    Route::put('course/{course}/archive', [CourseController::class, 'archive'])->name('course.archive');
     Route::get('course/{course}/resources', [CourseController::class, 'showResources'])->name('course.showResources');
     Route::get('course/{course}/most-active-instructors', [CourseController::class, 'showMostActiveInstructors'])->name('course.showMostActiveInstructors');
     Route::get('course/{course}/lessons', [CourseController::class, 'showLessons'])->name('course.showLessons');
@@ -161,7 +162,8 @@ Route::middleware('auth')->group(function () {
     // Program dean
     Route::prefix('dean')->name('dean.')->as('dean.')->middleware(['auth.programdean'])->group(function () {
         Route::resource('resource', ProgramDeanResourceController::class);
-        Route::resource('typology', TypologyStandardController::class);
+        Route::put('typology/{id}/update', [TypologyStandardController::class, 'update'])->name('typology.update');
+        Route::post('typology/{id}', [TypologyStandardController::class, 'store'])->name('typology.store');
 
         Route::get('content-management/watermarks', [ContentManagementController::class, 'watermarks'])->name('cms.watermarks');
         Route::get('content-management/typology', [ContentManagementController::class, 'typology'])->name('cms.typology');

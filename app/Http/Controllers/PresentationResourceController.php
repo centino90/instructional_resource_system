@@ -128,6 +128,14 @@ class PresentationResourceController extends Controller
         $index = 0;
         $resources = collect([]);
 
+        // if (empty($fileExt) || !in_array($fileExt, ['ppt, pptx'])) {
+        //     return redirect()->back()
+        //         ->withInput($request->all())
+        //         ->withErrors([
+        //             'message' => 'file extension should be ppt, pptx'
+        //         ]);
+        // }
+
         foreach ($request->file as $file) {
             $temporaryFile = TemporaryUpload::firstWhere('folder_name', $file);
 
@@ -213,6 +221,18 @@ class PresentationResourceController extends Controller
         $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
         $fileName = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
         $fileExt = pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
+
+        $validated = collect($request->validated())->mapWithKeys(function ($value, $key) {
+            return ["presentation-{$key}" => $value];
+        });
+
+        if (empty($fileExt) || !in_array($fileExt, ['ppt, pptx'])) {
+            return redirect()->back()
+                ->withInput($validated->all())
+                ->withErrors([
+                    'message' => 'file extension should be ppt, pptx'
+                ]);
+        }
 
         $batchId = Str::uuid();
         $resource = Resource::create([

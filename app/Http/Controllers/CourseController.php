@@ -18,7 +18,7 @@ class CourseController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Course::class, 'course');
+        // $this->authorizeResource(Course::class, 'course');
     }
 
     /**
@@ -105,7 +105,7 @@ class CourseController extends Controller
         $activities = Activity::whereHasMorph(
             'subject',
             [Resource::class],
-            function (Builder $query) use($course){
+            function (Builder $query) use ($course) {
                 $query->where('course_id', $course->id);
             }
         )->whereIn('log_name', ['resource-created', 'resource-versioned'])->latest()->get();
@@ -145,13 +145,57 @@ class CourseController extends Controller
         $course->update($request->validated());
 
         $message = 'was updated successfully!';
-        return redirect()->route('courses.index')
+        // return redirect()->route('courses.index')
+        //     ->with([
+        //         'status' => 'success',
+        //         'message' => '[' . $request->code . '] ' . $request->title . ' ' . $message,
+        //         'course_id' => $course->id
+        //     ]);
+        return redirect()->back()
             ->with([
                 'status' => 'success',
-                'message' => '[' . $request->code . '] ' . $request->title . ' ' . $message,
+                'message' => 'Course was successfully updated',
+                'updatedSubject' => $course->id,
                 'course_id' => $course->id
             ]);
     }
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function archive(Course $course)
+    {
+        if (!empty($course->archived_at)) {
+            $message = $course->title . ' was successfully removed from archive!';
+            $course->update([
+                'archived_at' => null
+            ]);
+        } else {
+            $message = $course->title . ' was successfully archived!';
+            $course->update([
+                'archived_at' => now()
+            ]);
+        }
+
+        return redirect()->back()
+            ->with([
+                'updatedSubject' => $course->id,
+                'status' => 'success',
+                'message' => $message,
+                'course_id' => $course->id
+            ]);
+
+        // return redirect()->route('courses.index')
+        // ->with([
+        //     'status' => 'success',
+        //     'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+        //     'course_id' => $course->id
+        // ]);
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -159,17 +203,32 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy($id)
     {
-        $course->delete();
+        $course = Course::withTrashed()->findOrFail($id);
 
-        $message = 'was deleted successfully!';
-        return redirect()->route('courses.index')
+        if ($course->trashed()) {
+            $course->restore();
+            $message = 'Course was successfully restored';
+        } else {
+            $course->delete();
+            $message = 'Course was successfully trashed';
+        }
+
+        return redirect()->back()
             ->with([
                 'status' => 'success',
-                'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+                'message' => $message,
+                'updatedSubject' => $course->id,
                 'course_id' => $course->id
             ]);
+
+        // return redirect()->route('courses.index')
+        // ->with([
+        //     'status' => 'success',
+        //     'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+        //     'course_id' => $course->id
+        // ]);
     }
 
 

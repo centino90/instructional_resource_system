@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
@@ -15,7 +16,7 @@ use Spatie\Activitylog\Models\Activity;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, CausesActivity, Commenter;
+    use HasFactory, Notifiable, CausesActivity, Commenter, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -90,6 +91,12 @@ class User extends Authenticatable
         return $this->activityLogs()->get()
             ->groupBy('log_name');
     }
+
+    public function getCoursesContributedAttribute()
+    {
+        return $this->resources->groupBy('course_id')->count();
+    }
+
 
     /*
     |--------------------------------------------------------------------------

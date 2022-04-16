@@ -122,7 +122,6 @@ class ResourceController extends Controller
                         'title' => $request->title[$index],
                         'approved_at' => now()
                     ]);
-                    $r->users()->attach($r->user_id, ['batch_id' => $batchId]);
 
                     $tmpPath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
 

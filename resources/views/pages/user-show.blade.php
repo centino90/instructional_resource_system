@@ -98,16 +98,13 @@
                                         <x-slot name="subtitle">Last Activity</x-slot>
                                     </x-real.text-with-subtitle>
                                 </li>
-                                <li class="list-group-item hstack justify-content-between">
+                                <li class="list-group-item">
                                     <x-real.text-with-subtitle>
                                         <x-slot name="text">
-                                            {{ isset($user->activitiesByLogName['lesson-created'])? $user->activitiesByLogName['lesson-created']->count(): 0 }}
+                                            {{ $user->courses_contributed }}
                                         </x-slot>
-                                        <x-slot name="subtitle">Lessons Created</x-slot>
+                                        <x-slot name="subtitle">Contributed Courses</x-slot>
                                     </x-real.text-with-subtitle>
-
-                                    <x-real.btn :tag="'a'" :size="'sm'"
-                                        href="{{ route('user.lessons', $user) }}">View more</x-real.btn>
                                 </li>
                                 <li class="list-group-item hstack justify-content-between">
                                     <x-real.text-with-subtitle>
@@ -119,6 +116,17 @@
 
                                     <x-real.btn :tag="'a'" :size="'sm'"
                                         href="{{ route('user.submissions', $user) }}">View more</x-real.btn>
+                                </li>
+                                <li class="list-group-item hstack justify-content-between">
+                                    <x-real.text-with-subtitle>
+                                        <x-slot name="text">
+                                            {{ isset($user->activitiesByLogName['lesson-created'])? $user->activitiesByLogName['lesson-created']->count(): 0 }}
+                                        </x-slot>
+                                        <x-slot name="subtitle">Lessons Created</x-slot>
+                                    </x-real.text-with-subtitle>
+
+                                    <x-real.btn :tag="'a'" :size="'sm'"
+                                        href="{{ route('user.lessons', $user) }}">View more</x-real.btn>
                                 </li>
                                 @if ($user->id == auth()->id())
                                     <li class="list-group-item hstack justify-content-between">

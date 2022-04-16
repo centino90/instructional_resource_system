@@ -2,16 +2,15 @@
 
 namespace App\DataTables;
 
-use App\Models\Lesson;
+use App\Models\Course;
 use App\Models\Role;
-use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class LessonsDataTable extends DataTable
+class CoursesDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -28,42 +27,60 @@ class LessonsDataTable extends DataTable
             ->setRowId(function ($row) {
                 return "subject{$row->id}";
             })
+            ->addColumn('id', function ($row) {
+                return $row->id;
+            })
+            ->addColumn('code', function ($row) {
+                return $row->code;
+            })
             ->addColumn('title', function ($row) {
                 return $row->title;
             })
-            ->addColumn('description', function ($row) {
-                return $row->description;
+            ->addColumn('program', function ($row) {
+                return $row->program->code;
             })
-            ->addColumn('course', function ($row) {
-                return "{$row->course->title} ({$row->course->code})";
+            ->addColumn('year_level', function ($row) {
+                return $row->year_level;
             })
-            ->addColumn('submitter', function ($row) {
-                return $row->user->name;
+            ->addColumn('semester', function ($row) {
+                return $row->semester;
             })
-            ->addColumn('resources_count', function ($row) {
-                return $row->resources_count ?? 0;
+            ->addColumn('term', function ($row) {
+                return $row->term;
+            })
+            ->addColumn('created_at', function ($row) {
+                return $row->created_at;
+            })
+            ->addColumn('archived_at', function ($row) {
+                return $row->archived_at;
+            })
+            ->addColumn('updated_at', function ($row) {
+                return $row->updated_at;
+            })
+            ->addColumn('trashed_at', function ($row) {
+                return $row->deleted_at;
             })
             ->rawColumns(['action']);
 
         if ($accessType == Role::PROGRAM_DEAN) {
             return $dataTables->addColumn('action', function ($row) {
                 $btn = '<div class="d-flex gap-2">';
-                $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
-                $btn .= '<a href="' . route('lesson.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
+                $btn .= '<a href="' . route('course.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+                $btn .= '<a href="' . route('course.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
                 if ($row->storage_status == 'Trashed') {
                     $trashTitle = 'Remove';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('course.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
                 } else if ($row->storage_status == 'Archived') {
                     $archiveTitle = 'Remove';
                     $trashTitle = 'Trash';
-                    $btn .= '<a  data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+                    $btn .= '<a  data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('course.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('course.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
                 } elseif ($row->storage_status == 'Current') {
                     $archiveTitle = 'Archive';
                     $trashTitle = 'Trash';
 
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('course.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
+                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('course.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
                 }
 
                 $btn .= '</div>';
@@ -73,7 +90,7 @@ class LessonsDataTable extends DataTable
         } else {
             return $dataTables->addColumn('action', function ($row) {
                 $btn = '<div class="d-flex gap-2">';
-                $btn .= '<a href="' . route('resource.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+                $btn .= '<a href="' . route('course.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
                 $btn .= '</div>';
 
                 return $btn;
@@ -84,17 +101,15 @@ class LessonsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Lesson $model
+     * @param \App\Models\Course $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Lesson $model)
+    public function query(Course $model)
     {
-        $model
-            ->whereHas('course', function (Builder $query) {
-                $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
-            })
-            ->with(['course', 'user', 'resources'])
-            ->withCount('resources');
+        $model = $model
+            ->whereIn('program_id',  auth()->user()->programs->pluck('id'))
+            ->with(['lessons', 'resources', 'program'])
+            ->withCount('resources', 'program', 'lessons');
 
         if ($this->storeType == 'archived') {
             return $model->onlyArchived();
@@ -120,7 +135,7 @@ class LessonsDataTable extends DataTable
             ->pageLength(5)
             ->lengthMenu([5, 10, 20, 50, 100])
             ->responsive(true)
-            ->setTableId('lessons-table')
+            ->setTableId('courses-table')
             ->columns($this->getColumns())
             ->fixedColumnsLeftColumns(1)
             ->fixedColumnsRightColumns(1)
@@ -154,12 +169,17 @@ class LessonsDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('id'),
+            Column::make('code'),
             Column::make('title'),
-            Column::make('description'),
-            Column::make('course',),
-            Column::make('submitter'),
-            Column::make('resources_count'),
+            Column::make('program',),
+            Column::make('year_level'),
+            Column::make('semester'),
+            Column::make('term'),
             Column::make('created_at'),
+            Column::make('updated_at'),
+            Column::make('archived_at'),
+            Column::make('trashed_at'),
             Column::computed('action', '')
                 ->exportable(false)
                 ->printable(false)
@@ -174,6 +194,6 @@ class LessonsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Lessons_' . date('YmdHis');
+        return 'Courses_' . date('YmdHis');
     }
 }

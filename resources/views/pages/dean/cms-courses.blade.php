@@ -25,11 +25,11 @@
                   </li>
                   <li class="nav-item">
                      <a href="{{ route('dean.cms.personnels', ['accessType' => \App\Models\Role::PROGRAM_DEAN]) }}"
-                        class="nav-link active">Personnels</a>
+                        class="nav-link">Personnels</a>
                   </li>
                   <li class="nav-item">
                      <a href="{{ route('dean.cms.courses', ['accessType' => \App\Models\Role::PROGRAM_DEAN]) }}"
-                        class="nav-link">Courses</a>
+                        class="nav-link active">Courses</a>
                   </li>
                   <li class="nav-item">
                      <a href="{{ route('dean.cms.lessons', ['accessType' => \App\Models\Role::PROGRAM_DEAN]) }}"
@@ -53,19 +53,42 @@
             <div class="col-12">
                <div class="row g-3">
                   <div class="col-12">
-                     <x-real.table-management :title="'Personnels'">
+                     <x-real.table-management :title="'Courses'">
                         <x-slot name="active">
                            {!! $dataTable->table(['class' => 'w-100 table align-middle table-hover']) !!}
+                        </x-slot>
+
+                        <x-slot name="archive">
+                           <x-real.table id="archivedTable">
+                              <x-slot name="headers">
+                                 <th>id</th>
+                                 <th>code</th>
+                                 <th>title</th>
+                                 <th>program</th>
+                                 <th>year level</th>
+                                 <th>semester</th>
+                                 <th>term</th>
+                                 <th>created at</th>
+                                 <th>archived at</th>
+                                 <th>trashed at</th>
+                                 <th></th>
+                              </x-slot>
+                           </x-real.table>
                         </x-slot>
 
                         <x-slot name="trash">
                            <x-real.table id="trashedTable">
                               <x-slot name="headers">
-                                 <th>first name</th>
-                                 <th>last name</th>
-                                 <th>email</th>
+                                 <th>id</th>
+                                 <th>code</th>
+                                 <th>title</th>
                                  <th>program</th>
+                                 <th>year level</th>
+                                 <th>semester</th>
+                                 <th>term</th>
                                  <th>created at</th>
+                                 <th>archived at</th>
+                                 <th>trashed at</th>
                                  <th></th>
                               </x-slot>
                            </x-real.table>
@@ -167,7 +190,7 @@
          $(document).ready(function() {
             const accessType = '{{ auth()->user()->role_id }}'
             if (!$.fn.dataTable.isDataTable('#archivedTable')) {
-               $('#trashedTable').each(function(index, table) {
+               $('#archivedTable, #trashedTable').each(function(index, table) {
                   let tableId = $(table).attr('id')
                   if (tableId == 'archivedTable') tableId = 'archived'
                   else if (tableId == 'trashedTable') tableId = 'trashed'
@@ -188,29 +211,46 @@
                            }
                         }
                      },
-                     ajax: `{{ route('dean.cms.personnels') }}?storeType=${tableId}&accessType=${accessType}`,
+                     ajax: `{{ route('dean.cms.courses') }}?storeType=${tableId}&accessType=${accessType}`,
                      columns: [{
-                           data: 'first_name',
-                           name: 'first_name'
+                           data: 'id',
+                           name: 'id'
                         },
                         {
-                           data: 'last_name',
-                           name: 'last_name'
+                           data: 'code',
+                           name: 'code'
                         },
                         {
-                           data: 'email',
-                           name: 'email',
-                           width: '110px'
+                           data: 'title',
+                           name: 'title'
                         },
                         {
                            data: 'program',
-                           name: 'program',
-                           width: '120px'
+                           name: 'program'
+                        },
+                        {
+                           data: 'year_level',
+                           name: 'year_level'
+                        },
+                        {
+                           data: 'semester',
+                           name: 'semester'
+                        },
+                        {
+                           data: 'term',
+                           name: 'term'
                         },
                         {
                            data: 'created_at',
-                           name: 'created_at',
-                           width: '120px'
+                           name: 'created_at'
+                        },
+                        {
+                           data: 'archived_at',
+                           name: 'archived_at'
+                        },
+                        {
+                           data: 'trashed_at',
+                           name: 'trashed_at'
                         },
                         {
                            data: 'action',

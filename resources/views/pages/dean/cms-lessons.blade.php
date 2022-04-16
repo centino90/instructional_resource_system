@@ -25,7 +25,7 @@
                   </li>
                   <li class="nav-item">
                      <a href="{{ route('dean.cms.personnels', ['accessType' => \App\Models\Role::PROGRAM_DEAN]) }}"
-                        class="nav-link active">Personnels</a>
+                        class="nav-link">Personnels</a>
                   </li>
                   <li class="nav-item">
                      <a href="{{ route('dean.cms.courses', ['accessType' => \App\Models\Role::PROGRAM_DEAN]) }}"
@@ -33,7 +33,7 @@
                   </li>
                   <li class="nav-item">
                      <a href="{{ route('dean.cms.lessons', ['accessType' => \App\Models\Role::PROGRAM_DEAN]) }}"
-                        class="nav-link">Lessons</a>
+                        class="nav-link active">Lessons</a>
                   </li>
                   <li class="nav-item">
                      <a href="{{ route('dean.cms.typology', ['accessType' => \App\Models\Role::PROGRAM_DEAN]) }}"
@@ -53,19 +53,34 @@
             <div class="col-12">
                <div class="row g-3">
                   <div class="col-12">
-                     <x-real.table-management :title="'Personnels'">
+                     <x-real.table-management :title="'Lessons'">
                         <x-slot name="active">
                            {!! $dataTable->table(['class' => 'w-100 table align-middle table-hover']) !!}
+                        </x-slot>
+
+                        <x-slot name="archive">
+                           <x-real.table id="archivedTable">
+                              <x-slot name="headers">
+                                 <th>title</th>
+                                 <th>description</th>
+                                 <th>course</th>
+                                 <th>submitter</th>
+                                 <th>resources_count</th>
+                                 <th>created_at</th>
+                                 <th></th>
+                              </x-slot>
+                           </x-real.table>
                         </x-slot>
 
                         <x-slot name="trash">
                            <x-real.table id="trashedTable">
                               <x-slot name="headers">
-                                 <th>first name</th>
-                                 <th>last name</th>
-                                 <th>email</th>
-                                 <th>program</th>
-                                 <th>created at</th>
+                                 <th>title</th>
+                                 <th>description</th>
+                                 <th>course</th>
+                                 <th>submitter</th>
+                                 <th>resources_count</th>
+                                 <th>created_at</th>
                                  <th></th>
                               </x-slot>
                            </x-real.table>
@@ -167,7 +182,7 @@
          $(document).ready(function() {
             const accessType = '{{ auth()->user()->role_id }}'
             if (!$.fn.dataTable.isDataTable('#archivedTable')) {
-               $('#trashedTable').each(function(index, table) {
+               $('#archivedTable, #trashedTable').each(function(index, table) {
                   let tableId = $(table).attr('id')
                   if (tableId == 'archivedTable') tableId = 'archived'
                   else if (tableId == 'trashedTable') tableId = 'trashed'
@@ -188,23 +203,28 @@
                            }
                         }
                      },
-                     ajax: `{{ route('dean.cms.personnels') }}?storeType=${tableId}&accessType=${accessType}`,
+                     ajax: `{{ route('dean.cms.lessons') }}?storeType=${tableId}&accessType=${accessType}`,
                      columns: [{
-                           data: 'first_name',
-                           name: 'first_name'
+                           data: 'title',
+                           name: 'title'
                         },
                         {
-                           data: 'last_name',
-                           name: 'last_name'
+                           data: 'description',
+                           name: 'description'
                         },
                         {
-                           data: 'email',
-                           name: 'email',
+                           data: 'course',
+                           name: 'course',
                            width: '110px'
                         },
                         {
-                           data: 'program',
-                           name: 'program',
+                           data: 'submitter',
+                           name: 'submitter',
+                           width: '120px'
+                        },
+                        {
+                           data: 'resources_count',
+                           name: 'resources_count',
                            width: '120px'
                         },
                         {
