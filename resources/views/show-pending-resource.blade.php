@@ -34,368 +34,527 @@
         @endif
     </div>
 
-    <div class="row">
-        <div class="col-12 mb-3">
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title my-0">
-                                @if ($resource->rejected_at)
-                                    <span class="badge bg-danger">
-                                        Rejected
-                                    </span>
-                                @elseif($resource->approved_at)
-                                    <span class="badge bg-success">
-                                        Approved
-                                    </span>
-                                @else
-                                    <span class="badge bg-warning text-dark">
-                                        Pending
-                                    </span>
-                                @endif
-                                {{ $resource->user->fname . ' ' . $resource->user->lname ?? 'unknown user' }}
-                            </h5>
-                            <small class="text-muted me-3">
-                                Submitted on {{ $resource->course->code }} - {{ $resource->course->title }}
-                            </small>
+    <div>
+        <ul class="d-none nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</button>
+            </li>
+        </ul>
 
-                            <p class="card-text mt-3">
-                                <span class="d-block">
-                                    {{ $resource->getMedia()->first()->file_name ?? 'unknown file' }}
-
-                                    <small class="badge bg-success">
-                                        {{ $resource->getMedia()->first() ? 'latest' : '' }}
-                                    </small>
-
-                                    <a href="{{ route('resources.download', $resource->id) }}"
-                                        class="ms-3">Download</a>
-                                    <a href="#" class="ms-3">View all version</a>
-                                </span>
-
-                                <span class="me-3">
-                                    @if ($resource->is_syllabus)
-                                        <span class="badge rounded-pill bg-primary">Syllabus</span>
-                                    @else
-                                        <span class="badge rounded-pill bg-secondary">Regular</span>
-                                    @endif
-                                </span>
-
-                                <small class="text-muted">Submitted at:
-                                    {{ $resource->getMedia()->first()->created_at }}</small>
-                            </p>
-
-                            <div class="d-flex gap-2 border-top pt-3">
-                                @if (auth()->user()->isProgramDean())
-                                    <x-submit.approve-pendingresource-hidden :passover="$resource->id"
-                                        :isApproved="$resource->approved_at ? true : false">
-                                    </x-submit.approve-pendingresource-hidden>
-
-                                    <x-submit.reject-pendingresource-hidden :passover="$resource->id"
-                                        :isRejected="$resource->rejected_at ? true : false">
-                                    </x-submit.reject-pendingresource-hidden>
-                                @elseif(auth()->user()->isInstructor())
-                                    <a href="btn btn-secondary">Add another file</a>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="card-footer text-muted">
-                            <b>
-                                Last updated at: {{ $resource->updated_at }}
-                            </b>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-5">
-                    <div class="card ">
-                        <div class="card-header">
-                            Resource Information
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
-                                <div class="col-sm-10">
-                                    <h5 class="card-title">{{ $resource->title }}</h5>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Description</label>
-                                <div class="col-sm-10">
-                                    <p class="card-text">{{ $resource->description }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-muted">
-                            Lorem ipsum dolor sit amet.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-5">
-
-                <div class="page-header">
-                    <h1 id="">Timeline</h1>
-                </div>
-
-                <div id="timeline" class="row">
-                    <div class="col-6">
-                        <div class="row g-3">
-                            <div>
-                                <div class="rounded-circle d-flex justify-content-center align-items-center bg-warning text-danger"
-                                    style="width:50px;height:50px">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-message-circle">
-                                        <path
-                                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                                    </svg>
-                                </div>
-                                <h5>History Log</h5>
-
-                                {{-- <span class="text-muted">{{ $resource->comments->first()->created_at }}</span> --}}
-                            </div>
-
-                            <div class="col-12">
-                                @foreach ($resource->activities as $activity)
-                                    <span>
-                                        <b>{{ $activity->causer->fname . ' ' . $activity->causer->lname ?? 'unknown user' }}</b>
-                                        {{ $activity->description }}
-                                        <ul>
-                                            @foreach ($activity->subject->getMedia() as $media)
-                                                <li>
-                                                    {{ $media->file_name ?? 'unknown file' }}
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </span>
-
-                                    <div class="lh-1 mb-1">
-                                        <small
-                                            class="text-muted">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}</small>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
-                        <div class="row g-3">
-                            <div>
-                                <div class="rounded-circle d-flex justify-content-center align-items-center bg-warning text-danger"
-                                    style="width:50px;height:50px">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-message-circle">
-                                        <path
-                                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                                    </svg>
-                                </div>
-                                <h5>Comments</h5>
-
-                                {{-- <span class="text-muted">{{ $resource->comments->first()->created_at }}</span> --}}
-                            </div>
-
-                            @forelse ($resource->comments as $comment)
-                                <div class="col-12">
-                                    <div
-                                        class="card {{ $comment->comment_type == 'approved' ? 'bg-success' : ($comment->comment_type == 'rejected' ? 'bg-danger' : 'bg-secondary') }} text-white">
-                                        <div class="card-body">
-                                            @if (auth()->id() === $comment->user_id)
-                                                <span class="badge bg-primary fs-6">You</span>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="row">
+                    <div class="col-12 col-md-7">
+                        <ul class="list-group shadow-sm">
+                            <li class="list-group-item hstack gap-3">
+                                <div class="flex-1 hstack gap-3">
+                                    <div class="overflow-hidden">
+                                        <h5 class="text-truncate d-block my-0">
+                                            @if ($resource->rejected_at)
+                                                <span class="badge bg-danger">
+                                                    Rejected
+                                                </span>
+                                            @elseif($resource->approved_at)
+                                                <span class="badge bg-success">
+                                                    Approved
+                                                </span>
                                             @else
-                                                <span>{{ $comment->user_id }}</span>
+                                                <span class="badge bg-warning text-dark">
+                                                    Pending
+                                                </span>
                                             @endif
-                                            <p class="card-text">
-                                                {{ $comment->comment }}
-                                            </p>
-                                        </div>
-                                        <div class="card-footer d-flex align-items-center">
-                                            <small class="text-muted">Last updated:
-                                                {{ $comment->updated_at }}</small>
+                                        </h5>
+                                        <small class="text-muted">Status</small>
+                                    </div>
 
-                                            <div class="d-flex ms-3">
-                                                <x-button :class="'btn-secondary'">Edit</x-button>
+                                    <div class="overflow-hidden">
+                                        <h5 class="text-truncate d-block my-0">
+                                            @if ($resource->is_syllabus)
+                                                <span class="badge rounded-pill bg-primary">Syllabus</span>
+                                            @else
+                                                <span class="badge rounded-pill bg-secondary">Regular</span>
+                                            @endif
+                                        </h5>
 
-                                                <x-button :class="'btn-danger ms-2'">Delete</x-button>
-                                            </div>
-                                        </div>
+                                        <small class="text-muted">Resource type</small>
                                     </div>
                                 </div>
-                            @empty
-                                <div class="col-12">
-                                    There are no comments in this resource.
+
+                                <span class="vr"></span>
+
+                                <div>
+                                    <div class="btn-group dropend">
+                                        <button class="btn btn-light rounded" data-bs-toggle="dropdown"
+                                            data-bs-auto-close="outside" aria-expanded="false">
+                                            <img src="{{ asset('images/icons/image-search.svg') }}" title="view more"
+                                                alt="view more">
+                                        </button>
+                                        <ul class="dropdown-menu shadow border-0 p-0">
+                                            <li class="dropdown-item p-0">
+                                                <ul class="list-group" style="min-width: 300px">
+                                                    <li class="list-group-item">
+                                                        <button onclick="bootstrap.Tab.getOrCreateInstance($('#pills-profile-tab')[0]).show()" class="w-100 btn btn-light border text-primary fw-bold">
+                                                            Preview
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <a href="{{route('resources.downloadOriginal', $resource->id)}}" class="w-100 btn btn-light border text-primary fw-bold">Download</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            @endforelse
-                            <div class="col-12">
-                                <x-form-post action="{{ route('comments.store') }}">
-                                    <x-input type="hidden" :name="'resource_id'" value="{{ $resource->id }}">
-                                    </x-input>
-                                    <x-input type="hidden" :name="'comment_type'" value="regular"></x-input>
+                            </li>
 
-                                    <x-label>Your comment</x-label>
-                                    <x-input-textarea :name="'comment'"></x-input-textarea>
+                            {{-- resource title --}}
+                            <li class="list-group-item hstack gap-3">
+                                <div class="flex-1 overflow-hidden">
+                                    <h5 class="text-truncate d-block my-0 fw-bold">
+                                        {{ $resource->title }}
+                                    </h5>
+                                    <small class="text-muted">Resource title</small>
+                                </div>
 
-                                    <x-button type="submit" :class="'btn-primary mt-3'">Submit</x-button>
-                                </x-form-post>
+                                <span class="vr"></span>
+
+                                <div class="flex-1 overflow-hidden">
+                                    <h5 class="text-truncate d-block my-0 fw-bold">
+                                        {{ $resource->getFirstMedia()->file_name }}
+                                    </h5>
+                                    <small class="text-muted">Media file</small>
+                                </div>
+
+                                <span class="vr"></span>
+
+                                <div>
+                                    <div class="btn-group dropend">
+                                        <button class="btn btn-light rounded" data-bs-toggle="dropdown"
+                                            data-bs-auto-close="outside" aria-expanded="false">
+                                            <img src="{{ asset('images/icons/publish-changes.svg') }}"
+                                                title="publish changes" alt="publish changes"">
+                                        </button>
+                                        <ul class="dropdown-menu shadow border-0 p-0">
+                                            <li class="dropdown-item p-0">
+                                                <ul class="list-group" style="min-width: 300px">
+                                                    <li class="list-group-item">
+                                                        <button class="w-100 btn btn-light border text-primary fw-bold">
+                                                            Resubmit
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <button class="w-100 btn btn-light border text-primary fw-bold">
+                                                            Save to Draft
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <button class="w-100 btn btn-light border text-primary fw-bold">
+                                                            Unsubmit
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            {{-- submitted by --}}
+                            <li class="list-group-item hstack gap-3">
+                                <div class="flex-1 overflow-hidden">
+                                    <h6 class="text-truncate d-block my-0 ">
+                                        {{ $resource->user->fname . ' ' . $resource->user->lname ?? 'unknown user' }}
+                                    </h6>
+                                    <small class="text-muted">Submitted by</small>
+                                </div>
+                                <span class="vr"></span>
+                                <div class="flex-1 overflow-hidden">
+                                    <h6 class="text-truncate d-block my-0 ">
+                                        {{ $resource->course->code }} - {{ $resource->course->title }}
+                                    </h6>
+                                    <small class="text-muted">Submitted on</small>
+                                </div>
+                                <span class="vr"></span>
+                                <div class="flex-1 overflow-hidden">
+                                    <h6 class="text-truncate d-block my-0 ">
+                                        {{ $resource->getMedia()->first()->created_at }}
+                                    </h6>
+                                    <small class="text-muted">Submitted at</small>
+                                </div>
+                                <span class="vr"></span>
+                                <div>
+                                    <div class="btn-group dropend">
+                                        <button class="btn btn-light rounded" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                            aria-expanded="false">
+                                            <img src="{{ asset('images/icons/archive.svg') }}" title="all versions"
+                                                alt="all versions">
+                                        </button>
+                                        <ul class="dropdown-menu shadow border-0 p-0">
+                                            <li class="dropdown-item p-0">
+                                                <ul class="list-group" style="min-width: 300px">
+                                                    <li class="list-group-item">
+                                                        <button class="w-100 btn btn-light border text-primary fw-bold">
+                                                            View all versions
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            {{-- Last updated at --}}
+                            <li class="list-group-item hstack gap-3">
+                                <div class="flex-2 overflow-hidden">
+                                    <h6 class="text-truncate d-block my-0 ">
+                                        {{ $resource->updated_at }}
+                                    </h6>
+                                    <small class="text-muted">Last updated at</small>
+                                </div>
+                                @if (auth()->user()->isProgramDean())
+                                    <span class="vr"></span>
+                                    <div class="flex-1 overflow-hidden">
+                                        <small class="d-block pb-1 fw-bold">Confirm Admission</small>
+                                        <div class="d-flex gap-2">
+                                            <x-submit.approve-pendingresource-hidden :passover="$resource->id"
+                                                :isApproved="$resource->approved_at ? true : false">
+                                            </x-submit.approve-pendingresource-hidden>
+
+                                            <x-submit.reject-pendingresource-hidden :passover="$resource->id"
+                                                :isRejected="$resource->rejected_at ? true : false">
+                                            </x-submit.reject-pendingresource-hidden>
+                                        </div>
+                                    </div>
+                                @endif
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-12 col-md-5">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        More resource information
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item hstack gap-3">
+                                            <div class="overflow-hidden">
+                                                <p class="m-0">{{$resource->description ?? 'This resource has no description'}}</p>
+                                                <small class="text-muted">Resource description</small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item hstack gap-3">
+                                            <div class="overflow-hidden">
+                                                <h6 class="text-truncate d-block my-0 ">
+                                                    {{ $resource->updated_at }}
+                                                </h6>
+                                                <small class="text-muted">Downloads</small>
+                                            </div>
+                                            <span class="vr"></span>
+                                            <div class="overflow-hidden">
+                                                <h6 class="text-truncate d-block my-0 ">
+                                                    {{ $resource->updated_at }}
+                                                </h6>
+                                                <small class="text-muted">Views</small>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        More media information
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item hstack gap-3">
+                                                <div class="overflow-hidden">
+                                                    <h6 class="text-truncate d-block my-0 ">
+                                                        {{ $resource->updated_at }}
+                                                    </h6>
+                                                    <small class="text-muted">File size</small>
+                                                </div>
+                                                <span class="vr"></span>
+                                                <div class="overflow-hidden">
+                                                    <h6 class="text-truncate d-block my-0 ">
+                                                        {{ $resource->updated_at }}
+                                                    </h6>
+                                                    <small class="text-muted">File type</small>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item hstack gap-3">
+                                                <div class="overflow-hidden">
+                                                    <h6 class="text-truncate d-block my-0 ">
+                                                        {{ $resource->updated_at }}
+                                                    </h6>
+                                                    <small class="text-muted">File path</small>
+                                                </div>
+                                                <span class="vr"></span>
+                                                <div class="overflow-hidden">
+                                                    <h6 class="text-truncate d-block my-0 ">
+                                                        {{ $resource->updated_at }}
+                                                    </h6>
+                                                    <small class="text-muted">File URL</small>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="#" onclick="bootstrap.Tab.getOrCreateInstance($('#pills-home-tab')[0]).show()" class="btn fw-bold text-black">
+                                <img src="{{asset('images/icons/keyboard-return.svg')}}" alt="return tab">
+                                Return
+                            </a>
 
-            <div class="modal" id="approvePendingresourceModal" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve this
-                                resource?</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <x-form.approve-pendingresource-hidden></x-form.approve-pendingresource-hidden>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <ul class="list-group shadow-sm overflow-auto mt-3">
+                                <li class="list-group-item hstack gap-3">
+                                    <div class="flex-1 hstack gap-3">
+                                        <div>
+                                            <a href="{{route('resources.downloadOriginal', $resource->id)}}" class="btn btn-primary">Download</a>
+                                        </div>
+                                    </div>
 
-                            <button type="button" class="btn btn-success submit">Yes. Approve this resource</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    <span class="vr"></span>
 
-            <div class="modal" id="rejectPendingresourceModal" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to reject this
-                                resource?</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <x-form.reject-pendingresource-hidden></x-form.reject-pendingresource-hidden>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <div>
+                                        <button class="btn btn-secondary">Fullscreen</button>
+                                    </div>
+                                </li>
 
-                            <button type="button" class="btn btn-danger submit">Yes. Reject this resource</button>
+                                <li class="list-group-item hstack gap-3 justify-content-center" style="height: 500px">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                      </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            @section('script')
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
-                                integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
-                                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-                <script>
-                    $(function() {
-                        $(selector).pagination({
-                            items: 100,
-                            itemsOnPage: 10,
-                            cssStyle: 'light-theme'
-                        });
-                    });
+    <div class="mt-5">
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                    role="tab" aria-controls="home" aria-selected="true">Comments</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                    type="button" role="tab" aria-controls="profile" aria-selected="false">History Logs</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row g-3">
+                    @comments([
+                    'model' => $resource,
+                    'maxIndentationLevel' => 1,
+                    'perPage' => 5
+                    ])
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row g-3">
+                    <div class="col-12">
+                        @forelse ($resource->activities->sortByDesc('created_at') as $activity)
+                            <div class="vstack pb-2">
+                                <small
+                                    class="text-muted">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}</small>
+                                    {{-- @dd() --}}
+                                <span><b>{{ $activity->causer->fname . ' ' . $activity->causer->lname ?? 'unknown user' }} <small class="text-lowercase">({{$activity->causer->role->name}})</small></b></span>
+                                <p class="my-0">{{ $activity->description }}</p>
+                                <ul class="my-0">
+                                    @foreach ($activity->subject->getMedia() as $media)
+                                        <li>
+                                            {{ $media->file_name ?? 'unknown file' }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @empty
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    $('#rejectPendingresourceModal').on('shown.bs.modal', function(event) {
-                        let triggerButton = $(event.relatedTarget)
-                        let form = $(triggerButton.attr('data-form-target'))
-                        let formRoute = form.attr('action')
-                        let passoverData = $(triggerButton).attr('data-passover')
-                        let input = form.find('input[name="resource_id"]')
-                        input.val(passoverData)
-                        form.attr('action', `${formRoute}/${passoverData}`)
+    <div class="modal" id="approvePendingresourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve this
+                        resource?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <x-form.approve-pendingresource-hidden></x-form.approve-pendingresource-hidden>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                        $(this).find('button.submit').click(function() {
-                            form.submit()
-                        })
+                    <button type="button" class="btn btn-success submit">Yes. Approve this resource</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        $('#rejectPendingresourceModal').on('hidden.bs.modal', function() {
-                            triggerButton.removeClass(['loading', 'disabled'])
+    <div class="modal" id="rejectPendingresourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to reject this
+                        resource?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <x-form.reject-pendingresource-hidden></x-form.reject-pendingresource-hidden>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                            resetFormAction()
-                        })
+                    <button type="button" class="btn btn-danger submit">Yes. Reject this resource</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        let resetFormAction = () => form.attr('action', `${formRoute}`)
-                    })
+    @section('script')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
+                integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            $(document).ready(function() {
+                $('.comment-textarea').summernote({
+                    height: 200,
+                    width: '100%'
+                })
 
-                    $('#approvePendingresourceModal').on('shown.bs.modal', function(event) {
-                        let triggerButton = $(event.relatedTarget)
-                        let form = $(triggerButton.attr('data-form-target'))
-                        let formRoute = form.attr('action')
-                        let passoverData = $(triggerButton).attr('data-passover')
-                        let input = form.find('input[name="resource_id"]')
-                        input.val(passoverData)
-                        form.attr('action', `${formRoute}/${passoverData}`)
 
-                        $(this).find('button.submit').click(function() {
-                            form.submit()
-                        })
+                $('#rejectPendingresourceModal').on('shown.bs.modal', function(event) {
+                    let triggerButton = $(event.relatedTarget)
+                    let form = $(triggerButton.attr('data-form-target'))
+                    let formRoute = form.attr('action')
+                    let passoverData = $(triggerButton).attr('data-passover')
+                    let input = form.find('input[name="resource_id"]')
+                    input.val(passoverData)
+                    form.attr('action', `${formRoute}/${passoverData}`)
 
-                        $('#approvePendingresourceModal').on('hidden.bs.modal', function() {
-                            triggerButton.removeClass(['loading', 'disabled'])
-
-                            resetFormAction()
-                        })
-
-                        let resetFormAction = () => form.attr('action', `${formRoute}`)
-                    })
-
-                    $('.storeSavedresourceHiddenSubmit').click(function() {
-                        let form = $($(this).attr('data-form-target'))
-                        let passoverData = $(this).attr('data-passover')
-                        let input = form.find('input[name="resource_id"]')
-                        input.val(passoverData)
-
+                    $(this).find('button.submit').click(function() {
                         form.submit()
                     })
 
-                    $('#download-bulk').click(function(e) {
-                        e.preventDefault()
-                        let downloadBtn = $(this)
-                        let table = $(this.closest('table'))
-                        let checkboxes = table.find('th:first-child .check, td:first-child .check')
-                        $(checkboxes).each(function() {
-                            if ($(this).is(":checked")) {
-                                $(this).closest('th, td').find(':hidden').removeAttr('disabled')
-                            } else {
-                                $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
-                            }
-                        })
+                    $('#rejectPendingresourceModal').on('hidden.bs.modal', function() {
+                        spinnerGenerator(triggerButton, null, true)
 
-                        table.closest('form').submit();
-                        checkboxes.prop('checked', false);
-                        downloadBtn.removeClass('loading')
+                        resetFormAction()
                     })
 
-                    $('#check-all').change(function(e) {
-                        let table = $(this.closest('table'))
-                        let checkboxes = table.find('td:first-child .check')
+                    let resetFormAction = () => form.attr('action', `${formRoute}`)
+                })
 
-                        if ($(this).is(':checked')) {
-                            checkboxes.prop('checked', true)
+                $('#approvePendingresourceModal').on('shown.bs.modal', function(event) {
+                    let triggerButton = $(event.relatedTarget)
+                    let form = $(triggerButton.attr('data-form-target'))
+                    let formRoute = form.attr('action')
+                    let passoverData = $(triggerButton).attr('data-passover')
+                    let input = form.find('input[name="resource_id"]')
+                    input.val(passoverData)
+                    form.attr('action', `${formRoute}/${passoverData}`)
+
+                    $(this).find('button.submit').click(function() {
+                        form.submit()
+                    })
+
+                    $('#approvePendingresourceModal').on('hidden.bs.modal', function() {
+                        triggerButton.removeClass(['loading', 'disabled'])
+
+                        resetFormAction()
+                    })
+
+                    let resetFormAction = () => form.attr('action', `${formRoute}`)
+                })
+
+                $('.storeSavedresourceHiddenSubmit').click(function() {
+                    let form = $($(this).attr('data-form-target'))
+                    let passoverData = $(this).attr('data-passover')
+                    let input = form.find('input[name="resource_id"]')
+                    input.val(passoverData)
+
+                    form.submit()
+                })
+
+                $('#download-bulk').click(function(e) {
+                    e.preventDefault()
+                    let downloadBtn = $(this)
+                    let table = $(this.closest('table'))
+                    let checkboxes = table.find('th:first-child .check, td:first-child .check')
+                    $(checkboxes).each(function() {
+                        if ($(this).is(":checked")) {
+                            $(this).closest('th, td').find(':hidden').removeAttr('disabled')
                         } else {
-                            checkboxes.prop('checked', false)
+                            $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
                         }
                     })
 
-                    $('.check').change(function(e) {
-                        let table = $(this.closest('table'))
-                        let downloadBtn = table.find('#download-bulk')
-                        let checkboxes = table.find('td:first-child .check')
-                        let currentCheckbox = $(this)
+                    table.closest('form').submit();
+                    checkboxes.prop('checked', false);
+                    downloadBtn.removeClass('loading')
+                })
 
-                        if (checkboxes.filter(':checked').length > 0) {
-                            downloadBtn.removeClass('disabled')
-                            console.log('yes')
-                        } else {
-                            downloadBtn.addClass('disabled')
-                        }
-                    })
-                </script>
-            @endsection
+                $('#check-all').change(function(e) {
+                    let table = $(this.closest('table'))
+                    let checkboxes = table.find('td:first-child .check')
+
+                    if ($(this).is(':checked')) {
+                        checkboxes.prop('checked', true)
+                    } else {
+                        checkboxes.prop('checked', false)
+                    }
+                })
+
+                $('.check').change(function(e) {
+                    let table = $(this.closest('table'))
+                    let downloadBtn = table.find('#download-bulk')
+                    let checkboxes = table.find('td:first-child .check')
+                    let currentCheckbox = $(this)
+
+                    if (checkboxes.filter(':checked').length > 0) {
+                        downloadBtn.removeClass('disabled')
+                        console.log('yes')
+                    } else {
+                        downloadBtn.addClass('disabled')
+                    }
+                })
+            })
+        </script>
+    @endsection
 </x-app-layout>

@@ -32,7 +32,7 @@ class InstructorPolicy
      */
     public function viewAny(User $user)
     {
-
+        return true;
     }
 
     /**
@@ -44,7 +44,7 @@ class InstructorPolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        return true;
     }
 
     /**
@@ -114,8 +114,8 @@ class InstructorPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        return $user->isAdmin()
-        ? Response::allow()
-        : Response::deny('You are not allowed to permanently delete this instructor');
+        // return $user->isAdmin()
+        // ? Response::allow()
+        // : Response::deny('You are not allowed to permanently delete an instructor');
     }
 }

@@ -33,7 +33,7 @@ class CoursePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class CoursePolicy
      */
     public function view(User $user, Course $course)
     {
-
+        return true;
     }
 
     /**

@@ -42,6 +42,12 @@ return [
             'visibility' => 'public',
         ],
 
+
+        'allUploads' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/uploads'),
+        ],
+
         // 'userResources' => [
         //     'driver' => 'local',
         //     'root' => storage_path('app/userResources'),

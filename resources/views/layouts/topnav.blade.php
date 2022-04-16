@@ -1,66 +1,132 @@
-<div class="d-flex">
-    {{ $breadcrumb }}
+<div class="d-flex align-items-center px-3 bg-white border-2 border-bottom" style="min-height: 60px; max-height: 60px">
+    <header class="hstack gap-3">
+        <div class="overflow-hidden">
+            <h3 class="text-truncate d-block my-0 fw-bolder ">{{ $header }}</h3>
 
-    <nav class="navbar navbar-expand navbar-light bg-light ms-auto">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <div class="btn text-inherit text-reset p-0 position-relative">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell p-0 m-0">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                </svg>
-
-                @empty($notifications->count())
-                @else
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                    {{ $notifications->count() }}
-                </span>
-                @endempty
-            </div>
-            {{-- Notifications --}}
-          </a>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <x-icon.user :width="'20'" :height="'20'" :viewBox="'0 0 30 30'"></x-icon.user>
-                    {{ Auth::user()->name }}
-                </a>
-              </li>
-              <li class="nav-item">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <a class="nav-link" href="#" onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        <x-icon.signout :width="'20'" :height="'20'" :viewBox="'0 0 30 30'"></x-icon.signout>{{ __('Logout') }}
-                    </a>
-                </form>
-              </li>
-            </ul>
-          </div>
+            @empty($headerTitle)
+            @else
+                <small class="text-muted">{{ $headerTitle }}</small>
+            @endunless
         </div>
-      </nav>
-    {{-- <ul class="navbar-nav bg-white px-3 rounded shadow-sm ms-auto">
-    @auth
-        <x-dropdown id="settingsDropdown">
-            <x-slot name="trigger">
-                {{ Auth::user()->name }}
-            </x-slot>
 
-            <x-slot name="content">
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-dropdown-link>
-                        <x-icon.user :width="'20'" :height="'20'" :viewBox="'0 0 30 30'"></x-icon.user>{{ __('Profile Settings') }}
-                    </x-dropdown-link>
-                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
+        <div class="vr"></div>
+
+        <x-breadcrumb>
+            {{ $breadcrumb }}
+        </x-breadcrumb>
+    </header>
+
+    <nav class="navbar navbar-expand navbar-light ms-auto py-2">
+        <div class="container-fluid px-0">
+            <div class="btn-group dropstart">
+
+                <button class="navbar-brand btn rounded text-reset position-relative small" data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside" aria-expanded="false">
+                    @empty($notifications->count())
+                        <span class="material-icons md-24 align-middle">
+                            notifications_none
+                        </span>
+                    @else
+                        <span class="material-icons md-24 align-middle">
+                            notifications_active
+                        </span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ $notifications->count() }}
+                        </span>
+                    @endempty
+                    Notifications
+                </button>
+
+                <ul class="dropdown-menu shadow border-0 p-0" aria-labelledby="dropdownMenu2">
+                    <li class="dropdown-item p-0">
+                        <ul class="list-group" style="min-width: 300px;max-width: 300px">
+                            @forelse ($notifications->take(5) as $notification)
+                                <li class="list-group-item list-group-item-action" onclick="$(event.target).find('form').submit()">
+                                    <h6 class="whitespace-wrap text-wrap pe-none">{{ $notification->data['message'] }}</h6>
+                                    <span class="form-text pe-none">{{ $notification->created_at->diffForHumans() }}</span>
+                                    <x-real.form action="{{route('notifications.read', $notification)}}" :method="'PUT'">
+                                    </x-real.form>
+                                </li>
+
+                                @if ($loop->iteration == 5)
+                                    <li class="list-group-item">
+                                        <a href="{{ route('activities.showUserActivities', auth()->user()) }}"
+                                            class="w-100 overflow-hidden text-center">
+                                            <h6>Click here to view all notifications</h6>
+                                        </a>
+                                    </li>
+                                @endif
+                            @empty
+                                <li class="list-group-item">
+                                    <img title="alert triangle" alt="alert triangle icon" class="img-thumbnail"
+                                        src="{{ asset('images/icons/alert-triangle.svg') }}" />
+                                    <h5 class="form-text fw-bold">There are no notifations yet.</h5>
+                                </li>
+                            @endforelse
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="dropdown dropstart">
+                    <button class="btn" type="button" id="dropdownMenuButton1" data-bs-display="static"
+                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <span class="material-icons md-24 align-middle">
+                            settings
+                        </span>
+                        Settings
+                    </button>
+
+                    <ul class="dropdown-menu mx-0 shadow" style="width: 240px">
+                        <li class="bg-light">
+                            <a class="dropdown-item vstack gap-2 align-items-center py-3" href="#">
+                                <img src="#" class="img-thumbnail rounded-pill thumbnail-md" alt="Avatar">
+                                <span class="d-block small fw-bold">{{auth()->user()->nameTag}}</span>
+                            </a>
+                        </li>
+                        <li >
+                            <a class="dropdown-item hstack gap-2 align-items-center py-2" href="#">
+                                <small>Program:</small>    <span class="d-block small fw-bold">{{auth()->user()->programs->first()->code}}</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <a class="dropdown-item dropdown-item-danger d-flex gap-2 align-items-center" onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        <x-icon.signout :width="'20'" :height="'20'" :viewBox="'0 0 30 30'"></x-icon.signout>{{ __('Logout') }}
-                    </x-dropdown-link>
-                </form>
-            </x-slot>
-        </x-dropdown>
-    @endauth
-    </ul> --}}
+                                    <span class="material-icons md-18">
+                                        logout
+                                    </span>
+                                    Sign out
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                {{-- <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <x-icon.user :width="'20'" :height="'20'" :viewBox="'0 0 30 30'"></x-icon.user>
+                            {{ Auth::user()->name }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <a class="nav-link" href="#" onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                                <x-icon.signout :width="'20'" :height="'20'" :viewBox="'0 0 30 30'"></x-icon.signout>
+                                {{ __('Logout') }}
+                            </a>
+                        </form>
+                    </li>
+                </ul> --}}
+            </div>
+        </div>
+    </nav>
 </div>

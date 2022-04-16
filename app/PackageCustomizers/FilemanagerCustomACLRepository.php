@@ -39,7 +39,14 @@ class FilemanagerCustomACLRepository implements ACLRepository
             ['disk' => 'public', 'path' => 'users', 'access' => 1],
             ['disk' => 'public', 'path' => 'users/' . $this->getUserID(), 'access' => 1],
             ['disk' => 'public', 'path' => 'users/' . $this->getUserID() . '/resources', 'access' => 1],
+            ['disk' => 'public', 'path' => 'users/' . $this->getUserID() . '/restored', 'access' => 1],
             ['disk' => 'public', 'path' => 'users/' . $this->getUserID() . '/*', 'access' => 2],
+
+            // ['disk' => 'public', 'path' => 'deleted', 'access' => 1],
+            // ['disk' => 'public', 'path' => 'deleted/users', 'access' => 1],
+            // ['disk' => 'public', 'path' => 'deleted/users/' . $this->getUserID(), 'access' => 1],
+            // ['disk' => 'public', 'path' => 'deleted/users/' . $this->getUserID() . '/resources', 'access' => 1],
+            // ['disk' => 'public', 'path' => 'deleted/users/' . $this->getUserID() . '/*', 'access' => 2],
         ];
     }
 }

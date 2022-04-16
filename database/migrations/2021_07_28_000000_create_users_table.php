@@ -19,10 +19,14 @@ class CreateUsersTable extends Migration
             $table->string('lname');
             $table->string('username')->unique();
             $table->string('password');
-            // $table->foreignId('program_id')->constrained();
+            $table->string('contact_no')->nullable();
+            $table->string('email')->nullable();
+            $table->string('avatar')->nullable();
+
             $table->foreignId('role_id')->constrained();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

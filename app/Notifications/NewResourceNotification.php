@@ -48,12 +48,12 @@ class NewResourceNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'user' => $this->resource->user->fname . ' ' . $this->resource->user->lname,
-            'resource_id' => $this->resource->id,
-            'file_name' => $this->resource->getMedia()[0]->file_name,
-            'program_id' => $this->resource->course->program_id,
-            'course_code' => $this->resource->course->code,
-            'is_syllabus' => $this->resource->is_syllabus
+            'message' => "{$this->resource->user->nameTag} submitted a {$this->resource->resource_type} resource ({$this->resource->title}) to {$this->resource->course->code}",
+            'causer' => $this->resource->user,
+            'subjectName' => 'resource',
+            'subject' => $this->resource,
+            'program' => $this->resource->course->program,
+            'link' => route('resource.addViewCountThenRedirectToShow', $this->resource)
         ];
     }
 }

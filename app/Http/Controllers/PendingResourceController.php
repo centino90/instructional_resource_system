@@ -96,12 +96,12 @@ class PendingResourceController extends Controller
             'rejected_at' => null
         ]);
 
-        $comment = Comment::create([
-            'user_id' => auth()->id(),
-            'resource_id' => $id,
-            'comment' => $request->comment ?? '',
-            'comment_type' => $request->comment_type
-        ]);
+        // $comment = Comment::create([
+        //     'user_id' => auth()->id(),
+        //     'resource_id' => $id,
+        //     'comment' => $request->comment ?? '',
+        //     'comment_type' => $request->comment_type
+        // ]);
 
         activity()
             ->causedBy(auth()->id())
@@ -121,12 +121,12 @@ class PendingResourceController extends Controller
             'approved_at' => null
         ]);
 
-        $comment = Comment::create([
-            'user_id' => auth()->id(),
-            'resource_id' => $id,
-            'comment' => $request->comment,
-            'comment_type' => $request->comment_type
-        ]);
+        // $comment = Comment::create([
+        //     'user_id' => auth()->id(),
+        //     'resource_id' => $id,
+        //     'comment' => $request->comment,
+        //     'comment_type' => $request->comment_type
+        // ]);
 
         activity()
             ->causedBy(auth()->id())

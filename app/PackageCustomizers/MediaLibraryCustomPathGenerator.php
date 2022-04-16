@@ -12,15 +12,15 @@ class MediaLibraryCustomPathGenerator implements PathGenerator
     public function getPath(Media $media): string
     {
         if ($media->model_type === Resource::class) {
-            $resource = Resource::find($media->model_id);
+            $resource = Resource::withTrashed()->findOrFail($media->model_id);
 
             return 'courses/' . $resource->course->code . '/' . $media->id . '/';
         }
 
         if ($media->model_type === User::class) {
-            $user = User::find($media->model_id);
+            $user = User::withTrashed()->findOrFail($media->model_id);
 
-            return 'users/' . $user->id . '/'. $media->id . '/';
+            return 'users/' . $user->id . '/' . $media->id . '/';
         }
 
         return $media->id;

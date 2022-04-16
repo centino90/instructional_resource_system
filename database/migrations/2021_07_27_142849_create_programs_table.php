@@ -18,6 +18,7 @@ class CreateProgramsTable extends Migration
             $table->string('code');
             $table->string('title');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
+use App\Models\Lesson;
+use App\Models\Program;
 use App\Models\Resource;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
+
+    public function __construct()
+    {
+        // $this->authorizeResource(Course::class, 'course');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -63,97 +75,49 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        /* ON SUBMIT GENERAL */
-        $resource = Resource::where('is_syllabus', false)->where('is_presentation', false)
-            ->where('course_id', $course->id)
-            ->whereNotNull('approved_at')
-            ->whereNull('archived_at')
-            ->first();
-        $resourcesLogs = Resource::with('media', 'user')->where('is_syllabus', false)->where('is_presentation', false)
-            ->where('course_id', $course->id)
-            ->orderByDesc('created_at')
-            ->limit(5)
-            ->get();
+        return view('pages.course-show')->with('course', $course);
+    }
 
-        /* ON SUBMIT SYLLABUS */
-        $syllabus = Resource::where('is_syllabus', true)
-            ->where('course_id', $course->id)
-            ->whereNotNull('approved_at')
-            ->whereNull('archived_at')
-            ->first();
-        $syllabiLogs = Resource::with('media', 'user')->where('is_syllabus', true)
-            ->where('course_id', $course->id)
-            ->orderByDesc('created_at')
-            ->limit(5)
-            ->get();
+    public function showUserLessons(Course $course, User $user)
+    {
+        $lessons = $user->lessons()->where(['course_id' => $course->id])->withoutArchived()->get();
+        $archivedLessons = $user->lessons()->where(['course_id' => $course->id])->onlyArchived()->get();
+        $trashedLessons = $user->lessons()->where(['course_id' => $course->id])->onlyTrashed()->get();
 
-        /* ON SUBMIT PRESENTATION */
-        $presentation = Resource::where('is_presentation', true)
-            ->where('course_id', $course->id)
-            ->whereNotNull('approved_at')
-            ->whereNull('archived_at')
-            ->first();
-        $presentationLogs = Resource::with('media', 'user')->where('is_presentation', true)
-            ->where('course_id', $course->id)
-            ->orderByDesc('created_at')
-            ->limit(5)
-            ->get();
+        $userLessons = Lesson::where(['course_id' => $course->id, 'user_id' => $user->id])->get();
 
-        $newResourceLogs = collect();
-        $resourcesLogs->each(function ($item, $key) use ($newResourceLogs) {
-            $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
-            $item->status = $status;
-            $isOwner = $item->user_id == auth()->id() ? true : false;
-            $item->isOwner = $isOwner;
-            $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
-            $newResourceLogs->push($item);
-        });
+        return view('pages.course-user-lessons', compact('user', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
+    }
 
-        $newSyllabiLogs = collect();
-        $syllabiLogs->each(function ($item, $key) use ($newSyllabiLogs) {
-            $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
-            $item->status = $status;
-            $isOwner = $item->user_id == auth()->id() ? true : false;
-            $item->isOwner = $isOwner;
-            $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
-            $newSyllabiLogs->push($item);
-        });
+    public function showLessons(Course $course)
+    {
+        $lessons = Lesson::where(['course_id' => $course->id])->withoutArchived()->get();
+        $archivedLessons = Lesson::where(['course_id' => $course->id])->onlyArchived()->get();
+        $trashedLessons = Lesson::where(['course_id' => $course->id])->onlyTrashed()->get();
 
-        $newPresentationLogs = collect();
-        $presentationLogs->each(function ($item, $key) use ($newPresentationLogs) {
-            $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
-            $item->status = $status;
-            $isOwner = $item->user_id == auth()->id() ? true : false;
-            $item->isOwner = $isOwner;
-            $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
-            $newPresentationLogs->push($item);
-        });
+        $instructors = $course->program->users()->instructors()->get();
 
-        $course->resourceComplied = $resource ? true : false;
-        $course->resourceSubmitter = $resource ? $resource->user->username : null;
-        $course->resourceLogs = $newResourceLogs;
+        return view('pages.course-lessons', compact('instructors', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
+    }
 
-        $course->complied = $syllabus ? true : false;
-        $course->submitter = $syllabus ? $syllabus->user->username : null;
-        $course->logs = $newSyllabiLogs;
+    public function showResources(Course $course)
+    {
+        $activities = Activity::whereHasMorph(
+            'subject',
+            [Resource::class],
+            function (Builder $query) use ($course) {
+                $query->where('course_id', $course->id);
+            }
+        )->whereIn('log_name', ['resource-created', 'resource-versioned'])->latest()->get();
 
-        $course->presentationComplied = $presentation ? true : false;
-        $course->presentationSubmitter = $presentation ? $presentation->user->username : null;
-        $course->presentationLogs = $newPresentationLogs;
+        return view('pages.course-resources', compact('activities', 'course'));
+    }
 
-        return $course;
+    public function showMostActiveInstructors(Course $course)
+    {
+        $activeInstructors = $course->program->users()->instructors()->withCount('resources')->orderByDesc('resources_count')->get();
 
-        // $r = Resource::withTrashed()->get();
-        // $resources = $r->map(function ($resource) use ($course) {
-        //     return $resource->course_id == $course->id ? $resource : null;
-        // })->reject(function ($resource) {
-        //     return empty($resource);
-        // });
-        // $activities = $resources->map(function ($item, $key) {
-        //     return $item->activities;
-        // })->flatten()->sortByDesc('created_at');
-
-        // return view('show-course', compact(['course', 'resources', 'activities']));
+        return view('pages.course-mostactiveinstructors', compact('activeInstructors', 'course'));
     }
 
     /**
@@ -176,18 +140,62 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreCourseRequest $request, $id)
+    public function update(StoreCourseRequest $request, Course $course)
     {
-        $course =  Course::find($id)->update($request->validated());
+        $course->update($request->validated());
 
         $message = 'was updated successfully!';
-        return redirect()->route('courses.index')
+        // return redirect()->route('courses.index')
+        //     ->with([
+        //         'status' => 'success',
+        //         'message' => '[' . $request->code . '] ' . $request->title . ' ' . $message,
+        //         'course_id' => $course->id
+        //     ]);
+        return redirect()->back()
             ->with([
                 'status' => 'success',
-                'message' => '[' . $request->code . '] ' . $request->title . ' ' . $message,
-                'course_id' => $id
+                'message' => 'Course was successfully updated',
+                'updatedSubject' => $course->id,
+                'course_id' => $course->id
             ]);
     }
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function archive(Course $course)
+    {
+        if (!empty($course->archived_at)) {
+            $message = $course->title . ' was successfully removed from archive!';
+            $course->update([
+                'archived_at' => null
+            ]);
+        } else {
+            $message = $course->title . ' was successfully archived!';
+            $course->update([
+                'archived_at' => now()
+            ]);
+        }
+
+        return redirect()->back()
+            ->with([
+                'updatedSubject' => $course->id,
+                'status' => 'success',
+                'message' => $message,
+                'course_id' => $course->id
+            ]);
+
+        // return redirect()->route('courses.index')
+        // ->with([
+        //     'status' => 'success',
+        //     'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+        //     'course_id' => $course->id
+        // ]);
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -197,15 +205,222 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
-        $course->delete();
+        $course = Course::withTrashed()->findOrFail($id);
 
-        $message = 'was deleted successfully!';
-        return redirect()->route('courses.index')
+        if ($course->trashed()) {
+            $course->restore();
+            $message = 'Course was successfully restored';
+        } else {
+            $course->delete();
+            $message = 'Course was successfully trashed';
+        }
+
+        return redirect()->back()
             ->with([
                 'status' => 'success',
-                'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
-                'course_id' => $id
+                'message' => $message,
+                'updatedSubject' => $course->id,
+                'course_id' => $course->id
             ]);
+
+        // return redirect()->route('courses.index')
+        // ->with([
+        //     'status' => 'success',
+        //     'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+        //     'course_id' => $course->id
+        // ]);
     }
+
+
+
+    // /**
+    //  * Display a listing of the resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function index()
+    // {
+    //     $programs = collect();
+    //     foreach (auth()->user()->programs as $program) {
+    //         $programs = $programs->merge($program->id);
+    //     }
+
+    //     $courses = Course::whereIn('program_id', $programs)->orderBy('title')->get();
+    //     return view('courses', compact('courses'));
+    // }
+
+    // /**
+    //  * Show the form for creating a new resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function create()
+    // {
+    //     return view('create-course')
+    //         ->with('programs', auth()->user()->programs);
+    // }
+
+    // /**
+    //  * Store a newly created resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function store(StoreCourseRequest $request)
+    // {
+    //     $course =  Course::create($request->validated());
+
+    //     $message = 'was created successfully!';
+    //     return redirect()->route('courses.index')
+    //         ->with([
+    //             'status' => 'success',
+    //             'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+    //             'course_id' => $course->id
+    //         ]);
+    // }
+
+    // /**
+    //  * Display the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function show(Course $course)
+    // {
+    //     /* ON SUBMIT GENERAL */
+    //     $generalLogs = Resource::with('media', 'user')->where('is_syllabus', false)->where('is_presentation', false)
+    //         ->where('course_id', $course->id)
+    //         ->orderByDesc('created_at')
+    //         ->get();
+
+    //     /* ON SUBMIT SYLLABUS */
+    //     $syllabusLogs = Resource::with('media', 'user')->where('is_syllabus', true)
+    //         ->where('course_id', $course->id)
+    //         ->orderByDesc('created_at')
+    //         ->get();
+
+    //     /* ON SUBMIT PRESENTATION */
+    //     $presentationLogs = Resource::with('media', 'user')->where('is_presentation', true)
+    //         ->where('course_id', $course->id)
+    //         ->orderByDesc('created_at')
+    //         ->get();
+
+    //     $newGeneralLogs = collect();
+    //     $generalLogs->take(5)->each(function ($item, $key) use ($newGeneralLogs) {
+    //         $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
+    //         $item->status = $status;
+    //         $isOwner = $item->user_id == auth()->id() ? true : false;
+    //         $item->isOwner = $isOwner;
+    //         $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
+    //         $newGeneralLogs->push($item);
+    //     });
+
+    //     $newSyllabusLogs = collect();
+    //     $syllabusLogs->take(5)->each(function ($item, $key) use ($newSyllabusLogs) {
+    //         $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
+    //         $item->status = $status;
+    //         $isOwner = $item->user_id == auth()->id() ? true : false;
+    //         $item->isOwner = $isOwner;
+    //         $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
+    //         $newSyllabusLogs->push($item);
+    //     });
+
+    //     $newPresentationLogs = collect();
+    //     $presentationLogs->take(5)->each(function ($item, $key) use ($newPresentationLogs) {
+    //         $status = !empty($item->approved_at) ? 'approved' : (!empty($item->rejected_at) ? 'rejected' : 'for approval');
+    //         $item->status = $status;
+    //         $isOwner = $item->user_id == auth()->id() ? true : false;
+    //         $item->isOwner = $isOwner;
+    //         $item->filetype = $item->getFirstMedia() ? pathinfo($item->getFirstMediaPath(), PATHINFO_EXTENSION) : null;
+    //         $newPresentationLogs->push($item);
+    //     });
+
+    //     $course->generalLogs = $newGeneralLogs;
+    //     $course->syllabusLogs = $newSyllabusLogs;
+    //     $course->presentationLogs = $newPresentationLogs;
+
+    //     $course->courseResourceLogs = collect([
+    //         [$newGeneralLogs],
+    //         [$newSyllabusLogs],
+    //         [$newPresentationLogs]
+    //     ])->flatten()->sortByDesc('created_at')->values()->take(3);
+
+    //     $course->resourceUploads = [
+    //         'total' => ($newGeneralLogs->count() + $newSyllabusLogs->count()+ $newPresentationLogs->count()),
+    //         'general' => $newGeneralLogs->count(),
+    //         'syllabus' => $newSyllabusLogs->count(),
+    //         'presentation' => $newPresentationLogs->count()
+    //     ];
+
+    //     $course->resourceDownloads = [
+    //         'total' => ($newGeneralLogs->sum('downloads') + $newSyllabusLogs->sum('downloads') + $newPresentationLogs->sum('downloads')),
+    //         'general' => $newGeneralLogs->sum('downloads'),
+    //         'syllabus' => $newSyllabusLogs->sum('downloads'),
+    //         'presentation' => $newPresentationLogs->sum('downloads')
+    //     ];
+
+    //     $course->resourceViews = [
+    //         'total' => ($newGeneralLogs->sum('views') + $newSyllabusLogs->sum('views') + $newPresentationLogs->sum('views')),
+    //         'general' => $newGeneralLogs->sum('views'),
+    //         'syllabus' => $newSyllabusLogs->sum('views'),
+    //         'presentation' => $newPresentationLogs->sum('views')
+    //     ];
+
+    //     $course->latestSyllabus = $newSyllabusLogs->whereNotNull('approved_at')->first() ?? null;
+
+    //     return $course;
+    // }
+
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit(Course $course)
+    // {
+    //     return view('edit-course')
+    //         ->with('course', $course)
+    //         ->with('programs', auth()->user()->programs);
+    // }
+
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update(StoreCourseRequest $request, $id)
+    // {
+    //     $course =  Course::find($id)->update($request->validated());
+
+    //     $message = 'was updated successfully!';
+    //     return redirect()->route('courses.index')
+    //         ->with([
+    //             'status' => 'success',
+    //             'message' => '[' . $request->code . '] ' . $request->title . ' ' . $message,
+    //             'course_id' => $id
+    //         ]);
+    // }
+
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+    //     $course = Course::findOrFail($id);
+    //     $course->delete();
+
+    //     $message = 'was deleted successfully!';
+    //     return redirect()->route('courses.index')
+    //         ->with([
+    //             'status' => 'success',
+    //             'message' => '[' . $course->code . '] ' . $course->title . ' ' . $message,
+    //             'course_id' => $id
+    //         ]);
+    // }
 }

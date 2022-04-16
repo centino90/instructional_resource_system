@@ -31,12 +31,19 @@ class SendResourceCreatedNotification
      */
     public function handle(ResourceCreated $event)
     {
+        $allowedRoles = collect();
+        if(in_array($event->resource->user->role_id, [Role::PROGRAM_DEAN, Role::ADMIN])) {
+            $allowedRoles->push(Role::INSTRUCTOR, Role::SECRETARY);
+        } else {
+            $allowedRoles->push(Role::PROGRAM_DEAN);
+        }
+
         $resourceProgramId = $event->resource->course->program_id;
-        $admins = User::where('role_id', [Role::PROGRAM_DEAN])
+        $notifiableUsers = User::whereIn('role_id', $allowedRoles->all())
             ->whereHas('programs', function (Builder $query) use ($resourceProgramId) {
                 $query->where('program_id', $resourceProgramId);
             })->get() ?? [];
 
-        Notification::send($admins, new NewResourceNotification($event->resource));
+        Notification::send($notifiableUsers, new NewResourceNotification($event->resource));
     }
 }

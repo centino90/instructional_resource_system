@@ -22,10 +22,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             CourseSeeder::class,
-            ResourceSeeder::class,
-            ResourceDownloadSeeder::class
-            // DogSeeder::class,
-            // SyllabusSeeder::class
+            LessonSeeder::class,
+            TypologyStandardSeeder::class,
+            // ResourceSeeder::class,
         ]);
 
         // $user = User::all()->first();

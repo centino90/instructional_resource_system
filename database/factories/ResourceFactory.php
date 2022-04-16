@@ -3,10 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\Resource;
+use App\Models\ResourceType;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 class ResourceFactory extends Factory
 {
@@ -24,10 +27,12 @@ class ResourceFactory extends Factory
      */
     public function definition()
     {
-        $randomUser = User::where('role_id', Role::INSTRUCTOR)->get()->random();
+        $randomUser = User::where('role_id', Role::INSTRUCTOR)->first();
+        $course = Course::where('program_id', $randomUser->programs()->first()->id)->first();
         $subMonths = [2, 3, 4, 5, 6];
         return [
-            'course_id' => Course::where('program_id', $randomUser->programs()->first()->id)->get()->random(),
+            'course_id' => $course,
+            'lesson_id' => Lesson::where('course_id', $course->first()->id)->first(),
             'user_id' => $randomUser,
             'batch_id' => $this->faker->uuid(),
             'title' => $this->faker->word(),

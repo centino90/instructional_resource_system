@@ -33,10 +33,7 @@ class ProgramPolicy
      */
     public function viewAny(User $user)
     {
-    //    return $user->isAdmin()
-    //    || $user->isSecretary()
-    //    || $user->isProgramDean()
-    //    || $user->isInstructor();
+        return true;
     }
 
     /**
@@ -48,12 +45,7 @@ class ProgramPolicy
      */
     public function view(User $user, Program $program)
     {
-        // return $user->isAdmin()
-        //     || $user->isSecretary()
-        //     || $user->isProgramDean() && $user->belongsToProgram($program->id)
-        //     || $user->isInstructor() && $user->belongsToProgram($program->id)
-        //     ? Response::allow()
-        //     : Response::deny('This program is not viewable within your program.');
+        return true;
     }
 
     /**
@@ -64,7 +56,7 @@ class ProgramPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+
     }
 
     /**
@@ -76,9 +68,7 @@ class ProgramPolicy
      */
     public function update(User $user, Program $program)
     {
-        return $user->isAdmin()
-        ? Response::allow()
-        : Response::deny('You are not allowed to update this program');
+
     }
 
     /**
@@ -90,9 +80,7 @@ class ProgramPolicy
      */
     public function delete(User $user, Program $program)
     {
-        return $user->isAdmin()
-        ? Response::allow()
-        : Response::deny('You are not allowed to delete this program');
+
     }
 
     /**
@@ -104,9 +92,7 @@ class ProgramPolicy
      */
     public function restore(User $user, Program $program)
     {
-        return $user->isAdmin()
-        ? Response::allow()
-        : Response::deny('You are not allowed to restore this program');
+
     }
 
     /**
@@ -118,8 +104,6 @@ class ProgramPolicy
      */
     public function forceDelete(User $user, Program $program)
     {
-        return $user->isAdmin()
-        ? Response::allow()
-        : Response::deny('You are not allowed to permanently delete this program');
+
     }
 }
