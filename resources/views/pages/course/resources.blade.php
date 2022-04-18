@@ -1,6 +1,6 @@
 <x-app-layout>
    <x-slot name="header">
-      Course Lessons
+      Course Resources
    </x-slot>
 
    <x-slot name="breadcrumb">
@@ -11,7 +11,7 @@
       <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
       <li class="breadcrumb-item"><a href="{{ route('course.show', $course) }}">{{ $course->code }}</a></li>
       <li class="breadcrumb-item active">
-         Course Lessons
+         Course Resources
       </li>
    </x-slot>
 
@@ -20,7 +20,10 @@
          <div class="row g-3">
             <div class="col-12">
                <x-real.card>
-                  <x-slot name="header">Lessons</x-slot>
+                  <x-slot name="header">Resources</x-slot>
+                  <x-slot name="action">
+
+                  </x-slot>
                   <x-slot name="body">
                      {!! $dataTable->table(['class' => 'w-100 table align-middle table-hover']) !!}
                   </x-slot>
@@ -32,7 +35,6 @@
 
    @section('script')
       {!! $dataTable->scripts() !!}
-
       <script>
          $(document).ready(function() {
 

@@ -11,37 +11,6 @@ use Illuminate\Support\Str;
 class StorageController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -86,51 +55,24 @@ class StorageController extends Controller
 
             $deletedFolders = collect(File::directories(storage_path("app/public/deleted/{$request->leftPath}")));
             $deletedFolders = $deletedFolders->map(function ($item, $key) {
+                $latestFile = collect(File::allFiles($item))
+                    ->map(fn ($file) => date('m-d-Y H:i:s', $file->getCTime()))
+                    ->sortDesc()
+                    ->first();
+                // dd($latestFile);
                 $arr = explode('\\', $item);
-                return ['path' => $item, 'created_at' => date('m-d-Y H:i:s', filectime($item)), 'name' => array_pop($arr), 'type' => 'folder'];
+                return ['path' => $item, 'created_at' => $latestFile, 'name' => array_pop($arr), 'type' => 'folder'];
             });
         }
         $mergedDeleted = $deletedFiles->merge($deletedFolders)->sortByDesc('created_at');
+
+        // dd($mergedDeleted);
 
         $recentlyDeleted = collect($deletedFiles)->sortByDesc(function ($file) {
             return $file->getCTime();
         })->take(5);
 
-        return view('pages.my-storage', compact('user', 'storageSize', 'fileCount', 'recentlyCreated', 'deletedFiles', 'recentlyDeleted', 'mergedDeleted'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  string  $path
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($path)
-    {
-        dd(Storage::get($path));
+        return view('pages.user.storage', compact('user', 'storageSize', 'fileCount', 'recentlyCreated', 'deletedFiles', 'recentlyDeleted', 'mergedDeleted'));
     }
 
     public function restore(Request $request)

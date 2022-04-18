@@ -111,10 +111,12 @@ class ResourcesDataTable extends DataTable
             return $model->onlyArchived();
         } else if ($this->storeType == 'trashed') {
             return $model->onlyTrashed();
+        } else if ($this->storeType == 'current') {
+            return $model->withoutArchived();
         } else if ($this->storeType == 'all') {
             return $model->withTrashed();
         } else {
-            return $model->withoutArchived();
+            return $model;
         }
     }
 

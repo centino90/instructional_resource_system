@@ -96,7 +96,7 @@ class EventServiceProvider extends ServiceProvider
                     if (!in_array('deleted', $explodedDirs)) {
                         $auth = auth()->user()->nameTag;
                         $userId = auth()->id();
-                        $curdate = date('m-d-Y-H-i-s');
+                        $curtime = time();
 
                         $folderNames = collect(File::directories(storage_path("app/public/deleted/users/$userId")));
                         $folderNames = $folderNames->map(function ($item, $key) {
@@ -121,7 +121,7 @@ class EventServiceProvider extends ServiceProvider
                             $matchingFiles = preg_grep($pattern, $fileAndFolderNames->toArray());
 
                             if (count($matchingFiles) > 0) {
-                                $newPath = "{$dirname}/{$basename}(d-{$curdate})";
+                                $newPath = "{$dirname}/{$basename}-{$curtime}";
                             } else {
                                 $newPath = "{$dirname}/{$basename}";
                             }
@@ -148,18 +148,18 @@ class EventServiceProvider extends ServiceProvider
                             $pattern = "/^{$basename}$/";
                             $matchingFiles = preg_grep($pattern, $fileAndFolderNames->toArray());
 
-                            $curdate = date('m-d-Y-H-i-s');
                             if (count($matchingFiles) > 0) {
                                 if (!$extension) {
-                                    $newPath = "{$dirname}/{$basename}(d-{$curdate})";
+                                    $newPath = "{$basename}-{$curtime}";
                                 } else {
-                                    $newPath = "{$dirname}/{$basename}(d-{$curdate}).{$extension}";
+                                    $newPath = "{$basename}-{$curtime}.{$extension}";
                                 }
                             } else {
-                                $newPath = $item['path'];
+                                $newPath = "{$basename}.{$extension}";
                             }
+                            // dd("deleted/{$userId}/{$newPath}");
 
-                            Storage::disk('public')->copy($item['path'], 'deleted/' .  $newPath);
+                            Storage::disk('public')->copy($item['path'], "deleted/users/{$userId}/{$newPath}");
                             activity()
                                 ->causedBy(auth()->user())
                                 ->useLog('file-deleted')

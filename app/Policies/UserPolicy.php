@@ -10,7 +10,7 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-      /**
+    /**
      * Perform pre-authorization checks.
      *
      * @param  \App\Models\User  $user
@@ -44,7 +44,8 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return true;
+        return $user->id == $model->id
+            || $user->isProgramDean();
     }
 
     /**
@@ -55,9 +56,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->isProgramDean()
-        ? Response::allow()
-        : Response::deny('You are not allowed to create this user');
+        return $user->isAdmin() || $user->isProgramDean();
     }
 
     /**
@@ -70,9 +69,9 @@ class UserPolicy
     public function update(User $user, User $model)
     {
         return $user->isAdmin()
-        || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
-        ? Response::allow()
-        : Response::deny('You are not allowed to update this user');
+            || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
+            ? Response::allow()
+            : Response::deny('You are not allowed to update this user');
     }
 
     /**
@@ -85,9 +84,9 @@ class UserPolicy
     public function delete(User $user, User $model)
     {
         return $user->isAdmin()
-        || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
-        ? Response::allow()
-        : Response::deny('You are not allowed to delete this user');
+            || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
+            ? Response::allow()
+            : Response::deny('You are not allowed to delete this user');
     }
 
     /**
@@ -100,9 +99,9 @@ class UserPolicy
     public function restore(User $user, User $model)
     {
         return $user->isAdmin()
-        || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
-        ? Response::allow()
-        : Response::deny('You are not allowed to restore this user');
+            || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
+            ? Response::allow()
+            : Response::deny('You are not allowed to restore this user');
     }
 
     /**

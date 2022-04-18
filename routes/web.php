@@ -57,6 +57,9 @@ Route::middleware('auth')->group(function () {
     Route::get('course/{course}/user-lessons/{user}', [CourseController::class, 'showUserLessons'])->name('course.showUserLessons');
     Route::resource('course', CourseController::class);
 
+
+    Route::post('resource/download-all-by-lesson/{lesson}', [ResourceController::class, 'downloadAllByLesson'])->name('resource.downloadAllByLesson');
+    Route::post('resource/download-all-by-course/{course}', [ResourceController::class, 'downloadAllByCourse'])->name('resource.downloadAllByCourse');
     Route::put('resource/{resource}/cancel-submission', [ResourceController::class, 'cancelSubmission'])->name('resource.cancelSubmission');
     Route::put('resource/{resource}/toggle-archive-state', [ResourceController::class, 'toggleArchiveState'])->name('resource.toggleArchiveState');
     Route::get('resource/add-view-redirect-preview/{resource}', [ResourceController::class, 'addViewCountThenRedirectToPreview'])->name('resource.addViewCountThenRedirectToPreview');
@@ -85,7 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::post('resources/download-original/{media}', [ResourceController::class, 'downloadOriginal'])->name('resources.downloadOriginal');
     Route::post('resources/download-pdf/{media}', [ResourceController::class, 'downloadAsPdf'])->name('resources.downloadAsPdf');
     Route::get('resources/download/{resource}', [ResourceController::class, 'download'])->name('resources.download');
-    Route::post('resources/download-all-by-course', [ResourceController::class, 'downloadAllByCourse'])->name('resources.downloadAllByCourse');
+
     Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
     Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
@@ -116,6 +119,7 @@ Route::middleware('auth')->group(function () {
     Route::put('notifications/{notification}', [NotificationController::class, 'update'])->name('notifications.update');
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
+    Route::get('user/{user}/edit-lesson/{lesson}', [UsersController::class, 'editLesson'])->name('user.editLesson');
     Route::put('user/{user}/update-personal', [UsersController::class, 'updatePersonal'])->name('user.updatePersonal');
     Route::put('user/{user}/update-username', [UsersController::class, 'updateUsername'])->name('user.updateUsername');
     Route::put('user/{user}/update-password', [UsersController::class, 'updatePassword'])->name('user.updatePassword');

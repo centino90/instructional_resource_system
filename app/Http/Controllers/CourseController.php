@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\Course\AccordionResourcesDataTable;
+use App\DataTables\Course\LessonsDataTable;
+use App\DataTables\Course\ResourcesDataTable;
+use App\DataTables\Course\UserLessonsDataTable;
 use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
 use App\Models\Lesson;
@@ -73,12 +77,14 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show(AccordionResourcesDataTable $dataTable, Course $course)
     {
-        return view('pages.course-show')->with('course', $course);
+        return $dataTable->render('pages.course-show', compact('course'));
+
+        // return view('pages.course-show')->with('course', $course);
     }
 
-    public function showUserLessons(Course $course, User $user)
+    public function showUserLessons(UserLessonsDataTable $dataTable, Course $course, User $user)
     {
         $lessons = $user->lessons()->where(['course_id' => $course->id])->withoutArchived()->get();
         $archivedLessons = $user->lessons()->where(['course_id' => $course->id])->onlyArchived()->get();
@@ -86,31 +92,18 @@ class CourseController extends Controller
 
         $userLessons = Lesson::where(['course_id' => $course->id, 'user_id' => $user->id])->get();
 
-        return view('pages.course-user-lessons', compact('user', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
+        // return view('pages.course-user-lessons', compact('user', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
+        return $dataTable->render('pages.course-user-lessons', compact('user', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
     }
 
-    public function showLessons(Course $course)
+    public function showLessons(LessonsDataTable $dataTable, Course $course)
     {
-        $lessons = Lesson::where(['course_id' => $course->id])->withoutArchived()->get();
-        $archivedLessons = Lesson::where(['course_id' => $course->id])->onlyArchived()->get();
-        $trashedLessons = Lesson::where(['course_id' => $course->id])->onlyTrashed()->get();
-
-        $instructors = $course->program->users()->instructors()->get();
-
-        return view('pages.course-lessons', compact('instructors', 'lessons', 'archivedLessons', 'trashedLessons', 'course'));
+        return $dataTable->render('pages.course-lessons', compact('course'));
     }
 
-    public function showResources(Course $course)
+    public function showResources(ResourcesDataTable $dataTable, Course $course)
     {
-        $activities = Activity::whereHasMorph(
-            'subject',
-            [Resource::class],
-            function (Builder $query) use ($course) {
-                $query->where('course_id', $course->id);
-            }
-        )->whereIn('log_name', ['resource-created', 'resource-versioned'])->latest()->get();
-
-        return view('pages.course-resources', compact('activities', 'course'));
+        return $dataTable->render('pages.course.resources', compact('course'));
     }
 
     public function showMostActiveInstructors(Course $course)

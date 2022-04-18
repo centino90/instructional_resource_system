@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\User\UserActivitiesDataTable;
+use App\DataTables\User\UserLessonsDataTable;
+use App\DataTables\User\UserNotificationsDataTable;
+use App\DataTables\User\UserResourcesDataTable;
+use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -9,6 +14,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -49,11 +60,11 @@ class UsersController extends Controller
     public function show(User $user)
     {
         $fileCount = 0;
-        if(File::exists(storage_path("app/public/users/{$user->id}"))) {
+        if (File::exists(storage_path("app/public/users/{$user->id}"))) {
             $fileCount = collect(File::allFiles(storage_path("app/public/users/{$user->id}")))->count();
         }
 
-        return view('pages.user-show', compact('user', 'fileCount'));
+        return view('pages.user.show', compact('user', 'fileCount'));
     }
 
     /**
@@ -123,7 +134,7 @@ class UsersController extends Controller
     {
         $user = User::withTrashed()->findOrFail($id);
 
-        if($user->trashed()) {
+        if ($user->trashed()) {
             $user->restore();
             $message = 'User was successfully restored';
         } else {
@@ -138,41 +149,31 @@ class UsersController extends Controller
         ]);
     }
 
-    public function submissions(User $user)
+    public function submissions(UserResourcesDataTable $dataTable, User $user)
     {
-        $submissions = $user->resources()->withoutArchived()->get();
-        $pendingSubmissions = $submissions->whereNull('approved_at');
-
-        $archivedSubmissions = $user->resources()->onlyArchived()->get();
-        $trashedSubmissions = $user->resources()->onlyTrashed()->get();
-
-        return view('pages.user-submissions', compact('user', 'submissions', 'pendingSubmissions', 'archivedSubmissions', 'trashedSubmissions'));
+        return $dataTable->render('pages.user.submissions', compact('user'));
     }
 
 
-    public function notifications(User $user)
+    public function notifications(UserNotificationsDataTable $dataTable, User $user)
     {
         $notifications = $user->notifications;
 
-        return view('pages.user-notifications', compact('user', 'notifications'));
+        return $dataTable->render('pages.user.notifications', compact('user', 'notifications'));
     }
 
-    public function activities(User $user)
+    public function activities(UserActivitiesDataTable $dataTable, User $user)
     {
-        $userLogs = $user->activityLogs;
-
-        return view('pages.user-activities', compact('user', 'userLogs'));
+        return $dataTable->render('pages.user.activities', compact('user'));
     }
 
-    public function lessons(User $user)
+    public function lessons(UserLessonsDataTable $dataTable, User $user)
     {
-        // $lessons = Lesson::whereHas('course', function(Builder $query) use($user) {
-        //     return $query->whereIn('program_id', $user->programs->pluck('id'));
-        // })->get();
-        $lessons = $user->lessons()->withoutArchived()->latest()->get();
-        $archivedLessons = $user->lessons()->onlyArchived()->latest('archived_at')->get();
-        $trashedLessons = $user->lessons()->onlyTrashed()->latest('deleted_at')->get();
+        return $dataTable->render('pages.user.lessons', compact('user'));
+    }
 
-        return view('pages.user-lessons', compact('user', 'lessons', 'archivedLessons', 'trashedLessons'));
+    public function editLesson(User $user, Lesson $lesson)
+    {
+        return view('pages.user.lessons-edit', compact('lesson', 'user'));
     }
 }

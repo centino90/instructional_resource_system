@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ArchivedResourcesDataTable;
-use App\DataTables\ResourcesDataTable;
+use App\DataTables\Resource\ActivitiesDataTable;
+use App\DataTables\Resource\ResourcesDataTable;
 use App\Events\ResourceCreated;
 use App\HelperClass\PdfToHtmlHelper;
 use App\Http\Requests\StoreNewResourceVersionRequest;
@@ -171,7 +172,7 @@ class ResourceController extends Controller
 
         $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
         $fileExt = pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
-        if(empty($fileExt)) {
+        if (empty($fileExt)) {
             return redirect()->back()->withErrors([
                 'message' => 'Error! Files without extension are not allowed'
             ]);
@@ -272,75 +273,6 @@ class ResourceController extends Controller
             ]);
     }
 
-    public function uploadOldImages(Request $request)
-    {
-        if (!extension_loaded('imagick')) {
-            dd('imagick not installed');
-        }
-
-        $index = 0;
-        $batchId = Str::uuid();
-        $resources = collect([]);
-        $converts = collect([]);
-
-        $temporaryFiles = TemporaryUpload::whereIn('folder_name', $request->file)->get();
-
-        $imagePaths = $temporaryFiles->map(function ($item, $key) {
-            return storage_path("app/public/resource/tmp/{$item->folder_name}/{$item->file_name}");
-        });
-
-        $pdf = new Imagick($imagePaths->toArray());
-        $pdf->setImageFormat('pdf');
-        $tempImgtoPdfName = time() . 'combined.pdf';
-        $pdf->writeImages(storage_path("app/public/{$tempImgtoPdfName}"), true);
-
-        $filePath = storage_path("app/public/{$tempImgtoPdfName}");
-
-        $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/resources/' . $tempImgtoPdfName);
-        $newFilename = pathinfo($newFilePath, PATHINFO_FILENAME) . '.' . pathinfo($newFilePath, PATHINFO_EXTENSION);
-
-        $resource = Resource::create([
-            'title' => $request->title[$index],
-            'lesson_id' => $request->lesson_id,
-            'course_id' => $request->course_id,
-            'user_id' => auth()->id(),
-            'description' => $request->description[$index],
-            'approved_at' => null,
-            'batch_id' => $batchId,
-            'is_syllabus' => 1,
-        ]);
-
-        Storage::disk('public')->putFileAs('users/' . auth()->id() . '/resources', $filePath, $newFilename);
-        $resource->addMedia($filePath)->preservingOriginal()->toMediaCollection();
-
-        event(new ResourceCreated($resource));
-
-        $media = $resource->currentMediaVersion;
-
-        $pdftohtml = new PdfToHtmlHelper($media->getPath());
-        $pdftohtml->convert();
-
-        $tempFileName = time() . 'test.html';
-        Storage::put($tempFileName, $pdftohtml->output());
-        $resource->addMedia(storage_path('app/public/' . $tempFileName))->usingName("{$media->name}.html")->toMediaCollection();
-
-        $resource->html = $pdftohtml->output();
-        $resources->push($resource);
-
-        exit($pdftohtml->output());
-
-        return view('pages.resource-old-validation')->with([
-            'resources' => $resources,
-            'lesson' => Lesson::findOrFail($request->lesson_id),
-            'formData' => [
-                'type' => 'file',
-                'file' => $request->file[$index],
-                'title' => $request->title[$index],
-                'description' => $request->description[$index],
-            ]
-        ]);
-    }
-
     private function filenameFormatter($filePath)
     {
         if (Storage::exists($filePath)) {
@@ -369,8 +301,11 @@ class ResourceController extends Controller
         return $filePath;
     }
 
-    public function show(Resource $resource)
+    public function show(ActivitiesDataTable $dataTable, Resource $resource)
     {
+        $resource = Resource::whereHas('course')
+            ->whereHas('lesson')->findOrFail($resource->id);
+
         foreach (auth()->user()->notifications as $notification) {
             if (isset($notification->data) && isset($notification->data['subject'])) {
                 if ($notification->data['subject']['id'] == $resource->id) {
@@ -379,8 +314,7 @@ class ResourceController extends Controller
             }
         }
 
-        return view('pages.resource-show')
-            ->with('resource', $resource);
+        return $dataTable->render('pages.resource-show', compact('resource'));
     }
 
     public function preview(Request $request, Resource $resource)
@@ -676,7 +610,7 @@ class ResourceController extends Controller
      */
     public function destroy($id)
     {
-        $resource = Resource::withTrashed()->findOrFail($id) ;
+        $resource = Resource::withTrashed()->findOrFail($id);
 
         $userName = auth()->user()->name;
 
@@ -815,6 +749,38 @@ class ResourceController extends Controller
         }
     }
 
+    public function downloadAllByCourse(Request $request, Course $course)
+    {
+        $zipFileName = $course->code . '-resources-' . time() . '.zip';
+        $resources = Resource::where('course_id', $course->id)->get();
+
+        Resource::where('course_id', $course->id)->increment('downloads');
+
+        $resourcesWithinCourse = $resources->map(function ($resource) {
+            return $resource->getMedia()[0];
+        })->reject(function ($resource) {
+            return empty($resource);
+        });
+
+        return MediaStream::create($zipFileName)
+            ->addMedia($resourcesWithinCourse);
+    }
+
+    public function downloadAllByLesson(Request $request, Lesson $lesson)
+    {
+        $zipFileName = Str::kebab($lesson->title) . '-resources-' . time() . '.zip';
+        $resources = $lesson->resources;
+
+        $resourcesWithinLesson = $resources->map(function ($resource) use ($request) {
+            return $resource->getFirstMedia();
+        })->reject(function ($resource) {
+            return empty($resource);
+        });
+
+        return MediaStream::create($zipFileName)
+            ->addMedia($resourcesWithinLesson);
+    }
+
     public function addViewCountThenRedirectToShow(Resource $resource)
     {
         $resource->increment('views');
@@ -885,21 +851,6 @@ class ResourceController extends Controller
                 'message' => $th->getMessage()
             ]);
         }
-    }
-
-    public function downloadAllByCourse(Request $request)
-    {
-        $zipFileName = Course::findOrFail($request->course_id)->title . '-files-' . time() . '.zip';
-        $resources = Resource::where('course_id', $request->course_id)->get();
-
-        $resourcesWithinCourse = $resources->map(function ($resource) use ($request) {
-            return $resource->getMedia()[0];
-        })->reject(function ($resource) {
-            return empty($resource);
-        });
-
-        return MediaStream::create($zipFileName)
-            ->addMedia($resourcesWithinCourse);
     }
 
     public function bulkDownload(Request $request)

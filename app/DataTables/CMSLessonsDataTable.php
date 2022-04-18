@@ -11,7 +11,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class LessonsDataTable extends DataTable
+class CMSLessonsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -46,10 +46,15 @@ class LessonsDataTable extends DataTable
             ->rawColumns(['action']);
 
         return $dataTables->addColumn('action', function ($row) use ($accessType) {
-            if ($accessType == Role::PROGRAM_DEAN) {
+            if ($accessType == Role::PROGRAM_DEAN || $row->user_id == auth()->id()) {
                 $btn = '<div class="d-flex gap-2">';
                 $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
                 $btn .= '<a href="' . route('lesson.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
+                <a href="#" data-bs-toggle="modal"
+                data-bs-target="#courseLessonModal"
+                data-bs-title="Update ({{ $lesson->title }})"
+                data-bs-mode="edit"
+                data-bs-lesson-id="{{ $lesson->id }}">Edit</a>
                 if ($row->storage_status == 'Trashed') {
                     $trashTitle = 'Remove';
                     $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
