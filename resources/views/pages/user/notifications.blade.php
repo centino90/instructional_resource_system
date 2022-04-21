@@ -71,7 +71,7 @@
                            <th></th>
                         </x-slot>
                         <x-slot name="rows">
-                           @foreach ($notifications->whereNull('read_at') as $notification)
+                           @foreach ($notificationList as $notification)
                               <tr>
                                  <td>{{ $notification->created_at }}</td>
                                  <td>{{ $notification->data['message'] }}</td>

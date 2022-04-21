@@ -233,10 +233,6 @@ class SyllabusController extends Controller
 
     public function confirmValidation(Request $request, Resource $resource)
     {
-        $resource->update([
-            'approved_at' => now()
-        ]);
-
         if ($resource->hasMultipleMedia) {
             activity()
                 ->causedBy($resource->user)
@@ -245,6 +241,16 @@ class SyllabusController extends Controller
                 ->withProperties($resource->toArray())
                 ->log("{$resource->user->nameTag} created a new version of {$resource->title} (id: {$resource->id})");
         }
+
+        $resource->update([
+            'approved_at' => now(),
+        ]);
+
+        $resource->course->update([
+            'current_course_outcomes' => $request->course_outcomes,
+            'current_learning_outcomes' => $request->learning_outcomes,
+            'current_lessons' => $request->lesson
+        ]);
 
         collect($request->lesson)->each(function ($lesson) use ($request) {
             Lesson::create(

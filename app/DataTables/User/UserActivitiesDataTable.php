@@ -9,6 +9,13 @@ use Yajra\DataTables\Html\Column;
 
 class UserActivitiesDataTable extends DataTable
 {
+    private $userId;
+
+    public function __construct()
+    {
+        $this->userId = request()->route()->parameter('user')->id;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -36,7 +43,7 @@ class UserActivitiesDataTable extends DataTable
     public function query(Activity $model)
     {
         return $model
-            ->where('causer_id', auth()->id());
+            ->where('causer_id', $this->userId);
     }
 
     /**

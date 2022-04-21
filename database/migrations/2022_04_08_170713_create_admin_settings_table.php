@@ -15,15 +15,8 @@ class CreateAdminSettingsTable extends Migration
     {
         Schema::create('admin_settings', function (Blueprint $table) {
             $table->id();
-            $table->boolean('enabled_notifications_in_course');
-            $table->boolean('enabled_notifications_in_lessons');
-            $table->boolean('enabled_notifications_in_users');
-            $table->integer('interval_notifications_in_syllabus');
-            $table->integer('interval_notifications_in_lessons');
-            $table->integer('interval_notifications_in_resources');
-
-            $table->boolean('enabled_watermarks_in_resource')->default(true);
-            $table->boolean('enabled_watermarks_in_reports')->default(true);
+            $table->integer('old_syllabus_year_interval');
+            $table->integer('delayed_syllabus_week_interval');
             $table->timestamps();
         });
     }

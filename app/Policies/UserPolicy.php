@@ -32,7 +32,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
@@ -48,6 +48,11 @@ class UserPolicy
             || $user->isProgramDean();
     }
 
+    public function viewSensitive(User $user, User $model)
+    {
+        return $user->id == $model->id;
+    }
+
     /**
      * Determine whether the user can create models.
      *
@@ -56,7 +61,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->isProgramDean();
+        return $user->isProgramDean();
     }
 
     /**
@@ -68,10 +73,19 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->isAdmin()
-            || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
-            ? Response::allow()
-            : Response::deny('You are not allowed to update this user');
+        return $user->isProgramDean() || $user->id == $model->id;
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function updateSensitive(User $user, User $model)
+    {
+        return $user->id == $model->id;
     }
 
     /**
@@ -83,10 +97,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->isAdmin()
-            || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
-            ? Response::allow()
-            : Response::deny('You are not allowed to delete this user');
+        return $user->isProgramDean();
     }
 
     /**
@@ -98,10 +109,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        return $user->isAdmin()
-            || $user->isProgramDean() && $user->belongsToProgram($model->programs->pluck('id')->toArray())
-            ? Response::allow()
-            : Response::deny('You are not allowed to restore this user');
+        return $user->isProgramDean();
     }
 
     /**
@@ -113,8 +121,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        // return $user->isAdmin()
-        // ? Response::allow()
-        // : Response::deny('You are not allowed to permanently delete an user');
+        return false;
     }
 }

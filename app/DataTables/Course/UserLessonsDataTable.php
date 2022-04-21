@@ -59,7 +59,7 @@ class UserLessonsDataTable extends DataTable
      */
     public function query(Lesson $model)
     {
-        $model
+        $model = $model
             ->whereHas('course', function (Builder $query) {
                 $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
             })

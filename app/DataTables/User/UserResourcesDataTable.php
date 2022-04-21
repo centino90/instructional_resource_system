@@ -9,6 +9,13 @@ use Yajra\DataTables\Html\Column;
 
 class UserResourcesDataTable extends DataTable
 {
+    private $userId;
+
+    public function __construct()
+    {
+        $this->userId = request()->route()->parameter('user')->id;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -57,12 +64,9 @@ class UserResourcesDataTable extends DataTable
      */
     public function query(Resource $model)
     {
-        $model
-            ->whereHas('course', function (Builder $query) {
-                $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
-            })
-            ->where('user_id', auth()->id())
-            ->with(['media', 'course', 'lesson']);
+        $model = $model
+            ->with(['media', 'course', 'lesson'])
+            ->where('user_id', $this->userId);
 
         return $this->modelStoreType($model);
     }

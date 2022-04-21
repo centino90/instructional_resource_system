@@ -33,7 +33,7 @@ class CoursePolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -45,7 +45,7 @@ class CoursePolicy
      */
     public function view(User $user, Course $course)
     {
-        return true;
+        return $user->belongsToProgram($course->program_id);
     }
 
     /**
@@ -56,9 +56,7 @@ class CoursePolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->isProgramDean()
-        ? Response::allow()
-        : Response::deny('You are not allowed to create a course');
+        return $user->isProgramDean();
     }
 
     /**
@@ -70,10 +68,8 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        return $user->isAdmin()
-        || $user->isProgramDean() && $user->belongsToProgram($course->program_id)
-        ? Response::allow()
-        : Response::deny('You are not allowed to update a course');
+        return $user->belongsToProgram($course->program_id)
+            && $user->isProgramDean();
     }
 
     /**
@@ -85,10 +81,8 @@ class CoursePolicy
      */
     public function delete(User $user, Course $course)
     {
-        return $user->isAdmin()
-        || $user->isProgramDean() && $user->belongsToProgram($course->program_id)
-        ? Response::allow()
-        : Response::deny('You are not allowed to delete a course');
+        return $user->belongsToProgram($course->program_id)
+            && $user->isProgramDean();
     }
 
     /**
@@ -100,10 +94,9 @@ class CoursePolicy
      */
     public function restore(User $user, Course $course)
     {
-        return $user->isAdmin()
-        || $user->isProgramDean() && $user->belongsToProgram($course->program_id)
-        ? Response::allow()
-        : Response::deny('You are not allowed to restore a course');
+
+        return $user->belongsToProgram($course->program_id)
+            && $user->isProgramDean();
     }
 
     /**
@@ -115,8 +108,6 @@ class CoursePolicy
      */
     public function forceDelete(User $user, Course $course)
     {
-        return $user->isAdmin()
-        ? Response::allow()
-        : Response::deny('You are not allowed to permanently delete a course');
+        return false;
     }
 }

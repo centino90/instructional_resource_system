@@ -14,7 +14,8 @@ class AdminSettingsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'old_syllabus_year_interval' => env('OLD_SYLLABUS_YEAR_INTERVAL', 1),
+            'delayed_syllabus_week_interval' => env('DELAYED_SYLLABUS_WEEK_INTERVAL', 2)
         ];
     }
 }

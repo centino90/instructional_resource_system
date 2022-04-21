@@ -66,16 +66,23 @@ class SyllabusReportsDataTable extends DataTable
             ->addColumn('storage_status', function ($row) {
                 return "<span class='badge bg-secondary text-white'>{$row->storage_status}</span>";
             })
+            ->addColumn('delayed_status', function ($row) {
+                if ($row->getIsDelayedAttribute()) {
+                    return "<span class='badge bg-danger text-white'>Delayed</span>";
+                } else {
+                    return "<span class='badge bg-danger text-white'>On Time</span>";
+                }
+            })
             ->rawColumns(['verification_status', 'storage_status', 'action', 'submission_status'])
             ->filterColumn('submission_status', function (Builder $row) use ($request) {
                 switch (Str::lower($request->get('search')['value'])) {
                     case 'delayed':
-                        if ($row->whereRaw('resources.created_at > DATE_ADD(created_at, INTERVAL 2 WEEK)')) {
+                        if ($row->delayed()) {
                             return true;
                         }
                         break;
                     case 'on time':
-                        if ($row->whereRaw('resources.created_at < DATE_ADD(created_at, INTERVAL 2 WEEK)')) {
+                        if ($row->onTime()) {
                             return true;
                         }
                         break;
@@ -139,12 +146,12 @@ class SyllabusReportsDataTable extends DataTable
      */
     public function query(Resource $model)
     {
-        $specifiedType = request()->get('type');
-
-        $year = request()->get('specifiedDate') ? Carbon::make(request()->get('specifiedDate'))->year : now()->year;
+        $startDate = !empty(request()->get('start_date')) ? Carbon::make(request()->get('start_date'))->endOfDay() : now()->subYear(1)->endOfDay();
+        $endDate = !empty(request()->get('end_date')) ? Carbon::make(request()->get('end_date'))->endOfDay() : now()->endOfDay();
         $yearLevel = request()->get('year_level') ? [request()->get('year_level')] : [1, 2, 3, 4];
         $semester = request()->get('semester') ? [request()->get('semester')] : [1, 2, 3];
         $term = request()->get('term') ? [request()->get('term')] : [1, 2];
+
         $courses = Course::whereIn('program_id', auth()->user()->programs->pluck('id'))
             ->whereIn('year_level', $yearLevel)
             ->whereIn('semester', $semester)
@@ -163,7 +170,7 @@ class SyllabusReportsDataTable extends DataTable
         })
             ->with(['media', 'course', 'lesson', 'user'])
             ->where('is_syllabus', true)
-            ->whereYear('resources.created_at', $year);
+            ->whereBetween('resources.created_at', [$startDate, $endDate]);
     }
 
     /**

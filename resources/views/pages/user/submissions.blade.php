@@ -146,7 +146,7 @@
 
                   $(table).DataTable({
                      ...TABLE_MANAGEMENT_PROPS,
-                     ajax: `{{ route('user.submissions', auth()->id()) }}?storeType=${tableId}`,
+                     ajax: `{{ route('user.submissions', $user) }}?storeType=${tableId}`,
                      columns: [{
                            data: 'created_at',
                            name: 'created_at',

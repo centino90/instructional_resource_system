@@ -13,6 +13,13 @@ use Yajra\DataTables\Html\Editor\Fields;
 
 class UserLessonsDataTable extends DataTable
 {
+    private $userId;
+
+    public function __construct()
+    {
+        $this->userId = request()->route()->parameter('user')->id;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -63,11 +70,11 @@ class UserLessonsDataTable extends DataTable
      */
     public function query(Lesson $model)
     {
-        $model
+        $model = $model
             ->whereHas('course', function (Builder $query) {
                 $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
             })
-            ->where('user_id', auth()->id())
+            ->where('user_id', $this->userId)
             ->with(['course', 'user', 'resources'])
             ->withCount('resources');
 

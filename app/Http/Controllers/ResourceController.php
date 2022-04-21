@@ -179,9 +179,12 @@ class ResourceController extends Controller
         }
 
         $filename = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . $fileExt;
-        $model = Resource::create($request->validated() + [
+        $model = Resource::create([
+            'course_id' => $request->course_id,
+            'lesson_id' => $request->lesson_id,
             'user_id' => auth()->id(),
-            'batch_id' => Str::random(5),
+            'description' => $request->description,
+            'title' => $request->title,
             'approved_at' => now()
         ]);
 
@@ -303,8 +306,7 @@ class ResourceController extends Controller
 
     public function show(ActivitiesDataTable $dataTable, Resource $resource)
     {
-        $resource = Resource::whereHas('course')
-            ->whereHas('lesson')->findOrFail($resource->id);
+        $resource = Resource::whereHas('course')->findOrFail($resource->id);
 
         foreach (auth()->user()->notifications as $notification) {
             if (isset($notification->data) && isset($notification->data['subject'])) {
@@ -739,13 +741,19 @@ class ResourceController extends Controller
     {
         $resource = $media->resource;
 
-        if ($resource->update([
-            $resource->downloads += 1
-        ])) {
-            return response()->download(
-                $media->getPath(),
-                $media->file_name
-            );
+        try {
+            if ($resource->update([
+                $resource->downloads += 1
+            ])) {
+                return response()->download(
+                    $media->getPath(),
+                    $media->file_name
+                );
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors([
+                'message' => $th->getMessage()
+            ]);
         }
     }
 
@@ -795,57 +803,19 @@ class ResourceController extends Controller
         return redirect()->route('resource.preview', $resource);
     }
 
-    public function download(Request $request, Resource $resource)
+    public function download(Request $request, Media $media)
     {
-        // if (in_array(pathinfo($mediaFileExt, PATHINFO_EXTENSION), config('app.pdf_convertible_filetypes'))) {
-        //     $converter = new OfficeConverter($resource->getFirstMediaPath(), storage_path('app/public'));
-        //     $converter->convertTo($resource->getFirstMedia()->name . '.pdf'); //generates pdf file in same directory as test-file.docx
-
-        //     // Source file and watermark config
-        //     $file = $resource->getFirstMedia()->name . '.pdf';
-        //     $text_image = storage_path('app/public/images/word-watermark.png');
-
-        //     // Set source PDF file
-        //     $pdf = new Fpdi;
-        //     if (file_exists(storage_path('app/public/' . $file))) {
-        //         $pagecount = $pdf->setSourceFile(storage_path('app/public/' . $file));
-        //     } else {
-        //         die('Source PDF not found!');
-        //     }
-
-        //     // Add watermark image to PDF pages
-        //     for ($i = 1; $i <= $pagecount; $i++) {
-        //         $tpl = $pdf->importPage($i);
-        //         $size = $pdf->getTemplateSize($tpl);
-        //         $pdf->SetPrintHeader(false);
-        //         $pdf->SetPrintFooter(false);
-        //         $pdf->addPage($size['width'] > $size['height'] ? 'P' : 'L');
-        //         // $pdf->setPrintHeader(false);
-        //         $pdf->useTemplate($tpl, 0, 0, $size['width'], $size['height'], TRUE);
-
-        //         //Put the watermark
-        //         $pdf->Image($text_image, 5, 0, 35, 35, 'png');
-        //     }
-
-        //     // Output PDF with watermark
-        //     unlink(storage_path('app/public/' . $file));
-        //     $pdf->Output($file, 'D');
-        // }
+        $resource = $media->resource;
 
         try {
-            if (!empty($request->mediaId)) {
-                if (!$mediaFile = $resource->getMedia()->firstWhere('id', $request->mediaId)) {
-                    throw new FileNotFoundException();
-                } else {
-                }
-            } else {
-                $mediaFile = $resource->media->sortByDesc('order_column')->first();
+            if ($resource->update([
+                $resource->downloads += 1
+            ])) {
+                return response()->download(
+                    $media->getPath(),
+                    $media->file_name
+                );
             }
-
-            return response()->download(
-                $mediaFile->getPath(),
-                $mediaFile->getCustomName()
-            );
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors([
                 'message' => $th->getMessage()

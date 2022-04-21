@@ -1,25 +1,15 @@
 <?php
 
-namespace App\DataTables\Course;
+namespace App\DataTables\Reports;
 
 use App\DataTables\DataTable;
-use App\Models\Lesson;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
+use Spatie\Activitylog\Models\Activity;
+use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 
-class UserLessonsDataTable extends DataTable
+class InstructorActivitiesDataTable extends DataTable
 {
-    private $courseId;
-    private $userId;
-    private $courseCode;
-
-    public function __construct()
-    {
-        $this->courseId = request()->route()->parameter('course')->id;
-        $this->userId = request()->route()->parameter('user')->id;
-        $this->courseCode = request()->route()->parameter('course')->code;
-    }
-
     /**
      * Build DataTable class.
      *
@@ -28,47 +18,48 @@ class UserLessonsDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $request = request();
         return datatables()
             ->eloquent($query)
             ->setRowId(function ($row) {
                 return "subject{$row->id}";
             })
-            ->addColumn('course', function ($row) {
-                return "{$row->course->title}";
-            })
-            ->addColumn('submitter', function ($row) {
-                return $row->user->name;
-            })
-            ->addColumn('storage_status', function ($row) {
-                return $row->storage_status;
-            })
-            ->addColumn('resources_count', function ($row) {
-                return $row->resources_count ?? 0;
-            })
             ->addColumn('action', function ($row) {
-               return $this->sharedActionBtns($row, route('lesson.show', $row->id), route('lesson.archive', $row->id), route('lesson.destroy', $row->id));
+                $btn = '<div class="d-flex gap-2">';
+                $btn .= '<a href="' . route('activities.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Details</a>';
+                $btn .= '<a href="' . route('user.show', $row->causer) . '" class="btn btn-sm btn-primary border fw-bold text-nowrap">View profile</a>';
+                $btn .= '</div>';
+                return $btn;
             })
-            ->rawColumns(['action']);
+            ->editColumn('instructor', function ($row) {
+                return $row->causer->name;
+            })
+            ->rawColumns(['action'])
+            ->editColumn('activity', function ($data) {
+                return $data->log_name;
+            })
+            ->editColumn('created_at', function ($data) {
+                return $data->created_at->format('Y-m-d H:i:s');
+            });
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Lesson $model
+     * @param \App\Models\Activity $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Lesson $model)
+    public function query(Activity $model)
     {
-        $model
-            ->whereHas('course', function (Builder $query) {
-                $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
-            })
-            ->where('user_id', $this->userId)
-            ->where('course_id', $this->courseId)
-            ->with(['course', 'user', 'resources'])
-            ->withCount('resources');
+        $startDate = !empty(request()->get('start_date')) ? Carbon::make(request()->get('start_date'))->endOfDay() : now()->subYear(1)->endOfDay();
+        $endDate = !empty(request()->get('end_date')) ? Carbon::make(request()->get('end_date'))->endOfDay() : now()->endOfDay();
 
-        return $this->modelStoreType($model);
+        $activityTypes = Activity::select('log_name')->groupBy('log_name')->get()->filter(fn ($log) => !collect(['user-created', 'file-deleted'])->contains($log->log_name));
+
+        return $model->whereIn('causer_id', auth()->user()->programs()->first()->users()->instructors()->pluck('id'))
+            ->with('causer')
+            ->whereIn('log_name', $activityTypes)
+            ->whereBetween('created_at', [$startDate, $endDate]);
     }
 
     /**
@@ -78,8 +69,7 @@ class UserLessonsDataTable extends DataTable
      */
     public function html()
     {
-        return $this->sharedBuilder()
-            ->columns($this->getColumns());
+        return $this->sharedBuilder(true)->columns($this->getColumns());
     }
 
     /**
@@ -90,16 +80,15 @@ class UserLessonsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('created_at'),
-            Column::make('title'),
+            Column::make('id'),
+            Column::make('instructor', 'causer.fname'),
+            Column::make('activity', 'log_name'),
             Column::make('description'),
-            Column::make('course', 'course.title'),
-            Column::make('submitter', 'user.fname'),
-            Column::make('resources_count'),
+            Column::make('created_at'),
             Column::computed('action', '')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60),
+                ->width(60)
         ];
     }
 
@@ -110,6 +99,6 @@ class UserLessonsDataTable extends DataTable
      */
     protected function filename()
     {
-        return $this->courseCode . '_Lessons_' . date('YmdHis');
+        return 'ReportsInstructor_' . date('YmdHis');
     }
 }

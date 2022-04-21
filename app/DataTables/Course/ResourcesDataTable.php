@@ -44,7 +44,10 @@ class ResourcesDataTable extends DataTable
                 $btn = '<div class="d-flex gap-2">';
                 $btn .= '<a href="' . route('resource.addViewCountThenRedirectToShow', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
                 $btn .= '<a href="' . route('resource.addViewCountThenRedirectToPreview', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Preview</a>';
-                $btn .= '<a href="' . route('resources.downloadOriginal', $row->currentMediaVersion) . '" class="btn btn-sm btn-primary fw-bold border">Download</a>';
+                $btn .= '<form action="' . route('resources.downloadOriginal', $row->currentMediaVersion) . '" method="POST">';
+                $btn .= csrf_field();
+                $btn .= '<button type="submit" class="btn btn-sm btn-primary fw-bold border">Download</button>';
+                $btn .= '</form>';
                 $btn .= '</div>';
 
                 return $btn;

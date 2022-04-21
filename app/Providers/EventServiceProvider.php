@@ -49,24 +49,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Resource::observe(ResourceObserver::class);
-        Lesson::observe(LessonObserver::class);
-
-        /*
-            LARAVEL AUTH
-        */
-        // Event::listen(
-        //     Registered::class,
-        //     function ($event) {
-        //         Storage::makeDirectory("users/{$event->user->id}");
-
-        //         activity()
-        //             ->causedBy($event->user)
-        //             ->useLog('user-registered')
-        //             ->performedOn($event->user)
-        //             ->withProperties($event->user->all())
-        //             ->log("{$event->user->nameTag} registered");
-        //     }
-        // );
+        Lesson::observe(LessonObserver::class);;
 
         Event::listen(
             Login::class,
@@ -79,6 +62,9 @@ class EventServiceProvider extends ServiceProvider
                         ->withProperties($event->user->getChanges())
                         ->log("{$event->user->nameTag} loggedin");
                 }
+
+                session()->flash('status', 'Message');
+
             }
         );
 

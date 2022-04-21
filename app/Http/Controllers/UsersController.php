@@ -11,46 +11,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(User::class);
-    }
-
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
@@ -59,6 +24,8 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
+
         $fileCount = 0;
         if (File::exists(storage_path("app/public/users/{$user->id}"))) {
             $fileCount = collect(File::allFiles(storage_path("app/public/users/{$user->id}")))->count();
@@ -67,31 +34,15 @@ class UsersController extends Controller
         return view('pages.user.show', compact('user', 'fileCount'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
     public function updatePersonal(Request $request, User $user)
     {
+        $this->authorize('update', $user);
+
+        $validated = $request->validate([
+            'fname' => 'required',
+            'lname' => 'required',
+        ]);
+
         $user->fname = $request->fname;
         $user->lname = $request->lname;
         $user->save();
@@ -104,7 +55,15 @@ class UsersController extends Controller
 
     public function updateUsername(Request $request, User $user)
     {
+        $this->authorize('updateSensitive', $user);
+
+        $validated = $request->validate([
+            'username' => 'required|unique:users,username,' . auth()->id(),
+            'email' => 'required|unique:users,email,' . auth()->id(),
+        ]);
+
         $user->username = $request->username;
+        $user->email = $request->email;
         $user->save();
 
         return redirect()->back()->with([
@@ -115,6 +74,12 @@ class UsersController extends Controller
 
     public function updatePassword(Request $request, User $user)
     {
+        $this->authorize('updateSensitive', $user);
+
+        $validated = $request->validate([
+            'password' => 'required|min:6|confirmed',
+        ]);
+
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -124,56 +89,40 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $user = User::withTrashed()->findOrFail($id);
-
-        if ($user->trashed()) {
-            $user->restore();
-            $message = 'User was successfully restored';
-        } else {
-            $user->delete();
-            $message = 'User was successfully deleted';
-        }
-
-        return redirect()->back()->with([
-            'status' => 'success',
-            'updatedSubject' => $id,
-            'message' => $message
-        ]);
-    }
-
     public function submissions(UserResourcesDataTable $dataTable, User $user)
     {
+        $this->authorize('view', $user);
+
         return $dataTable->render('pages.user.submissions', compact('user'));
     }
 
-
     public function notifications(UserNotificationsDataTable $dataTable, User $user)
     {
-        $notifications = $user->notifications;
+        $this->authorize('viewSensitive', $user);
 
-        return $dataTable->render('pages.user.notifications', compact('user', 'notifications'));
+        $notificationList = $user->notifications->whereNull('read_at');
+
+        return $dataTable->render('pages.user.notifications', compact('user', 'notificationList'));
     }
 
     public function activities(UserActivitiesDataTable $dataTable, User $user)
     {
+        $this->authorize('view', $user);
+
         return $dataTable->render('pages.user.activities', compact('user'));
     }
 
     public function lessons(UserLessonsDataTable $dataTable, User $user)
     {
+        $this->authorize('view', $user);
+
         return $dataTable->render('pages.user.lessons', compact('user'));
     }
 
     public function editLesson(User $user, Lesson $lesson)
     {
+        $this->authorize('update', $lesson);
+
         return view('pages.user.lessons-edit', compact('lesson', 'user'));
     }
 }

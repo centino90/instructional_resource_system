@@ -153,7 +153,7 @@
 
                   $(table).DataTable({
                     ...TABLE_MANAGEMENT_PROPS,
-                    ajax: `{{ route('user.lessons', auth()->id()) }}?storeType=${tableId}`,
+                    ajax: `{{ route('user.lessons', $user) }}?storeType=${tableId}`,
                     columns: [
                         {
                            data: 'created_at',

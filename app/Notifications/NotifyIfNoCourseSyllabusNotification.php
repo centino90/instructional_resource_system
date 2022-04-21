@@ -22,6 +22,7 @@ class NotifyIfNoCourseSyllabusNotification extends Notification
         $this->course = $course;
     }
 
+
     /**
      * Get the notification's delivery channels.
      *
@@ -30,7 +31,16 @@ class NotifyIfNoCourseSyllabusNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
+    }
+
+    public function toMail($notifiable)
+    {
+        $date =  date('Y-m-d H:i:s');
+        return (new MailMessage)
+            ->greeting('Hello! ' . $notifiable->name)
+            ->line("{$this->course->code} has no syllabus yet {$date}");
+        // ->action('Notification Action', url('/'))
     }
 
     /**
@@ -47,7 +57,7 @@ class NotifyIfNoCourseSyllabusNotification extends Notification
             'subjectName' => 'course',
             'subject' => $this->course,
             'program' => $this->course->program,
-            'link' => route('syllabi.create', $this->course)
+            'link' => route('course.show', $this->course)
         ];
     }
 }

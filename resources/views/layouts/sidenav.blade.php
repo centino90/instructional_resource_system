@@ -10,22 +10,6 @@
          class="btn btn-light rounded-0 alert alert-primary hstack gap-1 justify-content-center mb-3">
          <span class="material-icons md-18 align-middle">menu</span> <small>MENU</small>
       </a>
-      {{-- <div
-            class="alert fw-bold text-center border-0 rounded-0
-        @switch(auth()->user()->role_id) @case(App\Models\Role::INSTRUCTOR)
-            alert-primary
-            @break
-        @case(App\Models\Role::PROGRAM_DEAN)
-            alert-success
-            @break
-        @case(App\Models\Role::ADMIN)
-            alert-warning
-            @break
-        @default
-            alert-info @endswitch
-        ">
-            Welcome, {{ ucwords(strtolower(auth()->user()->role->name)) }}
-        </div> --}}
 
       <ul class="nav nav-pills nav-flush persist-default flex-column components mb-5">
          <li class="nav-item px-2">
@@ -38,19 +22,26 @@
 
          @if (auth()->user()->isAdmin())
             <li class="nav-item px-2">
-               <a href="{{ route('storage.show', [auth()->id(), 'leftPath' => 'users/' . auth()->id()]) }}"
+               <a href="{{ route('admin.system.index') }}"
                   class="nav-link py-2 " title="" data-bs-toggle="tooltip" data-bs-placement="right"
                   data-bs-original-title="Admin Settings">
                   <span class="material-icons md-18 align-middle">manage_accounts</span>
                   <span class="text align-middle">Admin Settings</span>
                </a>
             </li>
+            <li class="nav-item px-2">
+                <a href="{{ route('dean.resource.index', ['accessType' => auth()->user()->role_id]) }}"
+                   class="nav-link py-2 " title="" data-bs-toggle="tooltip" data-bs-placement="right"
+                   data-bs-original-title="Content Management">
+                   <span class="material-icons md-18 align-middle">tune</span>
+                   <span class="text align-middle">Content Management</span>
+                </a>
+             </li>
          @endif
 
-         @if (auth()->user()->isProgramDean() ||
-    auth()->user()->isAdmin())
+         @if (auth()->user()->isProgramDean())
             <li class="nav-item px-2">
-               <a href="{{ route('dean.reports.index') }}" class="nav-link py-2 " title="" data-bs-toggle="tooltip"
+               <a href="{{ route('dean.reports.submissions') }}" class="nav-link py-2 " title="" data-bs-toggle="tooltip"
                   data-bs-placement="right" data-bs-original-title="Reports">
                   <span class="material-icons md-18 align-middle">bar_chart</span>
                   <span class="text align-middle">Reports</span>
@@ -76,9 +67,7 @@
 
          <hr class="w-100 ">
 
-         @if (auth()->user()->isInstructor() ||
-    auth()->user()->isSecretary() ||
-    auth()->user()->isAdmin())
+         @if (auth()->user()->isInstructor() || auth()->user()->isSecretary())
             <li class="nav-item px-2">
                <a href="{{ route('user.lessons', auth()->id()) }}" class="nav-link py-2 " title=""
                   data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="My lessons">

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AdminSettings;
 use Illuminate\Database\Seeder;
 
 class AdminSettingsSeeder extends Seeder
@@ -13,6 +14,6 @@ class AdminSettingsSeeder extends Seeder
      */
     public function run()
     {
-        //
+        AdminSettings::factory()->count(1)->create();
     }
 }

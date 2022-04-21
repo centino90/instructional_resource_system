@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Program;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
@@ -32,7 +33,7 @@ class UserSeeder extends Seeder
         User::factory()->count(10)
             ->create();
 
-        foreach (User::all() as $user) {
+        foreach (User::whereDoesntHave('programs')->get() as $user) {
             if ($user->isAdmin() || $user->isSecretary()) {
                 foreach (Program::all() as $program) {
                     $user->programs()->attach($program->id);

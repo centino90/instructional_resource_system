@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class InstructorsController extends Controller
+class DeanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class InstructorsController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,18 +35,7 @@ class InstructorsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

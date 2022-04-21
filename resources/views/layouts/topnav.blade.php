@@ -79,15 +79,15 @@
 
                     <ul class="dropdown-menu mx-0 shadow" style="width: 240px">
                         <li class="bg-light">
-                            <a class="dropdown-item vstack gap-2 align-items-center py-3" href="#">
+                            <a class="dropdown-item vstack gap-2 align-items-center py-3" href="{{route('user.show', auth()->user())}}">
                                 <img src="#" class="img-thumbnail rounded-pill thumbnail-md" alt="Avatar">
                                 <span class="d-block small fw-bold">{{auth()->user()->nameTag}}</span>
                             </a>
                         </li>
                         <li >
-                            <a class="dropdown-item hstack gap-2 align-items-center py-2" href="#">
+                            <span class="dropdown-item hstack gap-2 align-items-center py-2" href="#">
                                 <small>Program:</small>    <span class="d-block small fw-bold">{{auth()->user()->programs->first()->code}}</span>
-                            </a>
+                            </span>
                         </li>
 
                         <li>

@@ -12,6 +12,8 @@
          <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('course.show', $resource->course) }}">
                <- Go back</a>
          </li>
+
+
          <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
          <li class="breadcrumb-item"><a
                href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
@@ -364,7 +366,8 @@
                                     <x-real.text-with-subtitle>
                                        <x-slot name="text">
                                           @isset($resource->lesson)
-                                             <a href="{{route('lesson.show', $resource->lesson)}}">{{ $resource->lesson->title }}</a>
+                                             <a
+                                                href="{{ route('lesson.show', $resource->lesson) }}">{{ $resource->lesson->title }}</a>
                                           @else
                                              <i>No Lesson</i>
                                           @endisset
@@ -375,7 +378,8 @@
                                  <li class="nav-item border-bottom">
                                     <x-real.text-with-subtitle>
                                        <x-slot name="text">
-                                          <a href="{{route('course.show', $resource->course)}}">{{ $resource->course->code }}</a>
+                                          <a
+                                             href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a>
                                        </x-slot>
                                        <x-slot name="subtitle">Course</x-slot>
                                     </x-real.text-with-subtitle>

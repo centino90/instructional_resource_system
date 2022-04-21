@@ -28,9 +28,11 @@
                   <x-slot name="header">Some actions</x-slot>
                   <x-slot name="body">
                      <div class="d-grid gap-2">
-                        <x-real.btn :tag="'a'" href="{{ route('lesson.edit', $lesson) }}">
-                           Edit lesson
-                        </x-real.btn>
+                        @can('update', $lesson)
+                           <x-real.btn :tag="'a'" href="{{ route('lesson.edit', $lesson) }}">
+                              Edit lesson
+                           </x-real.btn>
+                        @endcan
 
                         @if (!$lesson->trashed())
                            <a href="{{ route('resource.create', $lesson) }}" class="btn btn-primary">Submit

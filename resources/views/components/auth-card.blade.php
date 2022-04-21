@@ -9,28 +9,6 @@
                 <div class="col-12 col-xl-6 card shadow-sm rounded-0">
                     {{ $slot }}
                 </div>
-
-                <footer class="mt-3">
-                    <small class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptates magni, saepe veniam modi dignissimos iusto accusantium est distinctio sed maiores fugit placeat, vero eaque? Ut iusto aut saepe tenetur.</small>
-
-                    <div class="d-flex">
-                        <a href="#">
-                            <small>Some link</small>
-                        </a>
-
-                        <div class="ms-auto">
-                            <a href="#">
-                                <small>Some link</small>
-                            </a>
-                            <a href="#" class="ms-3">
-                                <small>Some link</small>
-                            </a>
-                            <a href="#" class="ms-3">
-                                <small>Some link</small>
-                            </a>
-                        </div>
-                    </div>
-                </footer>
             </div>
         </div>
     </div>

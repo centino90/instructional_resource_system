@@ -9,6 +9,13 @@ use Yajra\DataTables\Html\Column;
 
 class UserNotificationsDataTable extends DataTable
 {
+    private $userId;
+
+    public function __construct()
+    {
+        $this->userId = request()->route()->parameter('user')->id;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -47,7 +54,7 @@ class UserNotificationsDataTable extends DataTable
         return $model
             ->whereNotNull('read_at')
             ->where('notifiable_type', User::class)
-            ->where('notifiable_id', auth()->id());
+            ->where('notifiable_id', $this->userId);
     }
 
     /**

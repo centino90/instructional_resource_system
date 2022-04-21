@@ -33,7 +33,7 @@ class LessonsDataTable extends DataTable
             ->addColumn('course', function ($row) {
                 return "{$row->course->title}";
             })
-            ->addColumn('submitter', function ($row) {
+            ->addColumn('author', function ($row) {
                 return $row->user->name;
             })
             ->addColumn('storage_status', function ($row) {
@@ -92,7 +92,7 @@ class LessonsDataTable extends DataTable
             Column::make('title'),
             Column::make('description'),
             Column::make('course', 'course.title'),
-            Column::make('submitter', 'user.fname'),
+            Column::make('author', 'user.fname'),
             Column::make('resources_count'),
             Column::make('storage_status'),
             Column::computed('action', '')

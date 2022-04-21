@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Services\DataTable as YajraDataTable;
 
 class DataTable extends YajraDataTable
@@ -24,6 +25,17 @@ class DataTable extends YajraDataTable
             data.search.search = ""
             data.order = [[0, "' . $order . '"]]
         }')
+            ->buttons(
+                Button::make(['extend' => 'export', 'className' => 'border btn text-primary', 'init' => 'function(api, node, config) {$(node).removeClass("btn-secondary")}']),
+                Button::make(['extend' => 'print', 'className' => 'border btn text-primary', 'init' => 'function(api, node, config) {$(node).removeClass("btn-secondary")}']),
+                Button::make([
+                    'extend' => 'reset',
+
+                    'className' => 'border btn text-primary',
+                    'init' => 'function(api, node, config) {$(node).removeClass("btn-secondary")}'
+                ]),
+                Button::make(['extend' => 'reload', 'className' => 'border btn text-primary', 'init' => 'function(api, node, config) {$(node).removeClass("btn-secondary")}']),
+            )
             ->dom($withBtn ? $this->tableDomWithButton : $this->tableDom);
     }
 
@@ -57,13 +69,15 @@ class DataTable extends YajraDataTable
         $storeType = request()->get('storeType') ?? null;
 
         if ($storeType == 'archived') {
-            return $model->onlyArchived();
+            $model = $model->onlyArchived();
         } else if ($storeType == 'trashed') {
-            return $model->onlyTrashed();
+            $model = $model->onlyTrashed();
         } else if ($storeType == 'all') {
-            return $model->withTrashed();
+            $model = $model->withTrashed();
         } else {
-            return $model->withoutArchived();
+            $model->withoutArchived();
         }
+
+        return $model;
     }
 }

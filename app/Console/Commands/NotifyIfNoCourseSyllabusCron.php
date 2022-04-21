@@ -40,9 +40,12 @@ class NotifyIfNoCourseSyllabusCron extends Command
      */
     public function handle()
     {
-        $courses = Course::whereDoesntHave('resources', fn(\Illuminate\Database\Eloquent\Builder $query) => $query->where('is_syllabus', true))->get();
+        $courses = Course::whereDoesntHave(
+            'resources',
+            fn (\Illuminate\Database\Eloquent\Builder $query) => $query->where('is_syllabus', true)
+        )->get();
 
-        if($courses->count() > 0) {
+        if ($courses->count() > 0) {
             foreach ($courses as $course) {
                 NotifyIfNoCourseSyllabus::dispatch($course);
             }

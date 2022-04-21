@@ -2,6 +2,11 @@
 
 use app\HelperClass\OfficeToPdfHelper;
 use App\Http\Controllers\ActivitiesController;
+use App\Http\Controllers\Admin\ContentManagementController as AdminContentManagementController;
+use App\Http\Controllers\Admin\DeanController;
+use App\Http\Controllers\Admin\ProgramController as AdminProgramController;
+use App\Http\Controllers\Admin\SystemAdminController;
+use App\Http\Controllers\Admin\TypologyStandardController as AdminTypologyStandardController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeletedResourceController;
@@ -23,7 +28,10 @@ use App\Http\Controllers\StorageController;
 use App\Http\Controllers\ProgramDean\TypologyStandardController;
 use App\Http\Controllers\UsersController;
 use App\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -87,7 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::post('resources/download-html/{media}', [ResourceController::class, 'downloadAsHtml'])->name('resources.downloadAsHtml');
     Route::post('resources/download-original/{media}', [ResourceController::class, 'downloadOriginal'])->name('resources.downloadOriginal');
     Route::post('resources/download-pdf/{media}', [ResourceController::class, 'downloadAsPdf'])->name('resources.downloadAsPdf');
-    Route::get('resources/download/{resource}', [ResourceController::class, 'download'])->name('resources.download');
+    Route::get('resources/download/{media}', [ResourceController::class, 'download'])->name('resources.download');
 
     Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
     Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
@@ -153,15 +161,13 @@ Route::middleware('auth')->group(function () {
     // Admin
     Route::prefix('admin')->name('admin.')
         ->middleware(['auth.admin'])->group(function () {
-            // Route::resource('/dashboard', AdminDashboardController::class);
-
-            // Route::get('/programs/list', [AdminProgramController::class, 'list'])->name('programs.list');
-            // Route::resource('/programs', AdminProgramController::class);
-            // Route::resource('/courses', CoursesController::class);
-            // Route::resource('/resources', ResourcesController::class);
-            // Route::resource('/personnels', PersonnelsController::class);
-            // Route::resource('/notifications', NotificationsController::class);
-            // Route::resource('/instructors', InstructorsController::class);
+            Route::resource('/programs', AdminProgramController::class);
+            Route::resource('/deans', DeanController::class);
+            Route::resource('/cms', AdminContentManagementController::class);
+            Route::put('/system/update-old', [SystemAdminController::class, 'updateOldSyllabusInterval'])->name('system.updateOldSyllabusInterval');
+            Route::put('/system/update-delay', [SystemAdminController::class, 'updateDelayedSyllabusInterval'])->name('system.updateDelayedSyllabusInterval');
+            Route::resource('/system', SystemAdminController::class);
+            Route::resource('/typology', AdminTypologyStandardController::class);
         });
 
     // Program dean
@@ -177,7 +183,9 @@ Route::middleware('auth')->group(function () {
         Route::get('content-management/personnels', [ContentManagementController::class, 'personnels'])->name('cms.personnels');
         Route::get('content-management/resources', [ContentManagementController::class, 'resources'])->name('cms.resources');
 
+        Route::get('reports/instructors-table', [ReportsController::class, 'instructorsTable'])->name('reports.instructorsTable');
         Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
+        Route::get('reports/course-submissions', [ReportsController::class, 'courseSubmissions'])->name('reports.courseSubmissions');
         Route::get('reports/submissions', [ReportsController::class, 'submissions'])->name('reports.submissions');
         Route::get('reports/syllabus', [ReportsController::class, 'syllabus'])->name('reports.syllabus');
         Route::get('reports/courses', [ReportsController::class, 'courses'])->name('reports.courses');

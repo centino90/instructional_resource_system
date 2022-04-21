@@ -71,8 +71,7 @@
                   @if ($course->resources->count() > 0)
                      <x-real.form action="{{ route('resource.downloadAllByCourse', $course) }}">
                         <x-slot name="submit">
-                           <x-real.btn type="submit" :icon="'file_download'"
-                              class="me-auto no-loading bg-white">
+                           <x-real.btn type="submit" :icon="'file_download'" class="me-auto no-loading bg-white">
                               Download resources
                            </x-real.btn>
                         </x-slot>
@@ -136,7 +135,7 @@
                                  <x-slot name="label">There is no syllabus in this course yet</x-slot>
                               </x-real.no-rows>
                            @else
-                              <div class="w-100 hstack gap-3 ">
+                              <div class="w-100 vstack gap-3 ">
                                  @if ($course->latestSyllabus->archiveStatus == 'Archived')
                                     <x-real.alert :variant="'warning'" :dismiss="false"
                                        class="w-100 justify-content-center">
@@ -163,23 +162,97 @@
                                        </div>
                                     </x-real.alert>
                                  @else
-                                    @if ($course->latestSyllabus->verificationStatus == 'Approved')
-                                       <span class="badge bg-success">Approved</span>
-                                    @elseif($course->latestSyllabus->verificationStatus == 'Rejected')
-                                       <span class="badge bg-danger">Rejected</span>
-                                    @elseif($course->latestSyllabus->verificationStatus == 'Pending')
-                                       <span class="badge bg-warning">Pending</span>
-                                    @endif
+                                    <div>
+                                       @if ($course->latestSyllabus->verificationStatus == 'Approved')
+                                          <span class="badge bg-success">Approved</span>
+                                       @elseif($course->latestSyllabus->verificationStatus == 'Rejected')
+                                          <span class="badge bg-danger">Rejected</span>
+                                       @elseif($course->latestSyllabus->verificationStatus == 'Pending')
+                                          <span class="badge bg-warning">Pending</span>
+                                       @endif
+                                    </div>
 
-                                    <p class="mb-0 small lh-sm">
-                                       <strong
-                                          class="d-block text-gray-dark">{{ $course->latestSyllabus->title }}</strong>
-                                       <small class="d-block mt-1">
-                                          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                          Voluptatem,
-                                          explicabo!
+                                    <div class="mb-0 small lh-sm">
+                                       <h6 class="text-dark fw-bolder">{{ $course->latestSyllabus->title }} - <i
+                                             class="fw-normal">{{ $course->latestSyllabus->current_media_version->file_name }}</i>
+                                       </h6>
+
+                                       <small class="d-block">
+                                          {{ $course->latestSyllabus->description ?? 'No Description' }}
                                        </small>
-                                    </p>
+
+                                       <small class="d-block mt-3">
+                                          Last updated on {{ $course->latestSyllabus->updated_at }}
+                                       </small>
+                                    </div>
+
+                                    @if ($course->approved_at)
+                                       <div class="accordion accordion-flush" id="lessonAccordion">
+                                          <div class="accordion-item">
+                                             <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                   data-bs-target="#lessonAccCollapse" aria-expanded="true"
+                                                   aria-controls="lessonAccCollapse">
+                                                   Highlighted Lessons
+                                                </button>
+                                             </h2>
+                                             <div id="lessonAccCollapse" class="accordion-collapse collapse "
+                                                aria-labelledby="headingOne" data-bs-parent="#lessonAccordion">
+                                                <div class="accordion-body">
+                                                   <ul class="list-group">
+                                                      @foreach ($course->current_lessons ?? [] as $row)
+                                                         <li class="list-group-item">{{ $row }}</li>
+                                                      @endforeach
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+
+                                       <div class="accordion accordion-flush" id="courseOutcomesAccordion">
+                                          <div class="accordion-item">
+                                             <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                   data-bs-target="#courseOutcomesCollapse" aria-expanded="true"
+                                                   aria-controls="courseOutcomesCollapse">
+                                                   Current Course Outcomes
+                                                </button>
+                                             </h2>
+                                             <div id="courseOutcomesCollapse" class="accordion-collapse collapse "
+                                                aria-labelledby="headingOne" data-bs-parent="#courseOutcomesAccordion">
+                                                <div class="accordion-body">
+                                                   <ul class="list-group">
+                                                      @foreach ($course->current_course_outcomes ?? [] as $row)
+                                                         <li class="list-group-item">{{ $row }}</li>
+                                                      @endforeach
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+
+                                       <div class="accordion accordion-flush" id="learnintOutcomesAccordion">
+                                          <div class="accordion-item">
+                                             <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                   data-bs-target="#learningOutcomesCollapse" aria-expanded="true"
+                                                   aria-controls="learningOutcomesCollapse">
+                                                   Current Student Learning Outcomes
+                                                </button>
+                                             </h2>
+                                             <div id="learningOutcomesCollapse" class="accordion-collapse collapse "
+                                                aria-labelledby="headingOne" data-bs-parent="#learnintOutcomesAccordion">
+                                                <div class="accordion-body">
+                                                   <ul class="list-group">
+                                                      @foreach ($course->current_learning_outcomes ?? [] as $row)
+                                                         <li class="list-group-item">{{ $row }}</li>
+                                                      @endforeach
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    @endif
                                  @endif
                               </div>
                            @endempty
@@ -286,36 +359,40 @@
                <x-real.card :variant="'secondary'" :vertical="'center'">
                   <x-slot name="header">Most active instructors</x-slot>
                   <x-slot name="body">
-                     @forelse ($course->program->users()->withCount('activityLogs')->orderByDesc("activity_logs_count")->where('role_id', App\Models\Role::INSTRUCTOR)->limit(4)->get() as $instructor)
-                        <div class="d-flex align-items-center gap-3 text-muted overflow-hidden py-0  border-bottom">
-                           <div
-                              class="{{ $loop->iteration > 1 ? 'bg-secondary' : 'bg-primary' }} bg-gradient text-white rounded px-3 py-2">
-                              <b>{{ $loop->iteration }}</b>
-                           </div>
+                     <div class="vstack gap-3">
+                        @forelse ($course->program->users()->withCount('activityLogs')
+                     ->orderByDesc("activity_logs_count")
+                     ->instructors()
+                     ->limit(4)
+                     ->get() as $instructor)
+                           <div class="d-flex align-items-center gap-3 text-muted overflow-hidden pb-2 border-bottom">
+                              <div
+                                 class="{{ $loop->iteration > 1 ? 'bg-secondary' : 'bg-primary' }} bg-gradient text-white rounded px-3 py-2">
+                                 <b>{{ $loop->iteration }}</b>
+                              </div>
 
-                           <div class="row">
-                              <div class="col-12">
-                                 <div class="hstack gap-3 align-items-center">
-                                    <strong class="d-block text-gray-dark">{{ $instructor->username }}</strong>
+                              <div class="row">
+                                 <div class="col-12">
+                                    <div class="hstack gap-3 align-items-center">
+                                       <strong class="d-block text-gray-dark">{{ $instructor->name }}</strong>
+                                    </div>
+                                 </div>
+
+                                 <div class="hstack gap-3 mt-1">
+                                    <small>Total activities:
+                                       <b> {{ $instructor->activityLogs->count() }}</b>
+                                    </small>
                                  </div>
                               </div>
-
-                              <div class="hstack gap-3">
-                                 <small>Total activities:
-                                    <b> {{ $instructor->activityLogs->count() }}</b>
-                                 </small>
-                              </div>
-
-                              <a href="{{ route('user.show', $instructor) }}"><small>View profile >></small></a>
                            </div>
-                        </div>
-                     @empty
-                        <x-real.no-rows>
-                           <x-slot name="label">
-                              There are no activities coming from instructors
-                           </x-slot>
-                        </x-real.no-rows>
-                     @endforelse
+                        @empty
+                           <x-real.no-rows>
+                              <x-slot name="label">
+                                 There are no activities coming from instructors
+                              </x-slot>
+                           </x-real.no-rows>
+                        @endforelse
+                     </div>
                   </x-slot>
                </x-real.card>
             </div>
