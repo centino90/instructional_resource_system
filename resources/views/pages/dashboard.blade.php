@@ -8,10 +8,10 @@
     </x-slot>
 
     @if (session()->exists('status'))
-        <div class="mt-4">
-            <x-alert-success>
+        <div class="mb-4">
+            <x-real.alert class="m-0">
                 <strong>Welcome. </strong> {{ session()->get('status') }}
-            </x-alert-success>
+            </x-real.alert>
         </div>
     @endif
 

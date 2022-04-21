@@ -43,8 +43,6 @@ class NotificationController extends Controller
             $notif->markAsRead();
         }
 
-        if ($notif->type == NewResourceNotification::class) {
-            return redirect()->route('resource.show', $notif->data['subject']['id']);
-        }
+        return redirect()->to($notif->data['link']);
     }
 }

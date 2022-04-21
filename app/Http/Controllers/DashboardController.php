@@ -33,13 +33,6 @@ class DashboardController extends Controller
         $thirdYear = $courses[3] ?? collect();
         $fourthYear = $courses[4] ?? collect();
 
-        //    dd($firstYear);
-
-        // ->groupBy(['year_level', function ($item) {
-        //     return $item['semester'];
-        // }], $preserveKeys = false);
-
-        // return view('pages.instructor.dashboard', compact('firstYear', 'secondYear', 'thirdYear', 'fourthYear'));
         return $dataTable
             ->render('pages.dashboard', compact('firstYear', 'secondYear', 'thirdYear', 'fourthYear'));
     }

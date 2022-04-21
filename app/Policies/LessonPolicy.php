@@ -33,7 +33,7 @@ class LessonPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -45,7 +45,7 @@ class LessonPolicy
      */
     public function view(User $user, Lesson $lesson)
     {
-        return true;
+        return $user->belongsToProgram($lesson->course->program_id);
     }
 
     /**
@@ -69,13 +69,11 @@ class LessonPolicy
     public function update(User $user, Lesson $lesson)
     {
         if (!$user->belongsToProgram($lesson->course->program_id)) {
-            return Response::deny('You are not allowed to update this lesson because it does not exist in your program.');
+            return false;
         }
 
         return $user->id == $lesson->user_id
-            || $user->isProgramDean()
-            ? Response::allow()
-            : Response::deny('You are not allowed to update this lesson.');
+            || $user->isProgramDean();
     }
 
     /**
@@ -88,13 +86,11 @@ class LessonPolicy
     public function delete(User $user, Lesson $lesson)
     {
         if (!$user->belongsToProgram($lesson->course->program_id)) {
-            return Response::deny('You are not allowed to delete this lesson because it does not exist in your program.');
+            return false;
         }
 
         return $user->id == $lesson->user_id
-            || $user->isProgramDean()
-            ? Response::allow()
-            : Response::deny('You are not allowed to delete this lesson.');
+            || $user->isProgramDean();
     }
 
     /**
@@ -107,13 +103,11 @@ class LessonPolicy
     public function restore(User $user, Lesson $lesson)
     {
         if (!$user->belongsToProgram($lesson->course->program_id)) {
-            return Response::deny('You are not allowed to restore this lesson because it does not exist in your program.');
+            return false;
         }
 
         return $user->id == $lesson->user_id
-            || $user->isProgramDean()
-            ? Response::allow()
-            : Response::deny('You are not allowed to restore this lesson.');
+            || $user->isProgramDean();
     }
 
     /**
@@ -125,6 +119,6 @@ class LessonPolicy
      */
     public function forceDelete(User $user, Lesson $lesson)
     {
-        //
+        return false;
     }
 }

@@ -11,7 +11,7 @@ class ProgramPolicy
 {
     use HandlesAuthorization;
 
-      /**
+    /**
      * Perform pre-authorization checks.
      *
      * @param  \App\Models\User  $user
@@ -33,7 +33,7 @@ class ProgramPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -45,7 +45,7 @@ class ProgramPolicy
      */
     public function view(User $user, Program $program)
     {
-        return true;
+        return $user->belongsToProgram($program->id);
     }
 
     /**
@@ -56,7 +56,7 @@ class ProgramPolicy
      */
     public function create(User $user)
     {
-
+        return false;
     }
 
     /**
@@ -68,7 +68,8 @@ class ProgramPolicy
      */
     public function update(User $user, Program $program)
     {
-
+        return $user->belongsToProgram($program->id)
+            && $user->isProgramDean();
     }
 
     /**
@@ -80,7 +81,7 @@ class ProgramPolicy
      */
     public function delete(User $user, Program $program)
     {
-
+        return false;
     }
 
     /**
@@ -92,7 +93,7 @@ class ProgramPolicy
      */
     public function restore(User $user, Program $program)
     {
-
+        return false;
     }
 
     /**
@@ -104,6 +105,6 @@ class ProgramPolicy
      */
     public function forceDelete(User $user, Program $program)
     {
-
+        return false;
     }
 }

@@ -223,8 +223,8 @@
                             `<img style="width: 100%" src="${previewResourceUrl}" />`
                         )
                     }
-                    console.log(previewFiletype, 1)
-                    if ($.inArray(previewFiletype, ['pdf_convertible_filetypes', 'pdf_filetypes']) != false) {
+
+                    if ($.inArray(previewFiletype, ['pdf_convertible_filetypes', 'pdf_filetypes']) != -1) {
                         $('#previewContainer').append(
                             `<iframe src="${previewResourceUrl}" class="w-100" height="600"></iframe>`
                         )

@@ -12,6 +12,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Laravelista\Comments\Commenter;
+use phpDocumentor\Reflection\Types\Parent_;
 use Spatie\Activitylog\Models\Activity;
 
 class User extends Authenticatable
@@ -51,6 +52,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 
     protected static function booted()
     {
@@ -107,6 +109,8 @@ class User extends Authenticatable
     |
     */
 
+
+
     public function scopeAdmins($query)
     {
         return $query->where('role_id', Role::ADMIN);
@@ -135,6 +139,8 @@ class User extends Authenticatable
     | ...
     |
     */
+
+
 
     public function isAdmin()
     {
@@ -201,6 +207,9 @@ class User extends Authenticatable
     | ...
     |
     */
+
+
+
 
     public function resources()
     {

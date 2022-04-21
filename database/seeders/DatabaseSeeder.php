@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             LessonSeeder::class,
             TypologyStandardSeeder::class,
+            AdminSettingsSeeder::class,
             // ResourceSeeder::class,
         ]);
 

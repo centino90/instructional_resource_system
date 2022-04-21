@@ -9,15 +9,11 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body px-5 py-5">
-            <div class="view collapse">
-            </div>
-
-            <div class="archive collapse">
+            <div class="archive unarchive collapse">
                <div class="row">
                   <x-real.form :method="'PUT'">
                      <div class="col-12">
-                        <div class="confirmAlert alert alert-primary">Do you want to move this data to
-                           archive?</div>
+                        <div class="confirmAlert alert alert-primary">Do you want to continue this action?</div>
                      </div>
                      <x-slot name="submit">
                         <div class="col-12 mt-4">
@@ -33,13 +29,11 @@
                </div>
             </div>
 
-            <div class="trash collapse">
+            <div class="trash restore collapse">
                <div class="row">
                   <x-real.form :method="'DELETE'">
                      <div class="col-12">
-                        <div class="confirmAlert alert alert-primary">Do you want to move this data to
-                           trash?
-                        </div>
+                        <div class="confirmAlert alert alert-primary">Do you want to continue this action?</div>
                      </div>
                      <x-slot name="submit">
                         <div class="col-12 mt-4">

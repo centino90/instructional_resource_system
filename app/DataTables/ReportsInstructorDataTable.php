@@ -34,6 +34,7 @@ class ReportsInstructorDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 $btn = '<div class="d-flex gap-2">';
                 $btn .= '<a href="' . route('activities.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Details</a>';
+                $btn .= '<a href="' . route('user.show', $row->causer) . '" class="btn btn-sm btn-primary border fw-bold text-nowrap">View profile</a>';
                 $btn .= '</div>';
                 return $btn;
             })

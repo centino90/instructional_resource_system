@@ -35,43 +35,7 @@
     </x-slot>
 
     <div class="row">
-        <div class="col-3">
-            <x-real.card :variant="'secondary'">
-                <x-slot name="header">Recent updates</x-slot>
-                <x-slot name="body">
-                    <ul class="list-group">
-                        @foreach ($resource->activityLogs->where('log_name', 'resource-updated')->sortByDesc('created_at')->take(5)
-    as $activity)
-                            <li class="list-group-item">
-                                @if (isset($activity->properties['original']))
-                                    <b>{{ $activity->causer->name }}</b>
-                                    <ul class="px-3">
-                                        @if (isset($activity->properties['changes']['title']))
-                                            <li>
-                                                Updated title from {{ $activity->properties['original']['title'] }}
-                                                to {{ $activity->properties['changes']['title'] }}
-                                            </li>
-                                        @endif
-
-
-                                        @if (isset($activity->properties['changes']['description']))
-                                            <li>
-                                                Updated description from
-                                                {{ $activity->properties['original']['description'] ?? '' }}
-                                                to {{ $activity->properties['changes']['description'] }}
-                                            </li>
-                                        @endif
-                                    </ul>
-                                    <small
-                                        class="d-block text-muted mt-1">{{ $activity->created_at->diffForHumans() }}</small>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                </x-slot>
-            </x-real.card>
-        </div>
-        <div class="col-9">
+        <div class="col-12">
             <x-real.card>
                 <x-slot name="header">Update Form</x-slot>
                 <x-slot name="body">

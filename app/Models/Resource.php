@@ -18,6 +18,8 @@ class Resource extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, Commentable;
 
+    CONST DEFAULT_DELAYED_SYLLABUS_WEEK_INTERVAL = 2;
+
     protected $fillable = [
         'course_id', 'user_id', 'lesson_id', 'resource_type_id', 'batch_id', 'title', 'description', 'is_syllabus', 'is_presentation', 'downloads', 'views', 'approved_at', 'rejected_at', 'archived_at'
     ];
@@ -36,6 +38,16 @@ class Resource extends Model implements HasMedia
         return $query->whereNull('archived_at');
     }
 
+    public function scopeDelayed($query)
+    {
+        return $query->whereRaw('resources.created_at > DATE_ADD(created_at, INTERVAL 2 WEEK)');
+    }
+
+    public function scopeOnTime($query)
+    {
+        return $query->whereRaw('resources.created_at < DATE_ADD(created_at, INTERVAL 2 WEEK)');
+    }
+
     /*
         Accessors
     */
@@ -45,7 +57,7 @@ class Resource extends Model implements HasMedia
     }
     public function getIsDelayedAttribute()
     {
-        return $this->created_at > $this->course->created_at->addWeeks(2);
+        return $this->created_at > $this->course->created_at->addWeeks(env('DELAYED_SYLLABUS_WEEK_INTERVAL', self::DEFAULT_DELAYED_SYLLABUS_WEEK_INTERVAL));
     }
     public function getCurrentMediaVersionAttribute()
     {
@@ -106,7 +118,6 @@ class Resource extends Model implements HasMedia
 
 
     //  relationships
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -134,11 +145,6 @@ class Resource extends Model implements HasMedia
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
-    }
-
-    public function syllabus()
-    {
-        return $this->hasOne(Syllabus::class);
     }
 
     public function activityLogs()

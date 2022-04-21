@@ -2,44 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\User\UserActivitiesDataTable;
+use App\DataTables\User\UserLessonsDataTable;
+use App\DataTables\User\UserNotificationsDataTable;
+use App\DataTables\User\UserResourcesDataTable;
+use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
@@ -48,39 +24,25 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
+
         $fileCount = 0;
-        if(File::exists(storage_path("app/public/users/{$user->id}"))) {
+        if (File::exists(storage_path("app/public/users/{$user->id}"))) {
             $fileCount = collect(File::allFiles(storage_path("app/public/users/{$user->id}")))->count();
         }
 
-        return view('pages.user-show', compact('user', 'fileCount'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return view('pages.user.show', compact('user', 'fileCount'));
     }
 
     public function updatePersonal(Request $request, User $user)
     {
+        $this->authorize('update', $user);
+
+        $validated = $request->validate([
+            'fname' => 'required',
+            'lname' => 'required',
+        ]);
+
         $user->fname = $request->fname;
         $user->lname = $request->lname;
         $user->save();
@@ -93,7 +55,15 @@ class UsersController extends Controller
 
     public function updateUsername(Request $request, User $user)
     {
+        $this->authorize('updateSensitive', $user);
+
+        $validated = $request->validate([
+            'username' => 'required|unique:users,username,' . auth()->id(),
+            'email' => 'required|unique:users,email,' . auth()->id(),
+        ]);
+
         $user->username = $request->username;
+        $user->email = $request->email;
         $user->save();
 
         return redirect()->back()->with([
@@ -104,6 +74,12 @@ class UsersController extends Controller
 
     public function updatePassword(Request $request, User $user)
     {
+        $this->authorize('updateSensitive', $user);
+
+        $validated = $request->validate([
+            'password' => 'required|min:6|confirmed',
+        ]);
+
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -113,66 +89,40 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function submissions(UserResourcesDataTable $dataTable, User $user)
     {
-        $user = User::withTrashed()->findOrFail($id);
+        $this->authorize('view', $user);
 
-        if($user->trashed()) {
-            $user->restore();
-            $message = 'User was successfully restored';
-        } else {
-            $user->delete();
-            $message = 'User was successfully deleted';
-        }
-
-        return redirect()->back()->with([
-            'status' => 'success',
-            'updatedSubject' => $id,
-            'message' => $message
-        ]);
+        return $dataTable->render('pages.user.submissions', compact('user'));
     }
 
-    public function submissions(User $user)
+    public function notifications(UserNotificationsDataTable $dataTable, User $user)
     {
-        $submissions = $user->resources()->withoutArchived()->get();
-        $pendingSubmissions = $submissions->whereNull('approved_at');
+        $this->authorize('viewSensitive', $user);
 
-        $archivedSubmissions = $user->resources()->onlyArchived()->get();
-        $trashedSubmissions = $user->resources()->onlyTrashed()->get();
+        $notificationList = $user->notifications->whereNull('read_at');
 
-        return view('pages.user-submissions', compact('user', 'submissions', 'pendingSubmissions', 'archivedSubmissions', 'trashedSubmissions'));
+        return $dataTable->render('pages.user.notifications', compact('user', 'notificationList'));
     }
 
-
-    public function notifications(User $user)
+    public function activities(UserActivitiesDataTable $dataTable, User $user)
     {
-        $notifications = $user->notifications;
+        $this->authorize('view', $user);
 
-        return view('pages.user-notifications', compact('user', 'notifications'));
+        return $dataTable->render('pages.user.activities', compact('user'));
     }
 
-    public function activities(User $user)
+    public function lessons(UserLessonsDataTable $dataTable, User $user)
     {
-        $userLogs = $user->activityLogs;
+        $this->authorize('view', $user);
 
-        return view('pages.user-activities', compact('user', 'userLogs'));
+        return $dataTable->render('pages.user.lessons', compact('user'));
     }
 
-    public function lessons(User $user)
+    public function editLesson(User $user, Lesson $lesson)
     {
-        // $lessons = Lesson::whereHas('course', function(Builder $query) use($user) {
-        //     return $query->whereIn('program_id', $user->programs->pluck('id'));
-        // })->get();
-        $lessons = $user->lessons()->withoutArchived()->latest()->get();
-        $archivedLessons = $user->lessons()->onlyArchived()->latest('archived_at')->get();
-        $trashedLessons = $user->lessons()->onlyTrashed()->latest('deleted_at')->get();
+        $this->authorize('update', $lesson);
 
-        return view('pages.user-lessons', compact('user', 'lessons', 'archivedLessons', 'trashedLessons'));
+        return view('pages.user.lessons-edit', compact('lesson', 'user'));
     }
 }

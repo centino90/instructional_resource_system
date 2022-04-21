@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\Course\LessonResourcesDataTable;
 use App\DataTables\LessonsDataTable;
+use App\DataTables\ResourcesDataTable;
 use App\Models\Lesson;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\Course;
+use App\Models\Resource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -83,9 +86,11 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Lesson $lesson)
+    public function show(LessonResourcesDataTable $dataTable, Lesson $lesson)
     {
-        return view('pages.lesson-show', compact('lesson'));
+        $lesson = Lesson::withTrashed()->findOrFail($lesson->id);
+
+        return $dataTable->render('pages.lesson-show', compact('lesson'));
     }
 
     /**
@@ -96,7 +101,7 @@ class LessonController extends Controller
      */
     public function edit(Lesson $lesson)
     {
-        dd('yes');
+        return view('pages.lesson-edit', compact('lesson'));
     }
 
     /**

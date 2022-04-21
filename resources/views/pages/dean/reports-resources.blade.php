@@ -124,7 +124,8 @@
                   </x-slot>
                </x-real.card>
             </div>
-            <div class="col-8">
+
+            <div class="col-12">
                <x-real.card>
                   <x-slot name="header">Summary of submissions</x-slot>
                   <x-slot name="body">
@@ -149,43 +150,44 @@
                   </x-slot>
                </x-real.card>
             </div>
-            <div class="col-4">
+
+            <div class="col-12">
                <x-real.card>
                   <x-slot name="header">More Information</x-slot>
                   <x-slot name="body">
-                     <ul class="list-group">
-                        <li class="list-group-item">
+                     <ul class="row">
+                        <li class="list-group-item col">
                            <div class="hstack justify-content-between">
                               <small>Courses Submitted</small>
                               <h5 class="my-0"><b>{{ $submissions->groupBy('course_id')->count() }}</b>
                               </h5>
                            </div>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item col">
                            <div class="hstack justify-content-between">
                               <small>Lessons Submitted</small>
                               <h5 class="my-0"><b>{{ $submissions->groupBy('lesson_d')->count() }}</b></h5>
                            </div>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item col">
                            <div class="hstack justify-content-between">
                               <small>Instructors Submitted</small>
                               <h5 class="my-0"><b>{{ $submissions->groupBy('user_id')->count() }}</b></h5>
                            </div>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item col">
                            <div class="hstack justify-content-between">
                               <small>Versions Created</small>
                               <h5 class="my-0"><b>{{ $submissions->sum('media_count') }}</b></h5>
                            </div>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item col">
                            <div class="hstack justify-content-between">
                               <small>Total Views</small>
                               <h5 class="my-0"><b>{{ $submissions->sum('views') }}</b></h5>
                            </div>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item col">
                            <div class="hstack justify-content-between">
                               <small>Total Downloads</small>
                               <h5 class="my-0"><b>{{ $submissions->sum('downloads') }}</b></h5>

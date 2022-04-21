@@ -19,11 +19,11 @@ class CreateCoursesTable extends Migration
             $table->string('title');
             $table->foreignId('program_id')->constrained();
             $table->integer('year_level'); // 1-4
-            // $table->string('school_year'); // 2021-...
             $table->integer('semester'); // 1-2
             $table->integer('term'); //1-2
-            // Credit (2 - 3 units)
-            // Time Allotment (50 - 60 hours)
+            $table->json('current_course_outcomes')->nullable();
+            $table->json('current_learning_outcomes')->nullable();
+            $table->json('current_lessons')->nullable();
             $table->timestamp('archived_at')->nullable();
             $table->softDeletes();
             $table->timestamps();

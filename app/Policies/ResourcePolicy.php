@@ -35,7 +35,7 @@ class ResourcePolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
@@ -47,7 +47,7 @@ class ResourcePolicy
      */
     public function view(User $user, Resource $resource)
     {
-        return true;
+        return $user->belongsToProgram($resource->course->program_id);
     }
 
     /**
@@ -71,13 +71,11 @@ class ResourcePolicy
     public function update(User $user, Resource $resource)
     {
         if (!$user->belongsToProgram($resource->course->program_id)) {
-            return Response::deny('You are not allowed to update this resource because it does not exist in your program.');
+            return false;
         }
 
         return $user->id == $resource->user_id
-            || $user->isProgramDean()
-            ? Response::allow()
-            : Response::deny('You are not allowed to update this resource.');
+            || $user->isProgramDean();
     }
 
     /**
@@ -90,17 +88,12 @@ class ResourcePolicy
     public function delete(User $user, Resource $resource)
     {
         if (!$user->belongsToProgram($resource->course->program_id)) {
-            return Response::deny('You are not allowed to delete this resource because it does not exist in your program.');
+            return false;
         }
 
-        if ($resource->approved_at) {
-            return Response::deny('You are not allowed to delete this resource because it is already approved.');
-        }
-
-        return $user->id == $resource->user_id
-            || $user->isProgramDean()
-            ? Response::allow()
-            : Response::deny('You are not allowed to delete this resource.');
+        return $resource->getStorageStatusAttribute() == 'Approved'
+        || $user->id == $resource->user_id
+        || $user->isProgramDean();
     }
 
     /**
@@ -113,13 +106,11 @@ class ResourcePolicy
     public function restore(User $user, Resource $resource)
     {
         if (!$user->belongsToProgram($resource->course->program_id)) {
-            return Response::deny('You are not allowed to restore this resource because it does not exist in your program.');
+            return false;
         }
 
         return $user->id == $resource->user_id
-            || $user->isProgramDean()
-            ? Response::allow()
-            : Response::deny('You are not allowed to restore this resource.');
+        || $user->isProgramDean();
     }
 
     /**
@@ -131,8 +122,6 @@ class ResourcePolicy
      */
     public function forceDelete(User $user, Resource $resource)
     {
-        return $user->isAdmin()
-            ? Resource::allow()
-            : Response::deny('You are not allowed to permanently delete resources.');
+        return false;
     }
 }

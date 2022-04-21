@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ResourceCreated;
+use App\HelperClass\OfficeToPdfHelper;
 use App\HelperClass\OOXMLTextExtractionHelper;
 use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
@@ -192,7 +193,8 @@ class PresentationResourceController extends Controller
                     unlink(storage_path('app/public/' . $tempName));
                 }
 
-                $converter = new OfficeConverter($resource->currentMediaVersion->getPath(), storage_path('app/public'));
+                // $converter = new OfficeConverter($resource->currentMediaVersion->getPath(), storage_path('app/public'));
+                $converter = new OfficeToPdfHelper($resource->currentMediaVersion->getPath(), storage_path('app/public'));
                 $converter->convertTo($tempName);
 
                 $nf = storage_path('app/public/' . $tempName);

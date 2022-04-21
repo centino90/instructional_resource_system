@@ -70,6 +70,11 @@ class Lesson extends Model
         return $this->hasMany(Resource::class);
     }
 
+    public function resource()
+    {
+        return $this->belongsTo(Resource::class);
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class);

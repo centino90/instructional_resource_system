@@ -45,8 +45,8 @@ class LessonsDataTable extends DataTable
             })
             ->rawColumns(['action']);
 
-        if ($accessType == Role::PROGRAM_DEAN) {
-            return $dataTables->addColumn('action', function ($row) {
+        return $dataTables->addColumn('action', function ($row) use ($accessType) {
+            if ($accessType == Role::PROGRAM_DEAN) {
                 $btn = '<div class="d-flex gap-2">';
                 $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
                 $btn .= '<a href="' . route('lesson.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
@@ -69,16 +69,14 @@ class LessonsDataTable extends DataTable
                 $btn .= '</div>';
 
                 return $btn;
-            });
-        } else {
-            return $dataTables->addColumn('action', function ($row) {
+            } else {
                 $btn = '<div class="d-flex gap-2">';
-                $btn .= '<a href="' . route('resource.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+                $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
                 $btn .= '</div>';
 
                 return $btn;
-            });
-        }
+            }
+        });
     }
 
     /**

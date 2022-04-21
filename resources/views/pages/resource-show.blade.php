@@ -1,636 +1,622 @@
 <x-app-layout>
-    <x-slot name="header">
-        {{ $resource->title }}
-    </x-slot>
+   <x-slot name="header">
+      {{ $resource->title }}
+   </x-slot>
 
-    <x-slot name="headerTitle">
-        Resource title
-    </x-slot>
+   <x-slot name="headerTitle">
+      Resource title
+   </x-slot>
 
-    <x-slot name="breadcrumb">
-        @if ($resource->is_syllabus)
-            <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('course.show', $resource->course) }}">
-                    <- Go back</a>
-            </li>
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-            <li class="breadcrumb-item"><a
-                    href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
-        @else
-            <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('lesson.show', $resource->lesson) }}">
-                    <- Go back</a>
-            </li>
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-            <li class="breadcrumb-item"><a
-                    href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('course.showLessons', $resource->course) }}">Course
-                    lessons</a>
-            </li>
-            <li class="breadcrumb-item"><a
-                    href="{{ route('lesson.show', $resource->lesson) }}">{{ $resource->lesson->title }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
-        @endif
-    </x-slot>
-
-    <div>
-        <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                <div class="row g-3">
-                    <div class="col-12">
-                        <div class="row g-3">
-                            <div class="col-12 col-lg-3">
-                                <x-real.card :variant="'secondary'">
-                                    <x-slot name="header">
-                                        Views
-                                    </x-slot>
-                                    <x-slot name="action">
-                                        <div class="hstack gap-3">
-                                            <div class="btn-group dropdown">
-                                                <x-real.btn :size="'sm'" data-bs-toggle="dropdown"
-                                                    data-bs-auto-close="outside" aria-expanded="false"
-                                                    class="dropdown-toggle">
-                                                    More
-                                                </x-real.btn>
-                                                <ul class="dropdown-menu shadow border-0 p-0">
-                                                    <li class="dropdown-item p-0">
-                                                        <ul class="list-group" style="min-width: 300px">
-                                                            @if ($resource->verificationStatus != 'Pending')
-                                                                    <li class="list-group-item">
-                                                                    <a href="{{ route('resource.edit', $resource) }}"
-                                                                        class="w-100 btn btn-light btn-sm border text-primary fw-bold">
-                                                                        Edit
-                                                                    </a>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <a href="{{ route('resource.addViewCountThenRedirectToPreview', $resource) }}"
-                                                                        class="w-100 btn btn-light btn-sm border text-primary fw-bold">
-                                                                        Preview
-                                                                    </a>
-                                                                </li>
-                                                                <li class="list-group-item d-grid gap-2">
-                                                                    <x-real.download-types :resource="$resource" :btnSize="'sm'"></x-real.download-types>
-                                                                </li>
-                                                            @endif
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </x-slot>
-                                    <x-slot name="body">
-                                        <div class="hstack gap-2">
-                                            <span class="material-icons md-48 opacity-75 text-muted">
-                                                visibility
-                                            </span>
-                                            <h1 class="m-0 fw-bold">{{ $resource->views }}</h1>
-                                        </div>
-                                    </x-slot>
-                                </x-real.card>
-                            </div>
-
-                            <div class="col-12 col-lg-3">
-                                <x-real.card :variant="'secondary'">
-                                    <x-slot name="header">
-                                        Downloads
-                                    </x-slot>
-                                    <x-slot name="body">
-                                        <div class="hstack gap-2">
-                                            <span class="material-icons md-48 opacity-75 text-muted">
-                                                download
-                                            </span>
-                                            <h1 class="m-0 fw-bold">{{ $resource->downloads }}</h1>
-                                        </div>
-                                    </x-slot>
-                                </x-real.card>
-                            </div>
-
-                            <div class="col-12 col-lg-3">
-                                <x-real.card :variant="'secondary'">
-                                    <x-slot name="header">
-                                        Comments
-                                    </x-slot>
-                                    <x-slot name="body">
-                                        <div class="hstack gap-2">
-                                            <span class="material-icons md-48 opacity-75 text-muted">
-                                                comment
-                                            </span>
-                                            <h1 class="m-0 fw-bold">{{ $resource->comments->count() }}</h1>
-                                        </div>
-                                    </x-slot>
-                                </x-real.card>
-                            </div>
-
-                            <div class="col-12 col-lg-3">
-                                <x-real.card :variant="'secondary'">
-                                    <x-slot name="header">
-                                        Latest Activity
-                                    </x-slot>
-                                    <x-slot name="body">
-                                        <div class="hstack gap-2">
-                                            <span class="material-icons md-48 opacity-75 text-muted">
-                                                campaign
-                                            </span>
-                                            <div>
-                                                <small
-                                                    class="text-muted">{{ $resource->activityLogs()->latest()->first()->created_at->diffForHumans() }}</small>
-                                                - {{ $resource->activityLogs()->latest()->first()->description }}
-                                            </div>
-                                        </div>
-                                    </x-slot>
-                                </x-real.card>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row g-3">
-                            <div class="col-12 col-lg-3">
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <x-real.card>
-                                            <x-slot name="header">
-                                                Status
-                                            </x-slot>
-
-                                            <x-slot name="action">
-                                                <div class="hstack gap-3">
-                                                    <div class="btn-group dropdown">
-                                                        <x-real.btn :size="'sm'" data-bs-toggle="dropdown"
-                                                            data-bs-auto-close="outside" aria-expanded="false"
-                                                            class="dropdown-toggle">
-                                                            More
-                                                        </x-real.btn>
-                                                        <ul class="dropdown-menu shadow border-0 p-0">
-                                                            <li class="dropdown-item p-0">
-                                                                <ul class="list-group" style="min-width: 300px">
-                                                                    <li class="list-group-item">
-                                                                        @if ($resource->resourceType != 'regular')
-                                                                            @php
-                                                                                $btnLabel = 'Review verification';
-                                                                                if ($resource->verificationStatus == 'Pending') {
-                                                                                    $btnLabel = 'Continue verification';
-                                                                                }
-
-                                                                                if ($resource->resourceType == 'syllabus') {
-                                                                                    $storeNewVerRoute = route('syllabi.storeNewVersion', $resource);
-                                                                                } elseif ($resource->resourceType == 'presentation') {
-                                                                                    $storeNewVerRoute = route('presentations.storeNewVersion', $resource);
-                                                                                } else {
-                                                                                    $storeNewVerRoute = route('resource.storeNewVersion', $resource);
-                                                                                }
-                                                                            @endphp
-
-                                                                            <x-real.form
-                                                                                action="{{ $storeNewVerRoute }}">
-                                                                                <input type="hidden" name="course_id"
-                                                                                    value="{{ $resource->course->id }}">
-
-                                                                                <x-slot name="submit">
-                                                                                    <x-real.btn :size="'sm'"
-                                                                                        type="submit"
-                                                                                        class="w-100">
-                                                                                        {{ $btnLabel }}
-                                                                                    </x-real.btn>
-                                                                                </x-slot>
-                                                                            </x-real.form>
-                                                                        @endif
-                                                                    </li>
+   <x-slot name="breadcrumb">
+      @if ($resource->is_syllabus)
+         <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('course.show', $resource->course) }}">
+               <- Go back</a>
+         </li>
 
 
-                                                                    @if ($resource->verificationStatus == 'Approved')
-                                                                        <li class="list-group-item">
-                                                                            @php
-                                                                                $archiveLabel = '';
-                                                                                if ($resource->archiveStatus == 'Current') {
-                                                                                    $archiveLabel = 'Archive this resource';
-                                                                                } elseif ($resource->archiveStatus == 'Archived') {
-                                                                                    $archiveLabel = 'Restore this resource';
-                                                                                }
-                                                                            @endphp
+         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+         <li class="breadcrumb-item"><a
+               href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
+         <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
+      @else
+         <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('lesson.show', $resource->lesson) }}">
+               <- Go back</a>
+         </li>
+         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+         <li class="breadcrumb-item"><a
+               href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
+         <li class="breadcrumb-item"><a href="{{ route('course.showLessons', $resource->course) }}">Course
+               lessons</a>
+         </li>
+         <li class="breadcrumb-item"><a
+               href="{{ route('lesson.show', $resource->lesson) }}">{{ $resource->lesson->title }}</a></li>
+         <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
+      @endif
+   </x-slot>
 
-                                                                            <x-real.form
-                                                                                action="{{ route('resource.toggleArchiveState', $resource) }}"
-                                                                                method="PUT">
-                                                                                <input type="hidden" name="course_id"
-                                                                                    value="{{ $resource->course_id }}">
-                                                                                <x-slot name="submit">
-                                                                                    <x-real.btn :size="'sm'"
-                                                                                        type="submit"
-                                                                                        class="w-100">
-                                                                                        {{ $archiveLabel }}
-                                                                                    </x-real.btn>
-                                                                                </x-slot>
-                                                                            </x-real.form>
-                                                                        </li>
-                                                                    @endif
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </x-slot>
-                                            <x-slot name="body">
-                                                <div class="hstack gap-2">
-                                                    @if ($resource->archiveStatus == 'Archived')
-                                                        <span class="material-icons md-48 opacity-75 text-primary">
-                                                            archive
-                                                        </span>
-                                                        <h5 class="m-0 fw-bold text-primary">
-                                                            Archived
-                                                        </h5>
-                                                    @else
-                                                        @if ($resource->verificationStatus == 'Pending')
-                                                            <span class="material-icons md-48 opacity-75 text-warning">
-                                                                error
-                                                            </span>
-                                                            <h5 class="m-0 fw-bold text-warning">
-                                                                {{ $resource->verificationStatus }}
-                                                            </h5>
-                                                        @else
-                                                            <span class="material-icons md-48 opacity-75 text-success">
-                                                                verified
-                                                            </span>
-                                                            <h5 class="m-0 fw-bold text-success">
-                                                                {{ $resource->verificationStatus }}
-                                                            </h5>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            </x-slot>
-                                        </x-real.card>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <x-real.card>
-                                            <x-slot name="header">
-                                                Versions
-                                            </x-slot>
-                                            <x-slot name="action">
-                                                <div class="hstack gap-3">
-                                                    <div class="btn-group dropdown">
-                                                        <x-real.btn :size="'sm'" data-bs-toggle="dropdown"
-                                                            data-bs-auto-close="outside" aria-expanded="false"
-                                                            class="dropdown-toggle">
-                                                            More
-                                                        </x-real.btn>
-                                                        <ul class="dropdown-menu shadow border-0 p-0">
-                                                            <li class="dropdown-item p-0">
-                                                                <ul class="list-group" style="min-width: 300px">
-                                                                    <li class="list-group-item">
-                                                                        <a href="{{ route('resource.createNewVersion', $resource->id) }}"
-                                                                            class="w-100 btn btn-light btn-sm border text-primary fw-bold">
-                                                                            Submit new version
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="list-group-item">
-                                                                        <a href="{{ route('resource.viewVersions', $resource->id) }}"
-                                                                            class="w-100 btn btn-light btn-sm border text-primary fw-bold">
-                                                                            View all versions
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </x-slot>
-                                            <x-slot name="body">
-                                                <div class="hstack gap-2">
-                                                    <span class="material-icons md-48 opacity-75 text-muted">
-                                                        content_copy
-                                                    </span>
-                                                    <h1 class="m-0 fw-bold">{{ $resource->getMedia()->count() }}
-                                                    </h1>
-                                                </div>
-                                            </x-slot>
-                                        </x-real.card>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-9">
-                                <x-real.card :variant="'secondary'">
-                                    <x-slot name="header">
-                                        Resource Details
-                                    </x-slot>
-                                    <x-slot name="body">
-                                        <ul class="nav flex-column gap-2">
-                                            <li class="nav-item border-bottom">
-                                                <x-real.text-with-subtitle>
-                                                    <x-slot name="text">
-                                                        {{ $resource->resourceType }}
-                                                    </x-slot>
-                                                    <x-slot name="subtitle">Type</x-slot>
-                                                </x-real.text-with-subtitle>
-                                            </li>
-                                            <li class="nav-item border-bottom">
-                                                <x-real.text-with-subtitle>
-                                                    <x-slot name="text">
-                                                        {{ $resource->id }}
-                                                    </x-slot>
-                                                    <x-slot name="subtitle">ID</x-slot>
-                                                </x-real.text-with-subtitle>
-                                            </li>
-                                            <li class="nav-item border-bottom">
-                                                <x-real.text-with-subtitle>
-                                                    <x-slot name="text">
-                                                        {{ $resource->title }}
-                                                    </x-slot>
-                                                    <x-slot name="subtitle">Title</x-slot>
-                                                </x-real.text-with-subtitle>
-                                            </li>
-                                            <li class="nav-item border-bottom">
-                                                <x-real.text-with-subtitle>
-                                                    <x-slot name="text">
-                                                        @if ($resource->description)
-                                                            {{ $resource->description }}
-                                                        @else
-                                                            <i>No description</i>
-                                                        @endif
-                                                    </x-slot>
-                                                    <x-slot name="subtitle">Description</x-slot>
-                                                </x-real.text-with-subtitle>
-                                            </li>
-                                            <li class="nav-item border-bottom">
-                                                <x-real.text-with-subtitle>
-                                                    <x-slot name="text">
-                                                        {{ $resource->currentMediaVersion->file_name }}
-                                                    </x-slot>
-                                                    <x-slot name="subtitle">Current media</x-slot>
-                                                </x-real.text-with-subtitle>
-                                            </li>
-                                            <li class="nav-item border-bottom">
-                                                <x-real.text-with-subtitle>
-                                                    <x-slot name="text">
-                                                        {{ $resource->user->name }}
-                                                    </x-slot>
-                                                    <x-slot name="subtitle">Submitted by</x-slot>
-                                                </x-real.text-with-subtitle>
-                                            </li>
-                                            <li class="nav-item border-bottom">
-                                                <x-real.text-with-subtitle>
-                                                    <x-slot name="text">
-                                                        @isset($resource->lesson)
-                                                            {{ $resource->lesson->title }}
-                                                        @else
-                                                            <i>No Lesson</i>
-                                                        @endisset
-                                                    </x-slot>
-                                                    <x-slot name="subtitle">Lesson</x-slot>
-                                                </x-real.text-with-subtitle>
-                                            </li>
-                                            <li class="nav-item border-bottom">
-                                                <x-real.text-with-subtitle>
-                                                    <x-slot name="text">
-                                                        {{ $resource->created_at }}
-                                                    </x-slot>
-                                                    <x-slot name="subtitle">Submitted at</x-slot>
-                                                </x-real.text-with-subtitle>
-                                            </li>
-                                            @if ($resource->archiveStatus == 'Archived')
-                                                <li class="nav-item border-bottom">
-                                                    <x-real.text-with-subtitle>
-
-                                                        <x-slot name="text">
-                                                            {{ $resource->archived_at }}
-                                                        </x-slot>
-                                                        <x-slot name="subtitle">Archived at</x-slot>
-                                                    </x-real.text-with-subtitle>
+   <div>
+      <div class="tab-content" id="pills-tabContent">
+         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="row g-3">
+               <div class="col-12">
+                  <div class="row g-3">
+                     <div class="col-12 col-lg-3">
+                        <x-real.card :variant="'secondary'">
+                           <x-slot name="header">
+                              Views
+                           </x-slot>
+                           <x-slot name="action">
+                              <div class="hstack gap-3">
+                                 <div class="btn-group dropdown">
+                                    <x-real.btn :size="'sm'" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                       aria-expanded="false" class="dropdown-toggle">
+                                       More
+                                    </x-real.btn>
+                                    <ul class="dropdown-menu shadow border-0 p-0">
+                                       <li class="dropdown-item p-0">
+                                          <ul class="list-group" style="min-width: 300px">
+                                             @if ($resource->verificationStatus != 'Pending')
+                                                <li class="list-group-item">
+                                                   <a href="{{ route('resource.edit', $resource) }}"
+                                                      class="w-100 btn btn-light btn-sm border text-primary fw-bold">
+                                                      Edit
+                                                   </a>
                                                 </li>
-                                            @else
-                                                @if ($resource->verificationStatus == 'Approved')
-                                                    <li class="nav-item border-bottom">
-                                                        <x-real.text-with-subtitle>
-                                                            <x-slot name="text">
-                                                                {{ $resource->approved_at }}
+                                                <li class="list-group-item">
+                                                   <a href="{{ route('resource.addViewCountThenRedirectToPreview', $resource) }}"
+                                                      class="w-100 btn btn-light btn-sm border text-primary fw-bold">
+                                                      Preview
+                                                   </a>
+                                                </li>
+                                                <li class="list-group-item d-grid gap-2">
+                                                   <x-real.download-types :resource="$resource" :btnSize="'sm'">
+                                                   </x-real.download-types>
+                                                </li>
+                                             @endif
+                                          </ul>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </x-slot>
+                           <x-slot name="body">
+                              <div class="hstack gap-2">
+                                 <span class="material-icons md-48 opacity-75 text-muted">
+                                    visibility
+                                 </span>
+                                 <h1 class="m-0 fw-bold">{{ $resource->views }}</h1>
+                              </div>
+                           </x-slot>
+                        </x-real.card>
+                     </div>
+
+                     <div class="col-12 col-lg-3">
+                        <x-real.card :variant="'secondary'">
+                           <x-slot name="header">
+                              Downloads
+                           </x-slot>
+                           <x-slot name="body">
+                              <div class="hstack gap-2">
+                                 <span class="material-icons md-48 opacity-75 text-muted">
+                                    download
+                                 </span>
+                                 <h1 class="m-0 fw-bold">{{ $resource->downloads }}</h1>
+                              </div>
+                           </x-slot>
+                        </x-real.card>
+                     </div>
+
+                     <div class="col-12 col-lg-3">
+                        <x-real.card :variant="'secondary'">
+                           <x-slot name="header">
+                              Comments
+                           </x-slot>
+                           <x-slot name="body">
+                              <div class="hstack gap-2">
+                                 <span class="material-icons md-48 opacity-75 text-muted">
+                                    comment
+                                 </span>
+                                 <h1 class="m-0 fw-bold">{{ $resource->comments->count() }}</h1>
+                              </div>
+                           </x-slot>
+                        </x-real.card>
+                     </div>
+
+                     <div class="col-12 col-lg-3">
+                        <x-real.card :variant="'secondary'">
+                           <x-slot name="header">
+                              Latest Activity
+                           </x-slot>
+                           <x-slot name="body">
+                              <div class="hstack gap-2">
+                                 <span class="material-icons md-48 opacity-75 text-muted">
+                                    campaign
+                                 </span>
+                                 <div>
+                                    <small
+                                       class="text-muted">{{ $resource->activityLogs()->latest()->first()->created_at->diffForHumans() }}</small>
+                                    - {{ $resource->activityLogs()->latest()->first()->description }}
+                                 </div>
+                              </div>
+                           </x-slot>
+                        </x-real.card>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="row g-3">
+                     <div class="col-12 col-lg-3">
+                        <div class="row g-3">
+                           <div class="col-12">
+                              <x-real.card>
+                                 <x-slot name="header">
+                                    Status
+                                 </x-slot>
+
+                                 <x-slot name="action">
+                                    <div class="hstack gap-3">
+                                       <div class="btn-group dropdown">
+                                          <x-real.btn :size="'sm'" data-bs-toggle="dropdown"
+                                             data-bs-auto-close="outside" aria-expanded="false" class="dropdown-toggle">
+                                             More
+                                          </x-real.btn>
+                                          <ul class="dropdown-menu shadow border-0 p-0">
+                                             <li class="dropdown-item p-0">
+                                                <ul class="list-group" style="min-width: 300px">
+                                                   <li class="list-group-item">
+                                                      @if ($resource->resourceType != 'regular')
+                                                         @php
+                                                            $btnLabel = 'Review verification';
+                                                            if ($resource->verificationStatus == 'Pending') {
+                                                                $btnLabel = 'Continue verification';
+                                                            }
+
+                                                            if ($resource->resourceType == 'syllabus') {
+                                                                $storeNewVerRoute = route('syllabi.storeNewVersion', $resource);
+                                                            } elseif ($resource->resourceType == 'presentation') {
+                                                                $storeNewVerRoute = route('presentations.storeNewVersion', $resource);
+                                                            } else {
+                                                                $storeNewVerRoute = route('resource.storeNewVersion', $resource);
+                                                            }
+                                                         @endphp
+
+                                                         <x-real.form action="{{ $storeNewVerRoute }}">
+                                                            <input type="hidden" name="course_id"
+                                                               value="{{ $resource->course->id }}">
+
+                                                            <x-slot name="submit">
+                                                               <x-real.btn :size="'sm'" type="submit"
+                                                                  class="w-100">
+                                                                  {{ $btnLabel }}
+                                                               </x-real.btn>
                                                             </x-slot>
-                                                            <x-slot name="subtitle">Verified at</x-slot>
-                                                        </x-real.text-with-subtitle>
-                                                    </li>
-                                                @elseif($resource->verificationStatus == 'Pending' && $resource->hasMultipleMedia)
-                                                    <li class="nav-item border-bottom">
-                                                        <x-real.text-with-subtitle>
-                                                            <x-slot name="text">
-                                                                {{ $resource->updated_at }}
+                                                         </x-real.form>
+                                                      @endif
+                                                   </li>
+
+
+                                                   @if ($resource->verificationStatus == 'Approved')
+                                                      <li class="list-group-item">
+                                                         @php
+                                                            $archiveLabel = '';
+                                                            if ($resource->archiveStatus == 'Current') {
+                                                                $archiveLabel = 'Archive this resource';
+                                                            } elseif ($resource->archiveStatus == 'Archived') {
+                                                                $archiveLabel = 'Restore this resource';
+                                                            }
+                                                         @endphp
+
+                                                         <x-real.form
+                                                            action="{{ route('resource.toggleArchiveState', $resource) }}"
+                                                            method="PUT">
+                                                            <input type="hidden" name="course_id"
+                                                               value="{{ $resource->course_id }}">
+                                                            <x-slot name="submit">
+                                                               <x-real.btn :size="'sm'" type="submit"
+                                                                  class="w-100">
+                                                                  {{ $archiveLabel }}
+                                                               </x-real.btn>
                                                             </x-slot>
-                                                            <x-slot name="subtitle">Resubmitted at</x-slot>
-                                                        </x-real.text-with-subtitle>
-                                                    </li>
-                                                @endif
-                                            @endif
-                                        </ul>
-                                    </x-slot>
-                                </x-real.card>
-                            </div>
+                                                         </x-real.form>
+                                                      </li>
+                                                   @endif
+                                                </ul>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </x-slot>
+                                 <x-slot name="body">
+                                    <div class="hstack gap-2">
+                                       @if ($resource->archiveStatus == 'Archived')
+                                          <span class="material-icons md-48 opacity-75 text-primary">
+                                             archive
+                                          </span>
+                                          <h5 class="m-0 fw-bold text-primary">
+                                             Archived
+                                          </h5>
+                                       @else
+                                          @if ($resource->verificationStatus == 'Pending')
+                                             <span class="material-icons md-48 opacity-75 text-warning">
+                                                error
+                                             </span>
+                                             <h5 class="m-0 fw-bold text-warning">
+                                                {{ $resource->verificationStatus }}
+                                             </h5>
+                                          @else
+                                             <span class="material-icons md-48 opacity-75 text-success">
+                                                verified
+                                             </span>
+                                             <h5 class="m-0 fw-bold text-success">
+                                                {{ $resource->verificationStatus }}
+                                             </h5>
+                                          @endif
+                                       @endif
+                                    </div>
+                                 </x-slot>
+                              </x-real.card>
+                           </div>
+
+                           <div class="col-12">
+                              <x-real.card>
+                                 <x-slot name="header">
+                                    Versions
+                                 </x-slot>
+                                 <x-slot name="action">
+                                    <div class="hstack gap-3">
+                                       <div class="btn-group dropdown">
+                                          <x-real.btn :size="'sm'" data-bs-toggle="dropdown"
+                                             data-bs-auto-close="outside" aria-expanded="false" class="dropdown-toggle">
+                                             More
+                                          </x-real.btn>
+                                          <ul class="dropdown-menu shadow border-0 p-0">
+                                             <li class="dropdown-item p-0">
+                                                <ul class="list-group" style="min-width: 300px">
+                                                   <li class="list-group-item">
+                                                      <a href="{{ route('resource.createNewVersion', $resource->id) }}"
+                                                         class="w-100 btn btn-light btn-sm border text-primary fw-bold">
+                                                         Submit new version
+                                                      </a>
+                                                   </li>
+                                                   <li class="list-group-item">
+                                                      <a href="{{ route('resource.viewVersions', $resource->id) }}"
+                                                         class="w-100 btn btn-light btn-sm border text-primary fw-bold">
+                                                         View all versions
+                                                      </a>
+                                                   </li>
+                                                </ul>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </x-slot>
+                                 <x-slot name="body">
+                                    <div class="hstack gap-2">
+                                       <span class="material-icons md-48 opacity-75 text-muted">
+                                          content_copy
+                                       </span>
+                                       <h1 class="m-0 fw-bold">{{ $resource->getMedia()->count() }}
+                                       </h1>
+                                    </div>
+                                 </x-slot>
+                              </x-real.card>
+                           </div>
                         </div>
-                    </div>
-                </div>
+                     </div>
+                     <div class="col-12 col-lg-9">
+                        <x-real.card :variant="'secondary'">
+                           <x-slot name="header">
+                              Resource Details
+                           </x-slot>
+                           <x-slot name="body">
+                              <ul class="nav flex-column gap-2">
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          {{ $resource->resourceType }}
+                                       </x-slot>
+                                       <x-slot name="subtitle">Type</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          {{ $resource->id }}
+                                       </x-slot>
+                                       <x-slot name="subtitle">ID</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          {{ $resource->title }}
+                                       </x-slot>
+                                       <x-slot name="subtitle">Title</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          @if ($resource->description)
+                                             {{ $resource->description }}
+                                          @else
+                                             <i>No description</i>
+                                          @endif
+                                       </x-slot>
+                                       <x-slot name="subtitle">Description</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          {{ $resource->currentMediaVersion->file_name }}
+                                       </x-slot>
+                                       <x-slot name="subtitle">Current media</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          {{ $resource->user->name }}
+                                       </x-slot>
+                                       <x-slot name="subtitle">Submitted by</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          @isset($resource->lesson)
+                                             <a
+                                                href="{{ route('lesson.show', $resource->lesson) }}">{{ $resource->lesson->title }}</a>
+                                          @else
+                                             <i>No Lesson</i>
+                                          @endisset
+                                       </x-slot>
+                                       <x-slot name="subtitle">Lesson</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          <a
+                                             href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a>
+                                       </x-slot>
+                                       <x-slot name="subtitle">Course</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 <li class="nav-item border-bottom">
+                                    <x-real.text-with-subtitle>
+                                       <x-slot name="text">
+                                          {{ $resource->created_at }}
+                                       </x-slot>
+                                       <x-slot name="subtitle">Submitted at</x-slot>
+                                    </x-real.text-with-subtitle>
+                                 </li>
+                                 @if ($resource->archiveStatus == 'Archived')
+                                    <li class="nav-item border-bottom">
+                                       <x-real.text-with-subtitle>
+
+                                          <x-slot name="text">
+                                             {{ $resource->archived_at }}
+                                          </x-slot>
+                                          <x-slot name="subtitle">Archived at</x-slot>
+                                       </x-real.text-with-subtitle>
+                                    </li>
+                                 @else
+                                    @if ($resource->verificationStatus == 'Approved')
+                                       <li class="nav-item border-bottom">
+                                          <x-real.text-with-subtitle>
+                                             <x-slot name="text">
+                                                {{ $resource->approved_at }}
+                                             </x-slot>
+                                             <x-slot name="subtitle">Verified at</x-slot>
+                                          </x-real.text-with-subtitle>
+                                       </li>
+                                    @elseif($resource->verificationStatus == 'Pending' && $resource->hasMultipleMedia)
+                                       <li class="nav-item border-bottom">
+                                          <x-real.text-with-subtitle>
+                                             <x-slot name="text">
+                                                {{ $resource->updated_at }}
+                                             </x-slot>
+                                             <x-slot name="subtitle">Resubmitted at</x-slot>
+                                          </x-real.text-with-subtitle>
+                                       </li>
+                                    @endif
+                                 @endif
+                              </ul>
+                           </x-slot>
+                        </x-real.card>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
 
 
-    <div class="mt-5">
-        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                    role="tab" aria-controls="home" aria-selected="true">Comments</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                    type="button" role="tab" aria-controls="profile" aria-selected="false">History Logs</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="row g-3">
-                    <div class="col-12">
-                        @comments([
-                        'model' => $resource,
-                        'maxIndentationLevel' => 1,
-                        'perPage' => 5
-                        ])
-                    </div>
-                </div>
+   <div class="mt-5">
+      <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+         <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+               role="tab" aria-controls="home" aria-selected="true">Comments</button>
+         </li>
+         <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+               role="tab" aria-controls="profile" aria-selected="false">History Logs</button>
+         </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row g-3">
+               <div class="col-12">
+                  @comments([
+                  'model' => $resource,
+                  'maxIndentationLevel' => 1,
+                  'perPage' => 5
+                  ])
+               </div>
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="row g-3">
-                    <div class="col-12">
-                        @forelse ($resource->activityLogs->sortByDesc('created_at') as $activity)
-                            <div class="vstack pb-2">
-                                <small
-                                    class="text-muted">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $activity->created_at)->diffForHumans() }}</small>
-
-                                <span><b>
-                                    @empty($activity->causer)
-                                        Unknown User
-                                    @else
-                                        {{ $activity->causer->nameTag }}
-                                    @endempty
-                                </b></span>
-                            <p class="my-0">{{ $activity->description }}</p>
-                            <ul class="my-0">
-                                <li>
-                                    {{ $activity->currentMediaVersion->file_name ?? 'unknown file' }}
-                                </li>
-                            </ul>
-                        </div>
-                    @empty
-                    @endforelse
-                </div>
+         </div>
+         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="row g-3">
+               <div class="col-12">
+                  {!! $dataTable->table(['class' => 'accordionTableRes w-100 table align-middle table-hover']) !!}
+               </div>
             </div>
-        </div>
-    </div>
-</div>
+         </div>
+      </div>
+   </div>
 
-<div class="modal" id="approvePendingresourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+   <div class="modal" id="approvePendingresourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve this
-                    resource?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve this
+                  resource?</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <x-form.approve-pendingresource-hidden></x-form.approve-pendingresource-hidden>
+               <x-form.approve-pendingresource-hidden></x-form.approve-pendingresource-hidden>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                <button type="button" class="btn btn-success submit">Yes. Approve this resource</button>
+               <button type="button" class="btn btn-success submit">Yes. Approve this resource</button>
             </div>
-        </div>
-    </div>
-</div>
+         </div>
+      </div>
+   </div>
 
-<div class="modal" id="rejectPendingresourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+   <div class="modal" id="rejectPendingresourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to reject this
-                    resource?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to reject this
+                  resource?</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <x-form.reject-pendingresource-hidden></x-form.reject-pendingresource-hidden>
+               <x-form.reject-pendingresource-hidden></x-form.reject-pendingresource-hidden>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                <button type="button" class="btn btn-danger submit">Yes. Reject this resource</button>
+               <button type="button" class="btn btn-danger submit">Yes. Reject this resource</button>
             </div>
-        </div>
-    </div>
-</div>
+         </div>
+      </div>
+   </div>
 
-@section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
-        integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function() {
+   @section('script')
+      {!! $dataTable->scripts() !!}
+
+      <script>
+         $(document).ready(function() {
             $('.comment-textarea').summernote({
-                height: 200,
-                width: '100%'
+               height: 200,
+               width: '100%'
             })
 
 
             $('#rejectPendingresourceModal').on('shown.bs.modal', function(event) {
-                let triggerButton = $(event.relatedTarget)
-                let form = $(triggerButton.attr('data-form-target'))
-                let formRoute = form.attr('action')
-                let passoverData = $(triggerButton).attr('data-passover')
-                let input = form.find('input[name="resource_id"]')
-                input.val(passoverData)
-                form.attr('action', `${formRoute}/${passoverData}`)
+               let triggerButton = $(event.relatedTarget)
+               let form = $(triggerButton.attr('data-form-target'))
+               let formRoute = form.attr('action')
+               let passoverData = $(triggerButton).attr('data-passover')
+               let input = form.find('input[name="resource_id"]')
+               input.val(passoverData)
+               form.attr('action', `${formRoute}/${passoverData}`)
 
-                $(this).find('button.submit').click(function() {
-                    form.submit()
-                })
+               $(this).find('button.submit').click(function() {
+                  form.submit()
+               })
 
-                $('#rejectPendingresourceModal').on('hidden.bs.modal', function() {
-                    spinnerGenerator(triggerButton, null, true)
+               $('#rejectPendingresourceModal').on('hidden.bs.modal', function() {
+                  spinnerGenerator(triggerButton, null, true)
 
-                    resetFormAction()
-                })
+                  resetFormAction()
+               })
 
-                let resetFormAction = () => form.attr('action', `${formRoute}`)
+               let resetFormAction = () => form.attr('action', `${formRoute}`)
             })
 
             $('#approvePendingresourceModal').on('shown.bs.modal', function(event) {
-                let triggerButton = $(event.relatedTarget)
-                let form = $(triggerButton.attr('data-form-target'))
-                let formRoute = form.attr('action')
-                let passoverData = $(triggerButton).attr('data-passover')
-                let input = form.find('input[name="resource_id"]')
-                input.val(passoverData)
-                form.attr('action', `${formRoute}/${passoverData}`)
+               let triggerButton = $(event.relatedTarget)
+               let form = $(triggerButton.attr('data-form-target'))
+               let formRoute = form.attr('action')
+               let passoverData = $(triggerButton).attr('data-passover')
+               let input = form.find('input[name="resource_id"]')
+               input.val(passoverData)
+               form.attr('action', `${formRoute}/${passoverData}`)
 
-                $(this).find('button.submit').click(function() {
-                    form.submit()
-                })
+               $(this).find('button.submit').click(function() {
+                  form.submit()
+               })
 
-                $('#approvePendingresourceModal').on('hidden.bs.modal', function() {
-                    triggerButton.removeClass(['loading', 'disabled'])
+               $('#approvePendingresourceModal').on('hidden.bs.modal', function() {
+                  triggerButton.removeClass(['loading', 'disabled'])
 
-                    resetFormAction()
-                })
+                  resetFormAction()
+               })
 
-                let resetFormAction = () => form.attr('action', `${formRoute}`)
+               let resetFormAction = () => form.attr('action', `${formRoute}`)
             })
 
             $('.storeSavedresourceHiddenSubmit').click(function() {
-                let form = $($(this).attr('data-form-target'))
-                let passoverData = $(this).attr('data-passover')
-                let input = form.find('input[name="resource_id"]')
-                input.val(passoverData)
+               let form = $($(this).attr('data-form-target'))
+               let passoverData = $(this).attr('data-passover')
+               let input = form.find('input[name="resource_id"]')
+               input.val(passoverData)
 
-                form.submit()
+               form.submit()
             })
 
             $('#download-bulk').click(function(e) {
-                e.preventDefault()
-                let downloadBtn = $(this)
-                let table = $(this.closest('table'))
-                let checkboxes = table.find('th:first-child .check, td:first-child .check')
-                $(checkboxes).each(function() {
-                    if ($(this).is(":checked")) {
-                        $(this).closest('th, td').find(':hidden').removeAttr('disabled')
-                    } else {
-                        $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
-                    }
-                })
+               e.preventDefault()
+               let downloadBtn = $(this)
+               let table = $(this.closest('table'))
+               let checkboxes = table.find('th:first-child .check, td:first-child .check')
+               $(checkboxes).each(function() {
+                  if ($(this).is(":checked")) {
+                     $(this).closest('th, td').find(':hidden').removeAttr('disabled')
+                  } else {
+                     $(this).closest('th, td').find(':hidden').attr('disabled', 'disabled')
+                  }
+               })
 
-                table.closest('form').submit();
-                checkboxes.prop('checked', false);
-                downloadBtn.removeClass('loading')
+               table.closest('form').submit();
+               checkboxes.prop('checked', false);
+               downloadBtn.removeClass('loading')
             })
 
             $('#check-all').change(function(e) {
-                let table = $(this.closest('table'))
-                let checkboxes = table.find('td:first-child .check')
+               let table = $(this.closest('table'))
+               let checkboxes = table.find('td:first-child .check')
 
-                if ($(this).is(':checked')) {
-                    checkboxes.prop('checked', true)
-                } else {
-                    checkboxes.prop('checked', false)
-                }
+               if ($(this).is(':checked')) {
+                  checkboxes.prop('checked', true)
+               } else {
+                  checkboxes.prop('checked', false)
+               }
             })
 
             $('.check').change(function(e) {
-                let table = $(this.closest('table'))
-                let downloadBtn = table.find('#download-bulk')
-                let checkboxes = table.find('td:first-child .check')
-                let currentCheckbox = $(this)
+               let table = $(this.closest('table'))
+               let downloadBtn = table.find('#download-bulk')
+               let checkboxes = table.find('td:first-child .check')
+               let currentCheckbox = $(this)
 
-                if (checkboxes.filter(':checked').length > 0) {
-                    downloadBtn.removeClass('disabled')
-                    console.log('yes')
-                } else {
-                    downloadBtn.addClass('disabled')
-                }
+               if (checkboxes.filter(':checked').length > 0) {
+                  downloadBtn.removeClass('disabled')
+                  console.log('yes')
+               } else {
+                  downloadBtn.addClass('disabled')
+               }
             })
-        })
-    </script>
-@endsection
+         })
+      </script>
+   @endsection
 </x-app-layout>

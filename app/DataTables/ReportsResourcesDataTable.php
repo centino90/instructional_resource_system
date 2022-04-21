@@ -144,10 +144,12 @@ class ReportsResourcesDataTable extends DataTable
      */
     public function query(Resource $model)
     {
-        $year = Carbon::make(request()->get('year'))->year ?? now()->year;
+        $startDate = !empty(request()->get('start_date')) ? Carbon::make(request()->get('start_date'))->endOfDay() : now()->subYear(1)->endOfDay();
+        $endDate = !empty(request()->get('end_date')) ? Carbon::make(request()->get('end_date'))->endOfDay() : now()->endOfDay();
         $yearLevel = request()->get('year_level') ? [request()->get('year_level')] : [1, 2, 3, 4];
         $semester = request()->get('semester') ? [request()->get('semester')] : [1, 2, 3];
         $term = request()->get('term') ? [request()->get('term')] : [1, 2];
+
         $courses = Course::whereIn('program_id', auth()->user()->programs->pluck('id'))
             ->whereIn('year_level', $yearLevel)
             ->whereIn('semester', $semester)
@@ -164,7 +166,7 @@ class ReportsResourcesDataTable extends DataTable
                 ->whereIn('term', $term)
                 ->whereIn('id', $course);
         })
-            ->whereYear('created_at', $year)
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->withTrashed()
             ->with(['media', 'course', 'lesson', 'user']);
     }
