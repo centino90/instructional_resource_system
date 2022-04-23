@@ -6,14 +6,7 @@
             <h1 class="text-light">Online Instructional Resource System</h1>
          </div>
       </x-slot>
-$('#openMessage').click(function() {
-    $.post({
-        url: "{{route('message.read')}}",
-        data: {
-            "_token": "{{csrf_token()}}"
-        }
-    })
-})
+
       <div class="card-body py-5">
          <!-- Session Status -->
          <x-auth-session-status class="mb-3" :status="session('status')" />
