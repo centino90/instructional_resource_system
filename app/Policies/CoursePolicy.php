@@ -33,7 +33,7 @@ class CoursePolicy
      */
     public function viewAny(User $user)
     {
-        return false;
+        return $user->isSecretary();
     }
 
     /**
@@ -45,7 +45,9 @@ class CoursePolicy
      */
     public function view(User $user, Course $course)
     {
-        return $user->belongsToProgram($course->program_id);
+        return $user->belongsToProgram($course->program_id) && $user->isProgramDean()
+            || $user->isInstructor() && $user->hasCourseWithReadAccess($course->id)
+            || $user->isSecretary() && $course->program->is_general;
     }
 
     /**
@@ -66,10 +68,10 @@ class CoursePolicy
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Course $course)
+    public function participate(User $user, Course $course)
     {
-        return $user->belongsToProgram($course->program_id)
-            && $user->isProgramDean();
+        return $user->belongsToProgram($course->program_id) && $user->isProgramDean()
+            || $user->isInstructor() && $user->hasCourseWithWriteAccess($course->id);
     }
 
     /**

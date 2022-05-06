@@ -81,78 +81,82 @@
                </x-real.card>
             </div>
 
-            <div class="col-12">
-               <x-real.card :vertical="'center'">
-                  <x-slot name="header">Activities Summary</x-slot>
-                  <x-slot name="action">
-                     <x-real.btn :tag="'a'" :size="'sm'" href="{{ route('user.activities', $user) }}">View
-                        more</x-real.btn>
-                  </x-slot>
-                  <x-slot name="body">
-                     <ul class="list-group">
-                        <li class="list-group-item">
-                           <x-real.text-with-subtitle>
-                              <x-slot name="text">
-                                 {{ $user->activityLogs()->latest()->first()->created_at->diffForHumans() }}
-                              </x-slot>
-                              <x-slot name="subtitle">Last Activity</x-slot>
-                           </x-real.text-with-subtitle>
-                        </li>
-                        <li class="list-group-item">
-                           <x-real.text-with-subtitle>
-                              <x-slot name="text">
-                                 {{ $user->courses_contributed }}
-                              </x-slot>
-                              <x-slot name="subtitle">Contributed Courses</x-slot>
-                           </x-real.text-with-subtitle>
-                        </li>
-                        <li class="list-group-item hstack justify-content-between">
-                           <x-real.text-with-subtitle>
-                              <x-slot name="text">
-                                 {{ isset($user->activitiesByLogName['resource-created'])? $user->activitiesByLogName['resource-created']->count(): 0 }}
-                              </x-slot>
-                              <x-slot name="subtitle">Total Submissions</x-slot>
-                           </x-real.text-with-subtitle>
-
-                           <x-real.btn :tag="'a'" :size="'sm'"
-                              href="{{ route('user.submissions', $user) }}">View more</x-real.btn>
-                        </li>
-                        <li class="list-group-item hstack justify-content-between">
-                           <x-real.text-with-subtitle>
-                              <x-slot name="text">
-                                 {{ isset($user->activitiesByLogName['lesson-created'])? $user->activitiesByLogName['lesson-created']->count(): 0 }}
-                              </x-slot>
-                              <x-slot name="subtitle">Lessons Created</x-slot>
-                           </x-real.text-with-subtitle>
-
-                           <x-real.btn :tag="'a'" :size="'sm'" href="{{ route('user.lessons', $user) }}">
-                              View more</x-real.btn>
-                        </li>
-                        @if ($user->id == auth()->id())
+            @if (auth()->user()->isInstructor())
+               <div class="col-12">
+                  <x-real.card :vertical="'center'">
+                     <x-slot name="header">Activities Summary</x-slot>
+                     <x-slot name="action">
+                        <x-real.btn :tag="'a'" :size="'sm'" href="{{ route('user.activities', $user) }}">
+                           View
+                           more</x-real.btn>
+                     </x-slot>
+                     <x-slot name="body">
+                        <ul class="list-group">
+                           <li class="list-group-item">
+                              <x-real.text-with-subtitle>
+                                 <x-slot name="text">
+                                    {{ $user->activityLogs()->latest()->first()->created_at->diffForHumans() }}
+                                 </x-slot>
+                                 <x-slot name="subtitle">Last Activity</x-slot>
+                              </x-real.text-with-subtitle>
+                           </li>
+                           <li class="list-group-item">
+                              <x-real.text-with-subtitle>
+                                 <x-slot name="text">
+                                    {{ $user->courses_contributed }}
+                                 </x-slot>
+                                 <x-slot name="subtitle">Contributed Courses</x-slot>
+                              </x-real.text-with-subtitle>
+                           </li>
                            <li class="list-group-item hstack justify-content-between">
                               <x-real.text-with-subtitle>
                                  <x-slot name="text">
-                                    {{ $fileCount }}
+                                    {{ isset($user->activitiesByLogName['resource-created'])? $user->activitiesByLogName['resource-created']->count(): 0 }}
                                  </x-slot>
-                                 <x-slot name="subtitle">Files created</x-slot>
+                                 <x-slot name="subtitle">Total Submissions</x-slot>
                               </x-real.text-with-subtitle>
+
                               <x-real.btn :tag="'a'" :size="'sm'"
-                                 href="{{ route('storage.show', [$user, 'leftPath' => 'users/' . $user->id]) }}">
+                                 href="{{ route('user.submissions', $user) }}">View more</x-real.btn>
+                           </li>
+                           <li class="list-group-item hstack justify-content-between">
+                              <x-real.text-with-subtitle>
+                                 <x-slot name="text">
+                                    {{ isset($user->activitiesByLogName['lesson-created'])? $user->activitiesByLogName['lesson-created']->count(): 0 }}
+                                 </x-slot>
+                                 <x-slot name="subtitle">Lessons Created</x-slot>
+                              </x-real.text-with-subtitle>
+
+                              <x-real.btn :tag="'a'" :size="'sm'"
+                                 href="{{ route('user.lessons', $user) }}">
                                  View more</x-real.btn>
                            </li>
-                        @endif
-                        <li class="list-group-item">
-                           <x-real.text-with-subtitle>
-                              <x-slot name="text">
-                                 {{ isset($user->activitiesByLogName['user-loggedin'])? $user->activitiesByLogName['user-loggedin']->count(): 0 }}
-                              </x-slot>
-                              <x-slot name="subtitle">Total Daily Signins</x-slot>
-                           </x-real.text-with-subtitle>
-                        </li>
-                     </ul>
-                  </x-slot>
-               </x-real.card>
-            </div>
+                           @if ($user->id == auth()->id())
+                              <li class="list-group-item hstack justify-content-between">
+                                 <x-real.text-with-subtitle>
+                                    <x-slot name="text">
+                                       {{ $fileCount }}
+                                    </x-slot>
+                                    <x-slot name="subtitle">Files created</x-slot>
+                                 </x-real.text-with-subtitle>
+                                 <x-real.btn :tag="'a'" :size="'sm'"
+                                    href="{{ route('storage.show', [$user, 'leftPath' => 'users/' . $user->id]) }}">
+                                    View more</x-real.btn>
+                              </li>
+                           @endif
+                           <li class="list-group-item">
+                              <x-real.text-with-subtitle>
+                                 <x-slot name="text">
+                                    {{ isset($user->activitiesByLogName['user-loggedin'])? $user->activitiesByLogName['user-loggedin']->count(): 0 }}
+                                 </x-slot>
+                                 <x-slot name="subtitle">Total Daily Signins</x-slot>
+                              </x-real.text-with-subtitle>
+                           </li>
+                        </ul>
+                     </x-slot>
+                  </x-real.card>
+               </div>
+            @endif
          </div>
       </div>
       <div class="col-8">

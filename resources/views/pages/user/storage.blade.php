@@ -26,21 +26,45 @@
             <div class="col12">
                <x-real.card>
                   <x-slot name="header">
-                     Total Files
+                     Storage Details
                   </x-slot>
                   <x-slot name="body">
-                     <h3>{{ $fileCount }}</h3>
-                  </x-slot>
-               </x-real.card>
-            </div>
+                     <x-real.text-with-subtitle class="border-bottom">
+                        <x-slot name="text">{{ $fileCount }}</x-slot>
+                        <x-slot name="subtitle">Total files</x-slot>
+                     </x-real.text-with-subtitle>
 
-            <div class="col-12">
-               <x-real.card>
-                  <x-slot name="header">
-                     Storage Size
-                  </x-slot>
-                  <x-slot name="body">
-                     <h3>{{ $storageSize }}</h3>
+                     <x-real.text-with-subtitle class="mt-2 border-bottom">
+                        <x-slot name="text">{{ $storageSize }} MB</x-slot>
+                        <x-slot name="subtitle">Storage Size</x-slot>
+                     </x-real.text-with-subtitle>
+
+                     <x-real.text-with-subtitle class="mt-2 border-bottom">
+                        <x-slot name="text">
+                           {{ auth()->user()->storage_size - $storageSize }} MB
+                           @if (auth()->user()->isStorageFull())
+                              <span class="position-absolute top-0 end-0 badge rounded-pill text-muted">
+                                 <span class="small material-icons text-danger">
+                                    report
+                                 </span>
+                                 Full
+                              </span>
+                           @elseif(auth()->user()->isStorageReachingFull())
+                              <span class="position-absolute top-0 end-0 badge rounded-pill hstack text-muted gap-1">
+                                 <span class="small material-icons text-secondary">
+                                    report
+                                 </span>
+                                 Almost Full
+                              </span>
+                           @endif
+                        </x-slot>
+                        <x-slot name="subtitle">Storage Left</x-slot>
+                     </x-real.text-with-subtitle>
+
+                     <x-real.text-with-subtitle class="mt-2 border-bottom">
+                        <x-slot name="text">{{ auth()->user()->storage_size }} MB</x-slot>
+                        <x-slot name="subtitle">Maximum Capacity</x-slot>
+                     </x-real.text-with-subtitle>
                   </x-slot>
                </x-real.card>
             </div>
@@ -89,7 +113,7 @@
                                        File
                                     </td>
                                     <td>
-                                            {{ $folderOrFile->created_at }}
+                                       {{ $folderOrFile->created_at }}
                                     </td>
                                     <td>
                                        <div class="hstack justify-content-end gap-2">

@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\TypologyStandardDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\TypologyStandard;
 use App\Http\Requests\StoreTypologyStandardRequest;
-use App\Http\Requests\UpdateTypologyStandardRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -17,19 +15,11 @@ class TypologyStandardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(TypologyStandardDataTable $dataTable)
+    public function index()
     {
-        return $dataTable->render('pages.dean.typology.index');
-    }
+        $typology = TypologyStandard::first();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('pages.admin.typology.index', compact('typology'));
     }
 
     /**
@@ -51,28 +41,6 @@ class TypologyStandardController extends Controller
             'status' => 'success',
             'message' => 'a verb standard was successfully added'
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TypologyStandard  $typologyStandard
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TypologyStandard $typologyStandard)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TypologyStandard  $typologyStandard
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TypologyStandard $typologyStandard)
-    {
-        //
     }
 
     /**
@@ -112,16 +80,5 @@ class TypologyStandardController extends Controller
             'status' => 'success',
             'message' => 'Verbs were successfully updated'
         ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TypologyStandard  $typologyStandard
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(TypologyStandard $typologyStandard)
-    {
-        //
     }
 }

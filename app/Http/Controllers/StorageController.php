@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class StorageController extends Controller
 {
@@ -24,18 +23,15 @@ class StorageController extends Controller
 
         $user = User::findOrFail($id);
 
-        $file_size = 0;
-
         $files = collect();
         if (File::exists(storage_path("app/public/users/{$id}"))) {
             $files = collect(File::allFiles(storage_path("app/public/{$request->leftPath}")));
         }
 
-        foreach ($files as $file) {
-            $file_size += $file->getSize();
-        }
+        $totalFileSize = $files->reduce(function ($carry, $item) {
+            return $carry + $item->getSize();
+        });
 
-        $storageSize = number_format($file_size / 1048576, 2) . ' MB';
         $fileCount = sizeof($files);
         $recentlyCreated = collect($files)->sortByDesc(function ($file) {
             return $file->getCTime();
@@ -45,7 +41,12 @@ class StorageController extends Controller
         $deletedFolders = collect();
         if (File::exists(storage_path("app/public/deleted/users/{$id}"))) {
             $deletedFiles = collect(File::files(storage_path("app/public/deleted/{$request->leftPath}")));
-            $deletedFiles = $deletedFiles->map(function ($item, $key) {
+
+            $totalFileSize += $deletedFiles->reduce(function ($carry, $item) {
+                return $carry + $item->getSize();
+            });
+
+            $deletedFiles = $deletedFiles->map(function ($item, $key){
                 $item->created_at = date('m-d-Y H:i:s', $item->getCTime());
                 $item->type = 'file';
                 $item->name = $item->getFileName();
@@ -59,14 +60,15 @@ class StorageController extends Controller
                     ->map(fn ($file) => date('m-d-Y H:i:s', $file->getCTime()))
                     ->sortDesc()
                     ->first();
-                // dd($latestFile);
+
                 $arr = explode('\\', $item);
                 return ['path' => $item, 'created_at' => $latestFile, 'name' => array_pop($arr), 'type' => 'folder'];
             });
         }
+
         $mergedDeleted = $deletedFiles->merge($deletedFolders)->sortByDesc('created_at');
 
-        // dd($mergedDeleted);
+        $storageSize = number_format($totalFileSize / 1048576, 2);
 
         $recentlyDeleted = collect($deletedFiles)->sortByDesc(function ($file) {
             return $file->getCTime();

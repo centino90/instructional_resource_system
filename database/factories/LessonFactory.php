@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Course;
 use App\Models\Resource;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,8 +17,8 @@ class LessonFactory extends Factory
      */
     public function definition()
     {
-        $user = User::where('role_id', 4)->inRandomOrder()->limit(1)->first();
-        $course = Course::where('program_id', $user->programs()->first()->id)->inRandomOrder()->limit(1)->first();
+        $user = User::where('role_id', Role::INSTRUCTOR)->inRandomOrder()->first();
+        $course = Course::whereIn('program_id', $user->programs()->pluck('id'))->inRandomOrder()->first();
 
         return [
             'user_id' => $user->id,

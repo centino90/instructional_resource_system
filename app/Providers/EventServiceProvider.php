@@ -64,14 +64,21 @@ class EventServiceProvider extends ServiceProvider
                 }
 
                 session()->flash('status', 'Message');
-
             }
         );
-
 
         /*
             PACKAGE EVENTS
         */
+        Event::listen(
+            'Alexusmai\LaravelFileManager\Events\FilesUploading',
+            function ($event) {
+                if (auth()->user()->isStorageFull($event)) {
+                    throw new Error('Error! You cannot upload anymore files. Your personal storage has reached its full capacity.');
+                }
+            }
+        );
+
         Event::listen(
             'Alexusmai\LaravelFileManager\Events\Deleting',
             function ($event) {
@@ -134,16 +141,11 @@ class EventServiceProvider extends ServiceProvider
                             $pattern = "/^{$basename}$/";
                             $matchingFiles = preg_grep($pattern, $fileAndFolderNames->toArray());
 
-                            if (count($matchingFiles) > 0) {
-                                if (!$extension) {
-                                    $newPath = "{$basename}-{$curtime}";
-                                } else {
-                                    $newPath = "{$basename}-{$curtime}.{$extension}";
-                                }
+                            if (!$extension) {
+                                $newPath = "{$basename}-{$curtime}";
                             } else {
-                                $newPath = "{$basename}.{$extension}";
+                                $newPath = "{$basename}-{$curtime}.{$extension}";
                             }
-                            // dd("deleted/{$userId}/{$newPath}");
 
                             Storage::disk('public')->copy($item['path'], "deleted/users/{$userId}/{$newPath}");
                             activity()

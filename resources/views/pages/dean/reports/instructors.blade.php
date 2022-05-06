@@ -179,10 +179,10 @@
                            <th>id</th>
                            <th>name</th>
                            <th>email</th>
-                           <th>resources_count</th>
-                           <th>lessons_count</th>
-                           <th>activity_logs_count</th>
-                           <th>created_at</th>
+                           <th>account status</th>
+                           <th>Resource Submitted</th>
+                           <th>Lessons Created</th>
+                           <th>Activities</th>
                            <th></th>
                         </x-slot>
                      </x-real.table>
@@ -232,19 +232,25 @@
                      data: 'email',
                   },
                   {
+                     data: 'status',
+                  },
+                  {
                      data: 'resources_count',
+                     searchable: false,
+                     orderable: false
 
                   },
                   {
                      data: 'lessons_count',
+                     searchable: false,
+                     orderable: false
 
                   },
                   {
                      data: 'activity_logs_count',
+                     searchable: false,
+                     orderable: false
 
-                  },
-                  {
-                     data: 'created_at',
                   },
                   {
                      data: 'action',

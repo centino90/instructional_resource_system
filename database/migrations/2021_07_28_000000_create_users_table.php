@@ -22,12 +22,15 @@ class CreateUsersTable extends Migration
             $table->string('contact_no')->nullable();
             $table->string('email')->nullable();
             $table->string('avatar')->nullable();
+            $table->string('temp_password')->nullable();
+            $table->bigInteger('storage_size')->nullable();
 
             $table->foreignId('role_id')->constrained();
 
             $table->timestamps();
             $table->softDeletes();
         });
+
     }
 
     /**

@@ -6,14 +6,7 @@
             <h1 class="text-light">Online Instructional Resource System</h1>
          </div>
       </x-slot>
-$('#openMessage').click(function() {
-    $.post({
-        url: "{{route('message.read')}}",
-        data: {
-            "_token": "{{csrf_token()}}"
-        }
-    })
-})
+
       <div class="card-body py-5">
          <!-- Session Status -->
          <x-auth-session-status class="mb-3" :status="session('status')" />
@@ -21,39 +14,38 @@ $('#openMessage').click(function() {
          <!-- Validation Errors -->
          <x-auth-validation-errors class="mb-3" :errors="$errors" />
 
-         <div class="alert alert-info">
-            Login using the login credentials given by your program dean
-         </div>
-
-         <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Username Address -->
-            <div class="form-group">
-               <x-label for="username" :value="__('Username')" />
-
-               <x-input id="username" type="text" name="username" :value="old('username')" autofocus />
-
-               <x-input-error :for="'username'"></x-input-error>
+         @if (!$errors->any())
+            <div class="alert alert-info">
+               Login using the login credentials given by your program dean
             </div>
+         @endif
 
-            <!-- Password -->
-            <div class="form-group mt-3">
-               <x-label for="password" :value="__('Password')" />
+         <x-real.form action="{{ route('login') }}">
+            <x-real.input name="username" :value="old('username')" autofocus>
+               <x-slot name="label">Username</x-slot>
 
-               <x-input id="password" type="password" name="password" autocomplete="current-password" />
+               @error('username')
+                  <x-slot name="formText">
+                     {{ $message }}
+                  </x-slot>
+               @enderror
+            </x-real.input>
 
-               <x-input-error :for="'password'"></x-input-error>
-            </div>
 
-            <div class="mt-3">
-               <div class="d-grid">
-                  <x-button :class="'btn-primary'" :type="'submit'">
-                     {{ __('Log in') }}
-                  </x-button>
-               </div>
-            </div>
-         </form>
+            <x-real.input name="password" :value="old('password')">
+               <x-slot name="label">Password</x-slot>
+
+               @error('password')
+                  <x-slot name="formText">
+                     {{ $message }}
+                  </x-slot>
+               @enderror
+            </x-real.input>
+
+            <x-slot name="submit">
+               <x-real.btn :btype="'solid'" type="submit" class="w-100">Log in</x-real.btn>
+            </x-slot>
+         </x-real.form>
       </div>
    </x-auth-card>
 </x-guest-layout>

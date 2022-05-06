@@ -1,34 +1,28 @@
 <?php
 
-use app\HelperClass\OfficeToPdfHelper;
 use App\Http\Controllers\ActivitiesController;
-use App\Http\Controllers\Admin\ContentManagementController as AdminContentManagementController;
-use App\Http\Controllers\Admin\DeanController;
-use App\Http\Controllers\Admin\ProgramController as AdminProgramController;
+use App\Http\Controllers\Admin\ProgramsController;
+use App\Http\Controllers\Admin\SyllabusSettingController;
 use App\Http\Controllers\Admin\SystemAdminController;
 use App\Http\Controllers\Admin\TypologyStandardController as AdminTypologyStandardController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DeletedResourceController;
-use App\Http\Controllers\ImportantResourceController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\PendingResourceController;
 use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\SavedResourceController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\UploadTemporaryFileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PresentationResourceController;
 use App\Http\Controllers\ProgramDean\ContentManagementController;
-use App\Http\Controllers\ProgramDean\InstructorsController as ProgramDeanInstructorsController;
+use App\Http\Controllers\ProgramDean\CourseController as ProgramDeanCourseController;
+use App\Http\Controllers\ProgramDean\InstructorController as ProgramDeanInstructorsController;
+use App\Http\Controllers\ProgramDean\LessonController as ProgramDeanLessonController;
 use App\Http\Controllers\ProgramDean\ReportsController;
 use App\Http\Controllers\ProgramDean\ResourceController as ProgramDeanResourceController;
 use App\Http\Controllers\StorageController;
-use App\Http\Controllers\ProgramDean\TypologyStandardController;
 use App\Http\Controllers\UsersController;
-use App\Models\Role;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -45,26 +39,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('dashboard/resourceDatatable', [DashboardController::class, 'resourceDatatable'])->name('dashboard.resourceDatatable');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 
     Route::get('activities/{user}/user-activities', [ActivitiesController::class, 'showUserActivities'])->name('activities.showUserActivities');
     Route::resource('activities', ActivitiesController::class);
 
-    Route::resource('program', ProgramController::class);
-
     Route::put('course/{course}/archive', [CourseController::class, 'archive'])->name('course.archive');
     Route::get('course/{course}/resources', [CourseController::class, 'showResources'])->name('course.showResources');
-    Route::get('course/{course}/most-active-instructors', [CourseController::class, 'showMostActiveInstructors'])->name('course.showMostActiveInstructors');
     Route::get('course/{course}/lessons', [CourseController::class, 'showLessons'])->name('course.showLessons');
     Route::get('course/{course}/user-lessons/{user}', [CourseController::class, 'showUserLessons'])->name('course.showUserLessons');
-    Route::resource('course', CourseController::class);
-
+    Route::get('course/{course}', [CourseController::class, 'show'])->name('course.show');
 
     Route::post('resource/download-all-by-lesson/{lesson}', [ResourceController::class, 'downloadAllByLesson'])->name('resource.downloadAllByLesson');
     Route::post('resource/download-all-by-course/{course}', [ResourceController::class, 'downloadAllByCourse'])->name('resource.downloadAllByCourse');
@@ -90,16 +78,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('lesson', LessonController::class);
 
     Route::post('resources/storeByUrl', [ResourceController::class, 'storeByUrl'])->name('resources.storeByUrl');
-    // Route::resource('resources', ResourceController::class);
     Route::get('resources/preview/{resource}', [ResourceController::class, 'preview'])->name('resources.preview');
     Route::post('resources/download-html/{media}', [ResourceController::class, 'downloadAsHtml'])->name('resources.downloadAsHtml');
     Route::post('resources/download-original/{media}', [ResourceController::class, 'downloadOriginal'])->name('resources.downloadOriginal');
     Route::post('resources/download-pdf/{media}', [ResourceController::class, 'downloadAsPdf'])->name('resources.downloadAsPdf');
     Route::get('resources/download/{media}', [ResourceController::class, 'download'])->name('resources.download');
-
     Route::post('resources/bulk-download', [ResourceController::class, 'bulkDownload'])->name('resources.bulkDownload');
-    Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
-
+    // Route::post('resources/get-resources-json', [ResourceController::class, 'getResourcesJson'])->name('resources.getResourcesJson');
 
     Route::get('syllabi/submit-syllabus/{course}', [SyllabusController::class, 'create'])->name('syllabi.create');
     Route::post('syllabi/{resource}/store-new-version-url', [SyllabusController::class, 'storeNewVersionByUrl'])->name('syllabi.storeNewVersionByUrl');
@@ -108,9 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::post('syllabi/lessonCreation', [SyllabusController::class, 'lessonCreation'])->name('syllabi.lessonCreation');
     Route::post('syllabi/storeByUrl', [SyllabusController::class, 'storeByUrl'])->name('syllabi.storeByUrl');
     Route::post('syllabi/uploadByUrl/{course}', [SyllabusController::class, 'uploadByUrl'])->name('syllabi.uploadByUrl');
-    Route::get('syllabi/preview/{resource}', [SyllabusController::class, 'preview'])->name('syllabi.preview');
     Route::post('syllabi/upload/{course}', [SyllabusController::class, 'upload'])->name('syllabi.upload');
-    Route::resource('syllabi', SyllabusController::class)->except('create');
 
     Route::post('presentations/{resource}/store-new-version-url', [PresentationResourceController::class, 'storeNewVersionByUrl'])->name('presentations.storeNewVersionByUrl');
     Route::post('presentations/{resource}/store-new-version', [PresentationResourceController::class, 'storeNewVersion'])->name('presentations.storeNewVersion');
@@ -118,10 +101,7 @@ Route::middleware('auth')->group(function () {
     Route::get('presentations/preview/{resource}', [PresentationResourceController::class, 'preview'])->name('presentations.preview');
     Route::post('presentations/uploadByUrl', [PresentationResourceController::class, 'uploadByUrl'])->name('presentations.uploadByUrl');
     Route::post('presentations/upload', [PresentationResourceController::class, 'upload'])->name('presentations.upload');
-    Route::resource('presentations', PresentationResourceController::class);
-
-    Route::resource('courses', CourseController::class);
-
+    // Route::resource('presentations', PresentationResourceController::class);
 
     Route::put('notifications/{notification}/read', [NotificationController::class, 'read'])->name('notifications.read');
     Route::put('notifications/{notification}', [NotificationController::class, 'update'])->name('notifications.update');
@@ -141,40 +121,26 @@ Route::middleware('auth')->group(function () {
     Route::get('storage/{user}', [StorageController::class, 'show'])->name('storage.show');
     Route::resource('storage', StorageController::class)->except(['show']);
 
-    // saved resources
-    Route::resource('saved-resources', SavedResourceController::class);
-
-    Route::put('pending-resources/approve/{resource}', [PendingResourceController::class, 'approve'])
-        ->name('pending-resources.approve');
-    Route::put('pending-resources/reject/{resource}', [PendingResourceController::class, 'reject'])
-        ->name('pending-resources.reject');
-    Route::resource('pending-resources', PendingResourceController::class);
-
-    Route::resource('important-resources', ImportantResourceController::class);
-
-    Route::resource('deleted-resources', DeletedResourceController::class);
-
-    // Route::resource('comments', CommentController::class);
-
     Route::resource('upload-temporary-file', UploadTemporaryFileController::class);
 
     // Admin
-    Route::prefix('admin')->name('admin.')
-        ->middleware(['auth.admin'])->group(function () {
-            Route::resource('/programs', AdminProgramController::class);
-            Route::resource('/deans', DeanController::class);
-            Route::resource('/cms', AdminContentManagementController::class);
-            Route::put('/system/update-old', [SystemAdminController::class, 'updateOldSyllabusInterval'])->name('system.updateOldSyllabusInterval');
-            Route::put('/system/update-delay', [SystemAdminController::class, 'updateDelayedSyllabusInterval'])->name('system.updateDelayedSyllabusInterval');
-            Route::resource('/system', SystemAdminController::class);
-            Route::resource('/typology', AdminTypologyStandardController::class);
-        });
+    Route::prefix('admin')->name('admin.')->middleware(['auth.admin'])->group(function () {
+        Route::resource('/programs', ProgramsController::class);
+        Route::put('/users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.resetPassword');
+        Route::resource('/users', UserController::class);
+        Route::post('/typology/{typology}', [AdminTypologyStandardController::class, 'store'])->name('typology.store');
+        Route::resource('/typology', AdminTypologyStandardController::class)->except(['create', 'store', 'edit', 'destroy']);
+        Route::resource('/syllabus-settings', SyllabusSettingController::class)->except(['create', 'store', 'edit', 'destroy']);
+    });
 
     // Program dean
     Route::prefix('dean')->name('dean.')->as('dean.')->middleware(['auth.programdean'])->group(function () {
         Route::resource('resource', ProgramDeanResourceController::class);
-        Route::put('typology/{id}/update', [TypologyStandardController::class, 'update'])->name('typology.update');
-        Route::post('typology/{id}', [TypologyStandardController::class, 'store'])->name('typology.store');
+        Route::put('instructor/{instructor}/update-course-assignment', [ProgramDeanInstructorsController::class, 'updateCourseAssignment'])->name('instructor.updateCourseAssignment');
+        Route::resource('instructor', ProgramDeanInstructorsController::class);
+        Route::put('course/{course}/archive', [ProgramDeanCourseController::class, 'archive'])->name('course.archive');
+        Route::resource('course', ProgramDeanCourseController::class);
+        Route::resource('lesson', ProgramDeanLessonController::class);
 
         Route::get('content-management/watermarks', [ContentManagementController::class, 'watermarks'])->name('cms.watermarks');
         Route::get('content-management/typology', [ContentManagementController::class, 'typology'])->name('cms.typology');
@@ -191,20 +157,6 @@ Route::middleware('auth')->group(function () {
         Route::get('reports/courses', [ReportsController::class, 'courses'])->name('reports.courses');
         Route::get('reports/instructors', [ReportsController::class, 'instructors'])->name('reports.instructors');
         Route::get('reports/lessons', [ReportsController::class, 'lessons'])->name('reports.lessons');
-    });
-
-    // Secretary
-    Route::prefix('auth')->name('secretary.')->middleware(['auth.secretary'])->group(function () {
-    });
-
-    // Instructor
-    Route::prefix('instructor')->name('instructor.')->middleware(['auth.instructor'])->group(function () {
-
-        // Route::resource('course', InstructorCourseController::class);
-        // Route::get('resource/preview/{resource}', [InstructorResourceController::class, 'preview'])->name('resource.preview');
-        // Route::get('resource/create/{lesson}', [InstructorResourceController::class, 'create'])->name('resource.create');
-        // Route::resource('resource', InstructorResourceController::class)->except(['create']);
-        // Route::resource('lesson', InstructorLessonController::class);
     });
 });
 

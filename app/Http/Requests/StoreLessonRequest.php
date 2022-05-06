@@ -27,7 +27,7 @@ class StoreLessonRequest extends FormRequest
             'user_id' => 'string',
             'course_id' => 'required',
             'title' => 'required|string',
-            'description' => 'string'
+            'description' => 'nullable|string'
         ];
     }
 }

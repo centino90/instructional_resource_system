@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\Course\LessonResourcesDataTable;
+use App\DataTables\View\LessonResourcesDataTable;
 use App\DataTables\LessonsDataTable;
-use App\DataTables\ResourcesDataTable;
 use App\Models\Lesson;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
-use App\Models\Course;
-use App\Models\Resource;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
 
 use function PHPUnit\Framework\isNull;
 
@@ -88,7 +81,9 @@ class LessonController extends Controller
      */
     public function show(LessonResourcesDataTable $dataTable, Lesson $lesson)
     {
-        $lesson = Lesson::withTrashed()->findOrFail($lesson->id);
+        if ($lesson->user_id != auth()->id()) {
+            $this->authorize('view', $lesson->course);
+        }
 
         return $dataTable->render('pages.lesson-show', compact('lesson'));
     }
@@ -162,6 +157,15 @@ class LessonController extends Controller
     public function destroy(Request $request, $id)
     {
         $lesson = Lesson::withTrashed()->findOrFail($id);
+
+        if ($lesson->resources->isNotEmpty()) {
+            return redirect()->back()
+                ->with([
+                    'updatedSubject' => $lesson->id,
+                    'status' => 'fail',
+                    'message' => 'lesson cannot be trashed because it contains resources'
+                ]);
+        }
 
         if ($lesson->trashed()) {
             $message = $lesson->title . ' was successfully restored!';

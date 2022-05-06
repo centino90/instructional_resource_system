@@ -20,7 +20,6 @@ class InstructorDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $request = request();
         return datatables()
             ->eloquent($query)
             ->setRowId(function ($row) {
@@ -29,14 +28,24 @@ class InstructorDataTable extends DataTable
             ->addColumn('name', function ($row) {
                 return "{$row->name}";
             })
+            ->addColumn('status', function ($row) {
+                return $row->trashed() ? 'trashed' : 'normal';
+            })
+            ->filterColumn('status', function ($query, $keyword) {
+                if ($keyword == 'trashed') {
+                    return $query->onlyTrashed();
+                } else if ($keyword == 'normal') {
+                    return $query->withoutTrashed();
+                }
+            })
             ->addColumn('action', function ($row) {
                 $btn = '<div class="d-flex gap-2">';
                 $btn .= '<a href="' . route('user.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Details</a>';
                 $btn .= '</div>';
                 return $btn;
             })
-            ->filterColumn('name', function (Builder $query) use ($request) {
-                return $query->where('fname', 'LIKE', Str::lower($request->get('search')['value']));
+            ->filterColumn('name', function ($query, $keyword) {
+                return $query->whereRaw('CONCAT(fname, " ", lname) LIKE ?', ['%' . $keyword . '%']);
             })
             ->editColumn('created_at', function ($data) {
                 return $data->created_at->format('Y-m-d H:i:s');
@@ -52,6 +61,7 @@ class InstructorDataTable extends DataTable
     public function query(User $model)
     {
         return $model
+            ->withTrashed()
             ->with('resources', 'lessons', 'activityLogs')
             ->withCount('resources', 'lessons', 'activityLogs')
             ->whereHas('programs', fn ($query) => $query->whereIn('id', auth()->user()->programs->pluck('id')))
@@ -65,7 +75,7 @@ class InstructorDataTable extends DataTable
      */
     public function html()
     {
-        return $this->sharedBuilder(true)
+        return $this->sharedBuilder(true, false)
             ->columns($this->getColumns());
     }
 
@@ -80,9 +90,10 @@ class InstructorDataTable extends DataTable
             Column::make('id'),
             Column::make('name'),
             Column::make('email'),
-            Column::make('resources_count')->searchable(false),
-            Column::make('lessons_count')->searchable(false),
-            Column::make('activity_logs_count')->searchable(false),
+            Column::make('status'),
+            Column::make('resources_count')->searchable(false)->orderable(false),
+            Column::make('lessons_count')->searchable(false)->orderable(false),
+            Column::make('activity_logs_count')->searchable(false)->orderable(false),
             Column::make('created_at'),
             Column::computed('action', '')
                 ->exportable(false)

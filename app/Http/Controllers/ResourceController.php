@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\ArchivedResourcesDataTable;
-use App\DataTables\Resource\ActivitiesDataTable;
-use App\DataTables\Resource\ResourcesDataTable;
+use App\DataTables\View\ResourceActivitiesDataTable;
+use App\DataTables\View\ResourceDataTable;
 use App\Events\ResourceCreated;
 use App\HelperClass\PdfToHtmlHelper;
-use App\Http\Requests\StoreNewResourceVersionRequest;
 use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
 use App\Imports\ResourceImport;
@@ -15,66 +13,41 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Resource;
-use App\Models\ResourceType;
 use App\Models\TemporaryUpload;
-use App\Models\User;
-use App\Policies\ResourcePolicy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use NcJoes\OfficeConverter\OfficeConverter;
-use Spatie\Activitylog\Models\Activity;
 use Spatie\MediaLibrary\Support\MediaStream;
-use ZipStream\Option\Archive as ArchiveOptions;
-
-use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
-
-// Reference the Dompdf namespace
-use Dompdf\Dompdf;
-// Reference the Options namespace
-use Dompdf\Options;
-
-use Elibyy\TCPDF\Facades\TCPDF;
 use Error;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Http\File;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Route;
-use LDAP\Result;
-use Maatwebsite\Excel\Facades\Excel;
 use setasign\Fpdi\Tcpdf\Fpdi;
-use Imagick;
-use Throwable;
 
 class ResourceController extends Controller
 {
-
-    public function __construct()
-    {
-        // $this->authorizeResource(Resource::class, 'resource');
-    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ResourcesDataTable $dataTable)
+    public function index(ResourceDataTable $dataTable)
     {
         return $dataTable->render('pages.resources');
     }
 
     public function viewVersions(Resource $resource)
     {
+        $this->authorize('view', $resource);
+
         return view('pages.resource-versions', compact('resource'));
     }
 
     public function create(Lesson $lesson)
     {
+        $this->authorize('create', Resource::class);
+
         $resourceActivities = $lesson->resources()->with('activityLogs')->where('is_syllabus', false)->get()->map(function ($item, $key) {
             return $item->activityLogs->filter(function ($value, $key) {
                 return Str::contains($value->log_name, ['resource-created', 'resource-versioned']);
@@ -86,6 +59,8 @@ class ResourceController extends Controller
 
     public function createNewVersion(Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         return view('pages.resource-show-create-version', compact('resource'));
     }
 
@@ -97,6 +72,8 @@ class ResourceController extends Controller
      */
     public function store(StoreResourceRequest $request)
     {
+        $this->authorize('create', Resource::class);
+
         try {
             $batchId = Str::uuid();
             $index = 0;
@@ -126,10 +103,14 @@ class ResourceController extends Controller
 
                     $tmpPath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
 
-                    $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name);
+                    $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/submissions/' . $temporaryFile->file_name);
                     $newFilename = pathinfo($newFilePath, PATHINFO_FILENAME) . '.' . pathinfo($newFilePath, PATHINFO_EXTENSION);
 
-                    Storage::disk('public')->putFileAs('users/' . auth()->id() . '/resources', $tmpPath, $newFilename);
+                    $randName = pathinfo($tmpPath, PATHINFO_BASENAME) . time();
+                    if (!auth()->user()->isStorageFull()) {
+                        Storage::disk('public')->putFileAs('users/' . auth()->id() . '/submissions', $tmpPath, $randName);
+                    }
+
                     $r->addMedia($tmpPath)->toMediaCollection();
 
                     rmdir(storage_path('app/public/resource/tmp/' . $file));
@@ -165,6 +146,8 @@ class ResourceController extends Controller
     }
     public function storeByUrl(StoreResourceByUrlRequest $request)
     {
+        $this->authorize('create', Resource::class);
+
         abort_if(
             $request->user()->cannot('create', Resource::class),
             403
@@ -188,7 +171,7 @@ class ResourceController extends Controller
             'approved_at' => now()
         ]);
 
-        Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $filename, storage_path('app/public/' . $filePath));
+        // Storage::disk('public')->put('users/' . auth()->id() . '/resources/' . $filename, storage_path('app/public/' . $filePath));
         $model->addMediaFromDisk($filePath, 'public')->preservingOriginal()->toMediaCollection();
 
         $request->session()->flash('status', 'success');
@@ -199,6 +182,8 @@ class ResourceController extends Controller
 
     public function storeNewVersion(Request $request, Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         $temporaryFile = TemporaryUpload::firstWhere('folder_name', $request->file);
 
         if ($temporaryFile) {
@@ -242,6 +227,8 @@ class ResourceController extends Controller
 
     public function storeNewVersionByUrl(StoreResourceByUrlRequest $request, Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
         $filename = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
 
@@ -262,6 +249,8 @@ class ResourceController extends Controller
 
     public function confirm(Request $request)
     {
+        $this->authorize('create', Resource::class);
+
         $resourceIds = $request->resources;
         $resource = Resource::whereIn('id', [$resourceIds])->update([
             'approved_at' => now()
@@ -304,8 +293,10 @@ class ResourceController extends Controller
         return $filePath;
     }
 
-    public function show(ActivitiesDataTable $dataTable, Resource $resource)
+    public function show(ResourceActivitiesDataTable $dataTable, Resource $resource)
     {
+        $this->authorize('view', $resource);
+
         $resource = Resource::whereHas('course')->findOrFail($resource->id);
 
         foreach (auth()->user()->notifications as $notification) {
@@ -321,6 +312,8 @@ class ResourceController extends Controller
 
     public function preview(Request $request, Resource $resource)
     {
+        $this->authorize('view', $resource);
+
         $resource->with('media', 'user');
 
         try {
@@ -484,6 +477,8 @@ class ResourceController extends Controller
      */
     public function edit(Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         return view('pages.resource-edit', compact('resource'));
     }
 
@@ -496,6 +491,8 @@ class ResourceController extends Controller
      */
     public function update(Request $request, Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         $resource->title = $request->title;
         $resource->description = $request->description;
 
@@ -514,6 +511,8 @@ class ResourceController extends Controller
 
     public function toggleCurrentVersion(Request $request, Resource $resource, Media $media)
     {
+        $this->authorize('update', $resource);
+
         $medias = $resource->media;
         $unselectedMedias = $medias->whereNotIn('id', $media->id)->sortBy('order_column')->pluck('id');
         $unselectedMedias->push($media->id);
@@ -531,6 +530,8 @@ class ResourceController extends Controller
     }
     public function cancelSubmission(Request $request, Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         if ($resource->hasMultipleMedia) {
             // remove current media
             Media::find($resource->currentMediaVersion->id)->delete();
@@ -552,6 +553,8 @@ class ResourceController extends Controller
     }
     public function toggleApproveState(Request $request, Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         if (empty($resource->approved_at)) {
             $resource->update([
                 'approved_at' => now()
@@ -567,6 +570,8 @@ class ResourceController extends Controller
     }
     public function toggleArchiveState(Request $request, Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         $userName = auth()->user()->name;
 
         if (empty($resource->archived_at)) {
@@ -617,6 +622,8 @@ class ResourceController extends Controller
         $userName = auth()->user()->name;
 
         if ($resource->trashed()) {
+            $this->authorize('delete', $resource);
+
             $resource->restore();
 
             activity()
@@ -628,6 +635,8 @@ class ResourceController extends Controller
 
             $message = 'Resource was successfully restored';
         } else {
+            $this->authorize('restore', $resource);
+
             $resource->delete();
 
             activity()
@@ -844,17 +853,5 @@ class ResourceController extends Controller
 
         return MediaStream::create($zipFileName)
             ->addMedia($resourcesWithinCourse);
-    }
-
-    public function getResourcesJson(Request $request)
-    {
-        $resources = Resource::where('course_id', $request->course_id)->get();
-        $resourceMedia = $resources->map(function ($resource) {
-            return $resource->getMedia()[0];
-        })->reject(function ($resource) {
-            return empty($resource);
-        });
-
-        return response()->json(['resources' => $resourceMedia]);
     }
 }

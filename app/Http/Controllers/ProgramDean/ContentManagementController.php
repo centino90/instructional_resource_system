@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\ProgramDean;
 
+use App\DataTables\CMS\InstructorsDataTable;
 use App\DataTables\CMS\ResourcesDataTable;
 use App\DataTables\CoursesDataTable;
 use App\DataTables\LessonsDataTable;
-use App\DataTables\PersonnelDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\TypologyStandard;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class ContentManagementController extends Controller
     {
         return $dataTable->with('storeType', $request->storeType)->render('pages.dean.cms.courses');
     }
-    public function personnels(PersonnelDataTable $dataTable, Request $request)
+    public function personnels(InstructorsDataTable $dataTable, Request $request)
     {
         return $dataTable->with('storeType', $request->storeType)->render('pages.dean.cms.personnels');
     }

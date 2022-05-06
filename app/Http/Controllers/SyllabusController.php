@@ -3,28 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Events\ResourceCreated;
-use App\Http\Requests\StoreNewResourceVersionRequest;
 use App\Http\Requests\StoreResourceByUrlRequest;
-use App\Http\Requests\StoreResourceRequest;
-use App\Http\Requests\StoreSyllabusRequest;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Resource;
-use App\Models\ResourceType;
-use App\Models\Syllabus;
+use App\Models\SyllabusSetting;
 use App\Models\TemporaryUpload;
 use App\Models\TypologyStandard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade as PDF;
-use Dompdf\Dompdf;
-use Illuminate\Contracts\Cache\Store;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator;
-
-use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
 class SyllabusController extends Controller
@@ -33,22 +22,28 @@ class SyllabusController extends Controller
 
     public function __construct()
     {
-        $this->typologyVerbs = TypologyStandard::where('enabled', true)->first()->verbs;
+        $this->typologyVerbs = TypologyStandard::where('enabled', true)->exists()
+            ? TypologyStandard::where('enabled', true)->first()->verbs
+            : [];
     }
 
     public function create(Course $course)
     {
+        $verbs = $this->typologyVerbs;
+
         $resourceActivities = $course->resources()->with('activityLogs')->where('is_syllabus', true)->get()->map(function ($item, $key) {
             return $item->activityLogs->filter(function ($value, $key) {
                 return Str::contains($value->log_name, ['resource-created', 'resource-versioned']);
             });
         })->flatten()->sortByDesc('created_at');
 
-        return view('pages.course-syllabus-create', compact('course', 'resourceActivities'));
+        return view('pages.course-syllabus-create', compact('course', 'resourceActivities', 'verbs'));
     }
 
     public function upload(Request $request, Course $course)
     {
+        $syllabusSettings = SyllabusSetting::first();
+
         $file = $request->file;
         $temporaryFile = TemporaryUpload::where('folder_name', $file)->first();
 
@@ -80,10 +75,14 @@ class SyllabusController extends Controller
             }
 
             $filePath = storage_path('app/public/resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name);
-            $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/resources/' . $temporaryFile->file_name);
+            $newFilePath = $this->filenameFormatter('users/' . auth()->id() . '/submissions/' . $temporaryFile->file_name);
             $newFilename = pathinfo($newFilePath, PATHINFO_FILENAME) . '.' . pathinfo($newFilePath, PATHINFO_EXTENSION);
 
-            Storage::disk('public')->putFileAs('users/' . auth()->id() . '/resources', $filePath, $newFilename);
+            $randName = pathinfo($filePath, PATHINFO_BASENAME) . time();
+            if (!auth()->user()->isStorageFull()) {
+                Storage::disk('public')->putFileAs('users/' . auth()->id() . '/submissions', $filePath, $randName);
+            }
+
             $resource->addMedia($filePath)->toMediaCollection();
             Storage::deleteDirectory("app/public/resource/tmp/{$temporaryFile->folder_name}");
             $temporaryFile->delete();
@@ -130,12 +129,15 @@ class SyllabusController extends Controller
         return view('pages.syllabus-validation')->with([
             'course' => $resource->course,
             'resource' => $resource,
-            'verbs' => $verbs
+            'verbs' => $verbs,
+            'syllabusSettings' => $syllabusSettings
         ]);
     }
 
     public function uploadByUrl(Request $request, Course $course)
     {
+        $syllabusSettings = SyllabusSetting::first();
+
         $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
         $fileName = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
         $fileExt = pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
@@ -199,7 +201,8 @@ class SyllabusController extends Controller
         return view('pages.syllabus-validation')->with([
             'course' => $resource->course,
             'resource' => $resource,
-            'verbs' => $verbs
+            'verbs' => $verbs,
+            'syllabusSettings' => $syllabusSettings
         ]);
     }
 
@@ -262,14 +265,18 @@ class SyllabusController extends Controller
             );
         });
 
+        $lessonSize = is_array($request->lesson) ? sizeof($request->lesson) : 0;
+
         return redirect()->route('syllabi.create', $resource->course)->with([
             'status' => 'success',
-            'message' => $resource->currentMediaVersion->file_name . ' (Syllabus) was successfully validated and ' . sizeof($request->lesson) . " lesson(s) were successfully created."
+            'message' => $resource->currentMediaVersion->file_name . ' (Syllabus) was successfully validated and ' . $lessonSize . " lesson(s) were successfully created."
         ]);
     }
 
     public function storeNewVersion(Request $request, Resource $resource)
     {
+        $syllabusSettings = SyllabusSetting::first();
+
         $temporaryFile = TemporaryUpload::firstWhere('folder_name', $request->file);
 
         if ($temporaryFile) {
@@ -296,6 +303,12 @@ class SyllabusController extends Controller
                 ->log(auth()->user()->nameTag . " submitted a new version (resource: {$resource->title}) ({id: $resource->id})");
 
             Storage::disk('public')->copy('resource/tmp/' . $temporaryFile->folder_name . '/' . $temporaryFile->file_name, 'resource/tmp/presentation.' . pathinfo($tempFilePath, PATHINFO_EXTENSION));
+
+            $randName = pathinfo($tempFilePath, PATHINFO_BASENAME) . time();
+            if (!auth()->user()->isStorageFull()) {
+                Storage::disk('public')->putFileAs('users/' . auth()->id() . '/submissions', $tempFilePath, $randName);
+            }
+
             $resource->addMedia($tempFilePath)->toMediaCollection();
             $temporaryFile->delete();
 
@@ -328,12 +341,15 @@ class SyllabusController extends Controller
         return view('pages.syllabus-validation')->with([
             'course' => $resource->course,
             'resource' => $resource,
-            'verbs' => $verbs
+            'verbs' => $verbs,
+            'syllabusSettings' => $syllabusSettings
         ]);
     }
 
     public function storeNewVersionByUrl(StoreResourceByUrlRequest $request, Resource $resource)
     {
+        $syllabusSettings = SyllabusSetting::first();
+
         $filePath = str_replace(url('storage') . '/', "", $request->fileUrl);
         $fileName = pathinfo($this->filenameFormatter($filePath), PATHINFO_FILENAME) . '.' . pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
         $fileExt = pathinfo($this->filenameFormatter($filePath), PATHINFO_EXTENSION);
@@ -378,7 +394,8 @@ class SyllabusController extends Controller
         return view('pages.syllabus-validation')->with([
             'course' => $resource->course,
             'resource' => $resource,
-            'verbs' => $verbs
+            'verbs' => $verbs,
+            'syllabusSettings' => $syllabusSettings
         ]);
     }
 }

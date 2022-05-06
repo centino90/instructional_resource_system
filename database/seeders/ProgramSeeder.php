@@ -16,10 +16,11 @@ class ProgramSeeder extends Seeder
     public function run()
     {
         Program::factory()
-            ->count(2)
+            ->count(3)
             ->state(new Sequence(
-                ['code' => 'BSIT', 'title' => 'Bachelor of Science in Information Technology'],
-                ['code' => 'BSHM', 'title' => 'Bachelor of Science in Hospitality Management'],
+                ['code' => 'BSIT', 'title' => 'Bachelor of Science in Information Technology', 'is_general' => false],
+                ['code' => 'BSHM', 'title' => 'Bachelor of Science in Hospitality Management', 'is_general' => false],
+                ['code' => 'GE', 'title' => 'General Education', 'is_general' => true]
             ))
             ->create();
     }

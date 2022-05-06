@@ -3,6 +3,10 @@
       ({{ $course->code }}) {{ $course->title }}
    </x-slot>
 
+   <x-slot name="headerTitle">
+      Course
+   </x-slot>
+
    <x-slot name="breadcrumb">
       <li class="breadcrumb-item">
          <a class="fw-bold" href="{{ route('dashboard') }}">
@@ -66,6 +70,13 @@
    <div class="row g-3">
       <div class="col-md-8">
          <div class="row g-3">
+            @cannot('participate', $course)
+               <div class="col-12">
+                  <x-real.alert :variant="'info'">Currently, you are only allowed to view and download the contents of this
+                     course. You can ask the designated PD for further access rights.</x-real.alert>
+               </div>
+            @endcan
+
             <div class="col-12">
                <div class="hstack justify-content-end gap-2">
                   @if ($course->resources->count() > 0)
@@ -78,40 +89,49 @@
                      </x-real.form>
                   @endif
 
-                  <x-real.btn :tag="'a'" :btype="'solid'" :icon="'post_add'" class="ms-auto"
-                     data-mode="new" data-bs-toggle="modal" data-bs-target="#createResourceModal">
-                     New resource
-                  </x-real.btn>
+                  @can('participate', $course)
+                     <x-real.btn :tag="'a'" :btype="'solid'" :icon="'post_add'" class="ms-auto"
+                        data-mode="new" data-bs-toggle="modal" data-bs-target="#createResourceModal">
+                        New resource
+                     </x-real.btn>
+                  @endcan
                </div>
             </div>
+
             <div class="col-12">
 
                <x-real.card :vertical="'center'">
                   <x-slot name="header">Syllabus</x-slot>
                   <x-slot name="action">
                      @empty($course->latestSyllabus)
-                        <x-real.btn :size="'sm'" :tag="'a'" href="{{ route('syllabi.create', $course) }}">
-                           Submit Syllabus
-                        </x-real.btn>
-                     @else
-                        @if ($course->latestSyllabus->verificationStatus == 'Pending')
-                           <x-real.form action="{{ route('syllabi.storeNewVersion', $course->latestSyllabus) }}">
-                              <input type="hidden" name="course_id" value="{{ $course->id }}">
-
-                              <x-slot name="submit">
-                                 <x-real.btn :size="'sm'" type="submit">
-                                    Continue
-                                    Validation
-                                 </x-real.btn>
-                              </x-slot>
-                           </x-real.form>
-                        @else
-                           <x-real.btn :size="'sm'" :tag="'a'"
-                              href="{{ route('resource.createNewVersion', $course->latestSyllabus) }}">Submit
-                              New
-                              Version
+                        @can('participate', $course)
+                           <x-real.btn :size="'sm'" :tag="'a'" href="{{ route('syllabi.create', $course) }}">
+                              Submit Syllabus
                            </x-real.btn>
+                        @endcan
+                     @else
+                        @can('participate', $course)
+                           @can('validate', $course->latestSyllabus)
+                              <x-real.form action="{{ route('syllabi.storeNewVersion', $course->latestSyllabus) }}">
+                                 <input type="hidden" name="course_id" value="{{ $course->id }}">
 
+                                 <x-slot name="submit">
+                                    <x-real.btn :size="'sm'" type="submit">
+                                       Continue
+                                       Validation
+                                    </x-real.btn>
+                                 </x-slot>
+                              </x-real.form>
+                           @else
+                              <x-real.btn :size="'sm'" :tag="'a'"
+                                 href="{{ route('resource.createNewVersion', $course->latestSyllabus) }}">Submit
+                                 New
+                                 Version
+                              </x-real.btn>
+                           @endcan
+                        @endcan
+
+                        @can('preview', $course->latestSyllabus)
                            <x-real.btn :size="'sm'" :tag="'a'"
                               href="{{ route('resource.addViewCountThenRedirectToPreview', $course->latestSyllabus) }}">
                               Preview
@@ -119,7 +139,7 @@
                            <x-real.btn :size="'sm'" :tag="'a'"
                               href="{{ route('resources.download', $course->latestSyllabus) }}">Download
                            </x-real.btn>
-                        @endif
+                        @endcan
 
                         <x-real.btn :size="'sm'" :tag="'a'"
                            href="{{ route('resource.addViewCountThenRedirectToShow', $course->latestSyllabus) }}">
@@ -136,9 +156,8 @@
                               </x-real.no-rows>
                            @else
                               <div class="w-100 vstack gap-3 ">
-                                 @if ($course->latestSyllabus->archiveStatus == 'Archived')
-                                    <x-real.alert :variant="'warning'" :dismiss="false"
-                                       class="w-100 justify-content-center">
+                                 @can('unarchive', auth()->user(), $course->latestSyllabus)
+                                    <x-real.alert :variant="'warning'" :dismiss="false" class="w-100 justify-content-center">
                                        <div>
                                           The current Syllabus is archived
 
@@ -182,11 +201,11 @@
                                        </small>
 
                                        <small class="d-block mt-3">
-                                          Last updated on {{ $course->latestSyllabus->updated_at }}
+                                          Last updated {{ $course->latestSyllabus->updated_at->diffForHumans() }}
                                        </small>
                                     </div>
 
-                                    @if ($course->approved_at)
+                                    @can('archive', $course->latestSyllabus)
                                        <div class="accordion accordion-flush" id="lessonAccordion">
                                           <div class="accordion-item">
                                              <h2 class="accordion-header" id="headingOne">
@@ -200,9 +219,13 @@
                                                 aria-labelledby="headingOne" data-bs-parent="#lessonAccordion">
                                                 <div class="accordion-body">
                                                    <ul class="list-group">
-                                                      @foreach ($course->current_lessons ?? [] as $row)
+                                                      @forelse ($course->current_lessons ?? [] as $row)
                                                          <li class="list-group-item">{{ $row }}</li>
-                                                      @endforeach
+                                                      @empty
+                                                         <x-real.no-rows>
+                                                            <x-slot name="label">There are no lessons included</x-slot>
+                                                         </x-real.no-rows>
+                                                      @endforelse
                                                    </ul>
                                                 </div>
                                              </div>
@@ -252,8 +275,8 @@
                                              </div>
                                           </div>
                                        </div>
-                                    @endif
-                                 @endif
+                                    @endcan
+                                 @endcan
                               </div>
                            @endempty
                         </div>
@@ -326,6 +349,24 @@
       </div>
       <div class="col-md-4">
          <div class="row g-3">
+            <div class="col-12">
+               <x-real.card :variant="'secondary'" :vertical="'center'">
+                  <x-slot name="header">Course Details</x-slot>
+                  <x-slot name="body">
+
+                     <x-real.text-with-subtitle>
+                        <x-slot name="text">{{ $course->code }} - {{ $course->title }}</x-slot>
+                        <x-slot name="subtitle">Course Label</x-slot>
+                     </x-real.text-with-subtitle>
+                     <br>
+                     <x-real.text-with-subtitle>
+                        <x-slot name="text">{{ $course->program->code }} - {{ $course->program->title }}</x-slot>
+                        <x-slot name="subtitle">Program</x-slot>
+                     </x-real.text-with-subtitle>
+                  </x-slot>
+               </x-real.card>
+            </div>
+
             <div class="col-12">
                <x-real.card :variant="'secondary'" :vertical="'center'">
                   <x-slot name="header">Recent submissions</x-slot>

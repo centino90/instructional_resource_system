@@ -112,7 +112,7 @@ class Course extends Model
 
     public function getHasSyllabiAttribute()
     {
-        return $this->syllabi()->count() > 0;
+        return $this->syllabi()->whereNotNull('approved_at')->count() > 0;
     }
 
     public function getSyllabiStatusAttribute()
@@ -130,6 +130,15 @@ class Course extends Model
         return $status;
     }
 
+    public function getReadRightsAttribute()
+    {
+        return $this->users->view;
+    }
+    public function getWriteRightsAttribute()
+    {
+        return $this->users->participate;
+    }
+
     public function getHasOldSyllabiAttribute()
     {
         return $this->syllabi()->first()
@@ -139,6 +148,11 @@ class Course extends Model
     public function getHasLessonsAttribute()
     {
         return $this->lessons()->count() > 0;
+    }
+
+    public function hasUser($user)
+    {
+        return $this->users->contains($user);
     }
 
     // relationships
@@ -163,5 +177,22 @@ class Course extends Model
     public function program()
     {
         return $this->belongsTo(Program::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class)
+            ->withTrashed()
+            ->withPivot('view', 'participate')
+            ->withTimestamps();
+    }
+
+    public function instructors()
+    {
+        return $this->belongsToMany(User::class)
+            ->withTrashed()
+            ->withPivot('view', 'participate')
+            ->where('role_id', Role::INSTRUCTOR)
+            ->withTimestamps();
     }
 }

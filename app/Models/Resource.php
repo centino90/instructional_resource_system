@@ -2,23 +2,18 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Laravelista\Comments\Commentable;
-use Spatie\Activitylog\Models\Activity;
-
-use function PHPUnit\Framework\isNull;
 
 class Resource extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, Commentable;
 
-    CONST DEFAULT_DELAYED_SYLLABUS_WEEK_INTERVAL = 2;
+    const DEFAULT_DELAYED_SYLLABUS_WEEK_INTERVAL = 2;
 
     protected $fillable = [
         'course_id', 'user_id', 'lesson_id', 'resource_type_id', 'batch_id', 'title', 'description', 'is_syllabus', 'is_presentation', 'downloads', 'views', 'approved_at', 'rejected_at', 'archived_at'
@@ -47,6 +42,12 @@ class Resource extends Model implements HasMedia
     {
         return $query->whereRaw('resources.created_at < DATE_ADD(created_at, INTERVAL 2 WEEK)');
     }
+
+    public function isWithinUserProgram()
+    {
+        return $this->whereRelation('course', 'program_id', '=', auth()->user()->program_id)->exists();
+    }
+
 
     /*
         Accessors
@@ -120,11 +121,13 @@ class Resource extends Model implements HasMedia
     //  relationships
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+            ->withTrashed();
     }
     public function users()
     {
         return $this->belongsToMany(User::class)
+            ->withTrashed()
             ->withPivot(['batch_id', 'is_important'])
             ->withTimestamps();
     }
@@ -149,24 +152,13 @@ class Resource extends Model implements HasMedia
 
     public function activityLogs()
     {
-        return $this->hasMany(Activity::class, 'subject_id');
+        return $this->hasMany(ActivityLog::class, 'subject_id');
     }
-
-
-    // public function comments()
-    // {
-    //     return $this->hasMany(Comment::class);
-    // }
 
     public function downloads()
     {
         return $this->hasMany(ResourceDownload::class);
     }
 
-    // checks
 
-    public function isWithinUserProgram()
-    {
-        return $this->whereRelation('course', 'program_id', '=', auth()->user()->program_id)->exists();
-    }
 }

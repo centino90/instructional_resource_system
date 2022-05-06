@@ -6,7 +6,6 @@ use App\DataTables\TypologyStandardDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\TypologyStandard;
 use App\Http\Requests\StoreTypologyStandardRequest;
-use App\Http\Requests\UpdateTypologyStandardRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

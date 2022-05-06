@@ -108,18 +108,6 @@
 
    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
-   <script>
-    //   $.extend(true, $.fn.dataTable.defaults, {
-    //     //  "order": [],
-    //     //  "bsort": false,
-    //      "bStateSave": true,
-    //      "stateSaveParams": function(settings, data) {
-    //         // data.search.search = ""
-    //         // data.order = []
-    //      }
-    //   });
-   </script>
-
    @yield('script')
 
    <script>

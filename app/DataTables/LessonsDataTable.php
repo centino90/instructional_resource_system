@@ -7,9 +7,6 @@ use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
-use Yajra\DataTables\Services\DataTable;
 
 class LessonsDataTable extends DataTable
 {
@@ -43,40 +40,43 @@ class LessonsDataTable extends DataTable
             ->addColumn('resources_count', function ($row) {
                 return $row->resources_count ?? 0;
             })
+            ->addColumn('action', function ($row) {
+                return $this->sharedActions($row, route('lesson.show', $row->id), route('lesson.edit', $row->id), route('lesson.archive', $row->id), route('lesson.destroy', $row->id));
+            })
             ->rawColumns(['action']);
 
-        return $dataTables->addColumn('action', function ($row) use ($accessType) {
-            if ($accessType == Role::PROGRAM_DEAN) {
-                $btn = '<div class="d-flex gap-2">';
-                $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
-                $btn .= '<a href="' . route('lesson.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
-                if ($row->storage_status == 'Trashed') {
-                    $trashTitle = 'Remove';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
-                } else if ($row->storage_status == 'Archived') {
-                    $archiveTitle = 'Remove';
-                    $trashTitle = 'Trash';
-                    $btn .= '<a  data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
-                } elseif ($row->storage_status == 'Current') {
-                    $archiveTitle = 'Archive';
-                    $trashTitle = 'Trash';
+        // return $dataTables->addColumn('action', function ($row) use ($accessType) {
+        //     if ($accessType == Role::PROGRAM_DEAN) {
+        //         $btn = '<div class="d-flex gap-2">';
+        //         $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+        //         $btn .= '<a href="' . route('lesson.edit', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Edit</a>';
+        //         if ($row->storage_status == 'Trashed') {
+        //             $trashTitle = 'Remove';
+        //             $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+        //         } else if ($row->storage_status == 'Archived') {
+        //             $archiveTitle = 'Remove';
+        //             $trashTitle = 'Trash';
+        //             $btn .= '<a  data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
+        //             $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+        //         } elseif ($row->storage_status == 'Current') {
+        //             $archiveTitle = 'Archive';
+        //             $trashTitle = 'Trash';
 
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
-                    $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
-                }
+        //             $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.archive', $row->id) . '" data-bs-operation="archive" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-warning border fw-bold">' . $archiveTitle . '</a>';
+        //             $btn .= '<a data-bs-toggle="modal" data-bs-target="#modalManagement" data-bs-route="' . route('lesson.destroy', $row->id) . '" data-bs-operation="trash" data-bs-title="' . $row->title . '" class="btn btn-sm btn-light text-danger border fw-bold">' . $trashTitle . '</a>';
+        //         }
 
-                $btn .= '</div>';
+        //         $btn .= '</div>';
 
-                return $btn;
-            } else {
-                $btn = '<div class="d-flex gap-2">';
-                $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
-                $btn .= '</div>';
+        //         return $btn;
+        //     } else {
+        //         $btn = '<div class="d-flex gap-2">';
+        //         $btn .= '<a href="' . route('lesson.show', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">View</a>';
+        //         $btn .= '</div>';
 
-                return $btn;
-            }
-        });
+        //         return $btn;
+        //     }
+        // });
     }
 
     /**
@@ -87,22 +87,14 @@ class LessonsDataTable extends DataTable
      */
     public function query(Lesson $model)
     {
-        $model
+        $model = $model
             ->whereHas('course', function (Builder $query) {
                 $query->whereIn('program_id', auth()->user()->programs->pluck('id'));
             })
             ->with(['course', 'user', 'resources'])
             ->withCount('resources');
 
-        if ($this->storeType == 'archived') {
-            return $model->onlyArchived();
-        } else if ($this->storeType == 'trashed') {
-            return $model->onlyTrashed();
-        } else if ($this->storeType == 'all') {
-            return $model->withTrashed();
-        } else {
-            return $model->withoutArchived();
-        }
+        return $this->modelStoreType($model);
     }
 
     /**

@@ -74,7 +74,7 @@ class CourseDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Resource $model
+     * @param \App\Models\Course $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Course $model)
@@ -109,7 +109,7 @@ class CourseDataTable extends DataTable
      */
     public function html()
     {
-        return $this->sharedBuilder(true)
+        return $this->sharedBuilder(true, false)
             ->columns($this->getColumns());
     }
 

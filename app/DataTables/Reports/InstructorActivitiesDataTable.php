@@ -3,9 +3,8 @@
 namespace App\DataTables\Reports;
 
 use App\DataTables\DataTable;
+use App\Models\ActivityLog;
 use Carbon\Carbon;
-use Spatie\Activitylog\Models\Activity;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 
 class InstructorActivitiesDataTable extends DataTable
@@ -46,17 +45,17 @@ class InstructorActivitiesDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Activity $model
+     * @param \App\Models\ActivityLog $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Activity $model)
+    public function query(ActivityLog $model)
     {
         $startDate = !empty(request()->get('start_date')) ? Carbon::make(request()->get('start_date'))->endOfDay() : now()->subYear(1)->endOfDay();
         $endDate = !empty(request()->get('end_date')) ? Carbon::make(request()->get('end_date'))->endOfDay() : now()->endOfDay();
 
-        $activityTypes = Activity::select('log_name')->groupBy('log_name')->get()->filter(fn ($log) => !collect(['user-created', 'file-deleted'])->contains($log->log_name));
+        $activityTypes = ActivityLog::select('log_name')->groupBy('log_name')->get()->filter(fn ($log) => !collect(['user-created', 'file-deleted'])->contains($log->log_name));
 
-        return $model->whereIn('causer_id', auth()->user()->programs()->first()->users()->instructors()->pluck('id'))
+        return $model->whereIn('causer_id', auth()->user()->programs()->first()->users()->withTrashed()->instructors()->pluck('id'))
             ->with('causer')
             ->whereIn('log_name', $activityTypes)
             ->whereBetween('created_at', [$startDate, $endDate]);
@@ -69,7 +68,7 @@ class InstructorActivitiesDataTable extends DataTable
      */
     public function html()
     {
-        return $this->sharedBuilder(true)->columns($this->getColumns());
+        return $this->sharedBuilder(true, false)->columns($this->getColumns());
     }
 
     /**

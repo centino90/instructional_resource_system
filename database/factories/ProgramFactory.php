@@ -24,6 +24,7 @@ class ProgramFactory extends Factory
         return [
             'code' => 'BSIT',
             'title' => 'Bachelor of Science in Information Technolgoy',
+            'is_general' => false,
         ];
     }
 }

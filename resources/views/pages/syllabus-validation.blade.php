@@ -111,13 +111,19 @@
                                                 id="syllabusValidationTab-{{ $resource->id }}" data-bs-toggle="pill"
                                                 data-bs-target="#syllabusValidationTabpane-{{ $resource->id }}"
                                                 type="button" role="tab">
-                                                <div class="py-2">
+                                                <div class="py-2 col-8">
                                                    <h6 class="my-0">
                                                       {{ $resource->currentMediaVersion->file_name }}
                                                    </h6>
                                                 </div>
                                                 <div class="vr"></div>
-                                                <div class="validationStatusLabel"></div>
+                                                <div class="validationStatusLabel col-4">
+                                                   @if ($resource->hasReferenceWord)
+                                                      <span class="badge text-white bg-success">Success</span>
+                                                   @else
+                                                      <span class="badge text-white bg-danger">Failed</span>
+                                                   @endif
+                                                </div>
                                              </a>
                                           </li>
                                        </ul>
@@ -139,7 +145,9 @@
                         @if ($resource->hasMultipleMedia)
                            <li class="list-group-item">
                               <h6 class="my-0">
-                                 {{ $resource->activityLogs()->whereIn('log_name', ['resource-attempt-versioned', 'resource-versioned'])->latest()->first()->causer->nameTag }}
+                                 @if ($resource->activityLogs()->whereIn('log_name', ['resource-attempt-versioned', 'resource-versioned', 'resource-created'])->exists())
+                                    {{ $resource->activityLogs()->whereIn('log_name', ['resource-attempt-versioned', 'resource-versioned', 'resource-created'])->latest()->first()->causer->nameTag }}
+                                 @endif
                               </h6>
                               @if ($resource->verification_status == 'Pending')
                                  <small class="text-muted">Submitted by</small>
@@ -359,107 +367,56 @@
             $(document).ready(function() {
                let verbs2 = $.parseJSON(`{!! json_encode($verbs) !!}`)
                const courseId = '{{ $course->id }}'
-
+               const syllabusSettings = $.parseJSON(`{!! json_encode($syllabusSettings) !!}`)
+               console.log(syllabusSettings)
                let validationSuccessCount = 0
                let validationFailedCount = 0
 
+               let courseOutcomesTableNo = syllabusSettings ? syllabusSettings.course_outcomes_table_no : 0
+               let courseOutcomesRowNo = syllabusSettings ? syllabusSettings.course_outcomes_row_no : 0
+               let courseOutcomesColNo = syllabusSettings ? syllabusSettings.course_outcomes_col_no : 0
 
-               let failedCourseOutcomesCounter = 0;
-               let successCourseOutcomesCounter = 0;
+               let studLearningOutcomesTableNo = syllabusSettings ? syllabusSettings.student_outcomes_table_no : 0
+               let studLearningOutcomesRowNo = syllabusSettings ? syllabusSettings.student_outcomes_row_no : 0
+               let studLearningOutcomesColNo = syllabusSettings ? syllabusSettings.student_outcomes_col_no : 0
+
+               let lessonTableNo = syllabusSettings ? syllabusSettings.lesson_table_no : 0
+               let lessonRowNo = syllabusSettings ? syllabusSettings.lesson_row_no : 0
+               let lessonColNo = syllabusSettings ? syllabusSettings.lesson_col_no : 0
+
                $(`#tabcontentSyllabusValidation`).find('.references').each(function(index,
                   reference) {
                   const $reference = $(reference)
                   const $refTabcontent = $($(`#tabcontentSyllabusValidation`).find(
                      '.parentTabpane'))
-                  $reference.find("table td p").each(function(index, element) {
-                     if ($(element).text().toUpperCase().trim() == "COURSE OUTCOMES") {
-                        let excludedRow = element.closest("td");
-                        $refTabcontent.find(".courseOutcomes").html('');
 
-                        $(element).closest("table").find("td:nth-child(2) p").each(
-                           function(index,
-                              element) {
-                              let txtContent = element.textContent.trim();
-                              let firstWord = txtContent.split(" ")[0].trim();
-                              let withoutFirstWord = txtContent.replace(firstWord,
-                                 "").trim();
+                  // course outcomes
+                  let searchedCourseSentences = searchTable($reference, courseOutcomesTableNo, courseOutcomesColNo,
+                     courseOutcomesRowNo)
+                  let [
+                     courseResultString,
+                     successCourseCounter,
+                     failedCourseCounter
+                  ] = checkVerbAppropriateness(searchedCourseSentences, verbs2)
+                  if (searchedCourseSentences.length > 0) {
+                     $refTabcontent.find('.courseOutcomes').html(courseResultString);
+                  }
 
-                              if (!txtContent || excludedRow == $(element)
-                                 .closest("td")[0]) {
-                                 return;
-                              }
+                  // student learning outcomes
+                  let searchedStudentSentences = searchTable($reference, studLearningOutcomesTableNo,
+                     studLearningOutcomesRowNo,
+                     studLearningOutcomesColNo)
+                  let [
+                     studentResultString,
+                     successStudentCounter,
+                     failedStudentCounter
+                  ] = checkVerbAppropriateness(searchedStudentSentences, verbs2)
+                  if (searchedStudentSentences.length > 0) {
+                     $refTabcontent.find('.studentOutcomes').html(studentResultString);
+                  }
 
-                              let d = "";
-                              $(verbs2).each(function(index, item) {
-                                 if (!item.hasOwnProperty(firstWord
-                                       .toUpperCase())) {
-                                    d +=
-                                       `<li class="list-group-item"> <b class="badge bg-success rounded-pill align-middle me-2">✓</b> ${txtContent}</li>`;
-                                    successCourseOutcomesCounter++;
-                                 } else {
-                                    let suggestions = item[firstWord
-                                          .toUpperCase()]
-                                       .join(", ");
-                                    d +=
-                                       `<li class="list-group-item bg-danger text-white"> <a class="fw-bold text-white" tabindex="0" type="button" data-bs-trigger="focus" data-bs-toggle="popover" title="Suggested words" data-bs-content="${suggestions}"><u>${firstWord}</u></a> ${withoutFirstWord} </li>`;
-                                    failedCourseOutcomesCounter++;
-                                 }
-
-                              });
-
-                              $refTabcontent.find(".courseOutcomes").append(d);
-                           })
-                     }
-                  })
-
-
-                  let failedStudentOutcomesCounter = 0;
-                  let successStudentOutcomesCounter = 0;
-                  $reference.find("table td p").each(function(index, element) {
-                     if ($(element).text().toUpperCase().trim() ==
-                        "STUDENT LEARNING OUTCOMES") {
-                        let excludedRow = element.closest("td");
-                        $refTabcontent.find(".studentOutcomes").html('');
-
-                        $(element).closest("table").find("td:nth-child(1) p").each(
-                           function(index,
-                              element) {
-                              let txtContent = element.textContent.trim();
-                              let firstWord = txtContent.split(" ")[0].trim();
-                              let withoutFirstWord = txtContent.replace(firstWord,
-                                 "").trim();
-
-                              if (!txtContent || excludedRow == $(element)
-                                 .closest("td")[0]) {
-                                 return;
-                              }
-
-                              let d = "";
-                              $(verbs2).each(function(index, item) {
-                                 if (!item.hasOwnProperty(firstWord
-                                       .toUpperCase())) {
-                                    d +=
-                                       `<li class="list-group-item"> <b class="badge bg-success rounded-pill align-middle me-2">✓</b> ${txtContent}</li>`;
-                                    successStudentOutcomesCounter++;
-                                 } else {
-                                    let suggestions = item[firstWord
-                                          .toUpperCase()]
-                                       .join(", ");
-                                    d +=
-                                       `<li class="list-group-item bg-danger text-white"> <a class="fw-bold text-white" tabindex="0" type="button" data-bs-trigger="focus" data-bs-toggle="popover" title="Suggested words" data-bs-content="${suggestions}"><u>${firstWord}</u></a> ${withoutFirstWord} </li>`;
-                                    failedStudentOutcomesCounter++;
-                                 }
-                              });
-
-                              $refTabcontent.find(".studentOutcomes").append(d);
-                           })
-                     }
-                  })
-
-                  let totalFailedCounter = failedCourseOutcomesCounter +
-                     failedStudentOutcomesCounter;
-                  let totalSuccessCounter = successCourseOutcomesCounter +
-                     successStudentOutcomesCounter;
+                  let totalFailedCounter = failedCourseCounter + failedStudentCounter;
+                  let totalSuccessCounter = successCourseCounter + successStudentCounter;
 
                   if (totalFailedCounter == 0 && totalSuccessCounter == 0) {
                      $refTabcontent.find(".validation").html("");
@@ -481,14 +438,14 @@
 
                                         <tr>
                                             <td>Course outcomes</td>
-                                            <td class="text-center">${failedCourseOutcomesCounter}</td>
-                                            <td class="text-center">${successCourseOutcomesCounter}</td>
+                                            <td class="text-center">${failedCourseCounter}</td>
+                                            <td class="text-center">${successCourseCounter}</td>
                                         </tr>
 
                                         <tr>
                                             <td>Student learning outcomes</td>
-                                            <td class="text-center">${failedStudentOutcomesCounter}</td>
-                                            <td class="text-center">${successStudentOutcomesCounter}</td>
+                                            <td class="text-center">${failedStudentCounter}</td>
+                                            <td class="text-center">${successStudentCounter}</td>
                                         </tr>
 
 
@@ -519,33 +476,20 @@
                      }
                   }
 
-                  $reference.find("table td p").each(function(index, element) {
-                     if ($(element).text().toUpperCase().trim() == "WEEK") {
-                        let excludedRow = element.closest("td");
-                        $refTabcontent.find(".lessons").html('');
-                        let lessonsArr = []
-                        $(element).closest("table").find("td:nth-child(2)").each(
-                           function(index, element) {
-                              let txtContent = element.textContent.trim();
+                  // lessons
+                  let searchedLessonSentences = searchTable($reference, lessonTableNo,
+                     lessonRowNo,
+                     lessonColNo,
+                     true)
 
-                              if (!txtContent || excludedRow == $(element).prev()[
-                                    0]) {
-                                 return;
-                              }
-
-                              $refTabcontent.find(".lessons").append(`
-                                            <li class="list-group-item hstack gap-3">
-                                                <input id="lessonCheck${index}" type="checkbox" class="form-check-input p-2" checked/>
-                                                <div class="vr"></div>
-                                                <span class="lessonContent">${txtContent}</span>
-                                            </li>
-                                        `);
-
-                              lessonsArr.push(txtContent)
-                           })
-                        $('[name=lessons]').val(lessonsArr)
-                     }
+                  let lessonItems = ''
+                  $(searchedLessonSentences).each(function(index, sentence) {
+                     lessonItems += generateLessonListItem(index, sentence)
                   })
+                  if (searchedLessonSentences.length > 0) {
+                     $refTabcontent.find('.lessons').html(lessonItems);
+                  }
+                  $('[name=lessons]').val(searchedLessonSentences)
 
                   $("#createLessonsModal").on("shown.bs.modal", function() {
                      $('#lessonConfirmList').html('')
@@ -595,6 +539,98 @@
                if (document.querySelectorAll('[data-bs-toggle="popover"]').length > 0) {
                   [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]')).forEach(el => new bootstrap
                      .Popover(el))
+               }
+
+               function getAllBeforeNumber(number) {
+                  return $(Array.from(Array(number).keys()))
+               }
+
+               function concatAllSelectedEq(startIndex) {
+                  let eqs = []
+                  getAllBeforeNumber(startIndex).each(function(index, item) {
+                     eqs.push(`:eq(${item})`)
+                  })
+
+                  return eqs.join(",")
+               }
+
+               function searchTable($referenceContainer, tableNo, rowNo, colNo, searchEntireField = false) {
+                  const $table = $referenceContainer.find(`table:eq(${tableNo})`)
+                  const $rows = $table.find(`tr:not(${concatAllSelectedEq(rowNo)})`)
+                  let $fields
+                  if (searchEntireField) {
+                     $fields = $rows.find(`td:eq(${colNo})`)
+                  } else {
+                     $fields = $rows.find(`td:eq(${colNo}) p`)
+                  }
+
+                  let searchedSentences = []
+                  $fields.each(function(index, paragraph) {
+                     let $sentence = $(paragraph).text().trim()
+                     if ($sentence.length !== 0) {
+                        searchedSentences.push($sentence)
+                     }
+                  })
+
+                  return searchedSentences
+               }
+
+               function checkVerbAppropriateness(searchedSentences, verbStandards) {
+                  let successCounter = 0
+                  let failedCounter = 0
+                  let d = "";
+
+                  $(searchedSentences).each(function(index, sentence) {
+                     let firstWord = sentence.split(" ")[0].trim();
+                     let withoutFirstWord = sentence.replace(firstWord, "").trim();
+                     let uppercasedFirstWord = firstWord.toUpperCase()
+
+                     $(verbStandards).each(function(index, verb) {
+                        if (!verb.hasOwnProperty(uppercasedFirstWord)) {
+                           d += generateSuccessVerbListItem(sentence)
+
+                           successCounter++;
+                        } else {
+                           let suggestions = verb[firstWord.toUpperCase()].join(", ");
+
+                           d += generateFailedVerbListItem(suggestions, firstWord, withoutFirstWord)
+
+                           failedCounter++;
+                        }
+                     });
+                  })
+
+                  return [
+                     d,
+                     successCounter,
+                     failedCounter
+                  ]
+               }
+
+               function generateSuccessVerbListItem(sentence) {
+                  return `<li class="list-group-item">
+                                <b class="badge bg-success rounded-pill align-middle me-2">✓</b>
+                                ${sentence}
+                            </li>`
+               }
+
+               function generateFailedVerbListItem(suggestions, firstWord, withoutFirstWord) {
+                  return `<li class="list-group-item bg-danger text-white">
+                                <a class="fw-bold text-white" tabindex="0" type="button" data-bs-trigger="focus" data-bs-toggle="popover" title="Suggested words" data-bs-content="${suggestions}">
+                                    <u>${firstWord}</u>
+                                </a>
+                                    ${withoutFirstWord}
+                            </li>`
+               }
+
+               function generateLessonListItem(index, sentence) {
+                  return `
+                            <li class="list-group-item hstack gap-3">
+                                <input id="lessonCheck${index}" type="checkbox" class="form-check-input p-2" checked/>
+                                <div class="vr"></div>
+                                <span class="lessonContent">${sentence}</span>
+                            </li>
+                        `
                }
             })
          </script>

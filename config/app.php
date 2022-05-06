@@ -472,5 +472,8 @@ return [
         'sh',
         'command',
         'bash'
-    )
+    ),
+
+    'max_file_size_single_upload' => 80, // in MB (default: 80MB)
+    'max_personal_file_storage_size' => 1500, // in MB (default: 1500MB)
 ];

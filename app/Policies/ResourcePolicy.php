@@ -47,7 +47,7 @@ class ResourcePolicy
      */
     public function view(User $user, Resource $resource)
     {
-        return $user->belongsToProgram($resource->course->program_id);
+        return $user->belongsToProgram($resource->course->program_id) || $resource->course->program->is_general;
     }
 
     /**
@@ -58,7 +58,7 @@ class ResourcePolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->isInstructor() || $user->isProgramDean();
     }
 
     /**
@@ -70,13 +70,30 @@ class ResourcePolicy
      */
     public function update(User $user, Resource $resource)
     {
-        if (!$user->belongsToProgram($resource->course->program_id)) {
-            return false;
-        }
-
         return $user->id == $resource->user_id
-            || $user->isProgramDean();
+            || $user->isProgramDean() && $user->belongsToProgram($resource->course->program_id);
     }
+
+    public function preview(User $user, Resource $resource)
+    {
+        return $resource->verification_status == 'Approved';
+    }
+
+    public function validate(User $user, Resource $resource)
+    {
+        return $resource->verification_status == 'Pending';
+    }
+
+    public function archive(User $user, Resource $resource)
+    {
+        return $resource->storage_status == 'Current' && $resource->verification_status == 'Approved';
+    }
+
+    public function unarchive(User $user, Resource $resource)
+    {
+        return $resource->storage_status == 'Archived' && $resource->verification_status == 'Approved';
+    }
+
 
     /**
      * Determine whether the user can delete the model.
@@ -87,13 +104,13 @@ class ResourcePolicy
      */
     public function delete(User $user, Resource $resource)
     {
-        if (!$user->belongsToProgram($resource->course->program_id)) {
+        if ($resource->getStorageStatusAttribute() != 'Approved') {
             return false;
         }
 
-        return $resource->getStorageStatusAttribute() == 'Approved'
-        || $user->id == $resource->user_id
-        || $user->isProgramDean();
+        return $user->id == $resource->user_id
+            || $user->isProgramDean()
+            && $user->belongsToProgram($resource->course->program_id);
     }
 
     /**
@@ -105,12 +122,9 @@ class ResourcePolicy
      */
     public function restore(User $user, Resource $resource)
     {
-        if (!$user->belongsToProgram($resource->course->program_id)) {
-            return false;
-        }
-
         return $user->id == $resource->user_id
-        || $user->isProgramDean();
+            || $user->isProgramDean()
+            && $user->belongsToProgram($resource->course->program_id);
     }
 
     /**

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\Management\Admin\ProgramDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Program;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProgramsController extends Controller
 {
@@ -12,9 +17,9 @@ class ProgramsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ProgramDataTable $dataTable, Request $request)
     {
-        echo 'hello';
+        return $dataTable->with('storeType', $request->storeType)->render('pages.admin.programs.index');
     }
 
     /**
@@ -24,7 +29,9 @@ class ProgramsController extends Controller
      */
     public function create()
     {
-        //
+        $deans = User::whereDoesntHave('programs')->deans()->get();
+
+        return view('pages.admin.programs.create', compact('deans'));
     }
 
     /**
@@ -35,7 +42,28 @@ class ProgramsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'code' => 'required|string',
+            'is_general' => 'required|boolean',
+            'program_dean' => 'required|array'
+        ]);
+        $validated['code'] = Str::upper($validated['code']);
+        $validated['title'] = ucwords($validated['title']);
+
+        $program = Program::create($validated);
+
+        $program->users()->syncWithoutDetaching(User::whereIn('role_id', [Role::SECRETARY, Role::ADMIN])->get()->pluck('id'));
+        if (isset($validated['program_dean'])) {
+            $program->users()->syncWithoutDetaching(collect($validated['program_dean'])->keys());
+        }
+
+
+        return redirect()->back()->with([
+            'status' => 'success',
+            'message' => 'Program was successfully created',
+            'updatedSubject' => $program->id
+        ]);
     }
 
     /**
@@ -57,7 +85,12 @@ class ProgramsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $program = Program::findOrFail($id);
+        $deans = User::whereDoesntHave('programs', function($query) use($id) {
+            $query->where('program_id', '!=', $id);
+        })->deans()->get();
+
+        return view('pages.admin.programs.edit', compact('program', 'deans'));
     }
 
     /**
@@ -69,6 +102,58 @@ class ProgramsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $program = Program::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'code' => 'required|string',
+            'is_general' => 'required|boolean',
+            'program_dean' => 'required|array'
+        ]);
+        $validated['code'] = Str::upper($validated['code']);
+        $validated['title'] = ucwords($validated['title']);
+        $validated['program_dean'] = collect($validated['program_dean'])->keys();
+
+        $program->update($validated);
+
+        $assignedDeans = collect($validated['program_dean'])->filter(fn ($user) => boolval($user));
+        $unAssignedDeans = collect($validated['program_dean'])->filter(fn ($user) => !boolval($user));
+
+        $program->users()->syncWithoutDetaching($assignedDeans->values());
+        $program->users()->detach($unAssignedDeans->values());
+
+        return redirect()->back()->with([
+            'status' => 'success',
+            'message' => 'Program was successfully updated',
+            'updatedSubject' => $program->id
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $program = Program::withTrashed()->findOrFail($id);
+
+        dd($program->has('resources'));
+
+        if ($program->trashed()) {
+            $program->restore();
+            $message = 'Program was successfully restored';
+        } else {
+            $program->delete();
+            $message = 'Program was successfully trashed';
+        }
+
+        return redirect()->back()->with([
+            'status' => 'success',
+            'message' => $message,
+            'updatedSubject' => $program->id
+        ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\ProgramDean;
 
-use App\DataTables\ResourcesDataTable;
+use App\DataTables\Management\Dean\ResourcesDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 

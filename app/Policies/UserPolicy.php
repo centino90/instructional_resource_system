@@ -45,7 +45,9 @@ class UserPolicy
     public function view(User $user, User $model)
     {
         return $user->id == $model->id
-            || $user->isProgramDean();
+            || $model->isInstructor() && $user->isProgramDean() && $user->programs->where('is_general', true)->isNotEmpty()
+            || $model->isInstructor() && $user->isProgramDean() && $model->programs->where('is_general', true)->isNotEmpty()
+            || $model->isInstructor() && $user->isProgramDean() && $model->programs->whereIn('id', $user->programs->pluck('id'))->isNotEmpty();
     }
 
     public function viewSensitive(User $user, User $model)
@@ -73,7 +75,10 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->isProgramDean() || $user->id == $model->id;
+        return $user->id == $model->id
+            || $model->isInstructor()
+            && $user->isProgramDean()
+            && $model->programs->whereIn('id', $user->programs->pluck('id'))->isNotEmpty();
     }
 
     /**
@@ -97,7 +102,10 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->isProgramDean();
+        return $user->id == $model->id
+            || $model->isInstructor()
+            && $user->isProgramDean()
+            && $model->programs->whereIn('id', $user->programs->pluck('id'))->isNotEmpty();
     }
 
     /**
@@ -109,7 +117,10 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        return $user->isProgramDean();
+        return $user->id == $model->id
+            || $model->isInstructor()
+            && $user->isProgramDean()
+            && $model->programs->whereIn('id', $user->programs->pluck('id'))->isNotEmpty();
     }
 
     /**

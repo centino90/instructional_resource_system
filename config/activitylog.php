@@ -31,11 +31,16 @@ return [
     'subject_returns_soft_deleted_models' => true,
 
     /*
+     * If set to true, the causer returns soft deleted models.
+     */
+    'causer_returns_soft_deleted_models' => true,
+
+    /*
      * This model will be used to log activity.
      * It should be implements the Spatie\Activitylog\Contracts\Activity interface
      * and extend Illuminate\Database\Eloquent\Model.
      */
-    'activity_model' => \Spatie\Activitylog\Models\Activity::class,
+    'activity_model' => App\Models\ActivityLog::class,
 
     /*
      * This is the name of the table that will be created by the migration and

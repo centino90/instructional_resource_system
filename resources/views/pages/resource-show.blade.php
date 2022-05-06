@@ -8,30 +8,55 @@
    </x-slot>
 
    <x-slot name="breadcrumb">
-      @if ($resource->is_syllabus)
-         <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('course.show', $resource->course) }}">
-               <- Go back</a>
-         </li>
+      @can('view', $resource->course)
+         @if ($resource->is_syllabus)
+            <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('course.show', $resource->course) }}">
+                  <- Go back</a>
+            </li>
 
 
-         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-         <li class="breadcrumb-item"><a
-               href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
-         <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a
+                  href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
+         @else
+            <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('lesson.show', $resource->lesson) }}">
+                  <- Go back</a>
+            </li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a
+                  href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('course.showLessons', $resource->course) }}">Course
+                  lessons</a>
+            </li>
+            <li class="breadcrumb-item"><a
+                  href="{{ route('lesson.show', $resource->lesson) }}">{{ $resource->lesson->title }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
+         @endif
       @else
-         <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('lesson.show', $resource->lesson) }}">
-               <- Go back</a>
-         </li>
-         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-         <li class="breadcrumb-item"><a
-               href="{{ route('course.show', $resource->course) }}">{{ $resource->course->code }}</a></li>
-         <li class="breadcrumb-item"><a href="{{ route('course.showLessons', $resource->course) }}">Course
-               lessons</a>
-         </li>
-         <li class="breadcrumb-item"><a
-               href="{{ route('lesson.show', $resource->lesson) }}">{{ $resource->lesson->title }}</a></li>
-         <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
-      @endif
+         @if ($resource->is_syllabus)
+            <li class="breadcrumb-item"><a class="fw-bold" href="{{ route('dashboard') }}">
+                  <- Go back</a>
+            </li>
+
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item">{{ $resource->course->code }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
+         @else
+            <li class="breadcrumb-item">
+               <a class="fw-bold" href="{{ route('dashboard') }}">
+                  <- Go back </a>
+            </li>
+
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item">{{ $resource->course->code }}</li>
+            <li class="breadcrumb-item">
+               Course lessons
+            </li>
+            <li class="breadcrumb-item">{{ $resource->lesson->title }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $resource->title }}</li>
+         @endif
+      @endcan
    </x-slot>
 
    <div>
@@ -47,21 +72,25 @@
                            </x-slot>
                            <x-slot name="action">
                               <div class="hstack gap-3">
-                                 <div class="btn-group dropdown">
-                                    <x-real.btn :size="'sm'" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                                       aria-expanded="false" class="dropdown-toggle">
-                                       More
-                                    </x-real.btn>
-                                    <ul class="dropdown-menu shadow border-0 p-0">
-                                       <li class="dropdown-item p-0">
-                                          <ul class="list-group" style="min-width: 300px">
-                                             @if ($resource->verificationStatus != 'Pending')
-                                                <li class="list-group-item">
-                                                   <a href="{{ route('resource.edit', $resource) }}"
-                                                      class="w-100 btn btn-light btn-sm border text-primary fw-bold">
-                                                      Edit
-                                                   </a>
-                                                </li>
+                                 @can('preview', $resource)
+                                    <div class="btn-group dropdown">
+                                       <x-real.btn :size="'sm'" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                          aria-expanded="false" class="dropdown-toggle">
+                                          More
+                                       </x-real.btn>
+                                       <ul class="dropdown-menu shadow border-0 p-0">
+                                          <li class="dropdown-item p-0">
+                                             <ul class="list-group" style="min-width: 300px">
+                                                @can('participate', $resource->course)
+                                                   @can('update', $resource)
+                                                      <li class="list-group-item">
+                                                         <a href="{{ route('resource.edit', $resource) }}"
+                                                            class="w-100 btn btn-light btn-sm border text-primary fw-bold">
+                                                            Edit
+                                                         </a>
+                                                      </li>
+                                                   @endcan
+                                                @endcan
                                                 <li class="list-group-item">
                                                    <a href="{{ route('resource.addViewCountThenRedirectToPreview', $resource) }}"
                                                       class="w-100 btn btn-light btn-sm border text-primary fw-bold">
@@ -72,11 +101,11 @@
                                                    <x-real.download-types :resource="$resource" :btnSize="'sm'">
                                                    </x-real.download-types>
                                                 </li>
-                                             @endif
-                                          </ul>
-                                       </li>
-                                    </ul>
-                                 </div>
+                                             </ul>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                 @endcan
                               </div>
                            </x-slot>
                            <x-slot name="body">
@@ -193,7 +222,6 @@
                                                          </x-real.form>
                                                       @endif
                                                    </li>
-
 
                                                    @if ($resource->verificationStatus == 'Approved')
                                                       <li class="list-group-item">
@@ -442,8 +470,8 @@
                role="tab" aria-controls="home" aria-selected="true">Comments</button>
          </li>
          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-               role="tab" aria-controls="profile" aria-selected="false">History Logs</button>
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+               type="button" role="tab" aria-controls="profile" aria-selected="false">History Logs</button>
          </li>
       </ul>
       <div class="tab-content" id="myTabContent">
@@ -468,47 +496,6 @@
       </div>
    </div>
 
-   <div class="modal" id="approvePendingresourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve this
-                  resource?</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <x-form.approve-pendingresource-hidden></x-form.approve-pendingresource-hidden>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-               <button type="button" class="btn btn-success submit">Yes. Approve this resource</button>
-            </div>
-         </div>
-      </div>
-   </div>
-
-   <div class="modal" id="rejectPendingresourceModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to reject this
-                  resource?</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <x-form.reject-pendingresource-hidden></x-form.reject-pendingresource-hidden>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-               <button type="button" class="btn btn-danger submit">Yes. Reject this resource</button>
-            </div>
-         </div>
-      </div>
-   </div>
 
    @section('script')
       {!! $dataTable->scripts() !!}
@@ -518,51 +505,6 @@
             $('.comment-textarea').summernote({
                height: 200,
                width: '100%'
-            })
-
-
-            $('#rejectPendingresourceModal').on('shown.bs.modal', function(event) {
-               let triggerButton = $(event.relatedTarget)
-               let form = $(triggerButton.attr('data-form-target'))
-               let formRoute = form.attr('action')
-               let passoverData = $(triggerButton).attr('data-passover')
-               let input = form.find('input[name="resource_id"]')
-               input.val(passoverData)
-               form.attr('action', `${formRoute}/${passoverData}`)
-
-               $(this).find('button.submit').click(function() {
-                  form.submit()
-               })
-
-               $('#rejectPendingresourceModal').on('hidden.bs.modal', function() {
-                  spinnerGenerator(triggerButton, null, true)
-
-                  resetFormAction()
-               })
-
-               let resetFormAction = () => form.attr('action', `${formRoute}`)
-            })
-
-            $('#approvePendingresourceModal').on('shown.bs.modal', function(event) {
-               let triggerButton = $(event.relatedTarget)
-               let form = $(triggerButton.attr('data-form-target'))
-               let formRoute = form.attr('action')
-               let passoverData = $(triggerButton).attr('data-passover')
-               let input = form.find('input[name="resource_id"]')
-               input.val(passoverData)
-               form.attr('action', `${formRoute}/${passoverData}`)
-
-               $(this).find('button.submit').click(function() {
-                  form.submit()
-               })
-
-               $('#approvePendingresourceModal').on('hidden.bs.modal', function() {
-                  triggerButton.removeClass(['loading', 'disabled'])
-
-                  resetFormAction()
-               })
-
-               let resetFormAction = () => form.attr('action', `${formRoute}`)
             })
 
             $('.storeSavedresourceHiddenSubmit').click(function() {

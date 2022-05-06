@@ -28,11 +28,7 @@ class SubmissionsDataTable extends DataTable
                 return "subject{$row->id}";
             })
             ->addColumn('action', function ($row) {
-                $btn = '<div class="d-flex gap-2">';
-                $btn .= '<a href="' . route('resource.addViewCountThenRedirectToShow', $row->id) . '" class="btn btn-sm btn-light text-primary border fw-bold">Details</a>';
-                $btn .= '</div>';
-
-                return $btn;
+                return $this->sharedViewOnlyActions($row, route('resource.addViewCountThenRedirectToShow', $row->id));
             })
             ->addColumn('course', function ($row) {
                 return "{$row->course->title} ({$row->course->code})";
@@ -174,7 +170,7 @@ class SubmissionsDataTable extends DataTable
      */
     public function html()
    {
-        return $this->sharedBuilder(true)->columns($this->getColumns());
+        return $this->sharedBuilder(true, false)->columns($this->getColumns());
     }
 
     /**

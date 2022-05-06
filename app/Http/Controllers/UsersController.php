@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\User\UserActivitiesDataTable;
-use App\DataTables\User\UserLessonsDataTable;
-use App\DataTables\User\UserNotificationsDataTable;
-use App\DataTables\User\UserResourcesDataTable;
+use App\DataTables\Management\UserActivitiesDataTable as ManagementUserActivitiesDataTable;
+use App\DataTables\Management\UserLessonsDataTable as ManagementUserLessonsDataTable;
+use App\DataTables\Management\UserNotificationsDataTable as ManagementUserNotificationsDataTable;
+use App\DataTables\Management\UserResourcesDataTable as ManagementUserResourcesDataTable;
 use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
@@ -36,15 +34,15 @@ class UsersController extends Controller
 
     public function updatePersonal(Request $request, User $user)
     {
-        $this->authorize('update', $user);
+        $this->authorize('updateSensitive', $user);
 
         $validated = $request->validate([
             'fname' => 'required',
             'lname' => 'required',
         ]);
 
-        $user->fname = $request->fname;
-        $user->lname = $request->lname;
+        $user->fname = $validated['fname'];
+        $user->lname = $validated['lname'];
         $user->save();
 
         return redirect()->back()->with([
@@ -62,8 +60,8 @@ class UsersController extends Controller
             'email' => 'required|unique:users,email,' . auth()->id(),
         ]);
 
-        $user->username = $request->username;
-        $user->email = $request->email;
+        $user->username = $validated['username'];
+        $user->email = $validated['email'];
         $user->save();
 
         return redirect()->back()->with([
@@ -80,7 +78,8 @@ class UsersController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make($validated['password']);
+        $user->temp_password = null;
         $user->save();
 
         return redirect()->back()->with([
@@ -89,14 +88,14 @@ class UsersController extends Controller
         ]);
     }
 
-    public function submissions(UserResourcesDataTable $dataTable, User $user)
+    public function submissions(ManagementUserResourcesDataTable $dataTable, User $user)
     {
         $this->authorize('view', $user);
 
         return $dataTable->render('pages.user.submissions', compact('user'));
     }
 
-    public function notifications(UserNotificationsDataTable $dataTable, User $user)
+    public function notifications(ManagementUserNotificationsDataTable $dataTable, User $user)
     {
         $this->authorize('viewSensitive', $user);
 
@@ -105,14 +104,14 @@ class UsersController extends Controller
         return $dataTable->render('pages.user.notifications', compact('user', 'notificationList'));
     }
 
-    public function activities(UserActivitiesDataTable $dataTable, User $user)
+    public function activities(ManagementUserActivitiesDataTable $dataTable, User $user)
     {
         $this->authorize('view', $user);
 
         return $dataTable->render('pages.user.activities', compact('user'));
     }
 
-    public function lessons(UserLessonsDataTable $dataTable, User $user)
+    public function lessons(ManagementUserLessonsDataTable $dataTable, User $user)
     {
         $this->authorize('view', $user);
 

@@ -22,27 +22,18 @@
 
          @if (auth()->user()->isAdmin())
             <li class="nav-item px-2">
-               <a href="{{ route('admin.system.index') }}"
-                  class="nav-link py-2 " title="" data-bs-toggle="tooltip" data-bs-placement="right"
-                  data-bs-original-title="Admin Settings">
-                  <span class="material-icons md-18 align-middle">manage_accounts</span>
-                  <span class="text align-middle">Admin Settings</span>
+               <a href="{{ route('admin.users.index') }}" class="nav-link py-2 " title="" data-bs-toggle="tooltip"
+                  data-bs-placement="right" data-bs-original-title="Content Management">
+                  <span class="material-icons md-18 align-middle">tune</span>
+                  <span class="text align-middle">Content Management</span>
                </a>
             </li>
-            <li class="nav-item px-2">
-                <a href="{{ route('dean.resource.index', ['accessType' => auth()->user()->role_id]) }}"
-                   class="nav-link py-2 " title="" data-bs-toggle="tooltip" data-bs-placement="right"
-                   data-bs-original-title="Content Management">
-                   <span class="material-icons md-18 align-middle">tune</span>
-                   <span class="text align-middle">Content Management</span>
-                </a>
-             </li>
          @endif
 
          @if (auth()->user()->isProgramDean())
             <li class="nav-item px-2">
-               <a href="{{ route('dean.reports.submissions') }}" class="nav-link py-2 " title="" data-bs-toggle="tooltip"
-                  data-bs-placement="right" data-bs-original-title="Reports">
+               <a href="{{ route('dean.reports.submissions') }}" class="nav-link py-2 " title=""
+                  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Reports">
                   <span class="material-icons md-18 align-middle">bar_chart</span>
                   <span class="text align-middle">Reports</span>
                </a>
@@ -67,7 +58,8 @@
 
          <hr class="w-100 ">
 
-         @if (auth()->user()->isInstructor() || auth()->user()->isSecretary())
+         @if (auth()->user()->isInstructor() ||
+    auth()->user()->isSecretary())
             <li class="nav-item px-2">
                <a href="{{ route('user.lessons', auth()->id()) }}" class="nav-link py-2 " title=""
                   data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="My lessons">
@@ -84,10 +76,25 @@
             </li>
             <li class="nav-item px-2">
                <a href="{{ route('storage.show', [auth()->id(), 'leftPath' => 'users/' . auth()->id()]) }}"
-                  class="nav-link py-2 " title="" data-bs-toggle="tooltip" data-bs-placement="right"
+                  class="nav-link py-2 position-relative" title="" data-bs-toggle="tooltip" data-bs-placement="right"
                   data-bs-original-title="My storage">
+
                   <span class="material-icons md-18 align-middle">storage</span>
                   <span class="text align-middle">My storage</span>
+
+                  @if (auth()->user()->isStorageFull())
+                     <span class="position-absolute top-0 end-0 badge rounded-pill ">
+                        <span class="small material-icons text-danger">
+                           report
+                        </span>
+                     </span>
+                  @elseif(auth()->user()->isStorageReachingFull())
+                     <span class="position-absolute top-0 end-0 badge rounded-pill ">
+                        <span class="small material-icons text-secondary">
+                           report
+                        </span>
+                     </span>
+                  @endif
                </a>
             </li>
          @endif

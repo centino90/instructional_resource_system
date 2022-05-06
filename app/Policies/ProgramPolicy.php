@@ -33,7 +33,7 @@ class ProgramPolicy
      */
     public function viewAny(User $user)
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -45,7 +45,7 @@ class ProgramPolicy
      */
     public function view(User $user, Program $program)
     {
-        return $user->belongsToProgram($program->id);
+        return $user->belongsToProgram($program->id) || $program->is_general;
     }
 
     /**
@@ -56,7 +56,7 @@ class ProgramPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -81,7 +81,7 @@ class ProgramPolicy
      */
     public function delete(User $user, Program $program)
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -93,7 +93,7 @@ class ProgramPolicy
      */
     public function restore(User $user, Program $program)
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**

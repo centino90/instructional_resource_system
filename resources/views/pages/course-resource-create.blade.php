@@ -148,12 +148,11 @@
                      <div class="dropzone">
                         <div class="tab-content" id="pills-tabContent">
                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
-                              <x-form-post action="{{ route('resource.store') }}" class="submit-resource-form"
+                              <x-real.form action="{{ route('resource.store') }}" class="submit-resource-form"
                                  id="resourceForm">
-                                 <x-input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
-                                 </x-input>
-                                 <x-input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
-                                 </x-input>
+                                 <input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
+                                 <input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
+
                                  <div id="fileMaster">
                                     <div class="row-group align-items-start" id="file-g">
                                        <div class="submit-resource-form-actions row g-0" id="actions">
@@ -161,7 +160,7 @@
                                              <!-- The fileinput-button span is used to style the file input field as button -->
                                              <div class="d-flex align-items-start">
                                                 <div class="w-100 text-center">
-                                                   <x-button :class="'border-primary hstack gap-3 active btn-light fileinput-button dz-clickable w-100'"
+                                                   <x-real.btn :class="'border-primary hstack gap-3 active btn-light fileinput-button dz-clickable w-100'"
                                                       style="height: 140px; border-style: dashed !important;">
                                                       <span class="material-icons align-middle md-48 text-primary">
                                                          file_upload
@@ -175,19 +174,20 @@
                                                             20
                                                             files at a time</small>
                                                       </div>
-                                                   </x-button>
+                                                   </x-real.btn>
                                                 </div>
                                              </div>
                                           </div>
 
                                           <div class="mt-4 col-lg-5 d-flex gap-3">
-                                             <x-button type="submit" :class="'w-100 btn-primary d-none'" id="submit-resource">
+                                             <x-real.btn type="submit" :btype="'solid'" :class="'w-100 d-none'"
+                                                id="submit-resource">
                                                 <span>Submit</span>
-                                             </x-button>
+                                             </x-real.btn>
 
-                                             <x-button :class="'w-100 btn-danger cancel d-none'">
+                                             <x-real.btn :btype="'solid'" :variant="'danger-white'" class="cancel d-none">
                                                 <span>Cancel upload</span>
-                                             </x-button>
+                                             </x-real.btn>
                                           </div>
 
                                           <div class="col-12">
@@ -238,25 +238,24 @@
                                                          </div>
                                                          <div class="file-metadata">
                                                             <div class="row g-2">
-                                                               <x-input name="file[]" class="file" hidden>
-                                                               </x-input>
+                                                               <input type="text" name="file[]" class="file"
+                                                                  hidden>
 
                                                                <div class="file-group d-none col-12">
-                                                                  <div class="form-floating mb-3">
-                                                                     <x-input name="title[]" placeholder="_">
-                                                                     </x-input>
-                                                                     <x-label>Name
-                                                                     </x-label>
-                                                                  </div>
+                                                                  <x-real.input name="title[]">
+                                                                     <x-slot name="label">
+                                                                        Name
+                                                                     </x-slot>
+                                                                  </x-real.input>
                                                                </div>
 
                                                                <div class="file-group d-none col-12">
                                                                   <div class="form-floating mb-3">
-                                                                     <x-input-textarea name="description[]"
-                                                                        placeholder="_">
-                                                                     </x-input-textarea>
-                                                                     <x-label>Description
-                                                                     </x-label>
+                                                                     <x-real.input type="textarea" name="description[]">
+                                                                        <x-slot name="label">
+                                                                           Description
+                                                                        </x-slot>
+                                                                     </x-real.input>
                                                                   </div>
                                                                </div>
                                                             </div>
@@ -270,25 +269,25 @@
                                                                </div>
                                                             </div>
 
-                                                            <x-button :class="'btn-light text-primary start'">
+                                                            <x-real.btn :class="'btn-light text-primary start'">
                                                                <span>Start</span>
-                                                            </x-button>
+                                                            </x-real.btn>
 
-                                                            <x-button data-dz-remove :class="'btn-light text-primary cancel'">
+                                                            <x-real.btn data-dz-remove :class="'btn-light text-primary cancel'">
                                                                <span class="material-icons md-18 align-middle">
                                                                   block
                                                                </span>
 
                                                                Cancel
-                                                            </x-button>
+                                                            </x-real.btn>
 
-                                                            <x-button data-dz-remove :class="'btn-light text-primary delete'">
+                                                            <x-real.btn data-dz-remove :class="'btn-light text-primary delete'">
                                                                <span class="material-icons md-18 align-middle">
                                                                   close
                                                                </span>
 
                                                                Remove
-                                                            </x-button>
+                                                            </x-real.btn>
                                                          </div>
                                                       </div>
                                                    </div>
@@ -299,39 +298,47 @@
                                        </div>
                                     </div>
                                  </div>
-                              </x-form-post>
+                              </x-real.form>
                            </div>
                            <div class="tab-pane fade" id="pills-profile" role="tabpanel">
-                              <x-form-post action="{{ route('resources.storeByUrl') }}" id="storeByUrlForm"
+                              <x-real.form action="{{ route('resources.storeByUrl') }}" id="storeByUrlForm"
                                  class="storeByUrlForm">
-                                 <x-input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
-                                 </x-input>
-                                 <x-input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
-                                 </x-input>
+                                 <input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
+                                 <input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
 
                                  <div class="row">
-                                    <x-input hidden type="url" name="fileUrl" id="fileUrlInput"
-                                       class="alexusmaiFileUrlInput" value="{{old('fileUrl')}}"></x-input>
+                                    <input hidden type="url" name="fileUrl" id="fileUrlInput"
+                                       class="alexusmaiFileUrlInput" value="{{ old('fileUrl') }}">
 
                                     <div class="col-12 mt-3">
                                        <label class="form-text">Filename</label>
                                        <span class="alexusmaiFileText h5 text-secondary fw-bold" id="fileText">
-                                       {{old('fileUrl')}}
+                                          {{ old('fileUrl') }}
                                        </span>
                                        <a href="javascript:void(0)" class="openStorageBtn btn btn-link"
                                           id="openStorageBtn">Open storage</a>
                                     </div>
 
                                     <div class="col-12 mt-3">
-                                       <x-label>Title</x-label>
-                                       <x-input name="title" value="{{old('title')}}"></x-input>
+                                       <x-real.input name="title">
+                                          <x-slot name="label">
+                                             Title
+                                          </x-slot>
+                                          <x-slot name="oldValue">
+                                             {{ old('title') }}
+                                          </x-slot>
+                                       </x-real.input>
                                     </div>
 
                                     <div class="col-12 mt-3">
-                                       <x-label>Description</x-label>
-                                       <x-input-textarea name="description">
-                                        {{old('description')}}
-                                       </x-input-textarea>
+                                       <x-real.input type="textarea" name="description">
+                                          <x-slot name="label">
+                                             Description
+                                          </x-slot>
+                                          <x-slot name="oldValue">
+                                             {{ old('description') }}
+                                          </x-slot>
+                                       </x-real.input>
                                     </div>
 
                                     <div class="col-12 my-5">
@@ -343,7 +350,7 @@
                                        </div>
                                     </div>
                                  </div>
-                              </x-form-post>
+                              </x-real.form>
                            </div>
                         </div>
                      </div>
@@ -382,12 +389,11 @@
                      <div class="dropzone">
                         <div class="tab-content" id="pills-tabContent">
                            <div class="tab-pane fade show active" id="presentationSubmitFormTabpane" role="tabpanel">
-                              <x-form-post action="{{ route('presentations.upload') }}" class="submit-resource-form"
+                              <x-real.form action="{{ route('presentations.upload') }}" class="submit-resource-form"
                                  id="presentationForm">
-                                 <x-input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
-                                 </x-input>
-                                 <x-input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
-                                 </x-input>
+                                 <input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
+                                 <input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
+
                                  <div id="fileMaster">
                                     <div class="row-group align-items-start" id="file-g">
                                        <div class="submit-resource-form-actions row g-0" id="actions">
@@ -395,7 +401,7 @@
                                              <!-- The fileinput-button span is used to style the file input field as button -->
                                              <div class="d-flex align-items-start">
                                                 <div class="w-100 text-center">
-                                                   <x-button :class="'border-primary hstack gap-3 active btn-light fileinput-button dz-clickable w-100'"
+                                                   <x-real.btn :class="'border-primary hstack gap-3 active btn-light fileinput-button dz-clickable w-100'"
                                                       style="height: 140px; border-style: dashed !important;">
                                                       <span class="material-icons align-middle md-48 text-primary">
                                                          file_upload
@@ -410,19 +416,20 @@
                                                             at
                                                             a time</small>
                                                       </div>
-                                                   </x-button>
+                                                   </x-real.btn>
                                                 </div>
                                              </div>
                                           </div>
 
                                           <div class="mt-4 col-lg-5 d-flex gap-3">
-                                             <x-button type="submit" :class="'w-100 btn-primary d-none'" id="submit-resource">
+                                             <x-real.btn type="submit" :btype="'solid'" :class="'w-100 d-none'"
+                                                id="submit-resource">
                                                 <span>Submit</span>
-                                             </x-button>
+                                             </x-real.btn>
 
-                                             <x-button :class="'w-100 btn-danger cancel d-none'">
+                                             <x-real.btn :btype="'solid'" :variant="'danger-white'" class="cancel d-none">
                                                 <span>Cancel upload</span>
-                                             </x-button>
+                                             </x-real.btn>
                                           </div>
 
                                           <div class="col-12">
@@ -473,25 +480,23 @@
                                                          </div>
                                                          <div class="file-metadata">
                                                             <div class="row g-2">
-                                                               <x-input name="file[]" class="file" hidden>
-                                                               </x-input>
-
+                                                               <input type="text" name="file[]" class="file"
+                                                                  hidden>
                                                                <div class="file-group d-none col-12">
-                                                                  <div class="form-floating mb-3">
-                                                                     <x-input name="title[]" placeholder="_">
-                                                                     </x-input>
-                                                                     <x-label>Name
-                                                                     </x-label>
-                                                                  </div>
+                                                                  <x-real.input name="title[]">
+                                                                     <x-slot name="label">
+                                                                        Name
+                                                                     </x-slot>
+                                                                  </x-real.input>
                                                                </div>
 
                                                                <div class="file-group d-none col-12">
                                                                   <div class="form-floating mb-3">
-                                                                     <x-input-textarea name="description[]"
-                                                                        placeholder="_">
-                                                                     </x-input-textarea>
-                                                                     <x-label>Description
-                                                                     </x-label>
+                                                                     <x-real.input type="textarea" name="description[]">
+                                                                        <x-slot name="label">
+                                                                           Description
+                                                                        </x-slot>
+                                                                     </x-real.input>
                                                                   </div>
                                                                </div>
                                                             </div>
@@ -505,25 +510,25 @@
                                                                </div>
                                                             </div>
 
-                                                            <x-button :class="'btn-light text-primary start'">
+                                                            <x-real.btn :class="' start'">
                                                                <span>Start</span>
-                                                            </x-button>
+                                                            </x-real.btn>
 
-                                                            <x-button data-dz-remove :class="'btn-light text-primary cancel'">
+                                                            <x-real.btn data-dz-remove :class="' cancel'">
                                                                <span class="material-icons md-18 align-middle">
                                                                   block
                                                                </span>
 
                                                                Cancel
-                                                            </x-button>
+                                                            </x-real.btn>
 
-                                                            <x-button data-dz-remove :class="'btn-light text-primary delete'">
+                                                            <x-real.btn data-dz-remove :class="' delete'">
                                                                <span class="material-icons md-18 align-middle">
                                                                   close
                                                                </span>
 
                                                                Remove
-                                                            </x-button>
+                                                            </x-real.btn>
                                                          </div>
                                                       </div>
                                                    </div>
@@ -534,19 +539,17 @@
                                        </div>
                                     </div>
                                  </div>
-                              </x-form-post>
+                              </x-real.form>
                            </div>
                            <div class="tab-pane fade" id="presentationSubmitUrlTabpane" role="tabpanel">
-                              <x-form-post action="{{ route('presentations.uploadByUrl') }}" id="storeByUrlForm"
+                              <x-real.form action="{{ route('presentations.uploadByUrl') }}" id="storeByUrlForm"
                                  class="storeByUrlForm">
-                                 <x-input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
-                                 </x-input>
-                                 <x-input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
-                                 </x-input>
+                                 <input type="hidden" name="course_id" value="{{ $lesson->course->id }}">
+                                 <input type="hidden" name="lesson_id" value="{{ $lesson->id }}">
 
                                  <div class="row">
-                                    <x-input hidden type="url" name="fileUrl" id="fileUrlInput"
-                                       class="alexusmaiFileUrlInput" value="{{ old('presentation-fileUrl') }}"></x-input>
+                                    <input hidden type="url" name="fileUrl" id="fileUrlInput"
+                                       class="alexusmaiFileUrlInput" value="{{ old('presentation-fileUrl') }}">
 
                                     <div class="col-12 mt-3">
                                        <label class="form-text">Filename</label>
@@ -558,15 +561,25 @@
                                     </div>
 
                                     <div class="col-12 mt-3">
-                                       <x-label>Title</x-label>
-                                       <x-input name="title" value="{{ old('presentation-title') }}"></x-input>
+                                       <x-real.input name="title">
+                                          <x-slot name="label">
+                                             Title
+                                          </x-slot>
+                                          <x-slot name="oldValue">
+                                             {{ old('presentation-title') }}
+                                          </x-slot>
+                                       </x-real.input>
                                     </div>
 
                                     <div class="col-12 mt-3">
-                                       <x-label>Description</x-label>
-                                       <x-input-textarea name="description">
-                                        {{ old('presentation-description') }}
-                                       </x-input-textarea>
+                                       <x-real.input type="textarea" name="description">
+                                          <x-slot name="oldValue">
+                                             {{ old('presentation-description') }}
+                                          </x-slot>
+                                          <x-slot name="label">
+                                             Description
+                                          </x-slot>
+                                       </x-real.input>
                                     </div>
 
                                     <div class="col-12 my-5">
@@ -578,7 +591,7 @@
                                        </div>
                                     </div>
                                  </div>
-                              </x-form-post>
+                              </x-real.form>
                            </div>
                         </div>
                      </div>
@@ -643,7 +656,7 @@
                   autoQueue: true, // Make sure the files aren't queued until manually added
                   previewsContainer: `${$targetTabpaneId} .dropzone-preview`, // Define the container to display the previews
                   clickable: `${$targetTabpaneId} .fileinput-button`, // Define the element that should be used as click trigger to select files.
-                  maxFilesize: 5000
+                  maxFilesize: '{{ config('app.max_file_size_single_upload') }}'
                }
 
                if ($targetTabpaneLabel === 'general') {

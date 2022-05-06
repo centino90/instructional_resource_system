@@ -3,22 +3,16 @@
 namespace App\Http\Controllers\ProgramDean;
 
 use App\DataTables\Reports\CourseDataTable;
-use App\DataTables\Reports\CourseSubmissionsDataTable;
 use App\DataTables\Reports\InstructorActivitiesDataTable;
 use App\DataTables\Reports\InstructorDataTable;
 use App\DataTables\Reports\SubmissionsDataTable;
 use App\DataTables\Reports\SyllabusMonitoringDataTable;
-use App\DataTables\ReportsResourcesDataTable;
-use App\DataTables\ResourcesDataTable;
-use App\DataTables\SyllabusReportsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
-use App\Models\Media;
 use App\Models\Resource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 

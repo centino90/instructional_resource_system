@@ -38,6 +38,7 @@ $semesters = collect([
                      <th scope="col"></th>
                      <th scope="col">Course code</th>
                      <th scope="col">Course title</th>
+                     <th scope="col">Program</th>
                   </x-slot>
 
                   <x-slot name="rows">
@@ -50,6 +51,7 @@ $semesters = collect([
                            </td>
                            <td>{{ $row->code }}</td>
                            <td>{{ $row->title }}</td>
+                           <td>{{ $row->program->code }}</td>
                         </tr>
                      @empty
                         <tr>
@@ -79,6 +81,7 @@ $semesters = collect([
                      <th scope="col"></th>
                      <th scope="col">Course code</th>
                      <th scope="col">Course title</th>
+                     <th scope="col">Program</th>
                   </x-slot>
 
                   <x-slot name="rows">
@@ -91,6 +94,7 @@ $semesters = collect([
                            </td>
                            <td>{{ $row->code }}</td>
                            <td>{{ $row->title }}</td>
+                           <td>{{ $row->program->code }}</td>
                         </tr>
                      @empty
                         <tr>

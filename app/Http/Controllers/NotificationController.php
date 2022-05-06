@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\NewResourceNotification;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller

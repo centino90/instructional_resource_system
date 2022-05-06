@@ -23,6 +23,7 @@ class Media extends BaseMedia
 
     public function resource()
     {
-        return $this->belongsTo(Resource::class, 'model_id');
+        return $this->belongsTo(Resource::class, 'model_id')
+            ->withTrashed();
     }
 }
