@@ -21,23 +21,37 @@ download [LibreOffice 7.3.2](https://www.libreoffice.org/download/download/)
 
 add the LibreOffice folder in this project's root directory
 
+find the office converter class in path <i>D:\Developer\Github Projects\instructional_resource_system\vendor\ncjoes\office-converter\src\OfficeConverter\OfficeConverter.php</i> and find the <i>exec</i> method and change the <i>cmd</i> paramater value to <i>set HOME=/tmp && '.$cmd</i>
+
+<!-- ### Step 4
+
 download [Poppler 0.68.0](https://blog.alivate.com.au/poppler-windows/)
 
-add the poppler-0.68.0 folder in this project's root directory
+add the poppler-0.68.0 folder in this project's root directory -->
 
-### Step 4
+### step 4 
+```bash
+php artisan storage:link
+```
+
+### step 5 
+```bash
+php artisan optimize:clear
+```
+
+### Step 6
 
 ```bash
 php artisan fresh:all
 ```
 
-### Step 5
+### Step 7
 
 ```bash
 php artisan serve
 ```
 
-### Step 6
+### Step 8
 
 go to the url http://127.0.0.1:8000/
 

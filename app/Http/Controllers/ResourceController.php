@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\View\ResourceActivitiesDataTable;
 use App\DataTables\View\ResourceDataTable;
 use App\Events\ResourceCreated;
+use App\HelperClass\OfficeToPdfHelper;
 use App\HelperClass\PdfToHtmlHelper;
 use App\Http\Requests\StoreResourceByUrlRequest;
 use App\Http\Requests\StoreResourceRequest;
@@ -375,7 +376,7 @@ class ResourceController extends Controller
                 }
 
                 $newFileExt = 'pdf';
-                $converter = new OfficeConverter($specifiedMedia->getPath(), storage_path('app/public'));
+                $converter = new OfficeToPdfHelper($specifiedMedia->getPath(), storage_path('app/public'));
                 $converter->convertTo($newFilename . '.' . $newFileExt);
 
                 $nf = storage_path('app/public/' . $newFilename . '.' . $newFileExt);
@@ -659,7 +660,7 @@ class ResourceController extends Controller
     public function downloadAsPdf(Media $media)
     {
         if (in_array(pathinfo($media->getPath(), PATHINFO_EXTENSION), config('app.pdf_convertible_filetypes'))) {
-            $converter = new OfficeConverter($media->getPath(), storage_path('app/public'));
+            $converter = new OfficeToPdfHelper($media->getPath(), storage_path('app/public'));
             $converter->convertTo($media->name . '.pdf'); //generates pdf file in same directory as test-file.docx
 
             // Source file and watermark config

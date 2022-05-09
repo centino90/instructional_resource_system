@@ -73,8 +73,17 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(
             'Alexusmai\LaravelFileManager\Events\FilesUploading',
             function ($event) {
-                if (auth()->user()->isStorageFull($event)) {
-                    throw new Error('Error! You cannot upload anymore files. Your personal storage has reached its full capacity.');
+                foreach (request()->file('files') as $file) {
+                    $bytes = filesize($file);
+                    $inKb = number_format($bytes / 1024, 2);
+
+                    // if (floatval($inKb) > config('file-manager.maxUploadFileSize')) {
+                    //     throw new Error('The uploaded file is higher than the set limit of 80mb');
+                    // }
+
+                    if (auth()->user()->isStorageFull(floatval($inKb))) {
+                        throw new Error('Error! You cannot upload anymore files. Your personal storage has reached its full capacity.');
+                    }
                 }
             }
         );

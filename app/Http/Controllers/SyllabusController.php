@@ -125,7 +125,6 @@ class SyllabusController extends Controller
 
         $resource->html = $html;
 
-
         return view('pages.syllabus-validation')->with([
             'course' => $resource->course,
             'resource' => $resource,

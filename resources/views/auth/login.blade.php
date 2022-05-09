@@ -32,7 +32,7 @@
             </x-real.input>
 
 
-            <x-real.input name="password" :value="old('password')">
+            <x-real.input type="password" name="password" :value="old('password')">
                <x-slot name="label">Password</x-slot>
 
                @error('password')

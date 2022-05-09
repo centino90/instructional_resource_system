@@ -16,6 +16,8 @@ class OfficeToPdfHelper extends OfficeConverter
             $this->bin = $bin;
         }
 
+        $this->bin = '"' . $this->bin . '"';
+
         if ($this->open($filename)) {
             $this->setup($tempPath, $this->bin, $prefixExecWithExportHome);
         }
