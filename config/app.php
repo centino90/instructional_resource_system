@@ -475,5 +475,5 @@ return [
     ),
 
     'max_file_size_single_upload' => 80, // in MB (default: 80MB)
-    'max_personal_file_storage_size' => 1500, // in MB (default: 1500MB)
+    'max_personal_file_storage_size' => 15000, // in MB (default: 1500MB)
 ];

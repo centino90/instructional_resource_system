@@ -108,6 +108,10 @@
                                  <x-slot name="label">Email</x-slot>
                               </x-real.input>
 
+                              <x-real.input type="number" name="storage_size" value="{{config('app.max_personal_file_storage_size')}}">
+                                <x-slot name="label">Storage Size (in MB)</x-slot>
+                             </x-real.input>
+
                               <x-slot name="submit">
                                  <x-real.btn type="submit" :btype="'solid'" :size="'lg'">Confirm</x-real.btn>
                               </x-slot>

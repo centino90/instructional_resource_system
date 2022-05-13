@@ -53,6 +53,7 @@ class UserController extends Controller
             'email' => 'nullable|email|unique:users',
             'program_id' => 'required|string',
             'role_id' => 'required|string',
+            'storage_size' => 'required|integer'
         ]);
 
         $randomStr = "auto" . Str::uuid();
@@ -111,6 +112,7 @@ class UserController extends Controller
             'email' => 'nullable|email|unique:users,email,' . $user->id,
             'program_id' => 'required|string',
             'role_id' => 'required|string',
+            'storage_size' => 'required|integer'
         ]);
 
         $user->update($validated);

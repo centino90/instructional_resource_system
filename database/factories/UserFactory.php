@@ -34,7 +34,8 @@ class UserFactory extends Factory
             'password' => Hash::make('password'), // password
             'role_id' => $roles[rand(0, 2)],
             'contact_no' => $this->faker->phoneNumber(),
-            'email' => $this->faker->email()
+            'email' => $this->faker->email(),
+            'storage_size' => 15000
         ];
     }
 

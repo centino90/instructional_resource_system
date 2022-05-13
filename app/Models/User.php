@@ -59,7 +59,9 @@ class User extends Authenticatable
     protected static function booted()
     {
         static::creating(function ($user) {
-            $user->storage_size = config('app.max_personal_file_storage_size');
+            if (empty($user->storage_size)) {
+                $user->storage_size = config('app.max_personal_file_storage_size');
+            }
         });
 
         static::created(function ($user) {
