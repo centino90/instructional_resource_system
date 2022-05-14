@@ -289,8 +289,10 @@
                <x-real.card id="lessonSection" :vertical="'center'">
                   <x-slot name="header">Lessons</x-slot>
                   <x-slot name="action">
+                     @if (!auth()->user()->isSecretary())
                      <a href="{{ route('course.showUserLessons', [$course, auth()->id()]) }}"
                         class="btn btn-light btn-sm text-primary border fw-bold">Manage Your Course Lessons</a>
+                     @endif
 
                      <a href="{{ route('course.showLessons', [$course]) }}"
                         class="btn btn-light btn-sm text-primary border fw-bold">View All Course Lessons</a>

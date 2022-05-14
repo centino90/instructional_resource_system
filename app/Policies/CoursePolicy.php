@@ -47,7 +47,7 @@ class CoursePolicy
     {
         return $user->belongsToProgram($course->program_id) && $user->isProgramDean()
             || $user->isInstructor() && $user->hasCourseWithReadAccess($course->id)
-            || $user->isSecretary() && $course->program->is_general;
+            || $user->isSecretary();
     }
 
     /**

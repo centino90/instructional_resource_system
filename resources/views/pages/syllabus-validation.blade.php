@@ -231,7 +231,7 @@
                                                             system
                                                             finds
                                                             inapproriate verb (colored
-                                                            with red) in the course outcomes and student
+                                                            with red) or undetected verb (colored with yellow) in the course outcomes and student
                                                             learning
                                                             outcomes.
                                                         </p>
@@ -370,11 +370,35 @@
             </div>
         </div>
 
+        <div class="modal modal-sheet py-5" tabindex="-1" role="dialog" id="verbSuggestionModal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content rounded-6 shadow py-5 px-5">
+                    <div class="modal-header border-bottom-0">
+                        <h5 class="modal-title">Suggested Verbs</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body py-0">
+                        <x-real.alert :variant="'info'"></x-real.alert>
+
+                        <div id="verbSuggestionContent" class="mt-4 d-flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         @section('script')
             <script>
                 $(document).ready(function() {
                     let verbs2 = $.parseJSON(`{!! json_encode($verbs) !!}`)
+                    let faultyVerbs = $.parseJSON(`{!! json_encode(collect($verbs)->keys()) !!}`)
+                    let suggestedVerbs = $.parseJSON(`{!! json_encode(
+    collect(
+        collect($verbs)->values()->unique()->flatten(),
+    ),
+) !!}`)
+
+                    console.log(suggestedVerbs)
                     const courseId = '{{ $course->id }}'
                     const syllabusSettings = $.parseJSON(`{!! json_encode($syllabusSettings) !!}`)
 
@@ -405,14 +429,12 @@
                         let [
                             courseResultString,
                             successCourseCounter,
-                            failedCourseCounter
+                            failedCourseCounter,
+                            undetectedCourseCounter
                         ] = checkVerbAppropriateness(searchedCourseSentences, verbs2)
                         if (searchedCourseSentences.length > 0) {
                             $refTabcontent.find('.courseOutcomes').html(courseResultString);
                         }
-
-                        console.log(checkVerbAppropriateness(searchedCourseSentences, verbs2))
-                        console.log(verbs2)
 
                         // student learning outcomes
                         let searchedStudentSentences = searchTable($reference, studLearningOutcomesTableNo,
@@ -421,7 +443,8 @@
                         let [
                             studentResultString,
                             successStudentCounter,
-                            failedStudentCounter
+                            failedStudentCounter,
+                            undetectedStudentCounter
                         ] = checkVerbAppropriateness(searchedStudentSentences, verbs2)
                         if (searchedStudentSentences.length > 0) {
                             $refTabcontent.find('.studentOutcomes').html(studentResultString);
@@ -429,6 +452,7 @@
 
                         let totalFailedCounter = failedCourseCounter + failedStudentCounter;
                         let totalSuccessCounter = successCourseCounter + successStudentCounter;
+                        let totalUndetectedCounter = undetectedCourseCounter + undetectedStudentCounter
 
                         if (totalFailedCounter == 0 && totalSuccessCounter == 0) {
                             $refTabcontent.find(".validation").html("");
@@ -444,18 +468,21 @@
                                     <tbody>
                                         <tr>
                                             <td></td>
+                                            <td class="text-center"><b>Undetected</b></td>
                                             <td class="text-center"><b>Not appropriate</b></td>
                                             <td class="text-center"><b>Appropriate</b></td>
                                         </tr>
 
                                         <tr>
                                             <td>Course outcomes</td>
+                                            <td class="text-center">${undetectedCourseCounter}</td>
                                             <td class="text-center">${failedCourseCounter}</td>
                                             <td class="text-center">${successCourseCounter}</td>
                                         </tr>
 
                                         <tr>
                                             <td>Student learning outcomes</td>
+                                            <td class="text-center">${undetectedStudentCounter}</td>
                                             <td class="text-center">${failedStudentCounter}</td>
                                             <td class="text-center">${successStudentCounter}</td>
                                         </tr>
@@ -463,6 +490,7 @@
 
                                         <tr>
                                             <td></td>
+                                            <td class="text-center"><b>Total: ${totalUndetectedCounter}</b></td>
                                             <td class="text-center"><b>Total: ${totalFailedCounter}</b></td>
                                             <td class="text-center"><b>Total: ${totalSuccessCounter}</b></td>
                                         </tr>
@@ -595,6 +623,7 @@
                     function checkVerbAppropriateness(searchedSentences, verbStandards) {
                         let successCounter = 0
                         let failedCounter = 0
+                        let undetectedCounter = 0
                         let d = "";
 
                         $(searchedSentences).each(function(index, sentence) {
@@ -603,25 +632,39 @@
                             let uppercasedFirstWord = firstWord.toUpperCase()
 
                             $(verbStandards).each(function(index, verb) {
-                                if (!verb.hasOwnProperty(uppercasedFirstWord)) {
+                                // check for appropriate verbs
+                                if (!faultyVerbs.includes(uppercasedFirstWord) && suggestedVerbs.includes(
+                                        uppercasedFirstWord)) {
                                     d += generateSuccessVerbListItem(sentence)
 
                                     successCounter++;
-                                } else {
-                                    let suggestions = verb[firstWord.toUpperCase()].join(", ");
+                                    return;
+                                }
 
-                                    d += generateFailedVerbListItem(suggestions, firstWord,
+                                // check for undetected verbs
+                                if (!faultyVerbs.includes(uppercasedFirstWord) && !suggestedVerbs.includes(
+                                        uppercasedFirstWord)) {
+                                    d += generateUndetectedVerbListItem(suggestedVerbs, firstWord,
                                         withoutFirstWord)
 
-                                    failedCounter++;
+                                    undetectedCounter++;
+                                    return;
                                 }
+
+                                let suggestions = verb[firstWord.toUpperCase()].join(", ");
+
+                                d += generateFailedVerbListItem(suggestions, firstWord,
+                                    withoutFirstWord)
+
+                                failedCounter++;
                             });
                         })
 
                         return [
                             d,
                             successCounter,
-                            failedCounter
+                            failedCounter,
+                            undetectedCounter
                         ]
                     }
 
@@ -634,12 +677,47 @@
 
                     function generateFailedVerbListItem(suggestions, firstWord, withoutFirstWord) {
                         return `<li class="list-group-item bg-danger text-white">
-                                <a class="fw-bold text-white" tabindex="0" type="button" data-bs-trigger="focus" data-bs-toggle="popover" title="Suggested words" data-bs-content="${suggestions}">
+                                <span data-bs-toggle="modal" data-bs-target="#verbSuggestionModal" data-bs-content="${suggestions}">
+                                <a class="fw-bold text-white" tabindex="0" type="button"  data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view suggestions">
                                     <u>${firstWord}</u>
                                 </a>
+                            </span>
                                     ${withoutFirstWord}
                             </li>`
                     }
+
+                    function generateUndetectedVerbListItem(suggestions, firstWord, withoutFirstWord) {
+                        return `<li class="list-group-item bg-warning text-white">
+                                <span data-bs-toggle="modal" data-bs-target="#verbSuggestionModal" data-bs-content="${suggestions}" data-bs-description="Reminder! The first word of your sentence should be a verb and it should be based on the following list">
+                                <a class="fw-bold text-white" tabindex="0" type="button"  data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view suggestions">
+                                    <u>${firstWord}</u>
+                                </a>
+                            </span>
+                                    ${withoutFirstWord}
+                            </li>`
+                    }
+
+
+                    let verbSuggestionModalEl = document.querySelector('#verbSuggestionModal')
+                    let verbSuggestionModal = bootstrap.Modal.getOrCreateInstance(verbSuggestionModalEl)
+
+                    verbSuggestionModalEl.addEventListener('shown.bs.modal', function(event) {
+                        const $modal = $(event.target)
+                        const $modalTrigger = $(event.relatedTarget)
+                        const suggestionsList = $modalTrigger.data("bs-content").split(',')
+                        const modalDescription = $modalTrigger.data("bs-description")
+                        const $modalInfoAlert = $modal.find('.alert')
+
+                            !modalDescription ? $modalInfoAlert.addClass('d-none') : $modalInfoAlert.removeClass(
+                                'd-none')
+                        $modalInfoAlert.text(modalDescription)
+                        $modal.find('#verbSuggestionContent').html('')
+
+                        $(suggestionsList).each(function(index, item) {
+                            $modal.find('#verbSuggestionContent').append(
+                                `<div class="card p-2 text-capitalize">${item.toLowerCase()}</div>`)
+                        })
+                    })
 
                     function generateLessonListItem(index, sentence) {
                         return `
