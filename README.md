@@ -21,7 +21,7 @@ download [LibreOffice 7.3.2](https://www.libreoffice.org/download/download/)
 
 add the LibreOffice folder in this project's root directory
 
-find the office converter class in path <i>D:\Developer\Github Projects\instructional_resource_system\vendor\ncjoes\office-converter\src\OfficeConverter\OfficeConverter.php</i> and find the <i>exec</i> method and change the <i>cmd</i> paramater value to <i>set HOME=/tmp && '.$cmd</i>
+find the office converter class in path <i>vendor\ncjoes\office-converter\src\OfficeConverter\OfficeConverter.php</i> and find the <i>exec</i> method and change the <i>cmd</i> paramater value to <i>set HOME=/tmp && '.$cmd</i>
 
 <!-- ### Step 4
 
