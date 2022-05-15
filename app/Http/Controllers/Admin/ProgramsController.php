@@ -54,8 +54,9 @@ class ProgramsController extends Controller
         $program = Program::create($validated);
 
         $program->users()->syncWithoutDetaching(User::whereIn('role_id', [Role::SECRETARY, Role::ADMIN])->get()->pluck('id'));
+
         if (isset($validated['program_dean'])) {
-            $program->users()->syncWithoutDetaching(collect($validated['program_dean'])->keys());
+            $program->users()->syncWithoutDetaching($validated['program_dean']);
         }
 
 
@@ -86,7 +87,7 @@ class ProgramsController extends Controller
     public function edit($id)
     {
         $program = Program::findOrFail($id);
-        $deans = User::whereDoesntHave('programs', function($query) use($id) {
+        $deans = User::whereDoesntHave('programs', function ($query) use ($id) {
             $query->where('program_id', '!=', $id);
         })->deans()->get();
 
@@ -112,15 +113,13 @@ class ProgramsController extends Controller
         ]);
         $validated['code'] = Str::upper($validated['code']);
         $validated['title'] = ucwords($validated['title']);
-        $validated['program_dean'] = collect($validated['program_dean'])->keys();
 
         $program->update($validated);
 
-        $assignedDeans = collect($validated['program_dean'])->filter(fn ($user) => boolval($user));
-        $unAssignedDeans = collect($validated['program_dean'])->filter(fn ($user) => !boolval($user));
+        $assignedDeans = collect($validated['program_dean'])->filter(fn ($user) => !empty($user));
 
+        $program->users()->detach();
         $program->users()->syncWithoutDetaching($assignedDeans->values());
-        $program->users()->detach($unAssignedDeans->values());
 
         return redirect()->back()->with([
             'status' => 'success',
@@ -140,7 +139,13 @@ class ProgramsController extends Controller
     {
         $program = Program::withTrashed()->findOrFail($id);
 
-        dd($program->has('resources'));
+        if ($program->courses()->exists()) {
+            return redirect()->back()->with([
+                'status' => 'fail',
+                'message' => 'Program cannot be trashed because it contains courses',
+                'updatedSubject' => $program->id
+            ]);
+        }
 
         if ($program->trashed()) {
             $program->restore();

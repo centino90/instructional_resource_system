@@ -59,23 +59,25 @@
                               <x-slot name="subtitle">Role</x-slot>
                            </x-real.text-with-subtitle>
                         </li>
+                        @if (auth()->user()->isInstructor() || auth()->user()->isProgramDean())
                         <li class="list-group-item">
-                           <x-real.text-with-subtitle>
-                              <x-slot name="text">
-                                 <ul class="nav gap-2">
-                                    @foreach ($user->programs as $program)
-                                       @if (!$loop->first)
-                                          <div class="vr"></div>
-                                       @endif
-                                       <li class="nav-item">
-                                          {{ $program->code }}
-                                       </li>
-                                    @endforeach
-                                 </ul>
-                              </x-slot>
-                              <x-slot name="subtitle">Program(s)</x-slot>
-                           </x-real.text-with-subtitle>
-                        </li>
+                            <x-real.text-with-subtitle>
+                               <x-slot name="text">
+                                  <ul class="nav gap-2">
+                                     @foreach ($user->programs as $program)
+                                        @if (!$loop->first)
+                                           <div class="vr"></div>
+                                        @endif
+                                        <li class="nav-item">
+                                           {{ $program->code }}
+                                        </li>
+                                     @endforeach
+                                  </ul>
+                               </x-slot>
+                               <x-slot name="subtitle">Program(s)</x-slot>
+                            </x-real.text-with-subtitle>
+                         </li>
+                        @endif
                      </ul>
                   </x-slot>
                </x-real.card>

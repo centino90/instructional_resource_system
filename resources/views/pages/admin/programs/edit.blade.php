@@ -84,7 +84,6 @@
                                              {{ $user->name }}
                                           </td>
                                           <td>
-                                             <x-real.input type="hidden" name="program_dean[{{ $user->id }}]" value="0" />
                                              @if ($user->programs->contains($program->id))
                                                 <x-real.input type="radio" name="program_dean[]"
                                                    value="{{ $user->id }}" checked>

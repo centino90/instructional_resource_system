@@ -81,4 +81,11 @@ class TypologyStandardController extends Controller
             'message' => 'Verbs were successfully updated'
         ]);
     }
+
+    public function reset() {
+        return redirect()->back()->with([
+            'status' => 'success',
+            'message' => 'Unsaved changes were successfully reverted'
+        ]);
+    }
 }

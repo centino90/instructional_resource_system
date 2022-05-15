@@ -129,6 +129,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.resetPassword');
         Route::resource('/users', UserController::class);
         Route::post('/typology/{typology}', [AdminTypologyStandardController::class, 'store'])->name('typology.store');
+        Route::get('/typology/reset', [AdminTypologyStandardController::class, 'reset'])->name('typology.reset');
         Route::resource('/typology', AdminTypologyStandardController::class)->except(['create', 'store', 'edit', 'destroy']);
         Route::resource('/syllabus-settings', SyllabusSettingController::class)->except(['create', 'store', 'edit', 'destroy']);
     });

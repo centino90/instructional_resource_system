@@ -31,4 +31,9 @@ class Program extends Model
     {
         return $this->hasMany(Course::class);
     }
+
+    public function resources()
+    {
+        return $this->hasManyThrough(Resource::class, Course::class);
+    }
 }
