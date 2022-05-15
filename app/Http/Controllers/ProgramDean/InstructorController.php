@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\AssignCourseNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class InstructorController extends Controller
@@ -66,15 +68,21 @@ class InstructorController extends Controller
 
         $assignedCoursesByRead = collect($validated['read'])->filter(fn ($read) => boolval($read));
         $assignedCoursesByWrite = collect($validated['write'])->filter(fn ($write) => boolval($write));
-        $mergedAssignedCourses = $assignedCoursesByRead->union($assignedCoursesByWrite);
 
-        $user->courses()->syncWithoutDetaching($mergedAssignedCourses->keys());
+        $mergedCourses = collect($validated['read'])->keys()->union(collect($validated['write'])->keys());
+
+        $user->courses()->syncWithoutDetaching($mergedCourses);
 
         if (!empty($validated['read'])) {
             $unAssignedCourses = collect($validated['read'])->filter(fn ($read) => !boolval($read));
 
             $user->courses()->updateExistingPivot($assignedCoursesByRead->keys(), ['view' => true]);
             $user->courses()->updateExistingPivot($unAssignedCourses->keys(), ['view' => false]);
+
+            $courses = Course::whereIn('id', $assignedCoursesByRead->keys())->get() ?? [];
+            $courses->map(function ($course, $index) use ($user) {
+                Notification::send($user, new AssignCourseNotification($course, "A new course ({$course->code}) was assigned to you with READ access", route('course.show', $course)));
+            });
         }
 
         if (!empty($validated['write'])) {
@@ -82,6 +90,11 @@ class InstructorController extends Controller
 
             $user->courses()->updateExistingPivot($assignedCoursesByWrite->keys(), ['participate' => true]);
             $user->courses()->updateExistingPivot($unAssignedCourses->keys(), ['participate' => false]);
+
+            $courses = Course::whereIn('id', $assignedCoursesByWrite->keys())->get() ?? [];
+            $courses->map(function ($course, $index) use ($user) {
+                Notification::send($user, new AssignCourseNotification($course, "A new course ({$course->code}) was assigned to you with READ access", route('course.show', $course)));
+            });
         }
 
         return redirect()->back()->with([
@@ -138,15 +151,31 @@ class InstructorController extends Controller
 
         $assignedCoursesByRead = collect($validated['read'])->filter(fn ($read) => boolval($read));
         $assignedCoursesByWrite = collect($validated['write'])->filter(fn ($write) => boolval($write));
-        $mergedAssignedCourses = $assignedCoursesByRead->union($assignedCoursesByWrite);
+        $assignedCoursesByReadFiltered = $user->courses()->WherePivotIn('course_id', $assignedCoursesByRead->keys())->wherePivot('view', false)->get();
+        $assignedCoursesByWriteFiltered = $user->courses()->WherePivotIn('course_id', $assignedCoursesByWrite->keys())->wherePivot('participate', false)->get();
 
-        $user->courses()->syncWithoutDetaching($mergedAssignedCourses->keys());
+        $unAssignedCoursesByRead = collect($validated['read'])->filter(fn ($read) => !boolval($read));
+        $unAssignedCoursesByWrite = collect($validated['write'])->filter(fn ($write) => !boolval($write));
+        $unAssignedCoursesByReadFiltered = $user->courses()->WherePivotIn('course_id', $unAssignedCoursesByRead->keys())->wherePivot('view', true)->get();
+        $unAssignedCoursesByWriteFiltered = $user->courses()->WherePivotIn('course_id', $unAssignedCoursesByWrite->keys())->wherePivot('participate', true)->get();
+
+        $mergedCourses = collect($validated['read'])->keys()->union(collect($validated['write'])->keys());
+
+        $user->courses()->syncWithoutDetaching($mergedCourses);
 
         if (!empty($validated['read'])) {
             $unAssignedCourses = collect($validated['read'])->filter(fn ($read) => !boolval($read));
 
             $user->courses()->updateExistingPivot($assignedCoursesByRead->keys(), ['view' => true]);
             $user->courses()->updateExistingPivot($unAssignedCourses->keys(), ['view' => false]);
+
+            $assignedCoursesByReadFiltered->map(function ($course, $index) use ($user) {
+                Notification::send($user, new AssignCourseNotification($course, "You were given READ access to the course ({$course->code})"), route('course.show', $course));
+            });
+
+            $unAssignedCoursesByReadFiltered->map(function ($course, $index) use ($user) {
+                Notification::send($user, new AssignCourseNotification($course, "Your READ access from the course ({$course->code}) was removed"));
+            });
         }
 
         if (!empty($validated['write'])) {
@@ -154,6 +183,14 @@ class InstructorController extends Controller
 
             $user->courses()->updateExistingPivot($assignedCoursesByWrite->keys(), ['participate' => true]);
             $user->courses()->updateExistingPivot($unAssignedCourses->keys(), ['participate' => false]);
+
+            $assignedCoursesByWriteFiltered->map(function ($course, $index) use ($user) {
+                Notification::send($user, new AssignCourseNotification($course, "You were given WRITE access to the course ({$course->code})", route('course.show', $course)));
+            });
+
+            $unAssignedCoursesByWriteFiltered->map(function ($course, $index) use ($user) {
+                Notification::send($user, new AssignCourseNotification($course, "Your WRITE access from the course ({$course->code}) was removed"));
+            });
         }
 
         return redirect()->back()->with([

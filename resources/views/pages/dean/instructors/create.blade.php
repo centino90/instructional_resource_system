@@ -110,7 +110,7 @@
                               </x-real.table>
 
                               <x-slot name="submit">
-                                 <x-real.btn type="submit" :btype="'solid'" :size="'lg'">Confirm</x-real.btn>
+                                 <x-real.btn class="mt-5" type="submit" :btype="'solid'" :size="'lg'">Confirm</x-real.btn>
                               </x-slot>
                            </x-real.form>
                         </x-slot>
@@ -126,8 +126,8 @@
       <script>
          $(document).ready(function() {
             $('#assignToCourseTable').DataTable({
-               pageLength: 5,
-               dom: 'ftip',
+               pageLength: 100000,
+               dom: 'fti',
                "aaSorting": [],
                "columnDefs": [{
                   "visible": false,

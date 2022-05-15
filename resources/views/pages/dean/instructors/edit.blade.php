@@ -113,7 +113,7 @@
                                  </x-real.table>
 
                                  <x-slot name="submit">
-                                    <x-real.btn type="submit" :btype="'solid'" :size="'lg'">Confirm</x-real.btn>
+                                    <x-real.btn class="mt-4" type="submit" :btype="'solid'" :size="'lg'">Confirm</x-real.btn>
                                  </x-slot>
                               </x-real.form>
                            @else

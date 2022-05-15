@@ -23,7 +23,7 @@ class DashboardController extends Controller
                 ->groupBy('year_level');
         } else if (auth()->user()->isInstructor()) {
             $courses = auth()->user()->courses()->whereHas('users', function ($query) {
-                $query->where('view', true);
+                $query->where('view', true)->orWhere('participate', true);
             })
                 ->with('resources')
                 ->get()
